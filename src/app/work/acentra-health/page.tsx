@@ -14,26 +14,30 @@ export default function AcentraHealthPage() {
   return (
     <main className="min-h-screen bg-body">
       {/* Dark hero */}
-      <section className="bg-foundation-900 px-section pt-10 pb-16">
-        <div className="mb-10 border-b border-foundation-800 pb-5">
-          <span className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
-            Case Study · Design Systems
-          </span>
-        </div>
+      <section className="bg-foundation-900 px-section pt-20 pb-24">
+        <div className="flex flex-col md:flex-row">
 
-        {/* Two-column editorial split */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start max-w-6xl">
-          <AnimatedSection>
-            <h1 className="text-display-xl font-grotesk text-body">
-              One System.<br />Two Brands
-            </h1>
-          </AnimatedSection>
+          {/* Left — title */}
+          <div className="flex-1 md:pr-20 flex items-center">
+            <AnimatedSection>
+              <h1 className="text-display-xl font-grotesk text-body">
+                One System.<br />Two Brands
+              </h1>
+            </AnimatedSection>
+          </div>
 
-          <AnimatedSection className="md:pt-3">
-            <p className="text-body font-sans text-foundation-400">
-              {description}
-            </p>
-          </AnimatedSection>
+          {/* Vertical divider — respects section padding */}
+          <div className="hidden md:block w-px bg-foundation-600" />
+
+          {/* Right — description */}
+          <div className="flex-1 md:pl-20 flex items-center">
+            <AnimatedSection>
+              <p className="text-body font-sans text-foundation-300">
+                {description}
+              </p>
+            </AnimatedSection>
+          </div>
+
         </div>
       </section>
 
