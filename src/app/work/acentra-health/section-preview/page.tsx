@@ -72,7 +72,7 @@ function B() {
           </div>
           <div>
             <p className="text-body-sm font-grotesk font-medium text-foundation-900 mb-0.5">{hero.title}</p>
-            <p className="text-[13px] leading-snug font-sans text-foundation-600">{hero.description}</p>
+            <p className="text-caption font-sans text-foundation-600">{hero.description}</p>
           </div>
         </div>
 
@@ -85,7 +85,7 @@ function B() {
               </div>
               <div>
                 <p className="text-body-sm font-grotesk font-medium text-foundation-900 mb-0.5">{f.title}</p>
-                <p className="text-[13px] leading-snug font-sans text-foundation-600">{f.description}</p>
+                <p className="text-caption font-sans text-foundation-600">{f.description}</p>
               </div>
             </div>
           ))}
@@ -152,6 +152,103 @@ function D() {
   )
 }
 
+const conclusion = 'We presented these findings to leadership to align on the risks of the legacy path and the need for a scalable restart.'
+
+function BentoGrid() {
+  const hero = findings[2]
+  const small = [findings[0], findings[1]]
+  return (
+    <div className="col-span-9 pl-10 pt-section pb-section flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
+        <div className="w-full rounded border border-border overflow-hidden bg-foundation-900 h-72">
+          <img src={hero.src} alt={hero.title} className="w-full h-full object-cover object-center block" />
+        </div>
+        <div>
+          <p className="text-body-sm font-grotesk font-medium text-foundation-900 mb-0.5">{hero.title}</p>
+          <p className="text-caption font-sans text-foundation-600">{hero.description}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        {small.map(f => (
+          <div key={f.title} className="flex flex-col gap-3">
+            <div className="w-full rounded border border-border overflow-hidden bg-foundation-900">
+              <img src={f.src} alt={f.title} className="w-full h-auto block" />
+            </div>
+            <div>
+              <p className="text-body-sm font-grotesk font-medium text-foundation-900 mb-0.5">{f.title}</p>
+              <p className="text-caption font-sans text-foundation-600">{f.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── P1: Conclusion stays in the left column ──────────────────────────────────
+// Left column = all narrative. Right column = all evidence.
+// Clean separation: story on the left, proof on the right.
+function P1() {
+  return (
+    <div className="border-t border-border grid grid-cols-12 gap-0">
+      <div className="col-span-3 pr-10 pt-section pb-section border-r border-border flex flex-col gap-6">
+        <h2 className="text-heading-m font-grotesk text-foundation-900">Audit</h2>
+        <p className="text-body-sm font-sans text-foundation-600 italic">{quote}</p>
+        <div className="border-t border-border pt-6 flex items-start gap-3">
+          <span className="text-foundation-300 mt-0.5 flex-shrink-0">→</span>
+          <p className="text-body-sm font-sans text-foundation-600 italic">{conclusion}</p>
+        </div>
+      </div>
+      <BentoGrid />
+    </div>
+  )
+}
+
+// ─── P2: Conclusion row aligned to the right column ──────────────────────────
+// After the grid, a new row: left col is empty (maintains the border rhythm),
+// right col carries the conclusion text. Feels like a caption to the evidence.
+function P2() {
+  return (
+    <div className="border-t border-border">
+      <div className="grid grid-cols-12 gap-0">
+        <div className="col-span-3 pr-10 pt-section pb-section border-r border-border flex flex-col gap-6">
+          <h2 className="text-heading-m font-grotesk text-foundation-900">Audit</h2>
+          <p className="text-body-sm font-sans text-foundation-600 italic">{quote}</p>
+        </div>
+        <BentoGrid />
+      </div>
+      <div className="grid grid-cols-12 gap-0 border-t border-border">
+        <div className="col-span-3 border-r border-border" />
+        <div className="col-span-9 pl-10 py-7 flex items-start gap-5">
+          <span className="text-foundation-300 mt-0.5 flex-shrink-0">→</span>
+          <p className="text-body font-sans text-foundation-600 italic">{conclusion}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── P3: Conclusion spans full width below the grid ──────────────────────────
+// The left 3 cols show a section counter or label; right 9 cols carry the text.
+// Feels like a standalone beat — slightly more weight than a caption.
+function P3() {
+  return (
+    <div className="border-t border-border">
+      <div className="grid grid-cols-12 gap-0">
+        <div className="col-span-3 pr-10 pt-section pb-section border-r border-border flex flex-col gap-6">
+          <h2 className="text-heading-m font-grotesk text-foundation-900">Audit</h2>
+          <p className="text-body-sm font-sans text-foundation-600 italic">{quote}</p>
+        </div>
+        <BentoGrid />
+      </div>
+      <div className="border-t border-border py-7 flex items-start gap-5">
+        <span className="text-foundation-300 mt-0.5 flex-shrink-0">→</span>
+        <p className="text-body font-sans text-foundation-600 italic max-w-2xl">{conclusion}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function SectionPreviewPage() {
   return (
     <main className="min-h-screen bg-body px-section py-section">
@@ -185,6 +282,21 @@ export default function SectionPreviewPage() {
             label: 'D — Numbered rows: text left, full image right',
             note: 'Each finding gets full width. Tallest option but clearest screenshots.',
             Component: D,
+          },
+          {
+            label: 'P1 — Conclusion in the left column',
+            note: 'All narrative lives on the left. Left = story, right = evidence.',
+            Component: P1,
+          },
+          {
+            label: 'P2 — Conclusion aligned to the right column',
+            note: 'Empty left cell keeps the column rhythm; text sits under the bento grid.',
+            Component: P2,
+          },
+          {
+            label: 'P3 — Conclusion as a full-width strip (current approach, fixed)',
+            note: 'Arrow + italic text spans the full content width below the grid.',
+            Component: P3,
           },
         ] as const).map(({ label, note, Component }) => (
           <div key={label}>

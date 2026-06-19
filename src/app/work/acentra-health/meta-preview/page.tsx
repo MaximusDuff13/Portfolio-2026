@@ -186,7 +186,7 @@ function V9() {
     <div className="grid grid-cols-3 gap-0 border-t border-border">
       {meta.map(({ label, items }, i) => (
         <div key={label} className={`py-10 ${i > 0 ? 'pl-12 border-l border-border' : 'pr-12'}`}>
-          <p className="text-heading-l font-grotesk text-foundation-900 mb-6">{label}</p>
+          <p className="text-heading-xl font-grotesk text-foundation-900 mb-6">{label}</p>
           <div className="flex flex-col gap-2.5">
             {items.map(item => (
               <span key={item} className="flex items-center gap-2 text-body font-sans text-foundation-600">
