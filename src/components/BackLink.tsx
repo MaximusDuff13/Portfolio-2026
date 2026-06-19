@@ -13,7 +13,7 @@ export function BackLink({ href, label }: { href: string; label: string }) {
     >
       <Link
         href={href}
-        className="inline-flex items-center gap-2 text-ui-chrome font-sans text-foundation-500 hover:text-foundation-900 transition-colors"
+        className="inline-flex items-center gap-2 text-ui-chrome font-sans text-foundation-500 hover:text-foundation-300 transition-colors no-underline"
       >
         <span aria-hidden="true">←</span>
         {label}

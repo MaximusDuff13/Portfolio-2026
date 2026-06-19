@@ -27,8 +27,10 @@ module.exports = {
         sans:    ['var(--font-inter)', 'sans-serif'],
       },
       fontSize: {
+        'display-2xl': ['72px', { lineHeight: '1.08', letterSpacing: '-0.04em', fontWeight: '500' }],
         'display-xl': ['52px', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '500' }],
         'heading-l':  ['36px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '500' }],
+        'heading-xl': ['32px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '500' }],
         'heading-m':  ['24px', { lineHeight: '1.20', letterSpacing: '-0.02em', fontWeight: '500' }],
         stat:         ['48px', { lineHeight: '1.00', letterSpacing: '-0.02em', fontWeight: '600' }],
         label:        ['11px', { lineHeight: '1.00', letterSpacing: '0.09em',  fontWeight: '700' }],
