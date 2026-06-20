@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
+import { BeforeAfter } from '@/components/BeforeAfter'
 import { BrowserMockup } from '@/components/BrowserMockup'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { FindingCard } from '@/components/FindingCard'
@@ -367,6 +368,57 @@ export default function AcentraHealthPage() {
 
         </div>
       </div>
+
+      {/* The Build (05) — full-bleed dark component-library showcase */}
+      <section className="bg-foundation-900 px-section py-section">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="flex flex-col items-center text-center mb-12">
+              <span className="text-label font-grotesk text-foundation-500 uppercase tracking-widest mb-4">
+                05 · The Build
+              </span>
+              <div className="w-8 h-px bg-accent-warm mb-6" />
+              <h2 className="text-heading-xl font-grotesk text-body max-w-xl">
+                From tokens to components
+              </h2>
+            </div>
+            <div className="rounded-lg border border-foundation-800 overflow-hidden shadow-2xl">
+              <video
+                src="/videos/Component-Video.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                className="w-full block"
+              />
+            </div>
+            <p className="text-caption font-sans text-foundation-500 mt-4 text-center">
+              The component library, themed live across both Acentra Health brands.
+            </p>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* The Transformation (06) — drag-to-compare before/after */}
+      <section className="px-section pt-section pb-section">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="max-w-2xl mb-10">
+              <SectionHeader
+                index="06"
+                eyebrow="The Transformation"
+                title="The same screen, rebuilt on the system"
+                quote="Drag to compare — the old, fragmented UI against the redesign on Acentra Health's design system."
+              />
+            </div>
+            <BeforeAfter
+              before="/images/beforeafter/Before Image.png"
+              after="/images/beforeafter/After.png"
+            />
+          </AnimatedSection>
+        </div>
+      </section>
 
     </main>
   )
