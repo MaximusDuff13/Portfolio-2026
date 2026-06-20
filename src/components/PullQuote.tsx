@@ -36,7 +36,9 @@ export function PullQuote({ children }: { children: string }) {
       className="py-12 flex flex-col gap-6"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-60px' }}
+      // Trigger on a fraction in view (not an edge peek) so the reveal plays
+      // even when the quote is the last element on the page with little room below.
+      viewport={{ once: true, amount: 0.4 }}
     >
       <motion.div className="w-12 h-px bg-accent-warm origin-left" variants={ruleDraw} />
       <motion.p className="text-heading-l font-grotesk text-foundation-900 max-w-3xl" variants={container}>
