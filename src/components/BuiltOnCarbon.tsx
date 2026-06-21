@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { SectionHeader } from './SectionHeader'
+import { TabBar } from './TabBar'
 
 /* ------------------------------------------------------------------ *
  * Visuals
@@ -132,28 +133,6 @@ const TABS: { key: TabKey; label: string; areas: Area[] }[] = [
   },
 ]
 
-function TabBar({ active, onChange }: { active: TabKey; onChange: (k: TabKey) => void }) {
-  return (
-    <div className="flex items-center gap-8 border-b border-border">
-      {TABS.map((t) => {
-        const on = t.key === active
-        return (
-          <button
-            key={t.key}
-            onClick={() => onChange(t.key)}
-            className={`relative pb-3 -mb-px text-nav-tab font-grotesk transition-colors ${
-              on ? 'text-foundation-900' : 'text-foundation-400 hover:text-foundation-600'
-            }`}
-          >
-            {t.label}
-            {on && <motion.span layoutId="carbon-tab-underline" className="absolute left-0 right-0 -bottom-px h-0.5 bg-accent-warm" />}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 export function BuiltOnCarbon() {
   const [tab, setTab] = useState<TabKey>('color')
   const areas = TABS.find((t) => t.key === tab)!.areas
@@ -181,7 +160,7 @@ export function BuiltOnCarbon() {
       <SectionHeader index="04" eyebrow="Built on Carbon" title="A foundation, not a paint job" />
 
       <div className="mt-10 mb-4">
-        <TabBar active={tab} onChange={setTab} />
+        <TabBar tabs={TABS} active={tab} onChange={setTab} layoutId="carbon-tab-underline" />
       </div>
 
       <div className="relative mt-8">
