@@ -136,9 +136,10 @@ const smallWins = [
 ] as const
 
 // More Work — closing cross-case-study links. Placeholders until other case studies exist.
+// Drop a cover path into `img` and it reveals on card hover.
 const moreWork = [
-  { num: '02', title: 'Project Two', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
-  { num: '03', title: 'Project Three', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
+  { num: '02', title: 'Project Two', category: 'Product Design', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
+  { num: '03', title: 'Project Three', category: 'Design System', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
 ]
 
 // Results (09) — the payoff metrics (first three tiles; WCAG tile dropped per Michael).
@@ -602,7 +603,7 @@ export default function AcentraHealthPage() {
         </div>
       </section>
 
-      {/* More Work — closing case-study index (typographic rows + hover image peek) */}
+      {/* More Work — closing case-study index (two-up cards; cover expands on hover) */}
       <section className="px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
@@ -610,31 +611,32 @@ export default function AcentraHealthPage() {
               <div className="mb-10">
                 <p className="text-label font-grotesk text-foundation-400 uppercase tracking-widest mb-3">More Case Studies</p>
                 <div className="w-8 h-px bg-accent-warm mb-6" />
-                <h2 className="text-heading-xl font-grotesk text-foundation-900">Keep exploring</h2>
+                <h2 className="text-heading-l font-grotesk text-foundation-900">Keep exploring</h2>
               </div>
-              <div className="border-t border-border">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
                 {moreWork.map((p) => (
                   <a
                     key={p.num}
                     href={p.href}
-                    className="group grid grid-cols-12 gap-6 items-center py-8 border-b border-border overflow-hidden"
+                    className="group rounded-lg border border-border p-8 flex flex-col transition-colors hover:border-foundation-900"
                   >
-                    <span className="col-span-1 text-caption font-grotesk text-foundation-400">{p.num}</span>
-                    <div className="col-span-7">
-                      <p className="text-display-xl font-grotesk text-foundation-900 group-hover:text-accent-warm transition-colors">{p.title}</p>
-                      <p className="text-body-sm font-sans text-foundation-600 mt-2">{p.desc}</p>
+                    <div className="flex items-center justify-between mb-8">
+                      <span className="text-caption font-grotesk text-foundation-400">{p.num}</span>
+                      <ArrowRight className="text-foundation-300 group-hover:text-accent-warm group-hover:translate-x-1 transition-all" />
                     </div>
-                    {/* image peeks in on hover — reserved space, so no layout shift */}
-                    <span className="col-span-3 hidden md:flex justify-center">
-                      <NextImage
-                        label={p.title}
-                        src={p.img}
-                        className="w-full aspect-[16/10] opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"
-                      />
-                    </span>
-                    <span className="col-span-1 flex justify-end">
-                      <ArrowRight className="text-foundation-400 group-hover:text-accent-warm group-hover:translate-x-1 transition-all" />
-                    </span>
+                    <span className="text-label font-grotesk uppercase tracking-widest text-foundation-400 mb-3">{p.category}</span>
+                    <p className="text-heading-m font-grotesk text-foundation-900 group-hover:text-accent-warm transition-colors">{p.title}</p>
+                    <p className="text-body-sm font-sans text-foundation-600 mt-3">{p.desc}</p>
+                    {/* cover unfolds below the text on hover (grid-rows trick = smooth height animation) */}
+                    <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-in-out">
+                      <div className="overflow-hidden">
+                        <NextImage
+                          label={p.title}
+                          src={p.img}
+                          className="mt-6 aspect-[16/9] w-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"
+                        />
+                      </div>
+                    </div>
                   </a>
                 ))}
               </div>
