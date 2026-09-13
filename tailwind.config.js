@@ -29,6 +29,9 @@ module.exports = {
       fontFamily: {
         grotesk: ['var(--font-grotesk)', 'sans-serif'],
         sans:    ['var(--font-inter)', 'sans-serif'],
+        // NEW — third family, added for the Data Conversion App info-note annotations.
+        // Caveat, loaded in layout.tsx alongside the other two.
+        hand:    ['var(--font-hand)', 'cursive'],
       },
       fontSize: {
         'display-2xl': ['72px', { lineHeight: '1.08', letterSpacing: '-0.04em', fontWeight: '500' }],

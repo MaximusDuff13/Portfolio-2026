@@ -138,7 +138,7 @@ const smallWins = [
 // More Work — closing cross-case-study links. Placeholders until other case studies exist.
 // Drop a cover path into `img` and it reveals on card hover.
 const moreWork = [
-  { num: '02', title: 'Project Two', category: 'Product Design', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
+  { num: '02', title: 'Data Conversion App', category: 'Product Design', desc: 'Designed a lightweight tool that mapped, previewed, and safely converted legacy case data ahead of a system cutover — in two weeks.', href: '/work/data-conversion-app', img: undefined as string | undefined },
   { num: '03', title: 'Project Three', category: 'Design System', desc: 'One line on the problem and the outcome you drove.', href: '#', img: undefined as string | undefined },
 ]
 
