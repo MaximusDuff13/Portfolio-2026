@@ -3,11 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 /*  ONE-OFF for the Data Conversion App Result section — deliberately NOT in src/components.
-    Promote it to the shared library only once a note treatment is locked and a second page needs it.
+    Promote it to the shared library only once a second page needs it.
 
-    Two treatments to compare:
-      A — restrained : flat card, hairline border, ruled lines, no rotation
-      B — full effect: same ruled lines, plus slight rotation and a torn bottom edge
+    Treatment: flat card, hairline border, ruled lines, no rotation.
 
     Ruled-line math (so handwriting sits ON the rules rather than floating above them):
       rules repeat every LINE_H, offset by PAD_Y + BASELINE from the padding-box top,
@@ -28,11 +26,6 @@ const WIDTH = 440 // was 288 — wider so the handwriting gets full lines to run
 const PAD_X = 28
 const PAD_Y = 22
 
-// Torn bottom edge for variant B. Jittered points across the bottom only; the other three
-// edges stay straight so the card still reads as a card.
-const TORN_EDGE =
-  'polygon(0% 0%, 100% 0%, 100% 93%, 96.5% 97%, 93% 92.5%, 89.5% 96.5%, 86% 92%, 82.5% 96%, 79% 93%, 75.5% 97.5%, 72% 94%, 68.5% 98%, 65% 93.5%, 61.5% 97%, 58% 92.5%, 54.5% 96.5%, 51% 93%, 47.5% 97.5%, 44% 94%, 40.5% 98%, 37% 93.5%, 33.5% 97%, 30% 92.5%, 26.5% 96%, 23% 93%, 19.5% 97.5%, 16% 94%, 12.5% 98%, 9% 93.5%, 5.5% 97%, 2% 92.5%, 0% 96%)'
-
 function InfoIcon() {
   // Hand-rolled to match CheckMark / ArrowRight / MetricIcon already in this route —
   // the project has no icon library and this avoids adding one for a single glyph.
@@ -48,13 +41,11 @@ function InfoIcon() {
 export function InfoNote({
   note,
   label,
-  variant = 'A',
   placement = 'below',
 }: {
   note: string
   /** names the thing being explained, for screen readers — e.g. "Data conversion time" */
   label: string
-  variant?: 'A' | 'B'
   /**
    * Which way the note opens, relative to the ROW it sits in — 'above' clears the row's top
    * edge, 'below' its bottom edge. Pick whichever side faces open space.
@@ -68,7 +59,7 @@ export function InfoNote({
 }) {
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLSpanElement>(null)
-  const id = `note-${label.replace(/\s+/g, '-').toLowerCase()}-${variant}`
+  const id = `note-${label.replace(/\s+/g, '-').toLowerCase()}`
 
   // Escape dismisses, and a tap/click outside closes it — so it isn't mouse-only or a trap.
   useEffect(() => {
@@ -84,51 +75,6 @@ export function InfoNote({
       document.removeEventListener('pointerdown', onDown)
     }
   }, [open])
-
-  // B needs extra room at the foot so the torn edge bites into empty paper, not the last line.
-  const padBottom = variant === 'B' ? PAD_Y + 16 : PAD_Y
-
-  const card = (
-    <span
-      id={id}
-      role="tooltip"
-      // span, not div: this renders inside a <p> label, where a block element would be invalid.
-      // normal-case / tracking-normal undo the label's uppercase + widest tracking, which would
-      // otherwise be inherited and make the handwriting render as spaced-out capitals.
-      // font-normal matters: the label this sits inside is text-label (weight 700), and without
-      // it the handwriting inherits bold. normal-case / tracking-normal undo the same inheritance.
-      className={`relative block font-hand font-normal normal-case tracking-normal text-foundation-700 bg-body ${
-        variant === 'A' ? 'rounded-md border border-border shadow-sm' : 'rounded-sm'
-      }`}
-      style={{
-        width: `${WIDTH}px`,
-        padding: `${PAD_Y}px ${PAD_X}px ${padBottom}px`,
-        ...(variant === 'B' ? { clipPath: TORN_EDGE } : null),
-      }}
-    >
-      {/* Ruling sits on its own layer so it can run the full width of the card — like real ruled
-          paper — while staying bounded to the text block vertically. Painting it on the card itself
-          let the gradient tile upward into the top padding as stray borders; painting it on the
-          text element stopped the rules at the text's own box, so they only showed in trailing
-          whitespace. Inset top/bottom by the padding = exactly the content area. */}
-      <span
-        aria-hidden="true"
-        className="absolute left-0 right-0 pointer-events-none"
-        style={{
-          top: `${PAD_Y}px`,
-          bottom: `${padBottom}px`,
-          backgroundImage: `repeating-linear-gradient(to bottom, ${RULE_COLOR} 0px, ${RULE_COLOR} 1px, transparent 1px, transparent ${LINE_H}px)`,
-          backgroundPosition: `0 ${BASELINE}px`,
-        }}
-      />
-      <span
-        className="relative block"
-        style={{ fontSize: `${FONT_SIZE}px`, lineHeight: `${LINE_H}px` }}
-      >
-        {note}
-      </span>
-    </span>
-  )
 
   return (
     // no `relative` here on purpose — see the placement prop docs; the row is the anchor
@@ -155,18 +101,34 @@ export function InfoNote({
             placement === 'above' ? 'bottom-full mb-3' : 'top-full mt-3'
           }`}
         >
-          {variant === 'B' ? (
-            // outer element carries rotation + shadow, because clip-path on the card itself
-            // would clip a box-shadow away; drop-shadow follows the torn silhouette instead.
+          <span
+            id={id}
+            role="tooltip"
+            // span, not div: this renders inside a <p> label, where a block element would be invalid.
+            // font-normal / normal-case / tracking-normal undo the label's bold, uppercase and widest
+            // tracking, which would otherwise be inherited by the handwriting.
+            className="relative block font-hand font-normal normal-case tracking-normal text-foundation-700 bg-body rounded-md border border-border shadow-sm"
+            style={{ width: `${WIDTH}px`, padding: `${PAD_Y}px ${PAD_X}px` }}
+          >
+            {/* Ruling sits on its own layer so it can run the full width of the card — like real ruled
+                paper — while staying bounded to the text block vertically. Painting it on the card itself
+                let the gradient tile upward into the top padding as stray borders; painting it on the
+                text element stopped the rules at the text's own box, so they only showed in trailing
+                whitespace. Inset top/bottom by the padding = exactly the content area. */}
             <span
-              className="block"
-              style={{ transform: 'rotate(-1.5deg)', filter: 'drop-shadow(0 6px 14px rgba(28,25,23,0.14))' }}
-            >
-              {card}
+              aria-hidden="true"
+              className="absolute left-0 right-0 pointer-events-none"
+              style={{
+                top: `${PAD_Y}px`,
+                bottom: `${PAD_Y}px`,
+                backgroundImage: `repeating-linear-gradient(to bottom, ${RULE_COLOR} 0px, ${RULE_COLOR} 1px, transparent 1px, transparent ${LINE_H}px)`,
+                backgroundPosition: `0 ${BASELINE}px`,
+              }}
+            />
+            <span className="relative block" style={{ fontSize: `${FONT_SIZE}px`, lineHeight: `${LINE_H}px` }}>
+              {note}
             </span>
-          ) : (
-            card
-          )}
+          </span>
         </span>
       )}
     </span>
