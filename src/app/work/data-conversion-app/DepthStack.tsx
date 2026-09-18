@@ -13,8 +13,19 @@ import { useReducedMotion } from 'framer-motion'
              At the same time the whole row scales up (see MAX_SCALE), so it "opens up and comes
              forward" rather than only sliding sideways.
 
-    Everything is expressed as % of the container so both states share one footprint: the spread
-    row sits vertically centred inside the stack's box, so the section never changes height.
+    Everything is expressed as % of the container so both states share one footprint and the
+    section never changes height. Vertical placement is FIXED across states: every screen's top
+    sits on the resting front screen's top (72px above the hero seam at full width), and the row
+    scales from its top edge — so the spread keeps the same hero overlap as the stack. Only
+    horizontal position and size animate.
+
+    Contrast: parts of each screen sit on the dark hero. The main fix lives in the SVGs — their
+    title bars are foundation-700, lighter than the foundation-900 hero, so the chrome reads as
+    its own surface (a near-black bar melted into the hero). Two things here reinforce it:
+      - EDGE: a 1px white/16% ring outside the light hairline border. On the hero it reads as a
+        crisp light edge; on the light section below it's invisible, so nothing changes there.
+      - DIMMING: back layers dim the IMAGE, not the panel, so their edge stays full strength and
+        their dark chrome fades toward the light panel ground rather than darker into the hero.
 
     Input:
       mouse → spreads on pointer enter, restacks on leave
@@ -34,20 +45,25 @@ const STACK_W = 72
 const SPREAD_W = 32
 const GAP = 2
 // Container ratio = width : stacked panel height (72% × 9/16 = 40.5% of width) → 200 : 81.
-// Spread panels are 18% of width tall, so centring them puts their top at
-// (40.5 − 18) / 2 = 11.25% of width = 27.78% of the container's height.
-const SPREAD_TOP = '27.778%'
+// Spread panels are shorter (18% of width) but keep top: 0, so the row hangs from the same line.
+
+// Edge ring (legible on the dark hero, invisible on the light section) + drop shadow per depth.
+const RING = '0 0 0 1px rgba(255, 255, 255, 0.16)'
+const SHADOW_FRONT = `${RING}, 0 25px 50px -12px rgba(0, 0, 0, 0.3)`
+const SHADOW_BACK = `${RING}, 0 10px 15px -3px rgba(0, 0, 0, 0.15)`
 
 // Spread-row scale, on top of a row that already fills the 1152px column. At full scale the row
-// is 1296px — 72px past the column on each side — so it's clamped at runtime to the section's
-// padded content box and never pushes into the page gutter. Full 1.125 needs a viewport of
-// ~1470px; at ~1330px and narrower there's no room left and the row simply doesn't grow.
-const MAX_SCALE = 1.125
+// is 1440px — 144px past the column on each side, reaching into the section's 80px gutter — so
+// it's clamped at runtime to the section's width minus EDGE on each side: it never overflows,
+// and never gets closer than 40px to the viewport edge. Full 1.25 needs a viewport of ~1535px;
+// narrower screens get whatever fits (e.g. ~1.17 at 1440px), and ~1250px and below don't grow.
+const MAX_SCALE = 1.25
+const EDGE = 40
 
 // ~380ms ease-out: quick to start, settles gently. Same curve both directions, and the row's
 // scale uses the identical timing so position and size move as one gesture.
 const EASE = '380ms cubic-bezier(0.22, 1, 0.36, 1)'
-const PANEL_TRANSITION = ['left', 'top', 'width', 'transform', 'opacity'].map((p) => `${p} ${EASE}`).join(', ')
+const PANEL_TRANSITION = ['left', 'width', 'transform'].map((p) => `${p} ${EASE}`).join(', ')
 
 type Layer = {
   label: string
@@ -73,13 +89,12 @@ export function DepthStack() {
   const pointerType = useRef<string>('mouse')
   const wrapRef = useRef<HTMLDivElement>(null)
 
-  // Largest scale that keeps the row inside the section's padded content box.
+  // Largest scale that keeps the row at least EDGE px inside the section on both sides.
   const measure = () => {
     const el = wrapRef.current
     const section = el?.parentElement
     if (!el || !section) return
-    const cs = getComputedStyle(section)
-    const avail = section.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+    const avail = section.clientWidth - 2 * EDGE
     // offsetWidth ignores transforms, so this is always the unscaled width
     setScale(Math.max(1, Math.min(MAX_SCALE, avail / el.offsetWidth)))
   }
@@ -99,6 +114,8 @@ export function DepthStack() {
         className="relative aspect-[200/81] cursor-pointer select-none"
         style={{
           transform: `scale(${spread ? scale : 1})`,
+          // top edge stays put while scaling, so the row keeps its hero overlap
+          transformOrigin: 'top center',
           transition: prefersReduced ? 'none' : `transform ${EASE}`,
         }}
         onPointerDown={(e) => { pointerType.current = e.pointerType }}
@@ -109,21 +126,31 @@ export function DepthStack() {
         {layers.map(({ label, src, z, stacked, spreadLeft }) => (
           <div
             key={label}
-            className={`${PANEL} ${z} ${label === 'Workspace' ? 'shadow-2xl' : 'shadow-lg'}`}
+            className={`${PANEL} ${z}`}
             style={{
+              top: '0%',
+              boxShadow: label === 'Workspace' ? SHADOW_FRONT : SHADOW_BACK,
               transition: prefersReduced ? 'none' : PANEL_TRANSITION,
               ...(spread
-                ? { left: `${spreadLeft}%`, top: SPREAD_TOP, width: `${SPREAD_W}%`, transform: 'translate(0, 0)', opacity: 1 }
+                ? { left: `${spreadLeft}%`, width: `${SPREAD_W}%`, transform: 'translate(0, 0)' }
                 : {
                     left: `${(100 - STACK_W) / 2}%`,
-                    top: '0%',
                     width: `${STACK_W}%`,
                     transform: `translate(${stacked.offset}px, ${stacked.offset}px)`,
-                    opacity: stacked.opacity,
                   }),
             }}
           >
-            <img src={src} alt={`${label} screen (placeholder)`} draggable={false} className="absolute inset-0 w-full h-full object-cover" />
+            {/* dim the image, not the panel — keeps the edge ring at full strength (see header) */}
+            <img
+              src={src}
+              alt={`${label} screen (placeholder)`}
+              draggable={false}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                opacity: spread ? 1 : stacked.opacity,
+                transition: prefersReduced ? 'none' : `opacity ${EASE}`,
+              }}
+            />
           </div>
         ))}
       </div>

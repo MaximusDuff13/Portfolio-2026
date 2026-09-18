@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, Inter, Caveat } from 'next/font/google'
+import { Space_Grotesk, Inter, Caveat, Fraunces } from 'next/font/google'
 import { Header } from '@/components/Header'
 import './globals.css'
 
@@ -27,6 +27,25 @@ const caveat = Caveat({
   display: 'swap',
 })
 
+// NEW — fourth family, the italic accent face for the last line of a case study hero
+// headline. Chosen from a side-by-side comparison of five candidate faces. Italic only: the upright
+// text stays Space Grotesk, so no roman cut is ever needed.
+//
+// `axes` matters here. next/font ships only the wght axis for a variable font by default,
+// which would pin Fraunces to opsz 14 — a text optical size — at every rendered size, and
+// that reads loose and soft at headline sizes. Requesting opsz lets the browser's default
+// `font-optical-sizing: auto` track the actual size. WONK is requested so it can be pinned
+// off in .accent-italic rather than left implicit. SOFT is deliberately NOT requested: it
+// would add ~30 KB and its default (0) is already the firm setting we want.
+// Cost: 41.3 KB latin woff2, against 22.3 KB without the opsz axis.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  style: ['italic'],
+  axes: ['opsz', 'WONK'],
+  variable: '--font-accent',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Michael Jerome — Senior UX Designer',
   description: 'Portfolio of Michael Jerome, Senior UX Designer specialising in UX Design and Design Systems.',
@@ -38,7 +57,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} ${caveat.variable}`}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable} ${caveat.variable} ${fraunces.variable}`}
+    >
       <body>
         <Header />
         <div className="pt-14">{children}</div>

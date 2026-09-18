@@ -32,6 +32,10 @@ module.exports = {
         // NEW — third family, added for the Data Conversion App info-note annotations.
         // Caveat, loaded in layout.tsx alongside the other two.
         hand:    ['var(--font-hand)', 'cursive'],
+        // NEW — fourth family, the italic accent face for the last line of a case study
+        // hero headline. Fraunces, loaded in layout.tsx. Italic-only: pair it with the
+        // .accent-italic utility, which pins the WONK axis off.
+        accent:  ['var(--font-accent)', 'serif'],
       },
       fontSize: {
         'display-2xl': ['72px', { lineHeight: '1.08', letterSpacing: '-0.04em', fontWeight: '500' }],
