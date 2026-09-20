@@ -219,7 +219,7 @@ export default function AcentraHealthPage() {
     <main className="min-h-screen bg-body">
 
       {/* Dark hero */}
-      <section className="bg-foundation-900 px-section pt-section pb-0">
+      <section className="bg-foundation-900 px-6 sm:px-10 lg:px-section pt-section pb-0">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row">
 
           <div className="flex-1 md:pr-20 flex items-center">
@@ -246,7 +246,7 @@ export default function AcentraHealthPage() {
       {/* Browser mockup — split dark/light background */}
       <div className="relative">
         <div className="absolute inset-0 top-0 h-1/2 bg-foundation-900" />
-        <section className="relative z-10 px-section pt-section pb-0">
+        <section className="relative z-10 px-6 sm:px-10 lg:px-section pt-section pb-0">
           <div className="max-w-6xl mx-auto">
             <BrowserMockup src="/videos/acentra-health.mp4" url="acentrahealth.com/design-system" />
           </div>
@@ -254,7 +254,7 @@ export default function AcentraHealthPage() {
       </div>
 
       {/* Case study grid */}
-      <div className="px-section pb-section">
+      <div className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
 
           {/* Meta */}
@@ -448,7 +448,7 @@ export default function AcentraHealthPage() {
       </div>
 
       {/* The Build (05) — full-bleed dark component-library showcase */}
-      <section className="bg-foundation-900 px-section py-section">
+      <section className="bg-foundation-900 px-6 sm:px-10 lg:px-section py-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="flex flex-col items-center text-center mb-12">
@@ -479,7 +479,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* The Transformation (06) — drag-to-compare before/after */}
-      <section className="px-section pt-section pb-section">
+      <section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="max-w-2xl mb-10">
@@ -499,7 +499,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* Small Wins (07) — pilot proving the system's impact (stat cards) */}
-      <section className="px-section pb-section">
+      <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section grid grid-cols-12 gap-8">
@@ -542,7 +542,7 @@ export default function AcentraHealthPage() {
       <CrossTeamCollab />
 
       {/* Results (09) — narrative rail + payoff-metric ledger */}
-      <section className="px-section pb-section">
+      <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section grid grid-cols-12 gap-8">
@@ -579,7 +579,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* What's Next — forward-looking "Next Chapter" bento (one large + two stacked) */}
-      <section className="px-section pb-section">
+      <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section">
@@ -604,7 +604,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* More Work — closing case-study index (two-up cards; cover expands on hover) */}
-      <section className="px-section pb-section">
+      <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section">

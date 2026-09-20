@@ -60,7 +60,7 @@ export function CrossTeamCollab() {
   const [active, setActive] = useState<TeamKey>('designers')
   const team = teams.find((t) => t.key === active)!
   return (
-    <section className="px-section pb-section">
+    <section className="px-6 sm:px-10 lg:px-section pb-section">
       <div className="max-w-6xl mx-auto">
         <div className="border-t border-border pt-section">
           <SectionHeader index="08" eyebrow={eyebrow} title={title} />

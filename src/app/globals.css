@@ -20,3 +20,14 @@ body {
   font-style: italic;
   font-variation-settings: 'WONK' 0;
 }
+
+/* TEMPORARY — /preview/problem harness only.
+   framer-motion's whileInView does not settle reliably inside an iframe, which leaves every
+   candidate layout frozen mid-fade in the responsive check. This forces the entrance animation's
+   end state so the frames show the resting layout. It is class-gated to the preview route and
+   lives here, rather than in a React-rendered <style>, because an injected style element makes
+   the server and client trees disagree. Delete alongside src/app/preview/. */
+.preview-still [style*='opacity'] {
+  opacity: 1 !important;
+  transform: none !important;
+}
