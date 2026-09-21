@@ -1,6 +1,6 @@
 // The Problem — editorial row.
 //
-// Sits between At a glance and the Process timeline. Co-located with the page, like
+// The first section after the product shot, answered by MVP focus below it. Co-located with the page, like
 // CrosswalkMatrix, so it does not depend on src/components/problem/, which is the temporary
 // layout-exploration folder and is meant to be deleted.
 //
@@ -43,20 +43,21 @@ const paraLead =
 const paraEmphasis = 'mapping and transformation'
 const paraRest = `, is the longest and the one this project targets. Mapping matches each old field to a new one. Transformation rules reshape the data to fit, like turning F, M and O into Female, Male and Others. A team of 4 to 5 people does all of it in Excel, with no standard format. The state then reviews the result, ${ACENTRA} fixes it, and the state approves.`
 
-// SPACING. The section pads neither its own top nor its own bottom:
-//   · no pb-section — the space BELOW the closing hairline belongs to the next section's
-//     pt-section. Having both put 161px under the rule against 80px over it.
-//   · no pt-section — the section above already pads its bottom, and the two stacked to 181px
-//     where every other gap on this page is one section (80px).
-// One source of space per gap, so the closing hairline sits centred in 160px.
+// SPACING. One source of space per side of every rule, so each hairline sits centred in 160px.
+// This is the first section after the product shot, and it carries that treatment:
+//   · border-t + pt-section at the top — the shot above pads its own bottom by 80px, which is
+//     the space above this rule; the pt-section is the 80px below it.
+//   · pb-section at the bottom — the 80px above MVP focus's own leading rule.
+// The closing rule this section used to draw now belongs to MVP focus, which sits below it.
 export function ProblemSection() {
   return (
     <section className="px-6 sm:px-10 lg:px-section">
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
-          {/* No leading rule: the section above closes the gap on its own, and a second
-              hairline here read as a doubled edge. See the spacing note above the component. */}
-          <div>
+          {/* Leading rule — the hairline under the product shot. The shot pads its own
+              bottom by 80px and draws no rule of its own, so this is the only edge between
+              them. */}
+          <div className="border-t border-border pt-section pb-section">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-6">
 
               {/* The margin label. */}
@@ -89,10 +90,6 @@ export function ProblemSection() {
                 </p>
               </div>
             </div>
-
-            {/* The rule that closes the row off. Part of the editorial row, not of the question
-                that used to sit above it. */}
-            <div className="mt-section border-t border-border" />
           </div>
         </AnimatedSection>
       </div>

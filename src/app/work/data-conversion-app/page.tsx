@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
-import { SectionHeader } from '@/components/SectionHeader'
-import { RailBlock, RailPill } from '@/components/Rail'
+import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
+import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
 
@@ -35,46 +35,11 @@ const heroMeta = [
   },
 ]
 
-// Process timeline — one rail. Sequence is carried by a drawn line rather than by step numbers:
-// the pre-UX build is the earlier, quieter segment at the left of the same track, and my four
-// stages run along the rest of it. Numbering everything 01–09 used to give the first build the
-// same weight as the design work, which is exactly the impression the section should not leave.
-//
-// Every block on the rail — the before and the four stages — is the same RailBlock component with
-// a `muted` flag, so the two sides cannot drift apart: there is no separate "before" markup to
-// keep in sync. The before is secondary through colour and label weight alone, never through a
-// different height or a different shape.
-//
-// Each block is two tiers: what was done (quiet) and the takeaway (highlighted). The takeaway is
-// the part a skimmer should be able to read on its own.
-const railBefore = {
-  title: 'AI engineering team, no UX involvement',
-  did: 'Mapping and transformation logic built. Screens generated with AI.',
-  takeaway: "UI designed from a technical standpoint, not the user's.",
-}
-
-const railStages = [
-  {
-    title: 'Stakeholder discovery',
-    did: 'Data analyst, project owner and AI Center of Excellence.',
-    takeaway:
-      'Each person saw their own process, and no one saw how a user moves from screen to screen.',
-  },
-  {
-    title: 'Information architecture',
-    did: 'Touchpoints and how conversion works, with AI to summarise and understand.',
-    takeaway: 'What users need to make decisions, and where AI can make the interface easier.',
-  },
-  {
-    title: 'Design',
-    did: 'Claude Design with our design system, then Figma for final touches.',
-    takeaway: 'Faster ideation and validation than manual exploration.',
-  },
-  {
-    title: 'Dev + testing',
-    did: 'Working with the dev team.',
-    takeaway: 'Helped with design reviews.',
-  },
+const processPhases = [
+  { label: 'Stakeholder discovery', items: ['Data analyst', 'Project owner', 'AI Center of Excellence'] },
+  { label: 'Information architecture', items: ['Touchpoints', 'How conversion works', 'AI to summarise and understand'] },
+  { label: 'Design', items: ['Claude Design with our design system', 'Figma for final touches'] },
+  { label: 'Dev + testing', items: ['Working with the dev team'] },
 ]
 
 const moreWork = [
@@ -237,67 +202,40 @@ export default function DataConversionAppPage() {
           divider between the two. */}
       <ProblemSection />
 
+      {/* ── MVP focus ──
+          The scope row. Sits after the Problem so the cost of the old process is stated
+          first and the constraint the MVP worked under answers it. It closes on its own
+          hairline; see MvpFocus.tsx for the spacing contract. */}
+      <MvpFocus />
+
       <Impact />
 
-      {/* ── Process timeline ──
-          One rail. See the consts above for the reasoning; the mechanics worth knowing here:
+      {/* ── Process ──
+          The label sits in the left rail and the figure takes the right column, tops
+          aligned on the same grid row — the same two-column shape Problem and MVP focus
+          use. The visible heading, the Before block and the joined pill were removed; the
+          section keeps an accessible heading through an sr-only h2, so the document outline
+          is unchanged even though nothing is drawn for it.
 
-          ALIGNMENT. Both phases label the same way — a Pill of fixed height (h-7) on its own row —
-          which is what puts the two rules on one horizontal line. An earlier version had the
-          before's rule first with a plain text label beneath it, and the two rules sat 38px apart,
-          so the sides read as unrelated rather than as one timeline.
-
-          THE TAKEAWAY ROW. At lg each stage wrapper is `contents`, so its three parts drop into
-          the parent grid directly and the parent runs grid-flow-col over three rows — title, did,
-          takeaway. Every column therefore draws from the same three row heights and the takeaways
-          start on one line whatever the copy does. Pushing each takeaway down with mt-auto instead
-          would bottom-align them, which is not the same thing: their tops would land wherever each
-          one's line count put them. The middle row is 1fr so the slack pools in the did row.
-
-          MOBILE. The wrapper carries border-l below md and drops it at md, where each side takes
-          its own border-t. One unbroken vertical line on a phone, one horizontal line in two
-          aligned segments on a desktop — and because a single element draws it, the stacked
-          alignment is exact. `contents` switches off below lg, where each stage is a plain block.
-
-          ACCENT. accent-warm is on the joined pill's outline and dot, the stage markers, and the
-          takeaway's left edge — all graphics, where 3:1 applies. The pill's own text is
-          foundation-900, because accent text at 11px measures 4.1:1 on the cream ground and fails
-          AA. No body text is ever accent-coloured.
-
-          KNOWN LIMIT: the before's takeaway does not share the stages' takeaway row. The two sides
-          are separate rail segments with their own rules, so their row heights are independent;
-          only a single grid spanning all five columns could lock them together, and that would
-          mean giving up the two-segment rule this section is built on. */}
+          ACCENT. accent-warm is on the eyebrow tick and the figure card’s tick, both
+          graphics. The figure itself uses no accent at all, and no body text is ever
+          accent-coloured. */}
       <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
-            <SectionHeader
-              accessibleEyebrow
-              eyebrow="Process Timeline"
-              title="Brought in after the first build"
-            />
+            {/* The heading is not drawn, but the section still needs one. */}
+            <h2 className="sr-only">Process</h2>
 
-            <div className="mt-12 border-l border-border pl-6 md:border-l-0 md:pl-0">
-              <div className="flex flex-col gap-10 md:flex-row md:gap-8">
-                <div className="md:w-80 md:shrink-0">
-                  <div className="mb-4">
-                    <RailPill>Before</RailPill>
-                  </div>
-                  <div className="md:border-t md:border-border md:pt-4">
-                    <RailBlock muted {...railBefore} />
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-6">
+              <div className="md:col-span-3">
+                <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                  Process
+                </p>
+                <div className="mt-3 h-px w-8 bg-accent-warm" />
+              </div>
 
-                <div className="flex-1">
-                  <div className="mb-4">
-                    <RailPill accent>I joined here</RailPill>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-flow-col lg:grid-rows-[auto_1fr_auto] gap-x-8 gap-y-10 md:border-t md:border-border md:pt-4">
-                    {railStages.map((stage) => (
-                      <RailBlock key={stage.title} contents {...stage} />
-                    ))}
-                  </div>
-                </div>
+              <div className="md:col-span-9">
+                <ProcessTimeline title="Process overview" phases={processPhases} />
               </div>
             </div>
           </AnimatedSection>
