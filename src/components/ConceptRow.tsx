@@ -4,12 +4,16 @@
 // sketches rather than screenshots: each concept gets a title, the reasoning, then its wireframe.
 // The real product appears once, after the decision, rather than competing with the sketches.
 //
-// EQUAL FRAMES. Every frame shares one aspect ratio, and the grid gives every column the same
-// width, so all frames are the same width AND height at every breakpoint. aspect-[8/5] is the
-// taller wireframes' own 960×600 ratio; the 960×520 one sits inside it with a little air above
-// and below. A fixed pixel height was the alternative, but at md the columns are about 205px
-// wide, where any single height either left a wireframe tiny in a tall empty box or was too
-// short at lg.
+// EQUAL FRAMES. Every column is the same width (the grid), and every frame's image box takes the
+// same shape: Inline table's own 960×522, the tallest of the three wireframes. So the three frames
+// are identical at every width, Inline table fills its box exactly, and the wider Detail panel
+// (960×430) and Review queue (960×498) sit inside with a little air above and below. A shape
+// rather than a fixed height, because the row's width is fluid (the page breaks it out to up to
+// 1800px): a fixed height fits only one viewport width and leaves the frames half-empty at others.
+//
+// PADDING p-2. The SVGs are cropped tight top and bottom (they keep ~30px of their own margin at
+// the sides), so p-4 only added back empty space. At p-0 the tallest wireframe's top and bottom
+// edges sat a few pixels from the frame's border; p-2 keeps a little even air all round.
 //
 // ALIGNED FRAMES. Titles and paragraphs differ in length, so each column is a flex column and the
 // frame takes mt-auto: the three frames always share one top edge, whatever the text above does.
@@ -37,8 +41,8 @@ export function ConceptRow({ concepts }: { concepts: Concept[] }) {
             {concept.title}
           </h4>
           <p className="m-0 mb-6 font-sans text-body-sm text-foundation-600">{concept.body}</p>
-          <div className="mt-auto aspect-[8/5] rounded-lg border border-border bg-body p-4">
-            <div className="relative h-full w-full">
+          <div className="mt-auto rounded-lg border border-border bg-body p-2">
+            <div className="relative aspect-[960/522] w-full">
               <Image
                 src={concept.image}
                 alt={concept.alt}

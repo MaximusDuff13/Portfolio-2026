@@ -370,7 +370,14 @@ export default function DataConversionAppPage() {
 
               {/* Concepts → decision → the shipped screen. The sketches make the argument; the
                   real product comes once, last, at the full content width, as the payoff. */}
-              <div className="mt-10">
+              {/* WIDE ROW. From lg up the concept row breaks out of the 1152px wrap to
+                  min(1800px, viewport − 160px), centred on the wrap, so each wireframe column is
+                  wider than the wrap's three-way split allows. The 160px is the lg section
+                  gutters (80px a side), so the row lines up with where the gutters would be and
+                  never reaches the viewport edge — no horizontal scroll, even with a classic
+                  scrollbar. The text above and the decision and screenshot below stay at the
+                  wrap's width. */}
+              <div className="mt-10 lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
                 <ConceptRow concepts={mappingConcepts} />
               </div>
               <div className="mt-12">
