@@ -30,9 +30,13 @@ export type ProcessPhase = {
 export function ProcessTimeline({
   title,
   phases,
+  children,
 }: {
   title: string
   phases: ProcessPhase[]
+  /* Anything the card carries under the track, inside the same frame. Optional: the chart
+     stands on its own without it, and nothing above this point changes when it is passed. */
+  children?: React.ReactNode
 }) {
   return (
     <FigureCard title={title}>
@@ -85,6 +89,7 @@ export function ProcessTimeline({
           )
         })}
       </ol>
+      {children}
     </FigureCard>
   )
 }

@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
+import { PrincipleGrid } from '@/components/PrincipleGrid'
+import { FeatureHeader } from '@/components/FeatureHeader'
+import { VariantComparison } from '@/components/VariantComparison'
+import { ClipboardCheck, Users, Eye, CheckCircle2 } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
@@ -36,11 +40,91 @@ const heroMeta = [
 ]
 
 const processPhases = [
-  { label: 'Stakeholder discovery', items: ['Data analyst', 'Project owner', 'AI Center of Excellence'] },
-  { label: 'Information architecture', items: ['Touchpoints', 'How conversion works', 'AI to summarise and understand'] },
-  { label: 'Design', items: ['Claude Design with our design system', 'Figma for final touches'] },
-  { label: 'Dev + testing', items: ['Working with the dev team'] },
+  { label: 'Stakeholder discovery', items: ['Data analysts', 'Project owners', 'AI Center of Excellence'] },
+  { label: 'Information architecture', items: ['Touchpoints across the journey', 'How conversion works, end to end', 'Where AI could summarise and simplify'] },
+  { label: 'Design', items: ['Claude Design, using our design system', 'Figma for final polish'] },
+  { label: 'Dev + testing', items: ['Partnered with the dev team through build and testing'] },
 ]
+
+const processPrinciples = [
+  {
+    icon: ClipboardCheck,
+    term: 'Do your homework',
+    body: "Communicate clearly in standups about what decisions you need and by when. A simple sheet with timelines and required attention windows keeps everyone aligned.",
+  },
+  {
+    icon: Users,
+    term: 'Build relationships',
+    body: "Know whether the person you're speaking with can actually make the decision, and bring evidence and backing from your teammates into every conversation.",
+  },
+  {
+    icon: Eye,
+    term: "Show, don't tell",
+    body: 'Back design decisions with real data and user research. A concrete example or case study persuades faster than an argument.',
+  },
+  {
+    icon: CheckCircle2,
+    term: 'Done is better than perfect',
+    body: "Use a prioritisation framework, I prefer MoSCoW, for each screen so the team always knows what matters most.",
+  },
+]
+
+/* FEATURES. One feature for now; the section is built to take the next two as further
+   FeatureHeader + figure pairs under the same rail, so nothing here is placeholder scaffolding
+   for features that do not exist yet.
+
+   All four screenshots live in public/images/data-conversion-app/mapping-variants/. The file
+   names carry spaces, so each src is encodeURI'd at the point of use; `file` stays the plain
+   name so it still reads as the asset on disk. */
+const mappingVariants = [
+  {
+    name: 'Detail panel',
+    shipped: true,
+    body: "A table with only what's needed to select a field, plus a side panel that opens with the mapping, transformation, and other detail.",
+    images: [
+      {
+        file: 'Mapping Variant 1 Screen 1.png',
+        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%201%20Screen%201.png',
+        alt: 'Detail panel variant: a table of fields on the left with a mapping details panel open on the right, showing source mapping, transformation, and AI confidence.',
+      },
+    ],
+  },
+  {
+    name: 'Inline table',
+    shipped: false,
+    body: 'A single wide table with every field, linking out to separate screens for descriptions and transformations.',
+    images: [
+      {
+        file: 'Mapping Variant 2 Screen 1.png',
+        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%202%20Screen%201.png',
+        alt: 'Inline table variant: a full-width table with editable source table and field dropdowns in each row, and links to view descriptions and set transformations.',
+      },
+    ],
+  },
+  {
+    name: 'Review queue',
+    shipped: false,
+    body: 'Users selected fields into a queue, then moved to a dedicated review screen with everything in one place.',
+    images: [
+      {
+        file: 'Mapping Variant 3 Screen 1.png',
+        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%203%20Screen%201.png',
+        alt: 'Review queue variant: a full-width read-only table with a bar at the bottom showing a count of filtered mappings and a Start review button.',
+      },
+      {
+        file: 'Mapping Variant 3 Screen 2.png',
+        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%203%20Screen%202.png',
+        alt: 'The dedicated review screen: one field at a time, with source mapping, transformation settings, an AI confidence note, and space for additional notes.',
+      },
+    ],
+  },
+]
+
+const mappingIntro =
+  'Mapping and transformation carries a lot at once: the mapping itself, the transformation logic, AI confidence, descriptions, and review status. All of it needed to live in one table where users could review and act on each field. We explored three approaches for how much of that information a table should carry, and how it should surface the rest.'
+
+const mappingRecommendation =
+  "We tested the review queue with users, and moving them away from the table, where they could compare fields side by side, didn't land well. The inline table's redirects to separate screens for each piece of information added friction instead of removing it. We shipped the detail panel: it kept the table for scanning and comparing, while the side panel gave access to everything else without leaving the page."
 
 const moreWork = [
   { num: '02', title: 'Acentra Health Design System', category: 'Design System', desc: 'Built a scalable design system that unified tokens, components, and accessibility standards across two product teams.', href: '/work/acentra-health', img: undefined as string | undefined },
@@ -235,7 +319,69 @@ export default function DataConversionAppPage() {
               </div>
 
               <div className="md:col-span-9">
-                <ProcessTimeline title="Process overview" phases={processPhases} />
+                <ProcessTimeline title="Process overview" phases={processPhases}>
+                  {/* Same card, second half. The rule is the only separator: a second
+                      FigureCard here would break the figure into two unrelated panels. */}
+                  <div className="mt-12 border-t border-border pt-10">
+                    {/* foundation-600, not the foundation-500 the brief named — on this
+                        card's foundation-100 ground foundation-500 measures 4.40:1, under
+                        the 4.5:1 the same brief requires. Same trade as FigureCard's own
+                        caption. */}
+                    <p className="mb-6 font-grotesk text-label uppercase tracking-widest text-foundation-600">
+                      Working with stakeholders
+                    </p>
+                    <PrincipleGrid items={processPrinciples} />
+                  </div>
+                </ProcessTimeline>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Features ──
+          Sits between Process and More Case Studies. Same rhythm as every other section on the
+          page: the gutters and pb-section on the <section>, the hairline and pt-section on the
+          inner wrapper, so the rule gets 80px of air on both sides.
+
+          NO RAIL HERE, unlike Problem, MVP focus, Impact and Process. Those sections put a label
+          at col-span-3 and their content at col-span-9; this one runs the full wrap. The reason
+          is the three-variant grid: on the spine each column came out at 255px, and a 4:3 frame
+          that narrow shows a screenshot of a dense table at a size no one can read. Dropping the
+          rail returns those 292px to the columns. The label moves above the content and keeps
+          its exact styling, so the section still announces itself the same way.
+
+          ROOM FOR MORE. Features is plural by design: the next two features become further
+          FeatureHeader + VariantComparison pairs under this same label, separated the way this
+          one is. Nothing is stubbed out for them here.
+
+          ACCENT. accent-warm is on the eyebrow tick (a graphic), the "Shipped" tag and the
+          recommendation's left border. No body text is accent-coloured. */}
+      <section className="px-6 sm:px-10 lg:px-section pb-section">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="border-t border-border pt-section">
+              <h2 className="sr-only">Features</h2>
+
+              {/* The section label, same token, colour and tick as the rail version — only its
+                  position changed. mb-12 is the whole gap down to the feature's own eyebrow. */}
+              <div className="mb-12">
+                <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                  Features
+                </p>
+                <div className="mt-3 h-px w-8 bg-accent-warm" />
+              </div>
+
+              <FeatureHeader
+                eyebrow="Mapping & transformation"
+                title="Three ways to show a lot in one table"
+              />
+              <div className="mt-8">
+                <VariantComparison
+                  intro={mappingIntro}
+                  variants={mappingVariants}
+                  recommendation={mappingRecommendation}
+                />
               </div>
             </div>
           </AnimatedSection>
