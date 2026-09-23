@@ -21,8 +21,13 @@
 // NO CROPPING. The image fills the frame's padded box with object-contain, so it scales to fit
 // without being cut or stretched.
 //
+// ENLARGE. Each wireframe has a LightboxTrigger laid over it (absolute inset-0 inside the
+// already-relative image box), so it opens full-size without changing any sizing here. The page
+// supplies the LightboxProvider.
+//
 // CONTRAST, on the page ground: title foundation-900 at 16.9:1, body foundation-600 at 7.38:1.
 import Image from 'next/image'
+import { LightboxTrigger } from './Lightbox'
 
 export type Concept = {
   title: string
@@ -50,6 +55,7 @@ export function ConceptRow({ concepts }: { concepts: Concept[] }) {
                 sizes="(min-width: 768px) 33vw, 100vw"
                 className="object-contain"
               />
+              <LightboxTrigger src={concept.image} alt={concept.alt} />
             </div>
           </div>
         </li>

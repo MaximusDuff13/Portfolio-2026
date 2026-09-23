@@ -5,6 +5,7 @@ import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { FeatureHeader } from '@/components/FeatureHeader'
 import { ConceptRow } from '@/components/ConceptRow'
 import { Decision } from '@/components/Decision'
+import { LightboxProvider, LightboxTrigger } from '@/components/Lightbox'
 import Image from 'next/image'
 import { ClipboardCheck, Users, Eye, CheckCircle2 } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
@@ -377,22 +378,28 @@ export default function DataConversionAppPage() {
                   never reaches the viewport edge — no horizontal scroll, even with a classic
                   scrollbar. The text above and the decision and screenshot below stay at the
                   wrap's width. */}
-              <div className="mt-10 lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
-                <ConceptRow concepts={mappingConcepts} />
-              </div>
-              <div className="mt-12">
-                <Decision statement={mappingDecision} />
-              </div>
-              <figure className="m-0 mt-12 overflow-hidden rounded-lg border border-border">
-                <Image
-                  src={mappingShipped.src}
-                  alt={mappingShipped.alt}
-                  width={mappingShipped.width}
-                  height={mappingShipped.height}
-                  sizes="(min-width: 1152px) 1120px, 100vw"
-                  className="block h-auto w-full"
-                />
-              </figure>
+              {/* ENLARGE. All four images open full-size in one shared lightbox. The triggers
+                  are laid over the images (absolute inset-0), so no sizing here changes; the
+                  figure only gains `relative` to anchor its trigger. */}
+              <LightboxProvider>
+                <div className="mt-10 lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
+                  <ConceptRow concepts={mappingConcepts} />
+                </div>
+                <div className="mt-12">
+                  <Decision statement={mappingDecision} />
+                </div>
+                <figure className="relative m-0 mt-12 overflow-hidden rounded-lg border border-border">
+                  <Image
+                    src={mappingShipped.src}
+                    alt={mappingShipped.alt}
+                    width={mappingShipped.width}
+                    height={mappingShipped.height}
+                    sizes="(min-width: 1152px) 1120px, 100vw"
+                    className="block h-auto w-full"
+                  />
+                  <LightboxTrigger src={mappingShipped.src} alt={mappingShipped.alt} />
+                </figure>
+              </LightboxProvider>
             </div>
           </AnimatedSection>
         </div>
