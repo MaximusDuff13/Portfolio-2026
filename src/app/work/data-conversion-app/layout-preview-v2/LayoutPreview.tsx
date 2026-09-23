@@ -459,7 +459,7 @@ function Layout4() {
     }
     fit()
     const ro = new ResizeObserver(fit)
-    ;[...el.children].forEach((c) => ro.observe(c))
+    Array.from(el.children).forEach((c) => ro.observe(c))
     return () => ro.disconnect()
   }, [active])
 

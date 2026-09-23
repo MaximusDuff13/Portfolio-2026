@@ -3,7 +3,9 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { FeatureHeader } from '@/components/FeatureHeader'
-import { VariantComparison } from '@/components/VariantComparison'
+import { ConceptRow } from '@/components/ConceptRow'
+import { Decision } from '@/components/Decision'
+import Image from 'next/image'
 import { ClipboardCheck, Users, Eye, CheckCircle2 } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
@@ -70,61 +72,47 @@ const processPrinciples = [
 ]
 
 /* FEATURES. One feature for now; the section is built to take the next two as further
-   FeatureHeader + figure pairs under the same rail, so nothing here is placeholder scaffolding
+   FeatureHeader + figure groups under the same label, so nothing here is placeholder scaffolding
    for features that do not exist yet.
 
-   All four screenshots live in public/images/data-conversion-app/mapping-variants/. The file
-   names carry spaces, so each src is encodeURI'd at the point of use; `file` stays the plain
-   name so it still reads as the asset on disk. */
-const mappingVariants = [
+   Every image lives in public/images/data-conversion-app/mapping-variants/ and is referenced by
+   its public path. Names with spaces are written pre-encoded (%20), the same way the screenshots
+   always have been, so the src is exactly the URL the browser requests. */
+const mappingDir = '/images/data-conversion-app/mapping-variants/'
+
+const mappingConcepts = [
   {
-    name: 'Detail panel',
-    shipped: true,
-    body: "A table with only what's needed to select a field, plus a side panel that opens with the mapping, transformation, and other detail.",
-    images: [
-      {
-        file: 'Mapping Variant 1 Screen 1.png',
-        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%201%20Screen%201.png',
-        alt: 'Detail panel variant: a table of fields on the left with a mapping details panel open on the right, showing source mapping, transformation, and AI confidence.',
-      },
-    ],
+    title: 'Detail panel',
+    body: "We kept the table lean, showing only what's needed to select a field, and let everything else live in a panel that opens beside it. Mapping, transformation, source details, and AI confidence all sit in one place without pulling the user off the table. It meant we could keep the comparison view intact while still surfacing the full picture for whichever field someone was working on. This is the concept we shipped for the MVP.",
+    image: mappingDir + 'wireframe-1-detail-panel-labeled.svg',
+    alt: 'Detail panel wireframe',
   },
   {
-    name: 'Inline table',
-    shipped: false,
-    body: 'A single wide table with every field, linking out to separate screens for descriptions and transformations.',
-    images: [
-      {
-        file: 'Mapping Variant 2 Screen 1.png',
-        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%202%20Screen%201.png',
-        alt: 'Inline table variant: a full-width table with editable source table and field dropdowns in each row, and links to view descriptions and set transformations.',
-      },
-    ],
+    title: 'Inline table',
+    body: 'We tried putting every field directly in one wide table, with dropdowns and links built right into each row. It meant nothing was hidden, but clicking into a description or a transformation setting sent people to a separate screen every time. For a table this dense, all those redirects added friction rather than removing it, so we moved away from this approach.',
+    image: mappingDir + 'wireframe-2-inline-table-labeled.svg',
+    alt: 'Inline table wireframe',
   },
   {
-    name: 'Review queue',
-    shipped: false,
-    body: 'Users selected fields into a queue, then moved to a dedicated review screen with everything in one place.',
-    images: [
-      {
-        file: 'Mapping Variant 3 Screen 1.png',
-        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%203%20Screen%201.png',
-        alt: 'Review queue variant: a full-width read-only table with a bar at the bottom showing a count of filtered mappings and a Start review button.',
-      },
-      {
-        file: 'Mapping Variant 3 Screen 2.png',
-        src: '/images/data-conversion-app/mapping-variants/Mapping%20Variant%203%20Screen%202.png',
-        alt: 'The dedicated review screen: one field at a time, with source mapping, transformation settings, an AI confidence note, and space for additional notes.',
-      },
-    ],
+    title: 'Review queue',
+    body: "We considered letting people build a queue of fields to review, then hand them off to one dedicated screen with everything about that queue in one place. It read well as a concept, since it separated selecting from reviewing. But when we tested it with users, moving them away from the table, where they could compare fields side by side, didn't land the way we hoped.",
+    image: mappingDir + 'wireframe-3-review-queue-labeled.svg',
+    alt: 'Review queue wireframe',
   },
 ]
 
 const mappingIntro =
   'Mapping and transformation carries a lot at once: the mapping itself, the transformation logic, AI confidence, descriptions, and review status. All of it needed to live in one table where users could review and act on each field. We explored three approaches for how much of that information a table should carry, and how it should surface the rest.'
 
-const mappingRecommendation =
-  "We tested the review queue with users, and moving them away from the table, where they could compare fields side by side, didn't land well. The inline table's redirects to separate screens for each piece of information added friction instead of removing it. We shipped the detail panel: it kept the table for scanning and comparing, while the side panel gave access to everything else without leaving the page."
+const mappingDecision =
+  "We shipped the detail panel: it kept the table for scanning and comparing, while the side panel gave access to everything else without leaving the page. The inline table's redirects added friction, and the review queue's separate screen took people away from the comparison that made the table useful in the first place."
+
+const mappingShipped = {
+  src: mappingDir + 'Mapping%20Variant%201%20Screen%201.png',
+  width: 3936,
+  height: 3117,
+  alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
+}
 
 const moreWork = [
   { num: '02', title: 'Acentra Health Design System', category: 'Design System', desc: 'Built a scalable design system that unified tokens, components, and accessibility standards across two product teams.', href: '/work/acentra-health', img: undefined as string | undefined },
@@ -352,11 +340,11 @@ export default function DataConversionAppPage() {
           its exact styling, so the section still announces itself the same way.
 
           ROOM FOR MORE. Features is plural by design: the next two features become further
-          FeatureHeader + VariantComparison pairs under this same label, separated the way this
-          one is. Nothing is stubbed out for them here.
+          FeatureHeader + concepts → decision → shipped screen groups under this same label,
+          separated the way this one is. Nothing is stubbed out for them here.
 
-          ACCENT. accent-warm is on the eyebrow tick (a graphic), the "Shipped" tag and the
-          recommendation's left border. No body text is accent-coloured. */}
+          ACCENT. accent-warm is on the eyebrow tick (a graphic) and the Decision's left border.
+          No body text is accent-coloured. */}
       <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
@@ -376,13 +364,28 @@ export default function DataConversionAppPage() {
                 eyebrow="Mapping & transformation"
                 title="Three ways to show a lot in one table"
               />
-              <div className="mt-8">
-                <VariantComparison
-                  intro={mappingIntro}
-                  variants={mappingVariants}
-                  recommendation={mappingRecommendation}
-                />
+              <p className="mt-8 max-w-3xl font-sans text-body text-foundation-600">
+                {mappingIntro}
+              </p>
+
+              {/* Concepts → decision → the shipped screen. The sketches make the argument; the
+                  real product comes once, last, at the full content width, as the payoff. */}
+              <div className="mt-10">
+                <ConceptRow concepts={mappingConcepts} />
               </div>
+              <div className="mt-12">
+                <Decision statement={mappingDecision} />
+              </div>
+              <figure className="m-0 mt-12 overflow-hidden rounded-lg border border-border">
+                <Image
+                  src={mappingShipped.src}
+                  alt={mappingShipped.alt}
+                  width={mappingShipped.width}
+                  height={mappingShipped.height}
+                  sizes="(min-width: 1152px) 1120px, 100vw"
+                  className="block h-auto w-full"
+                />
+              </figure>
             </div>
           </AnimatedSection>
         </div>
