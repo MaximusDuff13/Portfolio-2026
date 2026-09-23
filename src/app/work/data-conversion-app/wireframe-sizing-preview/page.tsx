@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Option1 } from './options/Option1'
 import { Option2 } from './options/Option2'
 import { Option3 } from './options/Option3'
+import { Option4 } from './options/Option4'
 
 // TEMPORARY PREVIEW — sizing options for the three wireframes in the Mapping & transformation
 // feature's ConceptRow. Unlinked and noindex'd; nothing routes here. The live page does not
@@ -19,6 +20,7 @@ const OPTIONS = [
   { id: 'Option 1', node: <Option1 /> },
   { id: 'Option 2', node: <Option2 /> },
   { id: 'Option 3', node: <Option3 /> },
+  { id: 'Option 4', node: <Option4 /> },
 ]
 
 export default function WireframeSizingPreviewPage() {
