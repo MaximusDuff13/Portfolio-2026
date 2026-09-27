@@ -12,8 +12,9 @@
 //
 // DRAWING. Each connector is three pieces, all in the line colour:
 //   · an open ring at the origin, tangent to the bottom centre of its source frame. It is the
-//     wireframes' own open-ring mark — Review queue's unselected radio: r 6, 1.2 stroke — filled
-//     with the band colour so it reads as an outlined dot, not a disc;
+//     wireframes' own open-ring mark — Review queue's unselected radio (r 6, 1.2 stroke), scaled
+//     by 5/3 with the line (1.5 → 2.5px) — filled with the band colour so it reads as an outlined
+//     dot, not a disc. The chevron is scaled by the same factor;
 //   · a dashed cubic bezier from the bottom of the ring, leaving heading straight down and
 //     arriving heading straight down, so the lines converge cleanly;
 //   · an open chevron whose tip sits on the top edge of the screenshot, at its centre.
@@ -31,12 +32,12 @@ type Point = { x: number; y: number }
 type Line = { from: Point; to: Point }
 
 const MD = '(min-width: 768px)'
-const RING_R = 6
-const RING_STROKE = 1.2
-const DASH = '4 4'
-const LINE_WIDTH = 1.5
-const CHEVRON_W = 10 // tip-to-tip width of the chevron's two arms
-const CHEVRON_H = 6 // arm drop from the tip
+const RING_R = 10
+const RING_STROKE = 2
+const DASH = '5 2'
+const LINE_WIDTH = 2.5
+const CHEVRON_W = 17 // tip-to-tip width of the chevron's two arms
+const CHEVRON_H = 10 // arm drop from the tip
 
 export function ShippedConnectors({
   from,
