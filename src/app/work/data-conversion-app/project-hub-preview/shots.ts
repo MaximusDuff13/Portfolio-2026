@@ -1,25 +1,26 @@
-// The six project hub screenshots. Folder and file names keep their spaces and ampersands on
-// disk; each path segment is encoded with encodeURIComponent, the same pre-encoded form the live
-// page uses for its screenshots, so the src is exactly the URL the browser requests.
-const dir = '/images/data-conversion-app/' + encodeURIComponent('Project hub') + '/'
+// The six project hub screenshots, in kebab-case. The originals ("Project hub/Schema & Wiki -
+// Error State.png" etc.) were renamed: an ampersand in a public file name 404s under `next start`
+// (as a static file and through the image optimizer), though `next dev` serves it. Spaces alone
+// worked, but the whole set was renamed for consistency.
+const dir = '/images/data-conversion-app/project-hub/'
 
 export type Shot = { key: string; src: string; width: number; height: number; alt: string }
 
 const shot = (key: string, file: string, width: number, height: number, alt: string): Shot => ({
   key,
-  src: dir + encodeURIComponent(file),
+  src: dir + file,
   width,
   height,
   alt,
 })
 
 // Alt text is built only from the given state and step names.
-export const enable = shot('enable', 'Schema & Wiki - InProgress.png', 1312, 951, 'Schema & Wiki step, Enable state')
-export const generating = shot('generating', 'Schema & Wiki - Generating Wiki.png', 2624, 1902, 'Schema & Wiki step, Generating state')
-export const success = shot('success', 'Schema & Wiki - Success State.png', 2624, 1984, 'Schema & Wiki step, Success state')
-export const error = shot('error', 'Schema & Wiki - Error State.png', 512, 372, 'Schema & Wiki step, Error state')
-export const mappingActive = shot('mapping-active', 'Mapping Screen - In Progress.png', 5248, 3804, 'Project hub, Mapping & Transformation active')
-export const completed = shot('completed', 'After Mapping Completed.png', 5248, 3804, 'Project hub, Project completed')
+export const enable = shot('enable', 'schema-wiki-in-progress.png', 1312, 951, 'Schema & Wiki step, Enable state')
+export const generating = shot('generating', 'schema-wiki-generating-wiki.png', 2624, 1902, 'Schema & Wiki step, Generating state')
+export const success = shot('success', 'schema-wiki-success-state.png', 2624, 1984, 'Schema & Wiki step, Success state')
+export const error = shot('error', 'schema-wiki-error-state.png', 512, 372, 'Schema & Wiki step, Error state')
+export const mappingActive = shot('mapping-active', 'mapping-screen-in-progress.png', 5248, 3804, 'Project hub, Mapping & Transformation active')
+export const completed = shot('completed', 'after-mapping-completed.png', 5248, 3804, 'Project hub, Project completed')
 
 /* Group 1: one step, every state. */
 export const states = [
