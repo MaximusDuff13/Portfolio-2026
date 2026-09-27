@@ -1,6 +1,6 @@
 // ProblemSolutionFeature — one problem-and-solution write-up, start to finish, in its own
-// full-bleed band: eyebrow + title, the Problem/Solution card, the concept row and the shipped
-// screenshot.
+// full-bleed band: eyebrow + title, the Problem/Solution card, then either the concept row and
+// the shipped screenshot (with connectors), or a single full-width image, or both.
 //
 // NEW COMPONENT. The page lists its features in order and renders one of these per entry,
 // passing the entry's position as `index`. Everything that alternates is derived from that index
@@ -23,15 +23,21 @@ import { ShippedConnectors } from './ShippedConnectors'
 
 export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body: string }
 
+type Picture = { src: string; width: number; height: number; alt: string }
+
 export type ProblemSolution = {
   eyebrow: string
   title: string
   lead: LeadColumn[]
-  concepts: Concept[]
+  /* The concepts explored and the design that shipped. Rendered together, when both are given. */
+  concepts?: Concept[]
   /* Titles of the concepts the shipped design borrowed from; each gets a connector line down to
      the shipped screenshot. Must match concept titles exactly. */
   shippedFrom?: string[]
-  shipped: { src: string; width: number; height: number; alt: string }
+  shipped?: Picture
+  /* A single full-width image after the card, such as a journey map, for a feature without
+     concepts. Natural aspect ratio, never cropped, and click-to-enlarge. */
+  image?: Picture
 }
 
 /* The alternation rule. The first feature (index 0) gets a dark band, the next the page ground,
@@ -74,7 +80,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image } = feature
   return (
     <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
       <div className="max-w-6xl mx-auto">
@@ -126,38 +132,61 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               the lines room to curve.
 
               ENLARGE. All four images open full-size in one shared lightbox. */}
-          <LightboxProvider>
-            <div className="relative mt-section">
-              <div className="lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
-                <ConceptRow
-                  concepts={concepts}
-                  titleClassName={surface.conceptTitle}
-                  bodyClassName={surface.text}
-                />
+          {concepts && shipped && (
+            <LightboxProvider>
+              <div className="relative mt-section">
+                <div className="lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
+                  <ConceptRow
+                    concepts={concepts}
+                    titleClassName={surface.conceptTitle}
+                    bodyClassName={surface.text}
+                  />
+                </div>
+                <figure
+                  data-shipped=""
+                  className="relative m-0 mt-section overflow-hidden rounded-lg border border-border"
+                >
+                  <Image
+                    src={shipped.src}
+                    alt={shipped.alt}
+                    width={shipped.width}
+                    height={shipped.height}
+                    sizes="(min-width: 1152px) 1120px, 100vw"
+                    className="block h-auto w-full"
+                  />
+                  <LightboxTrigger src={shipped.src} alt={shipped.alt} />
+                </figure>
+                {shippedFrom.length > 0 && (
+                  <ShippedConnectors
+                    from={shippedFrom}
+                    lineClassName={surface.connector}
+                    groundClassName={surface.connectorGround}
+                  />
+                )}
               </div>
-              <figure
-                data-shipped=""
-                className="relative m-0 mt-section overflow-hidden rounded-lg border border-border"
-              >
+            </LightboxProvider>
+          )}
+
+          {/* A single full-width image, such as a journey map. mt-section matches the gap between
+              the card and the concept row above. The frame is the shipped screenshot's (rounded-lg,
+              border-border); the image keeps its natural aspect ratio (h-auto, object-contain), so
+              nothing is cropped, and opens full-size in the lightbox — for a dense, wide image,
+              that is the main way to read it on a narrow screen. */}
+          {image && (
+            <LightboxProvider>
+              <figure className="relative m-0 mt-section overflow-hidden rounded-lg border border-border">
                 <Image
-                  src={shipped.src}
-                  alt={shipped.alt}
-                  width={shipped.width}
-                  height={shipped.height}
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
                   sizes="(min-width: 1152px) 1120px, 100vw"
-                  className="block h-auto w-full"
+                  className="block h-auto w-full object-contain"
                 />
-                <LightboxTrigger src={shipped.src} alt={shipped.alt} />
+                <LightboxTrigger src={image.src} alt={image.alt} />
               </figure>
-              {shippedFrom.length > 0 && (
-                <ShippedConnectors
-                  from={shippedFrom}
-                  lineClassName={surface.connector}
-                  groundClassName={surface.connectorGround}
-                />
-              )}
-            </div>
-          </LightboxProvider>
+            </LightboxProvider>
+          )}
         </AnimatedSection>
       </div>
     </section>

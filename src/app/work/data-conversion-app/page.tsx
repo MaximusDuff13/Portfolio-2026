@@ -3,7 +3,7 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight } from 'lucide-react'
+import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight, LayoutGrid, Route } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
@@ -126,6 +126,33 @@ const mappingShipped = {
   alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
 }
 
+/* Requirements gathering. No concepts or shipped screen: the card, then the journey map the
+   solution describes. Icons: LayoutGrid (the separate screens) and Route (the journey between
+   them), drawn like the other card icons. */
+const requirementsDir = '/images/data-conversion-app/requirement-gathering/'
+
+const requirementsLead = [
+  {
+    icon: LayoutGrid,
+    label: 'Problem',
+    lead: 'The first screens were built individually with AI and shown to leadership to win buy-in, but they had no flow.',
+    body: "There was no sense of where a user would come from, what they'd click, or what they'd do next — just a set of major screens, with the journey between them left undefined.",
+  },
+  {
+    icon: Route,
+    label: 'Solution',
+    lead: 'Start with the people building it and the people using it, not the screens.',
+    body: 'I mapped the current customer journey with stakeholders, then worked with the AI Center of Excellence to understand what they had built and which parts of the process they were targeting. Bringing the two together gave us a user journey that showed exactly where AI could make things faster. For the MVP we scoped down to one piece of that flow, built to scale to the rest later.',
+  },
+]
+
+const journeyMap = {
+  src: requirementsDir + 'journey-map-horizontal.png',
+  width: 3600,
+  height: 2338,
+  alt: 'Customer journey map for data conversion across five stages — agreement, initial mapping, state review, transformation, and conversion and sync — showing steps, touchpoints, actors, where AI can help, and an emotion curve. Initial mapping is the low point; at transformation, experienced staff stay neutral while new staff are overwhelmed. The Data Conversion App spans the first four stages.',
+}
+
 /* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here. */
@@ -139,6 +166,12 @@ const problemSolutions: ProblemSolution[] = [
     // Inline table; Review queue contributed nothing, so it gets no connector.
     shippedFrom: ['Detail panel', 'Inline table'],
     shipped: mappingShipped,
+  },
+  {
+    eyebrow: 'Requirements gathering',
+    title: 'Where does the user go next?',
+    lead: requirementsLead,
+    image: journeyMap,
   },
 ]
 
