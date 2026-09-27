@@ -1,6 +1,6 @@
 'use client'
-// ShippedConnectors — hand-drawn lines from the concepts the shipped design borrowed from, down to
-// the shipped screenshot.
+// ShippedConnectors — dashed leader lines from the concepts the shipped design borrowed from, down
+// to the shipped screenshot.
 //
 // NEW COMPONENT. Rendered inside the wrapper that holds the concept row and the shipped
 // screenshot; that wrapper is the coordinate space. The source frames are found by their
@@ -10,33 +10,47 @@
 // changes size (images loading, fonts swapping, breakpoints), on window resize, and once each
 // image has loaded.
 //
-// ENDPOINTS. Each line starts at the bottom centre of its source frame and ends at the top edge
-// of the screenshot, at the centre of the screenshot. The lines converge there: the shipped design
-// is one screen that took from both.
+// DRAWING. Each connector is three pieces, all in the line colour:
+//   · an open ring at the origin, tangent to the bottom centre of its source frame. It is the
+//     wireframes' own open-ring mark — Review queue's unselected radio: r 6, 1.2 stroke — filled
+//     with the band colour so it reads as an outlined dot, not a disc;
+//   · a dashed cubic bezier from the bottom of the ring, leaving heading straight down and
+//     arriving heading straight down, so the lines converge cleanly;
+//   · an open chevron whose tip sits on the top edge of the screenshot, at its centre.
 //
-// HAND-DRAWN LOOK. A cubic bezier per line, bent so it leaves each frame heading straight down and
-// arrives at the screenshot heading straight down, then roughened by an SVG filter
-// (feTurbulence → feDisplacementMap). No sketch library: the filter is plain SVG.
-//
-// COLOUR. foundation-400 on the foundation-800 band, 6.01:1 — clear, and well away from
-// accent-warm. foundation-500 would be quieter, but at 3.16:1 it only just clears the 3:1 minimum
-// for a graphic that carries meaning, too thin a margin for a 1.5px line the filter roughens.
+// COLOUR. Passed in, per band, from featureSurface(): foundation-400 on the dark band (6.01:1),
+// well away from accent-warm.
 //
 // BREAKPOINTS. md and up only. Below md the concepts and the screenshot stack in one column, the
 // reading order already carries the flow, and no paths are rendered at all.
 //
 // INTERACTION. pointer-events: none, so the lines never block the lightbox triggers under them.
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type Point = { x: number; y: number }
 type Line = { from: Point; to: Point }
 
 const MD = '(min-width: 768px)'
+const RING_R = 6
+const RING_STROKE = 1.2
+const DASH = '4 4'
+const LINE_WIDTH = 1.5
+const CHEVRON_W = 10 // tip-to-tip width of the chevron's two arms
+const CHEVRON_H = 6 // arm drop from the tip
 
-export function ShippedConnectors({ from }: { from: string[] }) {
+export function ShippedConnectors({
+  from,
+  lineClassName,
+  groundClassName,
+}: {
+  from: string[]
+  /* Text colour class for the line, ring and chevron (drawn with currentColor). */
+  lineClassName: string
+  /* Fill class matching the band, for the inside of the ring. */
+  groundClassName: string
+}) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [lines, setLines] = useState<Line[]>([])
-  const filterId = useId().replace(/:/g, '')
 
   const measure = useCallback(() => {
     const svg = svgRef.current
@@ -83,29 +97,41 @@ export function ShippedConnectors({ from }: { from: string[] }) {
       ref={svgRef}
       aria-hidden="true"
       data-connectors=""
-      className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible md:block"
+      className={`pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible md:block ${lineClassName}`}
     >
-      <defs>
-        {/* userSpaceOnUse with a generous region: the default filter box is the path's own bounding
-            box, which clips the displaced stroke on near-vertical lines. */}
-        <filter id={filterId} filterUnits="userSpaceOnUse" x="-2000" y="-2000" width="8000" height="8000">
-          <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </defs>
       {lines.map(({ from: a, to: b }, i) => {
-        const bend = (b.y - a.y) * 0.55
+        const ring = { x: a.x, y: a.y + RING_R } // tangent to the frame's bottom edge
+        const start = { x: a.x, y: ring.y + RING_R } // the ring's bottom
+        const bend = (b.y - start.y) * 0.5
         return (
-          <path
-            key={i}
-            d={`M ${a.x} ${a.y} C ${a.x} ${a.y + bend}, ${b.x} ${b.y - bend}, ${b.x} ${b.y}`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            filter={`url(#${filterId})`}
-            className="text-foundation-400"
-          />
+          <g key={i} data-connector="">
+            <path
+              data-connector-line=""
+              d={`M ${start.x} ${start.y} C ${start.x} ${start.y + bend}, ${b.x} ${b.y - bend}, ${b.x} ${b.y}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={LINE_WIDTH}
+              strokeDasharray={DASH}
+            />
+            <circle
+              data-connector-ring=""
+              cx={ring.x}
+              cy={ring.y}
+              r={RING_R}
+              stroke="currentColor"
+              strokeWidth={RING_STROKE}
+              className={groundClassName}
+            />
+            <path
+              data-connector-chevron=""
+              d={`M ${b.x - CHEVRON_W / 2} ${b.y - CHEVRON_H} L ${b.x} ${b.y} L ${b.x + CHEVRON_W / 2} ${b.y - CHEVRON_H}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={LINE_WIDTH}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
         )
       })}
     </svg>

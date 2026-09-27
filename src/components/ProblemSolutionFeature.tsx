@@ -50,7 +50,12 @@ export type ProblemSolution = {
    its border-border outline, foundation-500 eyebrow (4.61:1), foundation-900 titles,
    foundation-600 running text.
 
-   `text` is the band's running text: the concept descriptions and the decision paragraph. */
+   `text` is the band's running text: the concept descriptions and the decision paragraph.
+
+   `connector` colours the leader lines to the shipped screenshot: foundation-400 on the dark
+   band (6.01:1), foundation-500 on the page ground (4.61:1), where foundation-400 would fall under
+   the 3:1 a meaningful graphic needs. `connectorGround` fills the inside of their origin rings with
+   the band colour, so each ring reads as an outline. */
 export function featureSurface(index: number) {
   const dark = index % 2 === 0
   return {
@@ -63,6 +68,8 @@ export function featureSurface(index: number) {
     title: dark ? 'text-body' : 'text-foundation-900',
     conceptTitle: dark ? 'text-body' : 'text-foundation-900',
     text: dark ? 'text-foundation-300' : 'text-foundation-600',
+    connector: dark ? 'text-foundation-400' : 'text-foundation-500',
+    connectorGround: dark ? 'fill-foundation-800' : 'fill-body',
   }
 }
 
@@ -144,7 +151,13 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                 />
                 <LightboxTrigger src={shipped.src} alt={shipped.alt} />
               </figure>
-              {shippedFrom.length > 0 && <ShippedConnectors from={shippedFrom} />}
+              {shippedFrom.length > 0 && (
+                <ShippedConnectors
+                  from={shippedFrom}
+                  lineClassName={surface.connector}
+                  groundClassName={surface.connectorGround}
+                />
+              )}
             </div>
           </LightboxProvider>
 
