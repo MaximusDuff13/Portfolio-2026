@@ -7,7 +7,7 @@ import { ConceptRow } from '@/components/ConceptRow'
 import { Decision } from '@/components/Decision'
 import { LightboxProvider, LightboxTrigger } from '@/components/Lightbox'
 import Image from 'next/image'
-import { ClipboardCheck, Users, Eye, CheckCircle2 } from 'lucide-react'
+import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
@@ -102,25 +102,24 @@ const mappingConcepts = [
   },
 ]
 
-/* Problem/Solution lead. Each column is one sentence opening with a bold lead-in, then two
-   supporting paragraphs. The lead-in is inline <strong>, not a heading, using the same emphasis
-   as the "Working with stakeholders" terms. */
+/* Problem/Solution lead, in a card. Each column opens with an icon + label header, then two
+   paragraphs: the lead sentence, and one supporting paragraph.
+
+   ICONS. Rows3 (the dense table) and PanelRight (the side panel) are a deliberate addition,
+   drawn the way the "Working with stakeholders" icons are: 20px, 1.5 stroke, foundation-600,
+   aria-hidden, since the label beside each one already says what it means. */
 const mappingLead = [
   {
-    label: 'Problem:',
+    icon: Rows3,
+    label: 'Problem',
     lead: 'A single table had to carry the mapping, the transformation logic, AI confidence, descriptions, and review status, all at once.',
-    body: [
-      'About 1,200 target columns needed mapping, and each one carried its own set of decisions: which source field it came from, how confident the AI was in that match, whether a transformation rule applied, and where it stood in review.',
-      'Putting all of that in front of someone at once risked burying the one thing they actually needed right then: the field in front of them.',
-    ],
+    body: 'About 1,200 target columns needed mapping, and each one carried its own set of decisions: which source field it came from, how confident the AI was in that match, whether a transformation rule applied, and where it stood in review. Putting all of that in front of someone at once risked burying the one thing they actually needed right then: the field in front of them.',
   },
   {
-    label: 'Solution:',
+    icon: PanelRight,
+    label: 'Solution',
     lead: 'Keep the table focused on scanning and comparing, and open everything else in a panel beside it.',
-    body: [
-      "The table itself only needed to show enough for someone to find and select a field. Everything else, the source mapping, the transformation logic, the AI's confidence, could live one click away instead of crowding every row.",
-      'That kept two views separate: a wide view for comparing many fields at once, and a focused view for working on the one in front of you.',
-    ],
+    body: "The table itself only needed to show enough for someone to find and select a field. Everything else, the source mapping, the transformation logic, the AI's confidence, could live one click away instead of crowding every row. That kept two views separate: a wide view for comparing many fields at once, and a focused view for working on the one in front of you.",
   },
 ]
 
@@ -382,20 +381,29 @@ export default function DataConversionAppPage() {
 
               <FeatureHeader
                 eyebrow="Mapping & transformation"
-                title="Three ways to show a lot in one table"
+                title="A table that had to do everything"
               />
-              <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
-                {mappingLead.map((col) => (
-                  <div key={col.label} className="flex flex-col gap-4">
-                    <p className="m-0 font-sans text-body text-foundation-600">
-                      <strong className="font-medium text-foundation-900">{col.label}</strong>{' '}
-                      {col.lead}
-                    </p>
-                    {col.body.map((para) => (
-                      <p key={para} className="m-0 font-sans text-body text-foundation-600">
-                        {para}
+              {/* CARD. FigureCard's treatment (rounded-lg, border-border, bg-foundation-100,
+                  p-8 / md:p-12), so it sits apart from the title above and the concept row below.
+                  Body text stays foundation-600, which holds AA on foundation-100. */}
+              <div className="mt-10 grid grid-cols-1 gap-12 rounded-lg border border-border bg-foundation-100 p-8 md:grid-cols-2 md:p-12">
+                {mappingLead.map(({ icon: Icon, label, lead, body }) => (
+                  <div key={label}>
+                    <div className="mb-3 flex items-center gap-2">
+                      <Icon
+                        aria-hidden="true"
+                        size={20}
+                        strokeWidth={1.5}
+                        className="shrink-0 text-foundation-600"
+                      />
+                      <p className="m-0 font-grotesk text-body font-medium text-foundation-900">
+                        {label}
                       </p>
-                    ))}
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      <p className="m-0 font-sans text-body text-foundation-600">{lead}</p>
+                      <p className="m-0 font-sans text-body text-foundation-600">{body}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -413,7 +421,7 @@ export default function DataConversionAppPage() {
                   are laid over the images (absolute inset-0), so no sizing here changes; the
                   figure only gains `relative` to anchor its trigger. */}
               <LightboxProvider>
-                <div className="mt-10 lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
+                <div className="mt-section lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
                   <ConceptRow concepts={mappingConcepts} />
                 </div>
                 <div className="mt-12">
