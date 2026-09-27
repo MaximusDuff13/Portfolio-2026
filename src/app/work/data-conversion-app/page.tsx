@@ -84,26 +84,45 @@ const mappingDir = '/images/data-conversion-app/mapping-variants/'
 const mappingConcepts = [
   {
     title: 'Detail panel',
-    body: "We kept the table lean, showing only what's needed to select a field, and let everything else live in a panel that opens beside it. Mapping, transformation, source details, and AI confidence all sit in one place without pulling the user off the table. It meant we could keep the comparison view intact while still surfacing the full picture for whichever field someone was working on. This is the concept we shipped for the MVP.",
+    body: 'A lean table for scanning and comparing, with a side panel that opens for mapping, transformation, and AI confidence. This is the concept we shipped.',
     image: mappingDir + 'wireframe-1-detail-panel-labeled.svg',
     alt: 'Detail panel wireframe',
   },
   {
     title: 'Inline table',
-    body: 'We tried putting every field directly in one wide table, with dropdowns and links built right into each row. It meant nothing was hidden, but clicking into a description or a transformation setting sent people to a separate screen every time. For a table this dense, all those redirects added friction rather than removing it, so we moved away from this approach.',
+    body: 'Every field lived directly in the table, but each description or transformation setting sent people to a separate screen. Too many redirects for a table this dense.',
     image: mappingDir + 'wireframe-2-inline-table-labeled.svg',
     alt: 'Inline table wireframe',
   },
   {
     title: 'Review queue',
-    body: "We considered letting people build a queue of fields to review, then hand them off to one dedicated screen with everything about that queue in one place. It read well as a concept, since it separated selecting from reviewing. But when we tested it with users, moving them away from the table, where they could compare fields side by side, didn't land the way we hoped.",
+    body: 'People queued fields, then reviewed them one at a time on a dedicated screen. It separated selecting from reviewing, but pulling users off the table hurt their ability to compare fields side by side.',
     image: mappingDir + 'wireframe-3-review-queue-labeled.svg',
     alt: 'Review queue wireframe',
   },
 ]
 
-const mappingIntro =
-  'Mapping and transformation carries a lot at once: the mapping itself, the transformation logic, AI confidence, descriptions, and review status. All of it needed to live in one table where users could review and act on each field. We explored three approaches for how much of that information a table should carry, and how it should surface the rest.'
+/* Problem/Solution lead. Each column is one sentence opening with a bold lead-in, then two
+   supporting paragraphs. The lead-in is inline <strong>, not a heading, using the same emphasis
+   as the "Working with stakeholders" terms. */
+const mappingLead = [
+  {
+    label: 'Problem:',
+    lead: 'A single table had to carry the mapping, the transformation logic, AI confidence, descriptions, and review status, all at once.',
+    body: [
+      'About 1,200 target columns needed mapping, and each one carried its own set of decisions: which source field it came from, how confident the AI was in that match, whether a transformation rule applied, and where it stood in review.',
+      'Putting all of that in front of someone at once risked burying the one thing they actually needed right then: the field in front of them.',
+    ],
+  },
+  {
+    label: 'Solution:',
+    lead: 'Keep the table focused on scanning and comparing, and open everything else in a panel beside it.',
+    body: [
+      "The table itself only needed to show enough for someone to find and select a field. Everything else, the source mapping, the transformation logic, the AI's confidence, could live one click away instead of crowding every row.",
+      'That kept two views separate: a wide view for comparing many fields at once, and a focused view for working on the one in front of you.',
+    ],
+  },
+]
 
 const mappingDecision =
   "We shipped the detail panel: it kept the table for scanning and comparing, while the side panel gave access to everything else without leaving the page. The inline table's redirects added friction, and the review queue's separate screen took people away from the comparison that made the table useful in the first place."
@@ -365,9 +384,21 @@ export default function DataConversionAppPage() {
                 eyebrow="Mapping & transformation"
                 title="Three ways to show a lot in one table"
               />
-              <p className="mt-8 max-w-3xl font-sans text-body text-foundation-600">
-                {mappingIntro}
-              </p>
+              <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
+                {mappingLead.map((col) => (
+                  <div key={col.label} className="flex flex-col gap-4">
+                    <p className="m-0 font-sans text-body text-foundation-600">
+                      <strong className="font-medium text-foundation-900">{col.label}</strong>{' '}
+                      {col.lead}
+                    </p>
+                    {col.body.map((para) => (
+                      <p key={para} className="m-0 font-sans text-body text-foundation-600">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                ))}
+              </div>
 
               {/* Concepts → decision → the shipped screen. The sketches make the argument; the
                   real product comes once, last, at the full content width, as the payoff. */}
