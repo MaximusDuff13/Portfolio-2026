@@ -5,6 +5,7 @@ import { G1Option3 } from './options/G1Option3'
 import { G1Option4 } from './options/G1Option4'
 import { G2Option1 } from './options/G2Option1'
 import { G2Option2 } from './options/G2Option2'
+import { G2Option3 } from './options/G2Option3'
 
 // TEMPORARY PREVIEW — layout options for the project hub screenshots: Group 1 (one step, every
 // state) and Group 2 (built to scale). Unlinked and noindex'd; nothing routes here. The live page
@@ -24,6 +25,7 @@ const OPTIONS = [
   { id: 'Group 1 – Option 4', node: <G1Option4 /> },
   { id: 'Group 2 – Option 1', node: <G2Option1 /> },
   { id: 'Group 2 – Option 2', node: <G2Option2 /> },
+  { id: 'Group 2 – Option 3', node: <G2Option3 /> },
 ]
 
 export default function ProjectHubPreviewPage() {
