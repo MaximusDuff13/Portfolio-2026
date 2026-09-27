@@ -55,7 +55,8 @@ export function ConceptRow({
             {concept.title}
           </h4>
           <p className={`m-0 mb-6 font-sans text-body-sm ${bodyClassName}`}>{concept.body}</p>
-          <div className="mt-auto rounded-lg border border-border bg-body p-2">
+          {/* data-concept-frame lets ShippedConnectors find this frame by its concept's title. */}
+          <div data-concept-frame={concept.title} className="mt-auto rounded-lg border border-border bg-body p-2">
             <div className="relative aspect-[960/522] w-full">
               <Image
                 src={concept.image}

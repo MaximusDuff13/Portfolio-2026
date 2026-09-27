@@ -138,6 +138,9 @@ const problemSolutions: ProblemSolution[] = [
     title: 'How do you fit everything into one table?',
     lead: mappingLead,
     concepts: mappingConcepts,
+    // The shipped detail panel took the panel from Detail panel and the on-table density from
+    // Inline table; Review queue contributed nothing, so it gets no connector.
+    shippedFrom: ['Detail panel', 'Inline table'],
     decision: mappingDecision,
     shipped: mappingShipped,
   },

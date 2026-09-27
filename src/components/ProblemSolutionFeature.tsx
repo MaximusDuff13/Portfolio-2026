@@ -11,15 +11,15 @@
 // stays in the page's max-w-6xl wrap. Only the background alternates; the wrap width does not.
 // py-section gives the band the page's 80px rhythm top and bottom.
 //
-// CONTRAST. Every colour on the band and inside its two boxes (the Problem/Solution card and the
-// Decision) comes from featureSurface(), per ground; the ratios are listed there.
+// CONTRAST. Every colour on the band and inside the Problem/Solution card comes from
+// featureSurface(), per ground; the ratios are listed there.
 import Image from 'next/image'
 import type { LucideIcon } from 'lucide-react'
 import { AnimatedSection } from './AnimatedSection'
 import { FeatureHeader } from './FeatureHeader'
 import { ConceptRow, type Concept } from './ConceptRow'
-import { Decision } from './Decision'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
+import { ShippedConnectors } from './ShippedConnectors'
 
 export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body: string }
 
@@ -28,6 +28,9 @@ export type ProblemSolution = {
   title: string
   lead: LeadColumn[]
   concepts: Concept[]
+  /* Titles of the concepts the shipped design borrowed from; each gets a connector line down to
+     the shipped screenshot. Must match concept titles exactly. */
+  shippedFrom?: string[]
   decision: string
   shipped: { src: string; width: number; height: number; alt: string }
 }
@@ -39,13 +42,15 @@ export type ProblemSolution = {
    text-body (14.68:1), running text foundation-300 (10.18:1), small labels foundation-400
    (6.01:1). The hero's accent-warm eyebrow is not reused: it measures 3.59:1 on foundation-800,
    under AA for 11px text, so the eyebrow takes the hero's caption tone instead.
-   Both boxes are foundation-900, one step darker than the band, and are set apart by that fill
-   alone: no outline on the card, no accent edge on the Decision. Inside them: paragraphs
-   foundation-100 (16.03:1), labels text-body (16.92:1), icons foundation-400 (6.93:1).
+   The card is foundation-900, one step darker than the band, set apart by that fill alone, with
+   no outline. Inside it: paragraphs foundation-100 (16.03:1), labels text-body (16.92:1), icons
+   foundation-400 (6.93:1).
 
    LIGHT BAND (body). Exactly the styling before the dark band existed: foundation-100 card with
-   its border-border outline, the Decision's accent-warm left edge on foundation-100,
-   foundation-500 eyebrow (4.61:1), foundation-900 titles, foundation-600 running text. */
+   its border-border outline, foundation-500 eyebrow (4.61:1), foundation-900 titles,
+   foundation-600 running text.
+
+   `text` is the band's running text: the concept descriptions and the decision paragraph. */
 export function featureSurface(index: number) {
   const dark = index % 2 === 0
   return {
@@ -54,18 +59,16 @@ export function featureSurface(index: number) {
     cardText: dark ? 'text-foundation-100' : 'text-foundation-600',
     cardLabel: dark ? 'text-body' : 'text-foundation-900',
     cardIcon: dark ? 'text-foundation-400' : 'text-foundation-600',
-    decision: dark ? 'bg-foundation-900' : 'border-l-2 border-accent-warm bg-foundation-100',
-    decisionText: dark ? 'text-foundation-100' : 'text-foundation-600',
     eyebrow: dark ? 'text-foundation-400' : 'text-foundation-500',
     title: dark ? 'text-body' : 'text-foundation-900',
     conceptTitle: dark ? 'text-body' : 'text-foundation-900',
-    conceptBody: dark ? 'text-foundation-300' : 'text-foundation-600',
+    text: dark ? 'text-foundation-300' : 'text-foundation-600',
   }
 }
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, decision, shipped } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], decision, shipped } = feature
   return (
     <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
       <div className="max-w-6xl mx-auto">
@@ -103,8 +106,9 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
             ))}
           </div>
 
-          {/* Concepts → decision → the shipped screen. The sketches make the argument; the real
-              product comes once, last, at the full content width, as the payoff.
+          {/* Concepts → the shipped screen → the decision. The sketches make the argument, the real
+              product comes once at the full content width, and the decision closes it as plain
+              text under the screen it describes.
 
               WIDE ROW. From lg up the concept row breaks out of the 1152px wrap to
               min(1800px, viewport − 160px), centred on the wrap, so each wireframe column is wider
@@ -112,34 +116,41 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               the row lines up with where the gutters would be and never reaches the viewport
               edge — no horizontal scroll, even with a classic scrollbar.
 
+              CONNECTORS. The concept row and the screenshot share a `relative` wrapper, which is
+              the coordinate space ShippedConnectors draws in. mt-section between them (80px, was
+              48px with the Decision box between) gives the lines room to curve.
+
               ENLARGE. All four images open full-size in one shared lightbox. */}
           <LightboxProvider>
-            <div className="mt-section lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
-              <ConceptRow
-                concepts={concepts}
-                titleClassName={surface.conceptTitle}
-                bodyClassName={surface.conceptBody}
-              />
+            <div className="relative mt-section">
+              <div className="lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
+                <ConceptRow
+                  concepts={concepts}
+                  titleClassName={surface.conceptTitle}
+                  bodyClassName={surface.text}
+                />
+              </div>
+              <figure
+                data-shipped=""
+                className="relative m-0 mt-section overflow-hidden rounded-lg border border-border"
+              >
+                <Image
+                  src={shipped.src}
+                  alt={shipped.alt}
+                  width={shipped.width}
+                  height={shipped.height}
+                  sizes="(min-width: 1152px) 1120px, 100vw"
+                  className="block h-auto w-full"
+                />
+                <LightboxTrigger src={shipped.src} alt={shipped.alt} />
+              </figure>
+              {shippedFrom.length > 0 && <ShippedConnectors from={shippedFrom} />}
             </div>
-            <div className="mt-12">
-              <Decision
-                statement={decision}
-                className={surface.decision}
-                textClassName={surface.decisionText}
-              />
-            </div>
-            <figure className="relative m-0 mt-12 overflow-hidden rounded-lg border border-border">
-              <Image
-                src={shipped.src}
-                alt={shipped.alt}
-                width={shipped.width}
-                height={shipped.height}
-                sizes="(min-width: 1152px) 1120px, 100vw"
-                className="block h-auto w-full"
-              />
-              <LightboxTrigger src={shipped.src} alt={shipped.alt} />
-            </figure>
           </LightboxProvider>
+
+          {/* The decision, as plain running text under the screenshot: no box, no border. Its
+              measure is the hero intro's (max-w-xl), the page's other body text on a dark ground. */}
+          <p className={`m-0 mt-10 max-w-xl font-sans text-body ${surface.text}`}>{decision}</p>
         </AnimatedSection>
       </div>
     </section>
