@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { G1Option1 } from './options/G1Option1'
 import { G1Option2 } from './options/G1Option2'
+import { G1Option3 } from './options/G1Option3'
 
 // TEMPORARY PREVIEW — layout options for the project hub screenshots: Group 1 (one step, every
 // state) and Group 2 (built to scale). Unlinked and noindex'd; nothing routes here. The live page
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 const OPTIONS = [
   { id: 'Group 1 – Option 1', node: <G1Option1 /> },
   { id: 'Group 1 – Option 2', node: <G1Option2 /> },
+  { id: 'Group 1 – Option 3', node: <G1Option3 /> },
 ]
 
 export default function ProjectHubPreviewPage() {
