@@ -11,8 +11,8 @@
 // stays in the page's max-w-6xl wrap. Only the background alternates; the wrap width does not.
 // py-section gives the band the page's 80px rhythm top and bottom.
 //
-// CONTRAST. Every text colour on the band comes from featureSurface(), per ground; the ratios are
-// listed there. Inside the card nothing changes, since the card is always a light ground.
+// CONTRAST. Every colour on the band and inside its two boxes (the Problem/Solution card and the
+// Decision) comes from featureSurface(), per ground; the ratios are listed there.
 import Image from 'next/image'
 import type { LucideIcon } from 'lucide-react'
 import { AnimatedSection } from './AnimatedSection'
@@ -38,16 +38,24 @@ export type ProblemSolution = {
    DARK BAND (foundation-800). Text on the band takes the hero's dark-zone classes: headings
    text-body (14.68:1), running text foundation-300 (10.18:1), small labels foundation-400
    (6.01:1). The hero's accent-warm eyebrow is not reused: it measures 3.59:1 on foundation-800,
-   under AA for 11px text, so the eyebrow takes the hero's caption tone instead. The card becomes
-   a light card on the dark ground (bg-body), and everything inside it keeps its light styling.
+   under AA for 11px text, so the eyebrow takes the hero's caption tone instead.
+   Both boxes are foundation-900, one step darker than the band, and are set apart by that fill
+   alone: no outline on the card, no accent edge on the Decision. Inside them: paragraphs
+   foundation-100 (16.03:1), labels text-body (16.92:1), icons foundation-400 (6.93:1).
 
-   LIGHT BAND (body). Exactly the styling before the dark band existed: foundation-100 card,
+   LIGHT BAND (body). Exactly the styling before the dark band existed: foundation-100 card with
+   its border-border outline, the Decision's accent-warm left edge on foundation-100,
    foundation-500 eyebrow (4.61:1), foundation-900 titles, foundation-600 running text. */
 export function featureSurface(index: number) {
   const dark = index % 2 === 0
   return {
     band: dark ? 'bg-foundation-800' : 'bg-body',
-    card: dark ? 'bg-body' : 'bg-foundation-100',
+    card: dark ? 'bg-foundation-900' : 'border border-border bg-foundation-100',
+    cardText: dark ? 'text-foundation-100' : 'text-foundation-600',
+    cardLabel: dark ? 'text-body' : 'text-foundation-900',
+    cardIcon: dark ? 'text-foundation-400' : 'text-foundation-600',
+    decision: dark ? 'bg-foundation-900' : 'border-l-2 border-accent-warm bg-foundation-100',
+    decisionText: dark ? 'text-foundation-100' : 'text-foundation-600',
     eyebrow: dark ? 'text-foundation-400' : 'text-foundation-500',
     title: dark ? 'text-body' : 'text-foundation-900',
     conceptTitle: dark ? 'text-body' : 'text-foundation-900',
@@ -69,10 +77,10 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
             titleClassName={surface.title}
           />
 
-          {/* The Problem/Solution card: FigureCard's shape (rounded-lg, border-border,
-              p-8 / md:p-12) on whichever ground the band is not. */}
+          {/* The Problem/Solution card: FigureCard's shape (rounded-lg, p-8 / md:p-12). Its fill,
+              and whether it has an outline, come from featureSurface(). */}
           <div
-            className={`mt-10 grid grid-cols-1 gap-12 rounded-lg border border-border ${surface.card} p-8 md:grid-cols-2 md:p-12`}
+            className={`mt-10 grid grid-cols-1 gap-12 rounded-lg ${surface.card} p-8 md:grid-cols-2 md:p-12`}
           >
             {lead.map(({ icon: Icon, label, lead: first, body }) => (
               <div key={label}>
@@ -81,15 +89,15 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                     aria-hidden="true"
                     size={20}
                     strokeWidth={1.5}
-                    className="shrink-0 text-foundation-600"
+                    className={`shrink-0 ${surface.cardIcon}`}
                   />
-                  <p className="m-0 font-grotesk text-body font-medium text-foundation-900">
+                  <p className={`m-0 font-grotesk text-body font-medium ${surface.cardLabel}`}>
                     {label}
                   </p>
                 </div>
                 <div className="flex flex-col gap-6">
-                  <p className="m-0 font-sans text-body text-foundation-600">{first}</p>
-                  <p className="m-0 font-sans text-body text-foundation-600">{body}</p>
+                  <p className={`m-0 font-sans text-body ${surface.cardText}`}>{first}</p>
+                  <p className={`m-0 font-sans text-body ${surface.cardText}`}>{body}</p>
                 </div>
               </div>
             ))}
@@ -114,7 +122,11 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               />
             </div>
             <div className="mt-12">
-              <Decision statement={decision} />
+              <Decision
+                statement={decision}
+                className={surface.decision}
+                textClassName={surface.decisionText}
+              />
             </div>
             <figure className="relative m-0 mt-12 overflow-hidden rounded-lg border border-border">
               <Image
