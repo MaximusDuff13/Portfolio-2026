@@ -1,16 +1,22 @@
-// FeatureHeader — the title block for one feature inside the Features section.
+// FeatureHeader — the title block for one problem-and-solution feature: its eyebrow, then its
+// title. There is no section label above it; each feature names itself here.
 //
-// NEW COMPONENT. Features is a section that will hold several features; this is the unit that
-// separates them. It is deliberately not the section eyebrow: the section says "Features" once,
-// at the rail, and each feature names itself here.
-//
-// CONTRAST. Both lines sit on the page ground, not on a card. foundation-500 measures 4.61:1
-// there, over AA's 4.5:1, which is why the eyebrow can use the same colour the section rails
-// use elsewhere on this page. Inside a foundation-100 card it would not — see PrincipleGrid.
-export function FeatureHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
+// CONTRAST. The eyebrow colour depends on the ground it sits on, so the caller passes it.
+// foundation-500 measures 4.61:1 on the page ground, over AA's 4.5:1, which is why it is the
+// default. On foundation-100 it falls under 4.5:1, so a tinted band passes foundation-600 —
+// see ProblemSolutionFeature's featureSurface().
+export function FeatureHeader({
+  eyebrow,
+  title,
+  eyebrowClassName = 'text-foundation-500',
+}: {
+  eyebrow: string
+  title: string
+  eyebrowClassName?: string
+}) {
   return (
     <header>
-      <p className="text-label font-grotesk uppercase tracking-widest text-foundation-500">
+      <p className={`text-label font-grotesk uppercase tracking-widest ${eyebrowClassName}`}>
         {eyebrow}
       </p>
       <h3 className="mt-3 font-grotesk text-heading-l text-foundation-900">{title}</h3>

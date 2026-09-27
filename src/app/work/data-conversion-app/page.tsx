@@ -2,11 +2,7 @@ import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
-import { FeatureHeader } from '@/components/FeatureHeader'
-import { ConceptRow } from '@/components/ConceptRow'
-import { Decision } from '@/components/Decision'
-import { LightboxProvider, LightboxTrigger } from '@/components/Lightbox'
-import Image from 'next/image'
+import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
 import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight } from 'lucide-react'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
@@ -72,9 +68,9 @@ const processPrinciples = [
   },
 ]
 
-/* FEATURES. One feature for now; the section is built to take the next two as further
-   FeatureHeader + figure groups under the same label, so nothing here is placeholder scaffolding
-   for features that do not exist yet.
+/* PROBLEM-AND-SOLUTION FEATURES. One so far: Mapping & transformation. Its pieces are defined
+   here and gathered into the problemSolutions list below; nothing is stubbed out for features
+   that do not exist yet.
 
    Every image lives in public/images/data-conversion-app/mapping-variants/ and is referenced by
    its public path. Names with spaces are written pre-encoded (%20), the same way the screenshots
@@ -132,6 +128,20 @@ const mappingShipped = {
   height: 3117,
   alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
 }
+
+/* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
+   the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
+   feature is adding an entry here. */
+const problemSolutions: ProblemSolution[] = [
+  {
+    eyebrow: 'Mapping & transformation',
+    title: 'How do you fit everything into one table?',
+    lead: mappingLead,
+    concepts: mappingConcepts,
+    decision: mappingDecision,
+    shipped: mappingShipped,
+  },
+]
 
 const moreWork = [
   { num: '02', title: 'Acentra Health Design System', category: 'Design System', desc: 'Built a scalable design system that unified tokens, components, and accessibility standards across two product teams.', href: '/work/acentra-health', img: undefined as string | undefined },
@@ -346,103 +356,20 @@ export default function DataConversionAppPage() {
         </div>
       </section>
 
-      {/* ── Features ──
-          Sits between Process and More Case Studies. Same rhythm as every other section on the
-          page: the gutters and pb-section on the <section>, the hairline and pt-section on the
-          inner wrapper, so the rule gets 80px of air on both sides.
+      {/* ── Problem-and-solution features ──
+          Sits between Process and Keep exploring. Each feature is its own full-bleed band,
+          rendered by ProblemSolutionFeature from the problemSolutions list; the band and card
+          backgrounds alternate by position, so the next feature is a new list entry.
 
-          NO RAIL HERE, unlike Problem, MVP focus, Impact and Process. Those sections put a label
-          at col-span-3 and their content at col-span-9; this one runs the full wrap. The reason
-          is the three-variant grid: on the spine each column came out at 255px, and a 4:3 frame
-          that narrow shows a screenshot of a dense table at a size no one can read. Dropping the
-          rail returns those 292px to the columns. The label moves above the content and keeps
-          its exact styling, so the section still announces itself the same way.
+          NO RAIL, unlike Problem, MVP focus, Impact and Process. Those sections put a label at
+          col-span-3 and their content at col-span-9; these run the full wrap, because on the spine
+          each wireframe column came out at 255px, too narrow to read a dense table.
 
-          ROOM FOR MORE. Features is plural by design: the next two features become further
-          FeatureHeader + concepts → decision → shipped screen groups under this same label,
-          separated the way this one is. Nothing is stubbed out for them here.
-
-          ACCENT. accent-warm is on the eyebrow tick (a graphic) and the Decision's left border.
-          No body text is accent-coloured. */}
-      <section className="px-6 sm:px-10 lg:px-section pb-section">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="border-t border-border pt-section">
-              <h2 className="sr-only">Features</h2>
-
-              {/* The section label, same token, colour and tick as the rail version — only its
-                  position changed. mb-12 is the whole gap down to the feature's own eyebrow. */}
-              <div className="mb-12">
-                <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
-                  Features
-                </p>
-                <div className="mt-3 h-px w-8 bg-accent-warm" />
-              </div>
-
-              <FeatureHeader
-                eyebrow="Mapping & transformation"
-                title="A table that had to do everything"
-              />
-              {/* CARD. FigureCard's treatment (rounded-lg, border-border, bg-foundation-100,
-                  p-8 / md:p-12), so it sits apart from the title above and the concept row below.
-                  Body text stays foundation-600, which holds AA on foundation-100. */}
-              <div className="mt-10 grid grid-cols-1 gap-12 rounded-lg border border-border bg-foundation-100 p-8 md:grid-cols-2 md:p-12">
-                {mappingLead.map(({ icon: Icon, label, lead, body }) => (
-                  <div key={label}>
-                    <div className="mb-3 flex items-center gap-2">
-                      <Icon
-                        aria-hidden="true"
-                        size={20}
-                        strokeWidth={1.5}
-                        className="shrink-0 text-foundation-600"
-                      />
-                      <p className="m-0 font-grotesk text-body font-medium text-foundation-900">
-                        {label}
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-6">
-                      <p className="m-0 font-sans text-body text-foundation-600">{lead}</p>
-                      <p className="m-0 font-sans text-body text-foundation-600">{body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Concepts → decision → the shipped screen. The sketches make the argument; the
-                  real product comes once, last, at the full content width, as the payoff. */}
-              {/* WIDE ROW. From lg up the concept row breaks out of the 1152px wrap to
-                  min(1800px, viewport − 160px), centred on the wrap, so each wireframe column is
-                  wider than the wrap's three-way split allows. The 160px is the lg section
-                  gutters (80px a side), so the row lines up with where the gutters would be and
-                  never reaches the viewport edge — no horizontal scroll, even with a classic
-                  scrollbar. The text above and the decision and screenshot below stay at the
-                  wrap's width. */}
-              {/* ENLARGE. All four images open full-size in one shared lightbox. The triggers
-                  are laid over the images (absolute inset-0), so no sizing here changes; the
-                  figure only gains `relative` to anchor its trigger. */}
-              <LightboxProvider>
-                <div className="mt-section lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
-                  <ConceptRow concepts={mappingConcepts} />
-                </div>
-                <div className="mt-12">
-                  <Decision statement={mappingDecision} />
-                </div>
-                <figure className="relative m-0 mt-12 overflow-hidden rounded-lg border border-border">
-                  <Image
-                    src={mappingShipped.src}
-                    alt={mappingShipped.alt}
-                    width={mappingShipped.width}
-                    height={mappingShipped.height}
-                    sizes="(min-width: 1152px) 1120px, 100vw"
-                    className="block h-auto w-full"
-                  />
-                  <LightboxTrigger src={mappingShipped.src} alt={mappingShipped.alt} />
-                </figure>
-              </LightboxProvider>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          ACCENT. accent-warm is on the Decision's left border only. No body text is
+          accent-coloured. */}
+      {problemSolutions.map((feature, i) => (
+        <ProblemSolutionFeature key={feature.eyebrow} index={i} feature={feature} />
+      ))}
 
       {/* ── Keep exploring ──
           The page now ends on the Process timeline, so this is the only way onward. It was
