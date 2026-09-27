@@ -1,6 +1,6 @@
 // ProblemSolutionFeature — one problem-and-solution write-up, start to finish, in its own
-// full-bleed band: eyebrow + title, the Problem/Solution card, the concept row, the Decision and
-// the shipped screenshot.
+// full-bleed band: eyebrow + title, the Problem/Solution card, the concept row and the shipped
+// screenshot.
 //
 // NEW COMPONENT. The page lists its features in order and renders one of these per entry,
 // passing the entry's position as `index`. Everything that alternates is derived from that index
@@ -31,7 +31,6 @@ export type ProblemSolution = {
   /* Titles of the concepts the shipped design borrowed from; each gets a connector line down to
      the shipped screenshot. Must match concept titles exactly. */
   shippedFrom?: string[]
-  decision: string
   shipped: { src: string; width: number; height: number; alt: string }
 }
 
@@ -50,7 +49,7 @@ export type ProblemSolution = {
    its border-border outline, foundation-500 eyebrow (4.61:1), foundation-900 titles,
    foundation-600 running text.
 
-   `text` is the band's running text: the concept descriptions and the decision paragraph.
+   `text` is the band's running text: the concept descriptions.
 
    `connector` colours the leader lines to the shipped screenshot: foundation-400 on the dark
    band (6.01:1), foundation-500 on the page ground (4.61:1), where foundation-400 would fall under
@@ -75,7 +74,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], decision, shipped } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped } = feature
   return (
     <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
       <div className="max-w-6xl mx-auto">
@@ -113,9 +112,8 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
             ))}
           </div>
 
-          {/* Concepts → the shipped screen → the decision. The sketches make the argument, the real
-              product comes once at the full content width, and the decision closes it as plain
-              text under the screen it describes.
+          {/* Concepts → the shipped screen. The sketches make the argument; the real product comes
+              once, last, at the full content width, and closes the feature.
 
               WIDE ROW. From lg up the concept row breaks out of the 1152px wrap to
               min(1800px, viewport − 160px), centred on the wrap, so each wireframe column is wider
@@ -124,8 +122,8 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               edge — no horizontal scroll, even with a classic scrollbar.
 
               CONNECTORS. The concept row and the screenshot share a `relative` wrapper, which is
-              the coordinate space ShippedConnectors draws in. mt-section between them (80px, was
-              48px with the Decision box between) gives the lines room to curve.
+              the coordinate space ShippedConnectors draws in. mt-section between them (80px) gives
+              the lines room to curve.
 
               ENLARGE. All four images open full-size in one shared lightbox. */}
           <LightboxProvider>
@@ -160,10 +158,6 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               )}
             </div>
           </LightboxProvider>
-
-          {/* The decision, as plain running text under the screenshot: no box, no border. Its
-              measure is the hero intro's (max-w-xl), the page's other body text on a dark ground. */}
-          <p className={`m-0 mt-10 max-w-xl font-sans text-body ${surface.text}`}>{decision}</p>
         </AnimatedSection>
       </div>
     </section>

@@ -115,12 +115,9 @@ const mappingLead = [
     icon: PanelRight,
     label: 'Solution',
     lead: 'Keep the table focused on scanning and comparing, and open everything else in a panel beside it.',
-    body: "The table itself only needed to show enough for someone to find and select a field. Everything else, the source mapping, the transformation logic, the AI's confidence, could live one click away instead of crowding every row. That kept two views separate: a wide view for comparing many fields at once, and a focused view for working on the one in front of you.",
+    body: 'The panel opens with the first row selected by default, and keeps Mapping and Transformation as two separate tabs, so a field that needs no transformation can simply leave that tab empty. We also borrowed an idea from the inline table: when a transformation involves a large crosswalk, like turning F and M into Female and Male, that table is too big for the panel, so it opens in a screen of its own instead, keeping the user focused on one thing at a time.',
   },
 ]
-
-const mappingDecision =
-  "We shipped the detail panel: it kept the table for scanning and comparing, while the side panel gave access to everything else without leaving the page. The inline table's redirects added friction, and the review queue's separate screen took people away from the comparison that made the table useful in the first place."
 
 const mappingShipped = {
   src: mappingDir + 'Mapping%20Variant%201%20Screen%201.png',
@@ -141,7 +138,6 @@ const problemSolutions: ProblemSolution[] = [
     // The shipped detail panel took the panel from Detail panel and the on-table density from
     // Inline table; Review queue contributed nothing, so it gets no connector.
     shippedFrom: ['Detail panel', 'Inline table'],
-    decision: mappingDecision,
     shipped: mappingShipped,
   },
 ]
@@ -368,8 +364,7 @@ export default function DataConversionAppPage() {
           col-span-3 and their content at col-span-9; these run the full wrap, because on the spine
           each wireframe column came out at 255px, too narrow to read a dense table.
 
-          ACCENT. accent-warm is on the Decision's left border only. No body text is
-          accent-coloured. */}
+          ACCENT. None: no body text or graphic in these bands is accent-coloured. */}
       {problemSolutions.map((feature, i) => (
         <ProblemSolutionFeature key={feature.eyebrow} index={i} feature={feature} />
       ))}
