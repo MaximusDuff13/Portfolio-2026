@@ -26,6 +26,7 @@
 // supplies the LightboxProvider.
 //
 // CONTRAST, on the page ground: title foundation-900 at 16.9:1, body foundation-600 at 7.38:1.
+// Those are the defaults; a caller on a dark ground passes its own title and body colours.
 import Image from 'next/image'
 import { LightboxTrigger } from './Lightbox'
 
@@ -37,15 +38,23 @@ export type Concept = {
   alt: string
 }
 
-export function ConceptRow({ concepts }: { concepts: Concept[] }) {
+export function ConceptRow({
+  concepts,
+  titleClassName = 'text-foundation-900',
+  bodyClassName = 'text-foundation-600',
+}: {
+  concepts: Concept[]
+  titleClassName?: string
+  bodyClassName?: string
+}) {
   return (
     <ol className="m-0 grid list-none grid-cols-1 gap-9 p-0 md:grid-cols-3">
       {concepts.map((concept) => (
         <li key={concept.title} className="m-0 flex flex-col p-0">
-          <h4 className="m-0 mb-3 font-grotesk text-heading-m font-medium text-foundation-900">
+          <h4 className={`m-0 mb-3 font-grotesk text-heading-m font-medium ${titleClassName}`}>
             {concept.title}
           </h4>
-          <p className="m-0 mb-6 font-sans text-body-sm text-foundation-600">{concept.body}</p>
+          <p className={`m-0 mb-6 font-sans text-body-sm ${bodyClassName}`}>{concept.body}</p>
           <div className="mt-auto rounded-lg border border-border bg-body p-2">
             <div className="relative aspect-[960/522] w-full">
               <Image

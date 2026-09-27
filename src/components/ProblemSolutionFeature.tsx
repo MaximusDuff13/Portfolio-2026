@@ -11,10 +11,8 @@
 // stays in the page's max-w-6xl wrap. Only the background alternates; the wrap width does not.
 // py-section gives the band the page's 80px rhythm top and bottom.
 //
-// CONTRAST. Measured on each ground: foundation-600 body text is 7.38:1 on body and 6.99:1 on
-// foundation-100; foundation-900 titles and labels are 16.9:1 / 16.0:1. The eyebrow is the one
-// exception: foundation-500 is 4.61:1 on body but under 4.5:1 on foundation-100, so on a tinted
-// band it steps up to foundation-600, the same trade FigureCard's caption makes.
+// CONTRAST. Every text colour on the band comes from featureSurface(), per ground; the ratios are
+// listed there. Inside the card nothing changes, since the card is always a light ground.
 import Image from 'next/image'
 import type { LucideIcon } from 'lucide-react'
 import { AnimatedSection } from './AnimatedSection'
@@ -34,16 +32,26 @@ export type ProblemSolution = {
   shipped: { src: string; width: number; height: number; alt: string }
 }
 
-/* The alternation rule. The first feature (index 0) gets the tinted band, the next the page
-   ground, and so on. The card inside always takes the other of the two, so it reads as a card
-   on either band; it keeps its border-border outline in both, which is what holds its edge when
-   it is the light one on a light band. */
+/* The alternation rule. The first feature (index 0) gets a dark band, the next the page ground,
+   and so on.
+
+   DARK BAND (foundation-800). Text on the band takes the hero's dark-zone classes: headings
+   text-body (14.68:1), running text foundation-300 (10.18:1), small labels foundation-400
+   (6.01:1). The hero's accent-warm eyebrow is not reused: it measures 3.59:1 on foundation-800,
+   under AA for 11px text, so the eyebrow takes the hero's caption tone instead. The card becomes
+   a light card on the dark ground (bg-body), and everything inside it keeps its light styling.
+
+   LIGHT BAND (body). Exactly the styling before the dark band existed: foundation-100 card,
+   foundation-500 eyebrow (4.61:1), foundation-900 titles, foundation-600 running text. */
 export function featureSurface(index: number) {
-  const tinted = index % 2 === 0
+  const dark = index % 2 === 0
   return {
-    band: tinted ? 'bg-foundation-100' : 'bg-body',
-    card: tinted ? 'bg-body' : 'bg-foundation-100',
-    eyebrow: tinted ? 'text-foundation-600' : 'text-foundation-500',
+    band: dark ? 'bg-foundation-800' : 'bg-body',
+    card: dark ? 'bg-body' : 'bg-foundation-100',
+    eyebrow: dark ? 'text-foundation-400' : 'text-foundation-500',
+    title: dark ? 'text-body' : 'text-foundation-900',
+    conceptTitle: dark ? 'text-body' : 'text-foundation-900',
+    conceptBody: dark ? 'text-foundation-300' : 'text-foundation-600',
   }
 }
 
@@ -54,7 +62,12 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
     <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
-          <FeatureHeader eyebrow={eyebrow} title={title} eyebrowClassName={surface.eyebrow} />
+          <FeatureHeader
+            eyebrow={eyebrow}
+            title={title}
+            eyebrowClassName={surface.eyebrow}
+            titleClassName={surface.title}
+          />
 
           {/* The Problem/Solution card: FigureCard's shape (rounded-lg, border-border,
               p-8 / md:p-12) on whichever ground the band is not. */}
@@ -94,7 +107,11 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               ENLARGE. All four images open full-size in one shared lightbox. */}
           <LightboxProvider>
             <div className="mt-section lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]">
-              <ConceptRow concepts={concepts} />
+              <ConceptRow
+                concepts={concepts}
+                titleClassName={surface.conceptTitle}
+                bodyClassName={surface.conceptBody}
+              />
             </div>
             <div className="mt-12">
               <Decision statement={decision} />
