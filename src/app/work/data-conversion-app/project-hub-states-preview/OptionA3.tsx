@@ -1,7 +1,12 @@
 'use client'
-// OPTION A3 — focus carousel. The active card sits centred at 68% of the stage width, sharp; its
-// previous and next neighbours peek in beside it at 0.92 scale, 0.5 opacity and 3px blur, cut off
-// by the stage edges, all top-aligned. Advancing slides everything one position.
+// OPTION A3 — focus carousel. The active card sits centred at 64% of the stage width, sharp; its
+// previous and next neighbours peek in beside it at 0.92 scale, 0.5 opacity and 3px blur, all
+// top-aligned. Advancing slides everything one position.
+//
+// EDGES. From lg up the stage sits in the wide row and overflows visibly: the neighbours run on
+// past the wrap and are cut off only where the band clips them (overflow-x: clip, see
+// OptionShell), at the viewport edge. contain: paint would clip them at the stage, so from lg up
+// it is dropped. Below lg the stage clips at the wrap edge, with contain: paint, as before.
 //
 // POSITIONS come from each card's wrapped offset from the active one: -1, 0, +1, or hidden (the
 // fourth card). A card entering or leaving the hidden slot changes by opacity only: it fades out
@@ -9,7 +14,7 @@
 // slides across the stage. Everything else moves on 500ms ease-out CSS transitions; will-change
 // only while a change is under way; without filter: blur() support the blur is not applied.
 //
-// STAGE HEIGHT is from constants: the active card's width (68%) × 1131/3000, as an aspect ratio,
+// STAGE HEIGHT is from constants: the active card's width (64%) × 1131/3000, as an aspect ratio,
 // plus 6px padding top and bottom so the active card's focus ring is not clipped. It is right
 // before any image loads.
 //
@@ -24,7 +29,7 @@ import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from './useStateAutoplay'
 import { Controls, ring } from './Controls'
 import { states, IMAGE_WIDTH, TALLEST } from './states'
 
-const CARD = 0.68
+const CARD = 0.64
 const GAP_PX = 24
 const all = ['opacity', 'transform', 'filter'].map((p) => `${p} ${TRANSITION_MS}ms ${EASE_OUT}`).join(', ')
 const fadeOnly = `opacity ${TRANSITION_MS}ms ${EASE_OUT}`
@@ -68,8 +73,7 @@ export function OptionA3() {
         aria-labelledby={`${idBase}-tab-${active}`}
         aria-live="off"
         data-stage=""
-        className="mt-6 overflow-hidden py-1.5"
-        style={{ contain: 'paint' }}
+        className="mt-6 overflow-hidden py-1.5 [contain:paint] lg:overflow-visible lg:[contain:none]"
       >
         <div className="relative w-full" style={{ aspectRatio: `${IMAGE_WIDTH} / ${TALLEST * CARD}` }}>
           {states.map((state, i) => {

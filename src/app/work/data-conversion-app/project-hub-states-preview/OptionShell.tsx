@@ -9,9 +9,15 @@
 // uses between the card and the ConceptRow. Hub screenshot → states is the feature section's
 // pb-section (80px), with no extra top margin on the states, so both gaps equal that reference.
 //
+// WIDTH. The eyebrow, title, card and hub screenshot keep the content wrap; only the states
+// widen, through wideRow, the same breakout the ConceptRow uses. The states band clips
+// horizontally (overflow-x: clip), so A3's neighbours can run past the wrap to the viewport edge
+// without a horizontal scrollbar.
+//
 // Index 0 gives the dark band and the dark card (foundation-800 / foundation-900, no border).
 import { ProblemSolutionFeature } from '@/components/ProblemSolutionFeature'
 import { LightboxProvider } from '@/components/Lightbox'
+import { wideRow } from '@/components/wideRow'
 import { projectHub } from '../projectHub'
 
 const hubFirst = { ...projectHub, states: undefined }
@@ -27,9 +33,11 @@ export function OptionShell({ label, children }: { label: string; children: Reac
         </p>
       </div>
       <ProblemSolutionFeature index={0} feature={hubFirst} />
-      <div className="bg-foundation-800 px-6 pb-section sm:px-10 lg:px-section">
-        <div data-states="" className="mx-auto max-w-6xl">
-          <LightboxProvider>{children}</LightboxProvider>
+      <div className="overflow-x-clip bg-foundation-800 px-6 pb-section sm:px-10 lg:px-section">
+        <div className="mx-auto max-w-6xl">
+          <div data-states="" className={wideRow}>
+            <LightboxProvider>{children}</LightboxProvider>
+          </div>
         </div>
         {/* Marks the end of the states, for measuring layout shift below them. */}
         <div data-below-states="" aria-hidden="true" className="h-px" />
