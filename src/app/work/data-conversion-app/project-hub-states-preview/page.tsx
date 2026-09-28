@@ -3,6 +3,7 @@ import { OptionShell } from './OptionShell'
 import { OptionA1 } from './OptionA1'
 import { OptionA2 } from './OptionA2'
 import { OptionA3 } from './OptionA3'
+import { OptionB } from './OptionB'
 
 // TEMPORARY PREVIEW — ways to show the Schema & Wiki states under the hub screenshot. Unlinked and
 // noindex'd; nothing routes here, and the live page imports nothing from this folder, so deleting
@@ -24,6 +25,9 @@ export default function ProjectHubStatesPreviewPage() {
       </OptionShell>
       <OptionShell label="Option A3">
         <OptionA3 />
+      </OptionShell>
+      <OptionShell label="Option B">
+        <OptionB />
       </OptionShell>
     </main>
   )
