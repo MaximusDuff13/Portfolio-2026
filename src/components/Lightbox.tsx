@@ -131,6 +131,14 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
+/* For a component that opens the lightbox itself instead of through a LightboxTrigger, such as
+   StateCycler, which enlarges whichever image is showing. */
+export function useLightbox() {
+  const ctx = useContext(LightboxContext)
+  if (!ctx) throw new Error('useLightbox must be inside a LightboxProvider')
+  return ctx
+}
+
 /* Sits over an image as a transparent button. Shows a small expand hint on hover and focus. */
 export function LightboxTrigger({ src, alt }: { src: string; alt: string }) {
   const ctx = useContext(LightboxContext)

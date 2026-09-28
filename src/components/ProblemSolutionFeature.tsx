@@ -1,6 +1,6 @@
 // ProblemSolutionFeature — one problem-and-solution write-up, start to finish, in its own
 // full-bleed band: eyebrow + title, the Problem/Solution card, then either the concept row and
-// the shipped screenshot (with connectors), or a single full-width image, or both.
+// the shipped screenshot (with connectors), or a state cycler and/or a single full-width image.
 //
 // NEW COMPONENT. The page lists its features in order and renders one of these per entry,
 // passing the entry's position as `index`. Everything that alternates is derived from that index
@@ -20,6 +20,7 @@ import { FeatureHeader } from './FeatureHeader'
 import { ConceptRow, type Concept } from './ConceptRow'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { ShippedConnectors } from './ShippedConnectors'
+import { StateCycler, type CyclerState } from './StateCycler'
 
 export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body: string }
 
@@ -38,6 +39,9 @@ export type ProblemSolution = {
   /* A single full-width image after the card, such as a journey map, for a feature without
      concepts. Natural aspect ratio, never cropped, and click-to-enlarge. */
   image?: Picture
+  /* One step shown in each of its states, cycling, before `image`. Built for the dark band: its
+     pills and focus rings assume foundation-800. */
+  states?: CyclerState[]
 }
 
 /* The alternation rule. The first feature (index 0) gets a dark band, the next the page ground,
@@ -80,7 +84,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states } = feature
   return (
     <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
       <div className="max-w-6xl mx-auto">
@@ -172,19 +176,24 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               border-border); the image keeps its natural aspect ratio (h-auto, object-contain), so
               nothing is cropped, and opens full-size in the lightbox — for a dense, wide image,
               that is the main way to read it on a narrow screen. */}
-          {image && (
+          {(states || image) && (
             <LightboxProvider>
-              <figure className="relative m-0 mt-section overflow-hidden rounded-lg border border-border">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  width={image.width}
-                  height={image.height}
-                  sizes="(min-width: 1152px) 1120px, 100vw"
-                  className="block h-auto w-full object-contain"
-                />
-                <LightboxTrigger src={image.src} alt={image.alt} />
-              </figure>
+              {/* The state cycler, when there is one, shares this lightbox: its stage enlarges the
+                  state showing. It carries its own mt-section. */}
+              {states && <StateCycler states={states} />}
+              {image && (
+                <figure className="relative m-0 mt-section overflow-hidden rounded-lg border border-border">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    sizes="(min-width: 1152px) 1120px, 100vw"
+                    className="block h-auto w-full object-contain"
+                  />
+                  <LightboxTrigger src={image.src} alt={image.alt} />
+                </figure>
+              )}
             </LightboxProvider>
           )}
         </AnimatedSection>
