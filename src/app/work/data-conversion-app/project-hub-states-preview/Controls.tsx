@@ -1,6 +1,13 @@
 'use client'
-// The controls every animated option shares: the pill row, the accent-warm underline filling
-// across the interval on the active pill, and the play/pause button.
+// The controls every animated option shares: the intro label, the pill row, the accent-warm
+// underline filling across the interval on the active pill, and the play/pause button.
+//
+// CENTRED on the stage's axis (the wide row's centre, which is also A3's active card). From lg up
+// the row is a 1fr / auto / 1fr grid: the pills sit in the middle column, exactly on the axis, and
+// the play/pause button hangs in the third column without pushing them off it. Below lg the pills
+// and button wrap as one centred flex row.
+//
+// The intro label names the group: the tablist or toggle group is aria-labelledby it.
 //
 // `mode`:
 //   · 'tabs'    — role=tablist/tab with roving tabindex, arrows, Home/End (one panel shows).
@@ -18,6 +25,16 @@ import type { SizedState } from './states'
 
 export const ring =
   'focus:outline-none focus-visible:ring-2 focus-visible:ring-foundation-100 focus-visible:ring-offset-2 focus-visible:ring-offset-foundation-800'
+
+/* "One step, four states": the label token, foundation-400 on foundation-800 (6.01:1), centred.
+   No accent: accent-warm is kept for the timing underline. mb-3 (12px) to the pills. */
+export function StatesIntro({ id }: { id: string }) {
+  return (
+    <p id={id} className="mb-3 text-center font-grotesk text-label uppercase tracking-widest text-foundation-400">
+      One step, four states
+    </p>
+  )
+}
 
 const fillKeyframes = '@keyframes ph-fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}'
 
@@ -52,64 +69,68 @@ export function Controls({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div>
       <style>{fillKeyframes}</style>
-      <div
-        role={tabs ? 'tablist' : 'group'}
-        aria-label={tabs ? 'States' : 'Highlighted state'}
-        className="flex flex-wrap gap-3"
-      >
-        {states.map((state, i) => {
-          const on = i === active
-          return (
-            <button
-              key={state.id}
-              ref={(el) => {
-                buttons.current[i] = el
-              }}
-              id={tabs ? `${idBase}-tab-${i}` : undefined}
-              type="button"
-              role={tabs ? 'tab' : undefined}
-              aria-selected={tabs ? on : undefined}
-              aria-controls={tabs ? `${idBase}-panel` : undefined}
-              aria-pressed={tabs ? undefined : on}
-              tabIndex={tabs ? (on ? 0 : -1) : undefined}
-              onClick={() => select(i)}
-              onKeyDown={(e) => onKey(e, i)}
-              className={`relative overflow-hidden rounded-full border px-4 py-2 font-grotesk text-nav-tab transition-colors motion-reduce:transition-none ${ring} ${
-                on
-                  ? 'border-foundation-100 bg-foundation-100 text-foundation-900'
-                  : 'border-foundation-700 text-foundation-300 hover:border-foundation-400'
-              }`}
-            >
-              {state.label}
-              {on && autoplayOn && !reduced && (
-                <span
-                  key={progressKey}
-                  aria-hidden="true"
-                  data-underline=""
-                  className="pointer-events-none absolute inset-x-4 bottom-1 h-0.5 origin-left rounded-full bg-accent-warm"
-                  style={{
-                    transform: 'scaleX(0)',
-                    animation: `ph-fill ${intervalMs}ms linear forwards`,
-                    animationPlayState: running ? 'running' : 'paused',
-                  }}
-                />
-              )}
-            </button>
-          )
-        })}
+      <StatesIntro id={`${idBase}-intro`} />
+      <div className="flex flex-wrap items-center justify-center gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+        <div
+          role={tabs ? 'tablist' : 'group'}
+          aria-labelledby={`${idBase}-intro`}
+          data-pills=""
+          className="flex flex-wrap justify-center gap-3 lg:col-start-2"
+        >
+          {states.map((state, i) => {
+            const on = i === active
+            return (
+              <button
+                key={state.id}
+                ref={(el) => {
+                  buttons.current[i] = el
+                }}
+                id={tabs ? `${idBase}-tab-${i}` : undefined}
+                type="button"
+                role={tabs ? 'tab' : undefined}
+                aria-selected={tabs ? on : undefined}
+                aria-controls={tabs ? `${idBase}-panel` : undefined}
+                aria-pressed={tabs ? undefined : on}
+                tabIndex={tabs ? (on ? 0 : -1) : undefined}
+                onClick={() => select(i)}
+                onKeyDown={(e) => onKey(e, i)}
+                className={`relative overflow-hidden rounded-full border px-4 py-2 font-grotesk text-nav-tab transition-colors motion-reduce:transition-none ${ring} ${
+                  on
+                    ? 'border-foundation-100 bg-foundation-100 text-foundation-900'
+                    : 'border-foundation-700 text-foundation-300 hover:border-foundation-400'
+                }`}
+              >
+                {state.label}
+                {on && autoplayOn && !reduced && (
+                  <span
+                    key={progressKey}
+                    aria-hidden="true"
+                    data-underline=""
+                    className="pointer-events-none absolute inset-x-4 bottom-1 h-0.5 origin-left rounded-full bg-accent-warm"
+                    style={{
+                      transform: 'scaleX(0)',
+                      animation: `ph-fill ${intervalMs}ms linear forwards`,
+                      animationPlayState: running ? 'running' : 'paused',
+                    }}
+                  />
+                )}
+              </button>
+            )
+          })}
+        </div>
+        <button
+          type="button"
+          data-play=""
+          aria-label={autoplayOn ? 'Pause automatic cycling' : 'Play automatic cycling'}
+          onClick={togglePlay}
+          className={`grid h-10 w-10 place-items-center rounded-full border border-foundation-700 lg:justify-self-start text-foundation-300 transition-colors hover:border-foundation-400 motion-reduce:transition-none ${ring}`}
+        >
+          <Pause aria-hidden="true" size={16} className={autoplayOn ? '' : 'hidden'} />
+          <Play aria-hidden="true" size={16} className={autoplayOn ? 'hidden' : ''} />
+        </button>
       </div>
-      <button
-        type="button"
-        data-play=""
-        aria-label={autoplayOn ? 'Pause automatic cycling' : 'Play automatic cycling'}
-        onClick={togglePlay}
-        className={`grid h-10 w-10 place-items-center rounded-full border border-foundation-700 text-foundation-300 transition-colors hover:border-foundation-400 motion-reduce:transition-none ${ring}`}
-      >
-        <Pause aria-hidden="true" size={16} className={autoplayOn ? '' : 'hidden'} />
-        <Play aria-hidden="true" size={16} className={autoplayOn ? 'hidden' : ''} />
-      </button>
     </div>
   )
 }
