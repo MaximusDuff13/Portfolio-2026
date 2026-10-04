@@ -3,7 +3,7 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight, LayoutGrid, Route } from 'lucide-react'
+import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight, LayoutGrid, Route, FileQuestion, MessageSquarePlus } from 'lucide-react'
 import { projectHub } from './projectHub'
 import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
@@ -154,6 +154,50 @@ const journeyMap = {
   alt: 'Customer journey map for data conversion across five stages — agreement, initial mapping, state review, transformation, and conversion and sync — showing steps, touchpoints, actors, where AI can help, and an emotion curve. Initial mapping is the low point; at transformation, experienced staff stay neutral while new staff are overwhelmed. The Data Conversion App spans the first four stages.',
 }
 
+/* Schema & Wiki creation. No concepts and no single image: the card, then the three screens in
+   the order a person meets them. Icons: FileQuestion (what happens after upload was undefined)
+   and MessageSquarePlus (the prompt added beside the upload), drawn like the other card icons. */
+const schemaWikiDir = '/images/data-conversion-app/schema-mapping/'
+
+const schemaWikiLead = [
+  {
+    icon: FileQuestion,
+    label: 'Problem',
+    lead: 'The original scope was to let users upload a data dictionary, and stopped there.',
+    body: "What happened after upload, whether a user could see the result, handle an edge case, or make a change, wasn't yet defined, and early testing showed the AI couldn't generalize every business rule from the dictionary alone.",
+  },
+  {
+    icon: MessageSquarePlus,
+    label: 'Solution',
+    lead: 'Add a prompt field alongside the upload, so a person can describe business validations the AI would otherwise miss.',
+    body: "Once generated, the Wiki is visible, linked from Project Hub's Documents section and opened as a PDF, instead of staying backend-only. Users can also edit the data dictionary and regenerate, with the changes reflected in Mapping & transformation. It's an MD file underneath, so a later phase can make it directly editable instead of PDF-only.",
+  },
+]
+
+const schemaWikiSequence = [
+  {
+    src: schemaWikiDir + 'upload-and-prompt.png',
+    width: 5248,
+    height: 3580,
+    alt: 'The Schema and Wiki setup screen with Upload data dictionaries selected, a drag-and-drop upload area, and an optional Additional Wiki guidance text field with placeholder text about business definitions, field relationships, and code values.',
+    caption: 'Upload, with an optional prompt',
+  },
+  {
+    src: schemaWikiDir + 'success-and-append.png',
+    width: 5248,
+    height: 3200,
+    alt: 'The Schema and Wiki setup screen after success, showing 147 table Wikis generated, source and target schema details, and Return to project and Append more data dictionary buttons.',
+    caption: 'Generated, with room to add more',
+  },
+  {
+    src: schemaWikiDir + 'documents-list.png',
+    width: 5248,
+    height: 3804,
+    alt: "The project's Documents tab showing the Source Wiki list: 147 source tables and 124 target tables, with a searchable table of names, descriptions, field counts, and view and download actions per row.",
+    caption: 'Visible in Documents, not just the backend',
+  },
+]
+
 /* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here. */
@@ -165,6 +209,12 @@ const problemSolutions: ProblemSolution[] = [
     image: journeyMap,
   },
   projectHub,
+  {
+    eyebrow: 'Schema & Wiki creation',
+    title: 'What happens after you hit upload?',
+    lead: schemaWikiLead,
+    sequence: schemaWikiSequence,
+  },
   {
     eyebrow: 'Mapping & transformation',
     title: 'How do you fit everything into one table?',

@@ -26,9 +26,12 @@
 // reading order already carries the flow, and no paths are rendered at all.
 //
 // INTERACTION. pointer-events: none, so the lines never block the lightbox triggers under them.
+//
+// SHARED MARK. One connector's ring, line and chevron are drawn by `Connector`, exported so
+// SequenceRow draws the same mark pointing right, between steps.
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-type Point = { x: number; y: number }
+export type Point = { x: number; y: number }
 type Line = { from: Point; to: Point }
 
 const MD = '(min-width: 768px)'
@@ -100,41 +103,66 @@ export function ShippedConnectors({
       data-connectors=""
       className={`pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible md:block ${lineClassName}`}
     >
-      {lines.map(({ from: a, to: b }, i) => {
-        const ring = { x: a.x, y: a.y + RING_R } // tangent to the frame's bottom edge
-        const start = { x: a.x, y: ring.y + RING_R } // the ring's bottom
-        const bend = (b.y - start.y) * 0.5
-        return (
-          <g key={i} data-connector="">
-            <path
-              data-connector-line=""
-              d={`M ${start.x} ${start.y} C ${start.x} ${start.y + bend}, ${b.x} ${b.y - bend}, ${b.x} ${b.y}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={LINE_WIDTH}
-              strokeDasharray={DASH}
-            />
-            <circle
-              data-connector-ring=""
-              cx={ring.x}
-              cy={ring.y}
-              r={RING_R}
-              stroke="currentColor"
-              strokeWidth={RING_STROKE}
-              className={groundClassName}
-            />
-            <path
-              data-connector-chevron=""
-              d={`M ${b.x - CHEVRON_W / 2} ${b.y - CHEVRON_H} L ${b.x} ${b.y} L ${b.x + CHEVRON_W / 2} ${b.y - CHEVRON_H}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={LINE_WIDTH}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
-        )
-      })}
+      {lines.map(({ from, to }, i) => (
+        <Connector key={i} from={from} to={to} direction="down" groundClassName={groundClassName} />
+      ))}
     </svg>
+  )
+}
+
+/* One connector, drawn in currentColor inside an <svg>. `from` is the point on the source frame's
+   edge the ring is tangent to, `to` the point on the target's edge the chevron's tip sits on.
+   'down' leaves and arrives heading straight down (frame bottom → frame top); 'right' leaves and
+   arrives heading straight right (frame right edge → frame left edge). */
+export function Connector({
+  from: a,
+  to: b,
+  direction,
+  groundClassName,
+}: {
+  from: Point
+  to: Point
+  direction: 'down' | 'right'
+  groundClassName: string
+}) {
+  const down = direction === 'down'
+  const ring = down ? { x: a.x, y: a.y + RING_R } : { x: a.x + RING_R, y: a.y } // tangent to the edge
+  const start = down ? { x: a.x, y: ring.y + RING_R } : { x: ring.x + RING_R, y: a.y } // the ring's far side
+  const bend = down ? (b.y - start.y) * 0.5 : (b.x - start.x) * 0.5
+  const line = down
+    ? `M ${start.x} ${start.y} C ${start.x} ${start.y + bend}, ${b.x} ${b.y - bend}, ${b.x} ${b.y}`
+    : `M ${start.x} ${start.y} C ${start.x + bend} ${start.y}, ${b.x - bend} ${b.y}, ${b.x} ${b.y}`
+  const chevron = down
+    ? `M ${b.x - CHEVRON_W / 2} ${b.y - CHEVRON_H} L ${b.x} ${b.y} L ${b.x + CHEVRON_W / 2} ${b.y - CHEVRON_H}`
+    : `M ${b.x - CHEVRON_H} ${b.y - CHEVRON_W / 2} L ${b.x} ${b.y} L ${b.x - CHEVRON_H} ${b.y + CHEVRON_W / 2}`
+  return (
+    <g data-connector="">
+      <path
+        data-connector-line=""
+        d={line}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={LINE_WIDTH}
+        strokeDasharray={DASH}
+      />
+      <circle
+        data-connector-ring=""
+        cx={ring.x}
+        cy={ring.y}
+        r={RING_R}
+        stroke="currentColor"
+        strokeWidth={RING_STROKE}
+        className={groundClassName}
+      />
+      <path
+        data-connector-chevron=""
+        d={chevron}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={LINE_WIDTH}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
   )
 }

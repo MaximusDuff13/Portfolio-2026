@@ -21,6 +21,7 @@ import { FeatureHeader } from './FeatureHeader'
 import { ConceptRow, type Concept } from './ConceptRow'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { ShippedConnectors } from './ShippedConnectors'
+import { SequenceRow, type SequenceStep } from './SequenceRow'
 import { StateCarousel, type CyclerState } from './StateCarousel'
 import type { StateTone } from './StateControls'
 import { wideRow } from './wideRow'
@@ -45,6 +46,9 @@ export type ProblemSolution = {
   /* One step shown in each of its states, in a carousel after `image`, in the wide row. Its pills
      and focus rings follow the band (featureSurface's `tone`). */
   states?: CyclerState[]
+  /* A real sequence of screens, in order, after the card: captioned screenshots in the content
+     wrap, joined by connectors from lg up. */
+  sequence?: SequenceStep[]
 }
 
 /* The alternation rule. The first feature (index 0) gets a dark band, the next the page ground,
@@ -88,7 +92,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states, sequence } = feature
   return (
     // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
     // clips them there without a horizontal scrollbar.
@@ -202,6 +206,22 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                   <StateCarousel states={states} tone={surface.tone} />
                 </div>
               )}
+            </LightboxProvider>
+          )}
+
+          {/* A sequence of screens, in order. mt-section after the card, like the image above. In
+              the content wrap, not the wide row: full screenshots, not wireframes. The three
+              screenshots share one lightbox. */}
+          {sequence && (
+            <LightboxProvider>
+              <div className="mt-section">
+                <SequenceRow
+                  steps={sequence}
+                  captionClassName={surface.text}
+                  lineClassName={surface.connector}
+                  groundClassName={surface.connectorGround}
+                />
+              </div>
             </LightboxProvider>
           )}
         </AnimatedSection>
