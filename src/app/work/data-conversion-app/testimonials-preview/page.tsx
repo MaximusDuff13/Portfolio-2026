@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { OptionShell } from './OptionShell'
 import { Option1 } from './Option1'
 import { Option2 } from './Option2'
+import { Option3 } from './Option3'
 
 // TEMPORARY PREVIEW — layout options for a Testimonials section after the four problem-and-solution
 // features. Unlinked and noindex'd; nothing routes here, and the live page imports nothing from
@@ -20,6 +21,9 @@ export default function TestimonialsPreviewPage() {
       </OptionShell>
       <OptionShell label="Option 2">
         <Option2 />
+      </OptionShell>
+      <OptionShell label="Option 3">
+        <Option3 />
       </OptionShell>
     </main>
   )
