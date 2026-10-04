@@ -1,5 +1,5 @@
 'use client'
-// The closing block of Impact — the "For Acentra Health" statement and the Product Director quote,
+// The closing block of Impact — the "For Acentra Health" statement and the Program Director quote,
 // side by side. This is treatment B2 ("Split, aligned") from the preview exploration.
 //
 // It is its own file, and the only 'use client' part of the section, for one reason: the left →
@@ -28,7 +28,7 @@
 //
 // MARKUP: the quote is a <figure> whose FIRST child is the <figcaption> carrying the
 // attribution, followed by the <blockquote>. Document order — and so screen reader and tab
-// order — is "For Acentra Health", sentence, "Product Director", quote, matching the visual order.
+// order — is "For Acentra Health", sentence, "Program Director", quote, matching the visual order.
 // No display:contents is used, so the figure keeps its role in the accessibility tree.
 import { motion, useReducedMotion } from 'framer-motion'
 import { fadeIn, staggerContainer, staggerItem } from '@/lib/motion'
@@ -48,7 +48,7 @@ const orgLine = `Mapping and transformation is the longest step in converting a 
 // in typographic quotation marks written as plain characters. Attribution is role only.
 const quoteText =
   '“We have started using the AI based conversion mapping for [an implementation] and were able to produce the first mapping in just 24 hours from 2 to 3 weeks.”'
-const quoteRole = 'Product Director'
+const quoteRole = 'Program Director'
 
 // One constant for both labels, so they cannot drift apart in size, weight, colour or tracking.
 const LABEL = 'text-label font-grotesk text-foundation-500 uppercase tracking-widest'

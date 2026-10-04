@@ -9,6 +9,7 @@ import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
+import { Testimonials } from './Testimonials'
 
 export const metadata: Metadata = {
   title: 'Data Conversion App — Michael Jerome',
@@ -456,6 +457,11 @@ export default function DataConversionAppPage() {
       {problemSolutions.map((feature, i) => (
         <ProblemSolutionFeature key={feature.eyebrow} index={i} feature={feature} />
       ))}
+
+      {/* ── Testimonials ──
+          After the features, before Keep exploring. Not another feature band: it sits on the
+          page ground behind a hairline, with its own layout (see Testimonials). */}
+      <Testimonials />
 
       {/* ── Keep exploring ──
           The page now ends on the Process timeline, so this is the only way onward. It was
