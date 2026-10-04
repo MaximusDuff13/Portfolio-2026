@@ -155,22 +155,22 @@ const journeyMap = {
 }
 
 /* Schema & Wiki creation. No concepts and no single image: the card, then the three screens in
-   the order a person meets them. Icons: FileQuestion (what happens after upload was undefined)
-   and MessageSquarePlus (the prompt added beside the upload), drawn like the other card icons. */
+   the order a person meets them, each with its label and sentence. Icons: FileQuestion (what
+   happens after upload was undefined) and MessageSquarePlus (the prompt added beside the upload),
+   drawn like the other card icons. The Solution column is a single paragraph. */
 const schemaWikiDir = '/images/data-conversion-app/schema-mapping/'
 
 const schemaWikiLead = [
   {
     icon: FileQuestion,
     label: 'Problem',
-    lead: 'The original scope was to let users upload a data dictionary, and stopped there.',
+    lead: "A data dictionary describes the outgoing vendor's tables and fields, and the state provides it once the agreement is signed. The original scope was to let users upload it, and stopped there.",
     body: "What happened after upload, whether a user could see the result, handle an edge case, or make a change, wasn't yet defined, and early testing showed the AI couldn't generalize every business rule from the dictionary alone.",
   },
   {
     icon: MessageSquarePlus,
     label: 'Solution',
-    lead: 'Add a prompt field alongside the upload, so a person can describe business validations the AI would otherwise miss.',
-    body: "Once generated, the Wiki is visible, linked from Project Hub's Documents section and opened as a PDF, instead of staying backend-only. Users can also edit the data dictionary and regenerate, with the changes reflected in Mapping & transformation. It's an MD file underneath, so a later phase can make it directly editable instead of PDF-only.",
+    lead: "Add a prompt field alongside the upload, so a person can describe business validations the AI would otherwise miss. It's an MD file underneath, so a later phase can make it directly editable instead of PDF-only.",
   },
 ]
 
@@ -181,6 +181,7 @@ const schemaWikiSequence = [
     height: 3580,
     alt: 'The Schema and Wiki setup screen with Upload data dictionaries selected, a drag-and-drop upload area, and an optional Additional Wiki guidance text field with placeholder text about business definitions, field relationships, and code values.',
     caption: 'Upload, with an optional prompt',
+    sentence: 'A person uploads the data dictionary the state provided, and can add a short prompt describing any business rules the AI should know about.',
   },
   {
     src: schemaWikiDir + 'success-and-append.png',
@@ -188,6 +189,7 @@ const schemaWikiSequence = [
     height: 3200,
     alt: 'The Schema and Wiki setup screen after success, showing 147 table Wikis generated, source and target schema details, and Return to project and Append more data dictionary buttons.',
     caption: 'Generated, with room to add more',
+    sentence: 'The AI generates the Source Wikis from the dictionary and the prompt, and the person can append more data dictionaries if something was missed.',
   },
   {
     src: schemaWikiDir + 'documents-list.png',
@@ -195,6 +197,7 @@ const schemaWikiSequence = [
     height: 3804,
     alt: "The project's Documents tab showing the Source Wiki list: 147 source tables and 124 target tables, with a searchable table of names, descriptions, field counts, and view and download actions per row.",
     caption: 'Visible in Documents, not just the backend',
+    sentence: "Every generated Wiki is listed in Project Hub's Documents tab, where it can be viewed or downloaded instead of staying backend-only.",
   },
 ]
 
@@ -211,7 +214,7 @@ const problemSolutions: ProblemSolution[] = [
   projectHub,
   {
     eyebrow: 'Schema & Wiki creation',
-    title: 'What happens after you hit upload?',
+    title: 'The upload was the easy part',
     lead: schemaWikiLead,
     sequence: schemaWikiSequence,
   },

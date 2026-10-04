@@ -1,7 +1,7 @@
 // ProblemSolutionFeature — one problem-and-solution write-up, start to finish, in its own
 // full-bleed band: eyebrow + title, the Problem/Solution card, then either the concept row and
 // the shipped screenshot (with connectors), or a single full-width image, optionally followed by a
-// state carousel.
+// state carousel, or a full-bleed step sequence.
 //
 // NEW COMPONENT. The page lists its features in order and renders one of these per entry,
 // passing the entry's position as `index`. Everything that alternates is derived from that index
@@ -21,12 +21,13 @@ import { FeatureHeader } from './FeatureHeader'
 import { ConceptRow, type Concept } from './ConceptRow'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { ShippedConnectors } from './ShippedConnectors'
-import { SequenceRow, type SequenceStep } from './SequenceRow'
+import { StepSequence, type SequenceStep } from './StepSequence'
 import { StateCarousel, type CyclerState } from './StateCarousel'
 import type { StateTone } from './StateControls'
 import { wideRow } from './wideRow'
 
-export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body: string }
+/* `body` is optional: a column can be a single paragraph. */
+export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body?: string }
 
 type Picture = { src: string; width: number; height: number; alt: string }
 
@@ -46,8 +47,8 @@ export type ProblemSolution = {
   /* One step shown in each of its states, in a carousel after `image`, in the wide row. Its pills
      and focus rings follow the band (featureSurface's `tone`). */
   states?: CyclerState[]
-  /* A real sequence of screens, in order, after the card: captioned screenshots in the content
-     wrap, joined by connectors from lg up. */
+  /* A real sequence of screens, in order, after the card: full-bleed alternating steps (image
+     beside a label and sentence), joined by one continuous connector. */
   sequence?: SequenceStep[]
 }
 
@@ -94,9 +95,10 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
   const surface = featureSurface(index)
   const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states, sequence } = feature
   return (
-    // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
-    // clips them there without a horizontal scrollbar.
-    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states ? ' overflow-x-clip' : ''}`}>
+    // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge, or a
+    // full-bleed step sequence (100vw counts a classic scrollbar); it clips them there without a
+    // horizontal scrollbar.
+    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states || sequence ? ' overflow-x-clip' : ''}`}>
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
           <FeatureHeader
@@ -126,7 +128,7 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                 </div>
                 <div className="flex flex-col gap-6">
                   <p className={`m-0 font-sans text-body ${surface.cardText}`}>{first}</p>
-                  <p className={`m-0 font-sans text-body ${surface.cardText}`}>{body}</p>
+                  {body && <p className={`m-0 font-sans text-body ${surface.cardText}`}>{body}</p>}
                 </div>
               </div>
             ))}
@@ -209,15 +211,16 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
             </LightboxProvider>
           )}
 
-          {/* A sequence of screens, in order. mt-section after the card, like the image above. In
-              the content wrap, not the wide row: full screenshots, not wireframes. The three
+          {/* A sequence of screens, in order. mt-section after the card, like the image above.
+              Full bleed (see StepSequence); the card above keeps the content width. The
               screenshots share one lightbox. */}
           {sequence && (
             <LightboxProvider>
               <div className="mt-section">
-                <SequenceRow
+                <StepSequence
                   steps={sequence}
-                  captionClassName={surface.text}
+                  labelClassName={surface.eyebrow}
+                  textClassName={surface.text}
                   lineClassName={surface.connector}
                   groundClassName={surface.connectorGround}
                 />
