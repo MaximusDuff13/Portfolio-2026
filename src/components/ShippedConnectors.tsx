@@ -115,12 +115,25 @@ export function ShippedConnectors({
    the point on the target frame's top edge its chevron's tip sits on; the line leaves and arrives
    heading straight down, bending sideways in between when the two x positions differ. All the
    segments' lines are one <path>, so a multi-segment connector reads as one continuous line, with
-   a ring at the top and a chevron at the bottom of each segment. */
-export function Connector({ segments, groundClassName }: { segments: Line[]; groundClassName: string }) {
+   a ring at the top and a chevron at the bottom of each segment.
+
+   `bend` places the curve's two control points, as a share of the segment's height: 0.5 (the
+   default, used by ShippedConnectors) puts both at half height. A larger share holds the line
+   vertical for longer at each end, so a segment that crosses far sideways still leaves its ring
+   and meets its chevron heading straight down. */
+export function Connector({
+  segments,
+  groundClassName,
+  bend: share = 0.5,
+}: {
+  segments: Line[]
+  groundClassName: string
+  bend?: number
+}) {
   const parts = segments.map(({ from: a, to: b }) => {
     const ring = { x: a.x, y: a.y + RING_R } // tangent to the frame's bottom edge
     const start = { x: a.x, y: ring.y + RING_R } // the ring's bottom
-    const bend = (b.y - start.y) * 0.5
+    const bend = (b.y - start.y) * share
     return {
       ring,
       line: `M ${start.x} ${start.y} C ${start.x} ${start.y + bend}, ${b.x} ${b.y - bend}, ${b.x} ${b.y}`,

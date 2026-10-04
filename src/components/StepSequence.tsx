@@ -15,8 +15,11 @@
 //
 // LAYOUT. md and up: a 12-column grid per step, the image in 7 columns (a bit over half the row)
 // and the text in the other 5, vertically centred. Steps 1 and 3 put the image left, step 2
-// right. Below md: image above text for every step. gap-section (80px) between steps, a full
-// section's rhythm.
+// right. Below md: image above text for every step, gap-section (80px) apart, a full section's
+// rhythm. md and up: twice that (160px), so each connector segment has the height to cross from
+// one side to the other and still arrive heading straight down into its chevron, the way the
+// Mapping & transformation connector does; at 80px the curve ran nearly flat and met the chevron
+// side-on.
 //
 // FRAMES. The page's screenshot frame (rounded-lg, border-border), the image at its natural
 // aspect ratio (h-auto), never cropped, with a LightboxTrigger. The caller supplies the
@@ -55,6 +58,9 @@ const MD = '(min-width: 768px)'
 // Centre of the below-md line inside the 40px gutter: the ring (r 10, 2px stroke) sits clear of
 // the edge.
 const GUTTER_X = 12
+// Control points at 90% of each segment's height (Connector's default is 50%): the segments
+// cross up to ~750px sideways in ~140px of height, and at 50% they met the chevron side-on.
+const BEND = 0.9
 
 export function StepSequence({
   steps,
@@ -121,7 +127,10 @@ export function StepSequence({
   return (
     <div data-step-sequence="" className="ml-[calc(50%-50vw)] w-screen px-6 sm:px-10 lg:px-section">
       <div ref={wrapRef} className="relative mx-auto max-w-[1800px]">
-        <ol data-steps="" className="m-0 flex list-none flex-col gap-section p-0 pl-10 md:pl-0">
+        <ol
+          data-steps=""
+          className="m-0 flex list-none flex-col gap-section p-0 pl-10 md:gap-[calc(theme(spacing.section)*2)] md:pl-0"
+        >
           {steps.map((step, i) => {
             const imageRight = i % 2 === 1
             return (
@@ -165,7 +174,7 @@ export function StepSequence({
           data-connectors=""
           className={`pointer-events-none absolute inset-0 h-full w-full overflow-visible ${lineClassName}`}
         >
-          {segments.length > 0 && <Connector segments={segments} groundClassName={groundClassName} />}
+          {segments.length > 0 && <Connector segments={segments} groundClassName={groundClassName} bend={BEND} />}
         </svg>
       </div>
     </div>
