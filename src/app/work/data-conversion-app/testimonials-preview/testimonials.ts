@@ -21,3 +21,7 @@ export const testimonials = [designQuote, projectQuote]
 
 /* The section's only label: its name, in the eyebrow token. */
 export const sectionLabel = 'Testimonials'
+
+/* Options 4a–4e. Both quotes are from the same person, so those options show this once, as the
+   single figcaption of one <figure> holding both blockquotes, and no per-quote role. */
+export const attribution = 'Pradeep Jain, Program Director'
