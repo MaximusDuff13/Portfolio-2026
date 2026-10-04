@@ -15,8 +15,8 @@
 // showing; the image's alt text is attached as its description.
 import { useEffect, useId, useRef } from 'react'
 import { useLightbox } from '@/components/Lightbox'
-import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from './useStateAutoplay'
-import { Controls, ring } from './Controls'
+import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from '@/components/useStateAutoplay'
+import { Controls, ring } from '@/components/StateControls'
 import { states, IMAGE_WIDTH, TALLEST } from './states'
 
 type Frame = { opacity: number; transform: string; filter?: string }

@@ -4,7 +4,7 @@
 // grid, and the grid is a group named by it.
 import { useId } from 'react'
 import { LightboxTrigger } from '@/components/Lightbox'
-import { StatesIntro } from './Controls'
+import { StatesIntro } from '@/components/StateControls'
 import { states, IMAGE_WIDTH } from './states'
 import { gridClass, frameRatio } from './grid'
 

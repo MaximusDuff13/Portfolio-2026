@@ -12,8 +12,8 @@
 // spotlight styles even before the hook has read the preference.
 import { useId } from 'react'
 import { useLightbox } from '@/components/Lightbox'
-import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from './useStateAutoplay'
-import { Controls, ring } from './Controls'
+import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from '@/components/useStateAutoplay'
+import { Controls, ring } from '@/components/StateControls'
 import { states, IMAGE_WIDTH } from './states'
 import { gridClass, frameRatio } from './grid'
 

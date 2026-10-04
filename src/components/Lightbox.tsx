@@ -132,7 +132,7 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
 }
 
 /* For a component that opens the lightbox itself instead of through a LightboxTrigger, such as
-   StateCycler, which enlarges whichever image is showing. */
+   StateCarousel, which enlarges whichever image is showing. */
 export function useLightbox() {
   const ctx = useContext(LightboxContext)
   if (!ctx) throw new Error('useLightbox must be inside a LightboxProvider')

@@ -1,6 +1,7 @@
 // ProblemSolutionFeature — one problem-and-solution write-up, start to finish, in its own
 // full-bleed band: eyebrow + title, the Problem/Solution card, then either the concept row and
-// the shipped screenshot (with connectors), or a state cycler and/or a single full-width image.
+// the shipped screenshot (with connectors), or a single full-width image, optionally followed by a
+// state carousel.
 //
 // NEW COMPONENT. The page lists its features in order and renders one of these per entry,
 // passing the entry's position as `index`. Everything that alternates is derived from that index
@@ -20,7 +21,8 @@ import { FeatureHeader } from './FeatureHeader'
 import { ConceptRow, type Concept } from './ConceptRow'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { ShippedConnectors } from './ShippedConnectors'
-import { StateCycler, type CyclerState } from './StateCycler'
+import { StateCarousel, type CyclerState } from './StateCarousel'
+import type { StateTone } from './StateControls'
 import { wideRow } from './wideRow'
 
 export type LeadColumn = { icon: LucideIcon; label: string; lead: string; body: string }
@@ -40,8 +42,8 @@ export type ProblemSolution = {
   /* A single full-width image after the card, such as a journey map, for a feature without
      concepts. Natural aspect ratio, never cropped, and click-to-enlarge. */
   image?: Picture
-  /* One step shown in each of its states, cycling, before `image`. Built for the dark band: its
-     pills and focus rings assume foundation-800. */
+  /* One step shown in each of its states, in a carousel after `image`, in the wide row. Its pills
+     and focus rings follow the band (featureSurface's `tone`). */
   states?: CyclerState[]
 }
 
@@ -80,6 +82,7 @@ export function featureSurface(index: number) {
     text: dark ? 'text-foundation-300' : 'text-foundation-600',
     connector: dark ? 'text-foundation-400' : 'text-foundation-500',
     connectorGround: dark ? 'fill-foundation-800' : 'fill-body',
+    tone: (dark ? 'dark' : 'light') as StateTone,
   }
 }
 
@@ -87,7 +90,9 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
   const surface = featureSurface(index)
   const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states } = feature
   return (
-    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section`}>
+    // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
+    // clips them there without a horizontal scrollbar.
+    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states ? ' overflow-x-clip' : ''}`}>
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
           <FeatureHeader
@@ -176,9 +181,6 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
               that is the main way to read it on a narrow screen. */}
           {(states || image) && (
             <LightboxProvider>
-              {/* The state cycler, when there is one, shares this lightbox: its stage enlarges the
-                  state showing. It carries its own mt-section. */}
-              {states && <StateCycler states={states} />}
               {image && (
                 <figure className="relative m-0 mt-section overflow-hidden rounded-lg border border-border">
                   <Image
@@ -191,6 +193,14 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                   />
                   <LightboxTrigger src={image.src} alt={image.alt} />
                 </figure>
+              )}
+              {/* The carousel shares this lightbox: its active card enlarges. After the image,
+                  mt-section (80px) apart, like the card and the image; it breaks out to the wide
+                  row like the ConceptRow. */}
+              {states && (
+                <div className={`mt-section ${wideRow}`}>
+                  <StateCarousel states={states} tone={surface.tone} />
+                </div>
               )}
             </LightboxProvider>
           )}

@@ -159,6 +159,13 @@ const journeyMap = {
    feature is adding an entry here. */
 const problemSolutions: ProblemSolution[] = [
   {
+    eyebrow: 'Requirements gathering',
+    title: 'Where does the user go next?',
+    lead: requirementsLead,
+    image: journeyMap,
+  },
+  projectHub,
+  {
     eyebrow: 'Mapping & transformation',
     title: 'How do you fit everything into one table?',
     lead: mappingLead,
@@ -168,13 +175,6 @@ const problemSolutions: ProblemSolution[] = [
     shippedFrom: ['Detail panel', 'Inline table'],
     shipped: mappingShipped,
   },
-  {
-    eyebrow: 'Requirements gathering',
-    title: 'Where does the user go next?',
-    lead: requirementsLead,
-    image: journeyMap,
-  },
-  projectHub,
 ]
 
 const moreWork = [

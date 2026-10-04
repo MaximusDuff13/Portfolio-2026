@@ -1,12 +1,11 @@
 'use client'
-// useStateAutoplay — the one autoplay model every animated states option shares: which state is
-// active, whether it is advancing, and why not.
+// useStateAutoplay — the autoplay model for a set of states shown in turn (StateCarousel, and the
+// unlinked states preview): which state is active, whether it is advancing, and why not.
 //
-// PLAY FIX. The live StateCycler pauses while the pointer or focus is anywhere inside the whole
-// component, and its Play button is inside it. Pressing Play did clear the user pause, but the
-// pointer or focus left on Play kept the hover/focus pause on, so nothing advanced. Here the
-// hover/focus pause and the visibility check attach to the STAGE only (via `stageProps`), never to
-// the pills or the play/pause button, so pressing Play always resumes, from the current state.
+// STAGE ONLY. The hover/focus pause and the visibility check attach to the stage (via
+// `stageProps`), never to the pills or the play/pause button. The first version paused on hover or
+// focus anywhere in the component, so pressing Play left the pointer or focus on Play and nothing
+// advanced; here pressing Play always resumes, from the current state.
 //
 // RUNS WHEN: mounted, not paused by the user, the stage at least 30% in view, and the stage
 // neither hovered nor holding focus. Choosing a state (`select`) or `pause()` (e.g. opening the

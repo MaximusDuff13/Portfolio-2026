@@ -3,9 +3,9 @@
 // page lists it in problemSolutions like the other features.
 import { Workflow, ListChecks } from 'lucide-react'
 import type { ProblemSolution } from '@/components/ProblemSolutionFeature'
-import type { CyclerState } from '@/components/StateCycler'
+import type { CyclerState } from '@/components/StateCarousel'
 
-/* Project hub. The card, then one step cycling through its states, then the finished hub. No
+/* Project hub. The card, then the finished hub, then one step shown in each of its states. No
    concepts and no captions. Icons: Workflow (the steps a project moves through) and ListChecks
    (each step's state), drawn like the other card icons. */
 const projectHubDir = '/images/data-conversion-app/project-hub/'
@@ -31,24 +31,32 @@ export const projectHubStates: CyclerState[] = [
     id: 'enable',
     label: 'Enable',
     src: projectHubDir + 'schema-wiki-enable.png',
+    width: 3000,
+    height: 982,
     alt: 'Schema and Wiki step in its enable state: a prompt to set up the schema for this project, with source and target schema both not configured.',
   },
   {
     id: 'generating',
     label: 'Generating',
     src: projectHubDir + 'schema-wiki-generating.png',
+    width: 3000,
+    height: 816,
     alt: 'Schema and Wiki step while generating: a progress bar showing 68 of 147 tables documented, with a View details button.',
   },
   {
     id: 'success',
     label: 'Success',
     src: projectHubDir + 'schema-wiki-success.png',
+    width: 3000,
+    height: 1131,
     alt: 'Schema and Wiki step after success: 147 table Wikis generated, with Continue to mapping and View Wiki buttons, and the source schema, target schema and generation date listed.',
   },
   {
     id: 'error',
     label: 'Error',
     src: projectHubDir + 'schema-wiki-error.png',
+    width: 3000,
+    height: 843,
     alt: 'Schema and Wiki step after an error: Source Wiki generation failed, with a note that the saved selections are kept, and Try again and View details buttons.',
   },
 ]
