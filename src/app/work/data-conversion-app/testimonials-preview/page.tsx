@@ -1,0 +1,22 @@
+import type { Metadata } from 'next'
+import { OptionShell } from './OptionShell'
+import { Option1 } from './Option1'
+
+// TEMPORARY PREVIEW — layout options for a Testimonials section after the four problem-and-solution
+// features. Unlinked and noindex'd; nothing routes here, and the live page imports nothing from
+// this folder, so deleting the folder is the whole clean-up.
+
+export const metadata: Metadata = {
+  title: 'Testimonials — layout options',
+  robots: { index: false, follow: false },
+}
+
+export default function TestimonialsPreviewPage() {
+  return (
+    <main className="bg-body">
+      <OptionShell label="Option 1">
+        <Option1 />
+      </OptionShell>
+    </main>
+  )
+}
