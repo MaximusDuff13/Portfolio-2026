@@ -10,6 +10,7 @@ import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
 import { Testimonials } from './Testimonials'
+import { LearnedNextSteps } from './LearnedNextSteps'
 
 export const metadata: Metadata = {
   title: 'Data Conversion App — Michael Jerome',
@@ -462,6 +463,11 @@ export default function DataConversionAppPage() {
           After the features, before Keep exploring. Not another feature band: it sits on the
           page ground behind a hairline, with its own layout (see Testimonials). */}
       <Testimonials />
+
+      {/* ── Next steps, then What I learned ──
+          The case study's closing section, after Testimonials. On the margin rail, like the
+          opening sections, ending on the reflection (see LearnedNextSteps). */}
+      <LearnedNextSteps />
 
       {/* ── Keep exploring ──
           The page now ends on the Process timeline, so this is the only way onward. It was
