@@ -1,6 +1,5 @@
 // The Project hub feature's content: copy, icons, the cycling states and the finished hub.
-// Its own module so the unlinked states preview can import the exact live content; the case study
-// page lists it in problemSolutions like the other features.
+// The case study page lists it in problemSolutions like the other features.
 import { Workflow, ListChecks } from 'lucide-react'
 import type { ProblemSolution } from '@/components/ProblemSolutionFeature'
 import type { CyclerState } from '@/components/StateCarousel'

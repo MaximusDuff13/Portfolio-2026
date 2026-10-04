@@ -5,5 +5,5 @@
 // side), so the row lines up with where the gutters would be and never reaches the viewport edge:
 // no horizontal scroll, even with a classic scrollbar. Below lg it is the wrap's own width.
 //
-// One definition, so every wide row (the ConceptRow, the states previews) stays the same width.
+// One definition, so every wide row (the ConceptRow, the state carousel) stays the same width.
 export const wideRow = 'lg:ml-[calc(50%-min(900px,50vw-80px))] lg:w-[min(1800px,calc(100vw-160px))]'

@@ -1,6 +1,6 @@
 'use client'
-// useStateAutoplay — the autoplay model for a set of states shown in turn (StateCarousel, and the
-// unlinked states preview): which state is active, whether it is advancing, and why not.
+// useStateAutoplay — the autoplay model for a set of states shown in turn (StateCarousel): which
+// state is active, whether it is advancing, and why not.
 //
 // STAGE ONLY. The hover/focus pause and the visibility check attach to the stage (via
 // `stageProps`), never to the pills or the play/pause button. The first version paused on hover or

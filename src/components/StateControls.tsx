@@ -1,7 +1,7 @@
 'use client'
 // StateControls — the controls for a set of states shown in turn: the intro label, the pill row,
 // the accent-warm underline filling across the interval on the active pill, and the play/pause
-// button. Used by StateCarousel and the unlinked states preview.
+// button. Used by StateCarousel.
 //
 // CENTRED on the stage's axis (the wide row's centre, which is also the carousel's active card). From lg up
 // the row is a 1fr / auto / 1fr grid: the pills sit in the middle column, exactly on the axis, and
