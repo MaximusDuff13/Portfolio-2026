@@ -3,6 +3,7 @@ import { OptionShell } from './OptionShell'
 import { Option4a } from './Option4a'
 import { Option4b } from './Option4b'
 import { Option4c } from './Option4c'
+import { Option4d } from './Option4d'
 
 // TEMPORARY PREVIEW — layout options for a Testimonials section after the four problem-and-solution
 // features. Unlinked and noindex'd; nothing routes here, and the live page imports nothing from
@@ -27,6 +28,9 @@ export default function TestimonialsPreviewPage() {
       </OptionShell>
       <OptionShell label="Option 4c">
         <Option4c />
+      </OptionShell>
+      <OptionShell label="Option 4d">
+        <Option4d />
       </OptionShell>
     </main>
   )
