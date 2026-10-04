@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
@@ -349,10 +350,13 @@ export default function DataConversionAppPage() {
           space beneath the spread row, and one screen states the product more plainly — so this is
           static, and the page no longer needs a client component here.
 
-          CONTENT: a generic screen only. The Dictionary / Mapping / Transformation story belongs to
-          its own section later on the page and is deliberately not previewed here. No browser
-          chrome, so this reads as a product shot rather than a re-run of the BrowserMockup (the
-          demo video keeps that treatment, further down).
+          CONTENT: the shipped mapping screen (the same file that closes Mapping & transformation).
+          It is the product's core, fields matched with AI confidence and review status beside the
+          details panel, so it states what the app does at a glance; the full story still belongs
+          to its section later on the page. Cropped to 16:9 from the top (object-top), it keeps the
+          header, the completion stats, the filters and the first rows beside the panel. It is the
+          page's largest above-the-fold image, so next/image with priority. No browser chrome, so
+          this reads as a product shot rather than a re-run of the BrowserMockup.
 
           The 1px white ring is carried over from the depth stack: the panel's top half sits on the
           dark hero, where a light hairline reads as a crisp edge, and it disappears against the
@@ -367,16 +371,19 @@ export default function DataConversionAppPage() {
       <section className="relative z-10 px-6 sm:px-10 lg:px-section pb-section -mt-28">
         <div className="max-w-6xl mx-auto">
           <div
-            className="overflow-hidden rounded-lg border border-border bg-foundation-100 aspect-video"
+            className="relative overflow-hidden rounded-lg border border-border bg-foundation-100 aspect-video"
             style={{
               boxShadow:
                 '0 0 0 1px rgba(255, 255, 255, 0.16), 0 25px 50px -12px rgba(0, 0, 0, 0.3)',
             }}
           >
-            <img
-              src="/images/dca-placeholder/workspace.svg"
-              alt="The Data Conversion App workspace: batch progress, records mapped, match rate and recent activity for a state program conversion."
-              className="w-full h-full object-cover object-top block"
+            <Image
+              src={mappingShipped.src}
+              alt="The Data Conversion App's mapping screen: target fields matched to source fields, each with an AI confidence score and a review status, beside an open Mapping details panel."
+              fill
+              priority
+              sizes="(min-width: 1152px) 1152px, 100vw"
+              className="object-cover object-top"
             />
           </div>
         </div>
