@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { OptionShell } from './OptionShell'
 import { Option1 } from './Option1'
+import { Option2 } from './Option2'
 
 // TEMPORARY PREVIEW — layout options for the closing "What I learned" and "Next steps" section,
 // after Testimonials. Unlinked and noindex'd; nothing routes here, and the live page imports
@@ -16,6 +17,9 @@ export default function LearnedNextPreviewPage() {
     <main className="bg-body">
       <OptionShell label="Option 1">
         <Option1 />
+      </OptionShell>
+      <OptionShell label="Option 2">
+        <Option2 />
       </OptionShell>
     </main>
   )
