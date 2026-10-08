@@ -21,7 +21,7 @@
 // sizes below are ordinary type tokens applied to it. See the report for the exact stack.
 import { AnimatedSection } from '@/components/AnimatedSection'
 
-const setup = 'Programs used to accept 12 to 24 month implementations. Now they want 5 to 8.'
+const setup = 'Design, Develop & Implement (DDI) for a state used to take 12 to 24 months. Our 2026 goal was 5 to 6.'
 
 // A non-breaking space, so the company name never splits across a line break.
 const NBSP = ' '
@@ -32,16 +32,16 @@ const ACENTRA = `Acentra${NBSP}Health`
 const headingAccent = '4 to 6 weeks'
 const headingRest = ', done in Excel'
 
-// The paragraph, split so the one emphasised phrase can take font-medium without the string
-// being broken up in the markup. Inter ships here at 400 and 500 only, so font-medium (500) is
-// the heaviest available and the correct choice.
+// The body, as three short paragraphs. The old single paragraph bolded "mapping and
+// transformation"; the new copy no longer contains that phrase, so nothing is bolded.
 //
 // The F / M / O example is illustrative prose and stays prose — it is deliberately NOT drawn as
 // a table, diagram or field-mapping graphic.
-const paraLead =
-  "Moving a state's data from its legacy system into ours takes four steps. The first, "
-const paraEmphasis = 'mapping and transformation'
-const paraRest = `, takes the longest, and it's the one this project goes after. Mapping matches each old field to a new one. Transformation rules reshape the data to fit, like turning F, M and O into Female, Male and Others. A team of 4 to 5 people does all of it in Excel, with no standard format. Then the state reviews it, ${ACENTRA} fixes what's flagged, and the state approves.`
+const paragraphs = [
+  'Data conversion was one of the biggest levers in that goal. It starts when a state sends its schemas, packaged as data dictionaries, to our conversion team.',
+  "The team then sits down with the state and maps the data by hand in Excel, matching each source table and field to ours. Where a field doesn't map one to one, they also write a transformation rule, like turning F, M and O into Female, Male and Others. A team of 4 to 5 people does all of it, with no standard format.",
+  `After that, the state reviews the mapping, ${ACENTRA} fixes what's flagged, and the state approves.`,
+]
 
 // SPACING. One source of space per side of every rule, so each hairline sits centred in 160px.
 // This is the first section after the product shot, and it carries that treatment:
@@ -78,16 +78,19 @@ export function ProblemSection() {
                   {headingRest}
                 </p>
 
-                {/* The one paragraph, in the same content column as the heading.
+                {/* The body, in the same content column as the heading. gap-6 between paragraphs
+                    is the spacing LearnedNextSteps already uses for its prose.
                     NOT max-w-prose: that is 65ch, and ch is the advance of "0", which is narrower
                     than Inter's average glyph, so it ran to ~89 characters a line. Measured against
                     the real text, Inter at 16px averages ~7.4px a character here, so max-w-lg
                     (512px) lands at ~69 — inside the 60–70 target. */}
-                <p className="mt-10 max-w-lg text-body font-sans text-foundation-700">
-                  {paraLead}
-                  <span className="font-medium text-foundation-900">{paraEmphasis}</span>
-                  {paraRest}
-                </p>
+                <div className="mt-10 flex max-w-lg flex-col gap-6">
+                  {paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="m-0 text-body font-sans text-foundation-700">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

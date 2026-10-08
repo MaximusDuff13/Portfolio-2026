@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
 
-// Leads with the problem and the outcome. The DDI acronym it used to open with is gone: the
-// Problem section explains the conversion steps in plain words.
+// Michael's wording: how the tool works, then the before and after. The DDI acronym it used to
+// open with is gone; the Problem section explains the conversion steps in plain words.
 const description =
-  "Mapping a state's legacy data onto our product took a team of 4 to 5 people 4 to 6 weeks, all in Excel. I designed an AI-assisted tool that drafts the mappings for them, and the step now takes 1 week."
+  'The AI drafts the mappings and people review and correct them. A step that took 4 to 5 people 4 to 6 weeks in Excel now takes one week.'
 
 // Hero eyebrow. The headline follows it directly — the old lead-in line restated
 // the role, which the sidebar's My Role block already covers.

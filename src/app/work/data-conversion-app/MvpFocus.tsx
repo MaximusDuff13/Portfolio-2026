@@ -17,8 +17,10 @@
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { PriorityPyramid, type PyramidTiers } from '@/components/PriorityPyramid'
 
-const paragraph =
-  'We built this MVP in a month: me as the only designer, one frontend engineer, and the AI Center of Excellence team. Design had 2 weeks of it.'
+const paragraphs = [
+  'The MVP had one job: prove that AI-drafted mappings could replace weeks of manual Excel work. We had a month to build it, with me as the only designer, one frontend engineer, and the AI Center of Excellence team. The design work took two of those weeks.',
+  'Function came first, but not at the cost of the experience. I designed the flows around how the conversion team already works, so reviewing and correcting an AI draft felt natural, not like learning a new tool. When the team tested it, they completed an internal mapping end to end. Visual polish and moments of delight came later; the experience they needed to get the job done was already there.',
+]
 
 // Top to bottom: what was cut tapers away above the line, what shipped carries the width below.
 const tiers: PyramidTiers = [
@@ -48,14 +50,19 @@ export function MvpFocus() {
                     three opening sections share one heading voice and the colour still belongs
                     to the two that carry the numbers. A <p>: the rail label is the h2. */}
                 <p className="m-0 max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
-                  An MVP, built in a month
+                  Built to work, designed to be used
                 </p>
 
-                {/* Same measure as Problem's paragraph, for the same reason: max-w-lg lands
-                    Inter at about 69 characters a line here, inside the 60–70 target. */}
-                <p className="mt-6 max-w-lg text-body font-sans text-foundation-700">
-                  {paragraph}
-                </p>
+                {/* Same measure as Problem's paragraphs, for the same reason: max-w-lg lands
+                    Inter at about 69 characters a line here, inside the 60–70 target. gap-6
+                    between paragraphs, as in Problem and LearnedNextSteps. */}
+                <div className="mt-6 flex max-w-lg flex-col gap-6">
+                  {paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="m-0 text-body font-sans text-foundation-700">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
 
                 <div className="mt-10">
                   <PriorityPyramid
