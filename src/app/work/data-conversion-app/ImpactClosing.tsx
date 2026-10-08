@@ -44,12 +44,11 @@ const orgLabel = `For ${ACENTRA}`
 // straight from Problem needs no numbering.
 const orgLine = `Mapping and transformation is the longest step in converting a state's data. Making it shorter gets ${ACENTRA} to the state's review sooner, and the whole implementation moves faster.`
 
-// Reproduced verbatim, including the square brackets and the speaker's own grammar, and wrapped
-// in typographic quotation marks written as plain characters. Attribution is role only.
-// Verbatim, the original wording (it used to sit in Testimonials; the edited version that was
-// here is gone, so the quote appears once on the page).
+// The original wording (it used to sit in Testimonials, and now appears once on the page),
+// wrapped in typographic quotation marks written as plain characters. One edit, at Michael's
+// request: the leading "However," of the second sentence is dropped. Nothing else is changed.
 const quoteText =
-  '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. However, this is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”'
+  '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”'
 const quoteRole = 'Pradeep Jain, Program Director'
 
 // One constant for both labels, so they cannot drift apart in size, weight, colour or tracking.

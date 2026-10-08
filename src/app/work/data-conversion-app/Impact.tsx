@@ -26,14 +26,14 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { ImpactClosing } from './ImpactClosing'
 
 // Only the duration takes accent-warm, mirroring Problem's "4 to 6 weeks". It is the one
-// accented thing in this section.
-const bigAccent = '1 week'
-const bigRest = ', drafted by AI'
+// accented thing in this section. The duration now ends the line, so it follows the lead.
+const bigLead = "Ready for the state's review in "
+const bigAccent = 'a week'
 
 // The last two sentences square the headline with the Program Director's quote: 1 week is the
 // whole step through state review; 24 hours (from 2 to 3 weeks) is the first draft alone.
 const paragraph =
-  "The MVP drafts the mappings and their transformation rules, and a person checks and confirms each one instead of writing it from scratch. That 1 week covers the whole step, through the state's review. The first draft on its own used to take 2 to 3 weeks and now takes about 24 hours."
+  "The MVP drafts the mappings and their transformation rules, and a person checks and confirms each one instead of writing it from scratch. That 1 week covers the whole step, up to the state's review. The first draft on its own used to take 2 to 3 weeks and now takes about 24 hours."
 
 // The results: three figures side by side, each a label, the figure in the stat token, and the
 // rest of its sentence below. This replaced a ledger of body-sm sentences, where the page's
@@ -63,8 +63,8 @@ export function Impact() {
             <div className="md:col-span-9">
               <AnimatedSection>
                 <p className="max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
+                  {bigLead}
                   <span className="text-accent-warm">{bigAccent}</span>
-                  {bigRest}
                 </p>
 
                 <p className="mt-10 max-w-lg text-body font-sans text-foundation-700">
