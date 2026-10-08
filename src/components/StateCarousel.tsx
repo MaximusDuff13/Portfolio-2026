@@ -16,7 +16,7 @@
 // slides across the stage. Everything else moves on 500ms ease-out CSS transitions; will-change
 // only while a change is under way; without filter: blur() support the blur is not applied.
 //
-// STAGE HEIGHT is from the states' own sizes: the active card's width (64%) × the tallest image's
+// STAGE HEIGHT is from the states' own sizes: the active card's width (64%, 86% below lg) × the tallest image's
 // height / width, as an aspect ratio,
 // plus 6px padding top and bottom so the active card's focus ring is not clipped. It is right
 // before any image loads.
@@ -26,7 +26,8 @@
 // the accessible way through the states.
 //
 // REDUCED MOTION. Only the active card, no transforms, no blur, instant.
-import { useEffect, useId, useRef } from 'react'
+import Image from 'next/image'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useLightbox } from './Lightbox'
 import { useStateAutoplay, TRANSITION_MS, EASE_OUT } from './useStateAutoplay'
 import { Controls, stateTone, type StateTone } from './StateControls'
@@ -35,8 +36,24 @@ import { Controls, stateTone, type StateTone } from './StateControls'
    its shape before the image loads. */
 export type CyclerState = { id: string; label: string; src: string; alt: string; width: number; height: number }
 
-const CARD = 0.64
+// The active card's share of the stage width: 64% from lg up, where the neighbours peek into the
+// wide row; 86% below lg, where at 64% a phone showed the active screen at ~217px wide.
+const CARD_LG = 0.64
+const CARD_SM = 0.86
+const LG = '(min-width: 1024px)'
 const GAP_PX = 24
+
+function useCardShare() {
+  const [card, setCard] = useState(CARD_LG)
+  useEffect(() => {
+    const query = window.matchMedia(LG)
+    const update = () => setCard(query.matches ? CARD_LG : CARD_SM)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+  return card
+}
 const all = ['opacity', 'transform', 'filter'].map((p) => `${p} ${TRANSITION_MS}ms ${EASE_OUT}`).join(', ')
 const fadeOnly = `opacity ${TRANSITION_MS}ms ${EASE_OUT}`
 
@@ -51,6 +68,7 @@ const shift = (slot: number) => `translateX(calc(${slot} * (100% + ${GAP_PX}px))
 
 /* `tone` is the band's: it colours the controls and the active card's focus ring. */
 export function StateCarousel({ states, tone = 'dark' }: { states: CyclerState[]; tone?: StateTone }) {
+  const card = useCardShare()
   const autoplay = useStateAutoplay({ count: states.length })
   const { active, select, pause, reduced, transitioning, stageProps } = autoplay
   const lightbox = useLightbox()
@@ -84,7 +102,7 @@ export function StateCarousel({ states, tone = 'dark' }: { states: CyclerState[]
         data-stage=""
         className="mt-6 overflow-hidden py-1.5 [contain:paint] lg:overflow-visible lg:[contain:none]"
       >
-        <div className="relative w-full" style={{ aspectRatio: `${tallest.width} / ${tallest.height * CARD}` }}>
+        <div className="relative w-full" style={{ aspectRatio: `${tallest.width} / ${tallest.height * card}` }}>
           {states.map((state, i) => {
             const slot = slotOf(i, active, n)
             const before = slotOf(i, prevActive.current, n)
@@ -115,14 +133,13 @@ export function StateCarousel({ states, tone = 'dark' }: { states: CyclerState[]
                     ? 'motion-reduce:!transition-none'
                     : 'motion-reduce:!opacity-0 motion-reduce:!transform-none motion-reduce:![filter:none] motion-reduce:!transition-none'
                 } ${peek ? 'cursor-pointer' : ''} ${slot === null ? 'pointer-events-none' : ''}`}
-                style={{ left: `${((1 - CARD) / 2) * 100}%`, width: `${CARD * 100}%`, ...style } as React.CSSProperties}
+                style={{ left: `${((1 - card) / 2) * 100}%`, width: `${card * 100}%`, ...style } as React.CSSProperties}
               >
                 <div
                   className="overflow-hidden rounded-lg border border-border"
                   style={{ aspectRatio: `${state.width} / ${state.height}` }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={state.src} alt={state.alt} decoding="async" className="block h-full w-full" />
+                  <Image src={state.src} alt={state.alt} width={state.width} height={state.height} sizes="(min-width: 1024px) 58vw, 86vw" className="block h-full w-full" />
                 </div>
                 {center && (
                   <button

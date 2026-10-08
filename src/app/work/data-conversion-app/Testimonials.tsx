@@ -12,12 +12,16 @@
 //
 // ATTRIBUTION. Both quotes are from the same person, so there is one attribution, not a role
 // under each: the single figcaption of one <figure> holding both blockquotes, in its own
-// full-width row under both columns after a hairline that spans them.
+// full-width row under both columns.
 //
 // QUOTES are reproduced verbatim. The project quote also appears, in a different form, in Impact;
 // the repetition is intentional.
 //
-// CONTRAST on body: eyebrow foundation-500 4.61:1; large quote foundation-900 16.9:1; small quote
+// LABEL. The rail sections' Fraunces label (Problem, Impact, Process…), as the section h2; it
+// was an uppercase grotesk eyebrow, a fourth label style. The attribution has no rule above it:
+// spacing carries that break, so the close of the page does not stack hairlines.
+//
+// CONTRAST on body: label foundation-900 16.9:1; large quote foundation-900 16.9:1; small quote
 // foundation-700 10.4:1; attribution foundation-600 7.4:1. The hairlines are decorative.
 import { AnimatedSection } from '@/components/AnimatedSection'
 
@@ -32,7 +36,7 @@ export function Testimonials() {
     <section className="px-6 sm:px-10 lg:px-section">
       <div className="max-w-6xl mx-auto border-t border-border py-section">
         <AnimatedSection>
-          <p className="font-grotesk text-label uppercase tracking-widest text-foundation-500">Testimonials</p>
+          <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">Testimonials</h2>
           <figure className="m-0 mt-10">
             <div className="grid grid-cols-1 gap-y-10 md:grid-cols-12 md:items-start">
               <blockquote className="m-0 font-accent accent-italic text-heading-m text-foundation-900 md:col-span-7">
@@ -42,7 +46,7 @@ export function Testimonials() {
                 {projectQuote}
               </blockquote>
             </div>
-            <figcaption className="mt-12 border-t border-border pt-6 font-sans text-body-sm font-medium text-foundation-600">
+            <figcaption className="mt-12 font-sans text-body-sm font-medium text-foundation-600">
               {attribution}
             </figcaption>
           </figure>

@@ -62,9 +62,9 @@ export function ProblemSection() {
 
               {/* The margin label. */}
               <div className="md:col-span-3">
-                <p className="font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
                   Problem
-                </p>
+                </h2>
               </div>
 
               <div className="md:col-span-9">
@@ -73,7 +73,7 @@ export function ProblemSection() {
                     foundation-800 it competed with the paragraph for the same voice. */}
                 <p className="max-w-xl text-body-sm font-sans text-foundation-500">{setup}</p>
 
-                <p className="mt-6 max-w-3xl font-accent accent-italic text-display-xl text-foundation-900">
+                <p className="mt-6 max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   <span className="text-accent-warm">{headingAccent}</span>
                   {headingRest}
                 </p>

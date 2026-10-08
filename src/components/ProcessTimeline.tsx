@@ -75,12 +75,12 @@ export function ProcessTimeline({
                 )}
               </div>
 
-              {/* pr-6 keeps a bullet clear of the next column's dot. mt-4 only from lg, where
+              {/* pr-2 keeps a bullet clear of the next column's dot. mt-4 only from lg, where
                   the track sits between the label and the list; stacked, the label's own mb-4
                   is the whole gap. */}
               <ul className="m-0 mt-0 list-disc space-y-1 pl-5 font-sans text-body-sm text-foundation-600 marker:text-foundation-400 lg:mt-4">
                 {phase.items.map((item) => (
-                  <li key={item} className="pr-6">
+                  <li key={item} className="pr-2">
                     {item}
                   </li>
                 ))}

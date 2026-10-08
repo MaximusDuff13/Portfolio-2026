@@ -206,20 +206,17 @@ const schemaWikiSequence = [
 
 /* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
-   feature is adding an entry here. */
+   feature is adding an entry here.
+
+   ORDER. Mapping & transformation, the core of the product and the only band with explored
+   alternatives, comes straight after Requirements so it lands before reader fatigue. Project
+   hub, the overview of every stage, comes last, once the reader has met those stages. */
 const problemSolutions: ProblemSolution[] = [
   {
     eyebrow: 'Requirements gathering',
     title: 'Where does the user go next?',
     lead: requirementsLead,
     image: journeyMap,
-  },
-  projectHub,
-  {
-    eyebrow: 'Schema & Wiki creation',
-    title: 'The upload was the easy part',
-    lead: schemaWikiLead,
-    sequence: schemaWikiSequence,
   },
   {
     eyebrow: 'Mapping & transformation',
@@ -231,6 +228,13 @@ const problemSolutions: ProblemSolution[] = [
     shippedFrom: ['Detail panel', 'Inline table'],
     shipped: mappingShipped,
   },
+  {
+    eyebrow: 'Schema & Wiki creation',
+    title: 'The upload was the easy part',
+    lead: schemaWikiLead,
+    sequence: schemaWikiSequence,
+  },
+  projectHub,
 ]
 
 const moreWork = [
@@ -305,14 +309,21 @@ export default function DataConversionAppPage() {
           {/* Headline column — eyebrow, two-part headline, description. */}
           <div className="md:col-span-8">
             <AnimatedSection>
-              <p className="text-label font-grotesk text-accent-warm uppercase">
+              {/* foundation-400, not accent-warm: accent-warm measures 4.14:1 on foundation-900,
+                  under AA for 11px text. Orange stays on the large "Acentra Health" (3:1 is
+                  enough there), the same trade the feature bands make for their eyebrows. */}
+              <p className="text-label font-grotesk text-foundation-400 uppercase">
                 {heroEyebrow}
               </p>
 
               {/* The closing phrase carries the accent face — Fraunces italic, WONK pinned
                   off via .accent-italic. Everything ahead of it stays Space Grotesk, so the
-                  face change is the emphasis. */}
-              <h1 className="mt-6 text-display-2xl font-grotesk text-body">
+                  face change is the emphasis.
+
+                  RESPONSIVE. display-2xl is a fixed 72px, which clipped "Reimagining" at a
+                  390px viewport, so the size steps up: 44px on a phone, display-xl from sm,
+                  display-2xl from lg. The token is global, so the steps live here. */}
+              <h1 className="mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-grotesk text-body">
                 Reimagining data conversion at
                 <br />
                 <span className="font-accent accent-italic text-accent-warm">
@@ -331,7 +342,7 @@ export default function DataConversionAppPage() {
             <AnimatedSection>
               {heroMeta.map(({ label, value, note }) => (
                 <div key={label} className="border-t border-border pt-4 pb-6">
-                  <p className="text-label font-grotesk text-accent-warm uppercase">{label}</p>
+                  <p className="text-label font-grotesk text-foundation-400 uppercase">{label}</p>
                   <p className="mt-2 text-heading-m font-grotesk text-body">{value}</p>
                   <p className="mt-2 text-caption font-sans text-foundation-400">{note}</p>
                 </div>
@@ -420,15 +431,13 @@ export default function DataConversionAppPage() {
       <section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
-            {/* The heading is not drawn, but the section still needs one. */}
-            <h2 className="sr-only">Process</h2>
-
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-6">
+              {/* The rail label, set like Problem's, MVP focus's and Impact's, and the section's
+                  real h2 (it replaced an uppercase label + tick over an sr-only heading). */}
               <div className="md:col-span-3">
-                <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
                   Process
-                </p>
-                <div className="mt-3 h-px w-8 bg-accent-warm" />
+                </h2>
               </div>
 
               <div className="md:col-span-9">
@@ -461,7 +470,11 @@ export default function DataConversionAppPage() {
           col-span-3 and their content at col-span-9; these run the full wrap, because on the spine
           each wireframe column came out at 255px, too narrow to read a dense table.
 
-          ACCENT. None: no body text or graphic in these bands is accent-coloured. */}
+          ACCENT. None: no body text or graphic in these bands is accent-coloured.
+
+          HEADING. Each band's title is an h3, so the run gets an sr-only h2 of its own; without
+          it the four titles nested under Process in the outline. */}
+      <h2 className="sr-only">Key design decisions</h2>
       {problemSolutions.map((feature, i) => (
         <ProblemSolutionFeature key={feature.eyebrow} index={i} feature={feature} />
       ))}

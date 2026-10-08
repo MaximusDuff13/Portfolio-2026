@@ -33,36 +33,14 @@ const bigRest = ', drafted by AI'
 const paragraph =
   'The MVP drafts the mappings and their transformation rules, and a person confirms them instead of writing each one from scratch.'
 
-// The ledger: a label at left, a plain sentence at right. Deliberately NOT stat tiles — the
-// figures are carried inside ordinary sentences and lifted only by weight and colour (Inter 500
-// on foundation-900 against foundation-600), never by size, fill, border or accent.
-//
-// Each sentence is segmented so a figure can take that weight without breaking the string into
-// markup. `strong: true` marks a figure.
-const ledger = [
-  {
-    label: 'Speed',
-    parts: [
-      { text: 'Mapping & transformation went from ' },
-      { text: '4 to 6 weeks', strong: true },
-      { text: ' to ' },
-      { text: '1 week', strong: true },
-    ],
-  },
-  {
-    label: 'Coverage',
-    parts: [
-      { text: '600 of 1,200', strong: true },
-      { text: ' target columns mapped at high confidence' },
-    ],
-  },
-  {
-    label: 'Real use',
-    parts: [
-      { text: '2', strong: true },
-      { text: ' programs ran real conversions on the MVP' },
-    ],
-  },
+// The results: three figures side by side, each a label, the figure in the stat token, and the
+// rest of its sentence below. This replaced a ledger of body-sm sentences, where the page's
+// strongest results read like footnotes. Still no fill, border or accent: size carries them.
+// The wording is the ledger's, split around the figure.
+const stats = [
+  { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from 4 to 6 weeks' },
+  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence' },
+  { label: 'Real use', figure: '2', rest: 'programs ran real conversions on the MVP' },
 ]
 
 export function Impact() {
@@ -74,15 +52,15 @@ export function Impact() {
 
             <div className="md:col-span-3">
               <AnimatedSection>
-                <p className="font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
                   Impact
-                </p>
+                </h2>
               </AnimatedSection>
             </div>
 
             <div className="md:col-span-9">
               <AnimatedSection>
-                <p className="max-w-3xl font-accent accent-italic text-display-xl text-foundation-900">
+                <p className="max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   <span className="text-accent-warm">{bigAccent}</span>
                   {bigRest}
                 </p>
@@ -92,31 +70,19 @@ export function Impact() {
                 </p>
               </AnimatedSection>
 
-              {/* Ledger. */}
+              {/* Results. A <dl>: each label names its figure. */}
               <AnimatedSection>
-                <div className="mt-12 border-t border-border pt-6">
-                  {ledger.map(({ label, parts }) => (
-                    <div
-                      key={label}
-                      className="flex flex-col gap-1 py-2.5 sm:flex-row sm:gap-0"
-                    >
-                      <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest sm:w-36 sm:shrink-0 sm:pt-1">
+                <dl className="m-0 mt-12 grid grid-cols-1 gap-8 border-t border-border pt-8 md:grid-cols-3 md:gap-10">
+                  {stats.map(({ label, figure, rest }) => (
+                    <div key={label} className="flex flex-col">
+                      <dt className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
                         {label}
-                      </p>
-                      <p className="max-w-lg text-body-sm font-sans text-foundation-600">
-                        {parts.map(({ text, strong }) =>
-                          strong ? (
-                            <span key={text} className="font-medium text-foundation-900">
-                              {text}
-                            </span>
-                          ) : (
-                            text
-                          ),
-                        )}
-                      </p>
+                      </dt>
+                      <dd className="m-0 mt-4 text-stat font-grotesk text-foundation-900">{figure}</dd>
+                      <dd className="m-0 mt-3 text-body-sm font-sans text-foundation-600">{rest}</dd>
                     </div>
                   ))}
-                </div>
+                </dl>
               </AnimatedSection>
 
               {/* Closing block — the organization statement and the quote, side by side. Its

@@ -5,8 +5,8 @@
 //
 // CENTRED on the stage's axis (the wide row's centre, which is also the carousel's active card). From lg up
 // the row is a 1fr / auto / 1fr grid: the pills sit in the middle column, exactly on the axis, and
-// the play/pause button hangs in the third column without pushing them off it. Below lg the pills
-// and button wrap as one centred flex row.
+// the play/pause button hangs in the third column without pushing them off it. From sm to lg the pills
+// and button wrap as one centred flex row; below sm, see PHONE.
 //
 // The intro label names the group: the tablist or toggle group is aria-labelledby it.
 //
@@ -22,8 +22,13 @@
 //     foundation-300 (10.18:1) on a foundation-700 border; the active pill foundation-900 on
 //     foundation-100 (16.03:1); the icon foundation-300 (10.18:1).
 //   · 'light' (body): intro foundation-500 (4.61:1); inactive pills foundation-600 (7.38:1) in a
-//     border-border outline; the active pill body on foundation-900 (16.9:1); the icon
-//     foundation-600 (7.38:1). The dark tone's colours all but vanish on this ground.
+//     foundation-500 outline (4.64:1, over the 3:1 a control's edge needs; border-border was
+//     1.21:1 and the pills all but disappeared); the active pill body on foundation-900 (16.9:1);
+//     the icon foundation-600 (7.38:1). The dark tone's colours all but vanish on this ground.
+//
+// PHONE. Below sm the pills are one horizontal scroll row with the play/pause button inline,
+// instead of wrapping onto three rows above the screenshot. p-1 / -m-1 keeps the focus ring
+// inside the scroller. Pills and the button are 44px tall, the minimum tap target.
 import { useRef } from 'react'
 import { Pause, Play } from 'lucide-react'
 import type { StateAutoplay } from './useStateAutoplay'
@@ -47,10 +52,10 @@ export function stateTone(tone: StateTone) {
       : 'border-foundation-900 bg-foundation-900 text-body',
     pillOff: dark
       ? 'border-foundation-700 text-foundation-300 hover:border-foundation-400'
-      : 'border-border text-foundation-600 hover:border-foundation-400 hover:text-foundation-900',
+      : 'border-foundation-500 text-foundation-600 hover:border-foundation-900 hover:text-foundation-900',
     play: dark
       ? 'border-foundation-700 text-foundation-300 hover:border-foundation-400'
-      : 'border-border text-foundation-600 hover:border-foundation-400 hover:text-foundation-900',
+      : 'border-foundation-500 text-foundation-600 hover:border-foundation-900 hover:text-foundation-900',
   }
 }
 
@@ -106,12 +111,12 @@ export function Controls({
     <div>
       <style>{fillKeyframes}</style>
       <StatesIntro id={`${idBase}-intro`} tone={tone} />
-      <div className="flex flex-wrap items-center justify-center gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+      <div className="flex items-center gap-3 sm:flex-wrap sm:justify-center lg:grid lg:grid-cols-[1fr_auto_1fr]">
         <div
           role={tabs ? 'tablist' : 'group'}
           aria-labelledby={`${idBase}-intro`}
           data-pills=""
-          className="flex flex-wrap justify-center gap-3 lg:col-start-2"
+          className="-m-1 flex min-w-0 flex-1 flex-nowrap gap-3 overflow-x-auto p-1 [scrollbar-width:none] sm:m-0 sm:flex-none sm:flex-wrap sm:justify-center sm:overflow-visible sm:p-0 lg:col-start-2"
         >
           {states.map((state, i) => {
             const on = i === active
@@ -130,7 +135,7 @@ export function Controls({
                 tabIndex={tabs ? (on ? 0 : -1) : undefined}
                 onClick={() => select(i)}
                 onKeyDown={(e) => onKey(e, i)}
-                className={`relative overflow-hidden rounded-full border px-4 py-2 font-grotesk text-nav-tab transition-colors motion-reduce:transition-none ${t.ring} ${
+                className={`relative min-h-11 shrink-0 overflow-hidden whitespace-nowrap rounded-full border px-4 py-2 font-grotesk text-nav-tab transition-colors motion-reduce:transition-none ${t.ring} ${
                   on ? t.pillOn : t.pillOff
                 }`}
               >
@@ -157,7 +162,7 @@ export function Controls({
           data-play=""
           aria-label={autoplayOn ? 'Pause automatic cycling' : 'Play automatic cycling'}
           onClick={togglePlay}
-          className={`grid h-10 w-10 place-items-center rounded-full border lg:justify-self-start ${t.play} transition-colors motion-reduce:transition-none ${t.ring}`}
+          className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border lg:justify-self-start ${t.play} transition-colors motion-reduce:transition-none ${t.ring}`}
         >
           <Pause aria-hidden="true" size={16} className={autoplayOn ? '' : 'hidden'} />
           <Play aria-hidden="true" size={16} className={autoplayOn ? 'hidden' : ''} />

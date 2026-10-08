@@ -60,12 +60,13 @@ export type ProblemSolution = {
    (6.01:1). The hero's accent-warm eyebrow is not reused: it measures 3.59:1 on foundation-800,
    under AA for 11px text, so the eyebrow takes the hero's caption tone instead.
    The card is foundation-900, one step darker than the band, set apart by that fill alone, with
-   no outline. Inside it: paragraphs foundation-100 (16.03:1), labels text-body (16.92:1), icons
-   foundation-400 (6.93:1).
+   no outline. Inside it: the lead sentence and the labels text-body (16.92:1), supporting
+   paragraphs foundation-300 (11.74:1; foundation-100 made long paragraphs glare and outweigh the
+   band's title), icons foundation-400 (6.93:1).
 
    LIGHT BAND (body). Exactly the styling before the dark band existed: foundation-100 card with
    its border-border outline, foundation-500 eyebrow (4.61:1), foundation-900 titles,
-   foundation-600 running text.
+   foundation-600 running text. In the card the lead sentence takes the title colour (foundation-900).
 
    `text` is the band's running text: the concept descriptions.
 
@@ -78,7 +79,7 @@ export function featureSurface(index: number) {
   return {
     band: dark ? 'bg-foundation-800' : 'bg-body',
     card: dark ? 'bg-foundation-900' : 'border border-border bg-foundation-100',
-    cardText: dark ? 'text-foundation-100' : 'text-foundation-600',
+    cardText: dark ? 'text-foundation-300' : 'text-foundation-600',
     cardLabel: dark ? 'text-body' : 'text-foundation-900',
     cardIcon: dark ? 'text-foundation-400' : 'text-foundation-600',
     eyebrow: dark ? 'text-foundation-400' : 'text-foundation-500',
@@ -95,10 +96,9 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
   const surface = featureSurface(index)
   const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states, sequence } = feature
   return (
-    // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge, or a
-    // full-bleed step sequence (100vw counts a classic scrollbar); it clips them there without a
-    // horizontal scrollbar.
-    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states || sequence ? ' overflow-x-clip' : ''}`}>
+    // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
+    // clips them there without a horizontal scrollbar.
+    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states ? ' overflow-x-clip' : ''}`}>
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
           <FeatureHeader
@@ -126,8 +126,10 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                     {label}
                   </p>
                 </div>
+                {/* The lead sentence is set larger and medium, in the label colour, so each column
+                    has a scannable first line; the supporting paragraph stays muted. */}
                 <div className="flex flex-col gap-6">
-                  <p className={`m-0 font-sans text-body ${surface.cardText}`}>{first}</p>
+                  <p className={`m-0 font-sans text-[18px] font-medium leading-snug ${surface.cardLabel}`}>{first}</p>
                   {body && <p className={`m-0 font-sans text-body ${surface.cardText}`}>{body}</p>}
                 </div>
               </div>
@@ -137,8 +139,9 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
           {/* Concepts → the shipped screen. The sketches make the argument; the real product comes
               once, last, at the full content width, and closes the feature.
 
-              WIDE ROW. From lg up the concept row breaks out of the 1152px wrap (see wideRow), so
-              each wireframe column is wider than the wrap's three-way split allows.
+              WIDTH. The concept row stays in the 1152px wrap, on the same edges as the card and the
+              shipped screen. Only the state carousel breaks out to the wide row, so a band's left
+              edge no longer jumps between widths.
 
               CONNECTORS. The concept row and the screenshot share a `relative` wrapper, which is
               the coordinate space ShippedConnectors draws in. mt-section between them (80px) gives
@@ -148,13 +151,11 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
           {concepts && shipped && (
             <LightboxProvider>
               <div className="relative mt-section">
-                <div className={wideRow}>
-                  <ConceptRow
-                    concepts={concepts}
-                    titleClassName={surface.conceptTitle}
-                    bodyClassName={surface.text}
-                  />
-                </div>
+                <ConceptRow
+                  concepts={concepts}
+                  titleClassName={surface.conceptTitle}
+                  bodyClassName={surface.text}
+                />
                 <figure
                   data-shipped=""
                   className="relative m-0 mt-section overflow-hidden rounded-lg border border-border"

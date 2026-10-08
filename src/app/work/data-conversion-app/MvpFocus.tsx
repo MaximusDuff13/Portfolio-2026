@@ -5,9 +5,9 @@
 // the left rail, the content in a nine-column right column, stacking to one column on a phone.
 // It sits directly after Problem, so it reads as the answer to the cost stated there.
 //
-// NOT the highlighter. The big accent-warm lines are reserved for Problem and Impact, so the
-// heading here is an ordinary heading-xl in foundation-900. This section states the constraint;
-// it does not compete with the two sections that carry the numbers.
+// NOT the highlighter. The accent-warm figures are reserved for Problem and Impact, so the
+// display line here is theirs in foundation-900 only. This section states the constraint; it
+// does not compete with the two sections that carry the numbers.
 //
 // SPACING. The between-section treatment, which this section took over from Problem when the
 // two swapped places: a leading border-t with pt-section below it, no pb-section, and a closing
@@ -38,15 +38,18 @@ export function MvpFocus() {
 
               {/* The margin label — same treatment as Problem's. */}
               <div className="md:col-span-3">
-                <p className="font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
                   MVP focus
-                </p>
+                </h2>
               </div>
 
               <div className="md:col-span-9">
-                <h2 className="text-heading-xl font-grotesk text-foundation-900">
+                {/* Problem's and Impact's display line, without their accent-warm span, so the
+                    three opening sections share one heading voice and the colour still belongs
+                    to the two that carry the numbers. A <p>: the rail label is the h2. */}
+                <p className="m-0 max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   An MVP, built in a month
-                </h2>
+                </p>
 
                 {/* Same measure as Problem's paragraph, for the same reason: max-w-lg lands
                     Inter at about 69 characters a line here, inside the 60–70 target. */}

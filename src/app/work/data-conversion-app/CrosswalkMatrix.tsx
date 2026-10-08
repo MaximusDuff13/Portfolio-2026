@@ -30,7 +30,9 @@ export function CrosswalkMatrix() {
       aria-hidden="true"
       viewBox={`0 0 ${vb.w} ${vb.h}`}
       preserveAspectRatio="xMaxYMid slice"
-      className="pointer-events-none absolute inset-y-0 right-0 h-full w-[46%] text-accent-warm opacity-[0.14]"
+      /* The mask fades the matrix out toward the bottom, where the hero sidebar's text sits on
+         top of it (md and up; stacked, the sidebar is below the matrix's reach anyway). */
+      className="pointer-events-none absolute inset-y-0 right-0 h-full w-[46%] text-accent-warm opacity-[0.14] md:[mask-image:linear-gradient(to_bottom,black_30%,transparent_70%)]"
     >
       {/* The lattice carries the "this is a crosswalk table" reading on its own — at a
           lower stroke opacity only the filled cells survive and it reads as scattered

@@ -201,7 +201,7 @@ export function PriorityPyramid({
               <li className="flex gap-3">
                 <span
                   aria-hidden="true"
-                  className={`mt-1.5 h-3 w-3 shrink-0 rounded-sm border border-border ${
+                  className={`mt-1.5 h-3 w-3 shrink-0 rounded-sm border border-foundation-400 ${
                     tier.mvp ? 'bg-accent-subtle' : 'bg-body'
                   }`}
                 />

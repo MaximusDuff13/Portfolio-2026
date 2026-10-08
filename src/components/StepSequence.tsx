@@ -6,12 +6,9 @@
 // NEW COMPONENT. Replaced a three-up row of screenshots: the steps get room to be read, and the
 // connector shows the order without squeezing into a narrow gutter.
 //
-// FULL BLEED. The block breaks out of the max-w-6xl wrap to the full viewport width
-// (w-screen + ml calc(50% − 50vw)), the way the band itself spans the viewport, and takes the
-// band's own gutters (px-6 / sm:px-10 / lg:px-section). The content inside is capped at 1800px,
-// the wide row's maximum (see wideRow), so it stays readable on very wide screens. 100vw counts a
-// classic scrollbar, so the band clips horizontal overflow (overflow-x: clip, see
-// ProblemSolutionFeature) and there is no horizontal scroll.
+// WIDTH. The block stays in the band's max-w-6xl wrap, on the same edges as the card above it.
+// It used to break out full-bleed (capped at 1800px), which gave each band three competing
+// widths; only the state carousel still breaks out, to the wide row.
 //
 // LAYOUT. md and up: a 12-column grid per step, the image in 7 columns (a bit over half the row)
 // and the text in the other 5, vertically centred. Steps 1 and 3 put the image left, step 2
@@ -125,8 +122,8 @@ export function StepSequence({
   }, [measure])
 
   return (
-    <div data-step-sequence="" className="ml-[calc(50%-50vw)] w-screen px-6 sm:px-10 lg:px-section">
-      <div ref={wrapRef} className="relative mx-auto max-w-[1800px]">
+    <div data-step-sequence="">
+      <div ref={wrapRef} className="relative">
         <ol
           data-steps=""
           className="m-0 flex list-none flex-col gap-section p-0 pl-10 md:gap-[calc(theme(spacing.section)*2)] md:pl-0"
@@ -150,7 +147,7 @@ export function StepSequence({
                     alt={step.alt}
                     width={step.width}
                     height={step.height}
-                    sizes="(min-width: 768px) 58vw, 100vw"
+                    sizes="(min-width: 1152px) 672px, (min-width: 768px) 58vw, 100vw"
                     className="block h-auto w-full"
                   />
                   <LightboxTrigger src={step.src} alt={step.alt} />
