@@ -41,7 +41,7 @@ const paragraph =
 // The wording is the ledger's, split around the figure.
 const stats = [
   { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from 4 to 6 weeks' },
-  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence. The rest came back marked medium or low for a person to review.' },
+  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence. The rest were flagged medium or low for a person to check.' },
   { label: 'Real use', figure: '2', rest: 'programs ran real conversions on the MVP' },
 ]
 

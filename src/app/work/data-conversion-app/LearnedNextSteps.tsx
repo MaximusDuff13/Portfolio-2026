@@ -16,8 +16,8 @@
 // GROUND. The page ground, opening with a border-border hairline as Testimonials and Keep
 // exploring do.
 //
-// CONTENT. Rewritten in the 2026-10-08 copy pass (plainer, no dashes); the last learned
-// paragraph and next steps 3 and 4 are new drafts for Michael to confirm.
+// CONTENT. Rewritten in the 2026-10-08 copy pass (plainer, no dashes); next steps 3 and 4 are
+// new drafts for Michael to confirm. The "If I did it again" paragraph was removed at his request.
 //
 // CONTRAST on body: labels foundation-900 16.9:1; prose and list foundation-700 10.4:1; list
 // numbers foundation-500 4.61:1.
@@ -34,7 +34,6 @@ const learned = [
   'This project changed how I think about designing with AI, in two ways.',
   'First, I sat with the AI Center of Excellence to understand what was really happening on the backend, then worked out which parts of it people should see. That meant collating mapping batches into a summary so grouping tables got easier, and showing the mapping and transformation logic in a way people could actually read. Seeing the backend up close changed what I thought the UI could show.',
   "Second, I used AI to explore ideas myself. Understanding the requirement and the user is still my favorite part of the work. What changed was how fast I could get from a thought to a shaped design: with Claude Design I went from notes to three or four layout options to something ready for Figma much faster than before.",
-  "If I did it again, I'd bring the journey map in before any screens get built, so the first conversation with leadership is about the flow rather than individual pages.",
 ]
 
 const ROW = 'grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-12'

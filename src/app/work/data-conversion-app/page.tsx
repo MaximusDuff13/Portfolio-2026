@@ -221,15 +221,21 @@ const schemaWikiSequence = [
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here.
 
-   ORDER. Mapping & transformation, the core of the product and the only band with explored
-   alternatives, comes straight after Requirements so it lands before reader fatigue. Project
-   hub, the overview of every stage, comes last, once the reader has met those stages. */
+   ORDER. The user's journey: Requirements, then Schema & Wiki creation (the upload the
+   mappings are drafted from), then Mapping & transformation. Project hub, the overview of
+   every stage, comes last, once the reader has met those stages. */
 const problemSolutions: ProblemSolution[] = [
   {
     eyebrow: 'Requirements gathering',
     title: 'Where does the user go next?',
     lead: requirementsLead,
     image: journeyMap,
+  },
+  {
+    eyebrow: 'Schema & Wiki creation',
+    title: 'The AI needed context, not just a file',
+    lead: schemaWikiLead,
+    sequence: schemaWikiSequence,
   },
   {
     eyebrow: 'Mapping & transformation',
@@ -241,12 +247,6 @@ const problemSolutions: ProblemSolution[] = [
     shippedFrom: ['Detail panel', 'Inline table'],
     shipped: mappingShipped,
     shippedCaption: mappingShippedCaption,
-  },
-  {
-    eyebrow: 'Schema & Wiki creation',
-    title: 'The upload was the easy part',
-    lead: schemaWikiLead,
-    sequence: schemaWikiSequence,
   },
   projectHub,
 ]
