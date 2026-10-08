@@ -96,11 +96,15 @@ export function PriorityPyramid({
   tiers,
   aboveLabel,
   belowLabel,
+  note,
 }: {
   title: string
   tiers: PyramidTiers
   aboveLabel: string
   belowLabel: string
+  /* Optional sentence under the diagram, in both variants. The caption token in foundation-600,
+     the colour of the diagram's own caption labels (foundation-500 is 4.40:1 on this card). */
+  note?: string
 }) {
   return (
     <FigureCard title={title}>
@@ -215,6 +219,7 @@ export function PriorityPyramid({
           ))}
         </ol>
       </div>
+      {note && <p className="m-0 mt-8 font-sans text-caption text-foundation-600">{note}</p>}
     </FigureCard>
   )
 }

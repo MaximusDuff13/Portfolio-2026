@@ -70,6 +70,7 @@ export function MvpFocus() {
                     tiers={tiers}
                     aboveLabel="Not in the MVP"
                     belowLabel="In the MVP"
+                    note="The dashed line marks where the MVP stopped."
                   />
                 </div>
               </div>
