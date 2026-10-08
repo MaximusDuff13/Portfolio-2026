@@ -19,8 +19,10 @@ export const metadata: Metadata = {
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
 
+// Leads with the problem and the outcome. The DDI acronym it used to open with is gone: the
+// Problem section explains the conversion steps in plain words.
 const description =
-  "DDI — Design, Develop, Implement — is how Acentra Health moves a state program's data from a legacy system onto our product. This MVP reimagines the mapping and transformation step with AI, cutting it from 4 to 6 weeks to 1 week."
+  "Mapping a state's legacy data onto our product took a team of 4 to 5 people 4 to 6 weeks, all in Excel. I designed an AI-assisted tool that drafts the mappings for them, and the step now takes 1 week."
 
 // Hero eyebrow. The headline follows it directly — the old lead-in line restated
 // the role, which the sidebar's My Role block already covers.
@@ -29,16 +31,22 @@ const heroEyebrow = 'Data conversion · AI-assisted MVP · August 2026'
 // Hero sidebar. Same label / value / supporting note shape as the rest of the case
 // study heroes. My Role is now the page's only statement of the role, so it absorbs
 // the scope phrasing that used to sit in a separate What I Owned block.
+// Timeline was added so what I owned, how long it took and who with all read on the first screen.
 const heroMeta = [
   {
     label: 'My Role',
-    value: 'Product Design',
-    note: 'Requirements, ideation and mockups, from legacy mapping through safe cutover',
+    value: 'Sole product designer',
+    note: 'Journey map, information architecture and every screen, from requirements to handoff',
+  },
+  {
+    label: 'Timeline',
+    value: '2 weeks of design',
+    note: 'Inside a 1 month MVP, with one frontend engineer',
   },
   {
     label: 'Collaboration',
     value: 'AI Center of Excellence and Program Implementation teams',
-    note: 'Partnered through build and rollout ahead of the state program cutover',
+    note: 'Worked with them from build through rollout, ahead of the state program cutover',
   },
 ]
 
@@ -49,26 +57,27 @@ const processPhases = [
   { label: 'Dev + testing', items: ['Partnered with the dev team through build and testing'] },
 ]
 
+// Each principle points at a moment in this project rather than general advice.
 const processPrinciples = [
   {
-    icon: ClipboardCheck,
-    term: 'Do your homework',
-    body: "Communicate clearly in standups about what decisions you need and by when. A simple sheet with timelines and required attention windows keeps everyone aligned.",
+    icon: Users,
+    term: 'Start with the people',
+    body: 'Before any screens, I mapped the journey with the analysts and project owners who do this work, so the AI was built around a real flow.',
   },
   {
-    icon: Users,
-    term: 'Build relationships',
-    body: "Know whether the person you're speaking with can actually make the decision, and bring evidence and backing from your teammates into every conversation.",
+    icon: ClipboardCheck,
+    term: 'Learn the backend first',
+    body: 'I sat with the AI Center of Excellence to understand what their models were doing before I designed anything that showed it.',
   },
   {
     icon: Eye,
-    term: "Show, don't tell",
-    body: 'Back design decisions with real data and user research. A concrete example or case study persuades faster than an argument.',
+    term: 'Let the evidence argue',
+    body: "Testing showed the AI couldn't pick up every business rule from a data dictionary. That result, not an opinion, is what got the prompt field into scope.",
   },
   {
     icon: CheckCircle2,
-    term: 'Done is better than perfect',
-    body: "Use a prioritisation framework, I prefer MoSCoW, for each screen so the team always knows what matters most.",
+    term: 'Agree on what to cut',
+    body: 'We settled early on what the MVP would leave out: delight and visual polish went, usable and functional stayed. MoSCoW on each screen kept those calls quick.',
   },
 ]
 
@@ -90,13 +99,13 @@ const mappingConcepts = [
   },
   {
     title: 'Inline table',
-    body: 'Every field lived directly in the table, but each description or transformation setting sent people to a separate screen. Too many redirects for a table this dense.',
+    body: 'Every field lived right in the table, but each description or transformation setting sent people off to another screen. Too much back and forth for a table this dense.',
     image: mappingDir + 'wireframe-2-inline-table-labeled.svg',
     alt: 'Inline table wireframe',
   },
   {
     title: 'Review queue',
-    body: 'People queued fields, then reviewed them one at a time on a dedicated screen. It separated selecting from reviewing, but pulling users off the table hurt their ability to compare fields side by side.',
+    body: 'People queued up fields, then reviewed them one at a time on their own screen. It kept picking separate from reviewing, but taking people off the table made it hard to compare fields side by side.',
     image: mappingDir + 'wireframe-3-review-queue-labeled.svg',
     alt: 'Review queue wireframe',
   },
@@ -113,13 +122,13 @@ const mappingLead = [
     icon: Rows3,
     label: 'Problem',
     lead: 'A single table had to carry the mapping, the transformation logic, AI confidence, descriptions, and review status, all at once.',
-    body: 'About 1,200 target columns needed mapping, and each one carried its own set of decisions: which source field it came from, how confident the AI was in that match, whether a transformation rule applied, and where it stood in review. Putting all of that in front of someone at once risked burying the one thing they actually needed right then: the field in front of them.',
+    body: 'About 1,200 target columns needed mapping, and each one came with its own decisions: which source field it came from, how sure the AI was, whether a transformation rule applied, and where it was in review. Showing all of that at once would bury the one thing someone needed right then, the field in front of them.',
   },
   {
     icon: PanelRight,
     label: 'Solution',
     lead: 'Keep the table focused on scanning and comparing, and open everything else in a panel beside it.',
-    body: 'The panel opens with the first row selected by default, and keeps Mapping and Transformation as two separate tabs, so a field that needs no transformation can simply leave that tab empty. We also borrowed an idea from the inline table: when a transformation involves a large crosswalk, like turning F and M into Female and Male, that table is too big for the panel, so it opens in a screen of its own instead, keeping the user focused on one thing at a time.',
+    body: "The panel opens with the first row already selected. Mapping and Transformation are separate tabs, so a field that needs no transformation just leaves that tab empty. We also kept one idea from the inline table: a large crosswalk, like turning F and M into Female and Male, is too big for the panel, so it opens on its own screen and the person can focus on that one thing.",
   },
 ]
 
@@ -130,6 +139,10 @@ const mappingShipped = {
   alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
 }
 
+// How people know when to trust a match. Shown under the shipped screen.
+const mappingShippedCaption =
+  'Every match shows how sure the AI is (high, medium or low) and whether the AI suggested it or a person set it. People can filter by AI score to start with the weakest matches, change the source field in the panel, and move each mapping through review until the state approves it.'
+
 /* Requirements gathering. No concepts or shipped screen: the card, then the journey map the
    solution describes. Icons: LayoutGrid (the separate screens) and Route (the journey between
    them), drawn like the other card icons. */
@@ -139,14 +152,14 @@ const requirementsLead = [
   {
     icon: LayoutGrid,
     label: 'Problem',
-    lead: 'The first screens were built individually with AI and shown to leadership to win buy-in, but they had no flow.',
-    body: "There was no sense of where a user would come from, what they'd click, or what they'd do next — just a set of major screens, with the journey between them left undefined.",
+    lead: 'The first screens were each built with AI and shown to leadership to win their support, but they had no flow.',
+    body: "Nobody knew where a user would come from, what they'd click, or what they'd do next. It was a set of big screens with nothing defined between them.",
   },
   {
     icon: Route,
     label: 'Solution',
     lead: 'Start with the people building it and the people using it, not the screens.',
-    body: 'I mapped the current customer journey with stakeholders, then worked with the AI Center of Excellence to understand what they had built and which parts of the process they were targeting. Bringing the two together gave us a user journey that showed exactly where AI could make things faster. For the MVP we scoped down to one piece of that flow, built to scale to the rest later.',
+    body: "I mapped the current journey with stakeholders, then worked with the AI Center of Excellence to learn what they'd built and which parts of the process they were going after. Putting the two together showed exactly where AI could save time. For the MVP we picked one piece of that flow and built it so the rest could follow.",
   },
 ]
 
@@ -167,13 +180,13 @@ const schemaWikiLead = [
   {
     icon: FileQuestion,
     label: 'Problem',
-    lead: "A data dictionary describes the outgoing vendor's tables and fields, and the state provides it once the agreement is signed. The original scope was to let users upload it, and stopped there.",
-    body: "What happened after upload, whether a user could see the result, handle an edge case, or make a change, wasn't yet defined, and early testing showed the AI couldn't generalize every business rule from the dictionary alone.",
+    lead: "Once the agreement is signed, the state hands over a data dictionary describing the outgoing vendor's tables and fields. The original scope was just to let people upload it.",
+    body: "Nobody had defined what came after the upload: whether people could see the result, handle an edge case or make a change. Upload alone would have been quicker to build, but early testing showed the AI couldn't work out every business rule from the dictionary by itself.",
   },
   {
     icon: MessageSquarePlus,
     label: 'Solution',
-    lead: "Add a prompt field alongside the upload, so a person can describe business validations the AI would otherwise miss. It's an MD file underneath, so a later phase can make it directly editable instead of PDF-only.",
+    lead: "Add a prompt field next to the upload, so a person can describe the business rules the AI would otherwise miss. Underneath it's a Markdown file, so a later phase can let people edit it directly instead of only reading a PDF.",
   },
 ]
 
@@ -184,7 +197,7 @@ const schemaWikiSequence = [
     height: 3580,
     alt: 'The Schema and Wiki setup screen with Upload data dictionaries selected, a drag-and-drop upload area, and an optional Additional Wiki guidance text field with placeholder text about business definitions, field relationships, and code values.',
     caption: 'Upload, with an optional prompt',
-    sentence: 'A person uploads the data dictionary the state provided, and can add a short prompt describing any business rules the AI should know about.',
+    sentence: 'A person uploads the data dictionary from the state, and can add a short prompt about any business rules the AI should know.',
   },
   {
     src: schemaWikiDir + 'success-and-append.png',
@@ -192,7 +205,7 @@ const schemaWikiSequence = [
     height: 3200,
     alt: 'The Schema and Wiki setup screen after success, showing 147 table Wikis generated, source and target schema details, and Return to project and Append more data dictionary buttons.',
     caption: 'Generated, with room to add more',
-    sentence: 'The AI generates the Source Wikis from the dictionary and the prompt, and the person can append more data dictionaries if something was missed.',
+    sentence: 'The AI writes the Source Wikis from the dictionary and the prompt. If something was missed, the person can add more dictionaries.',
   },
   {
     src: schemaWikiDir + 'documents-list.png',
@@ -200,7 +213,7 @@ const schemaWikiSequence = [
     height: 3804,
     alt: "The project's Documents tab showing the Source Wiki list: 147 source tables and 124 target tables, with a searchable table of names, descriptions, field counts, and view and download actions per row.",
     caption: 'Visible in Documents, not just the backend',
-    sentence: "Every generated Wiki is listed in Project Hub's Documents tab, where it can be viewed or downloaded instead of staying backend-only.",
+    sentence: "Every Wiki shows up in the Project Hub's Documents tab, where people can open or download it instead of it living only in the backend.",
   },
 ]
 
@@ -227,6 +240,7 @@ const problemSolutions: ProblemSolution[] = [
     // Inline table; Review queue contributed nothing, so it gets no connector.
     shippedFrom: ['Detail panel', 'Inline table'],
     shipped: mappingShipped,
+    shippedCaption: mappingShippedCaption,
   },
   {
     eyebrow: 'Schema & Wiki creation',

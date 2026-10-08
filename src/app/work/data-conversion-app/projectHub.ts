@@ -14,13 +14,13 @@ export const projectHubLead = [
     icon: Workflow,
     label: 'Problem',
     lead: 'A process like this moves through several steps, and each step can be ready to start, running, failed, or finished.',
-    body: 'A simple progress bar would have been enough for the MVP, but data conversion would later add stages of its own, and the design needed to handle them without a rebuild.',
+    body: 'A simple progress bar would have done for the MVP. But data conversion would add stages of its own later, and the hub had to take them without a rebuild.',
   },
   {
     icon: ListChecks,
     label: 'Solution',
     lead: 'Build the hub around states, not just a progress bar.',
-    body: 'Each step reports what is happening in plain words, with the next action beside it. Source Wiki generation shows all four states, and the same pattern already carries Mapping & transformation, so new stages can slot in without redesigning the hub.',
+    body: "Each step says what's happening in plain words, with the next action right beside it. Source Wiki generation uses all four states, and Mapping & transformation already follows the same pattern, so new stages can slot in without redesigning the hub.",
   },
 ]
 

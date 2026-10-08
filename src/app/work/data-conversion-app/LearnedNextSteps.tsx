@@ -16,7 +16,8 @@
 // GROUND. The page ground, opening with a border-border hairline as Testimonials and Keep
 // exploring do.
 //
-// CONTENT is reproduced verbatim.
+// CONTENT. Rewritten in the 2026-10-08 copy pass (plainer, no dashes); the last learned
+// paragraph and next steps 3 and 4 are new drafts for Michael to confirm.
 //
 // CONTRAST on body: labels foundation-900 16.9:1; prose and list foundation-700 10.4:1; list
 // numbers foundation-500 4.61:1.
@@ -24,15 +25,16 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 
 const nextSteps = [
   "Test the MVP with more programs to see where it holds up and where it doesn't.",
-  'Learn what data needs to be more visible to the user, and where the performance gaps are, using the testing plan already in place.',
-  'Understand how people are actually using the product before building on top of it — the foundation needs to hold before more features get layered on.',
+  'Use the testing plan already in place to learn what people need to see more clearly and where performance falls short, before layering more features on top.',
+  "Watch how new staff handle transformation. The journey map showed that's where they feel most overwhelmed, and where the AI drafts should help most.",
+  'Bring Conversion & sync into the hub. It was out of scope for the MVP, but the state based design was built to take it.',
 ]
 
 const learned = [
-  'This project reshaped how I think about AI as a designer, in two ways.',
-  'The first was sitting with the AI Center of Excellence to understand what was actually happening on the backend, then figuring out what of that could surface to the user directly: collating mapping batches into a summary so grouping tables became easier, and showing the transformation and mapping logic in a way people could actually read. Seeing the backend side up close changed what I thought was possible to expose in the UI.',
-  "The second was ideating with AI myself. Understanding the requirement and the user has always been my favorite part of this work, and that didn't change. What changed was the distance between a thought and a shaped design. Claude Design let me move from notes to a summary document to three or four layout options to something polished enough to bring into Figma and hand to the team, much faster than I was used to.",
-  'Going forward, integrating an MCP connection would let me bring designs from Claude back into Figma for final touches, review, and moving between tools.',
+  'This project changed how I think about designing with AI, in two ways.',
+  'First, I sat with the AI Center of Excellence to understand what was really happening on the backend, then worked out which parts of it people should see. That meant collating mapping batches into a summary so grouping tables got easier, and showing the mapping and transformation logic in a way people could actually read. Seeing the backend up close changed what I thought the UI could show.',
+  "Second, I used AI to explore ideas myself. Understanding the requirement and the user is still my favorite part of the work. What changed was how fast I could get from a thought to a shaped design: with Claude Design I went from notes to three or four layout options to something ready for Figma much faster than before.",
+  "If I did it again, I'd bring the journey map in before any screens get built, so the first conversation with leadership is about the flow rather than individual pages.",
 ]
 
 const ROW = 'grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-12'

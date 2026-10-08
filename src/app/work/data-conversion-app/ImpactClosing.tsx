@@ -42,13 +42,15 @@ const orgLabel = `For ${ACENTRA}`
 // Qualitative only. There is no measured figure for the overall implementation speed-up, so this
 // states the direction and stops. It also re-states which step is meant, so a reader coming
 // straight from Problem needs no numbering.
-const orgLine = `Mapping and transformation is the longest step in converting a state's data. Shortening it gets ${ACENTRA} to the state's review sooner and speeds up the overall implementation.`
+const orgLine = `Mapping and transformation is the longest step in converting a state's data. Making it shorter gets ${ACENTRA} to the state's review sooner, and the whole implementation moves faster.`
 
 // Reproduced verbatim, including the square brackets and the speaker's own grammar, and wrapped
 // in typographic quotation marks written as plain characters. Attribution is role only.
+// Verbatim, the original wording (it used to sit in Testimonials; the edited version that was
+// here is gone, so the quote appears once on the page).
 const quoteText =
-  '“We have started using the AI based conversion mapping for [an implementation] and were able to produce the first mapping in just 24 hours from 2 to 3 weeks.”'
-const quoteRole = 'Program Director'
+  '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. However, this is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”'
+const quoteRole = 'Pradeep Jain, Program Director'
 
 // One constant for both labels, so they cannot drift apart in size, weight, colour or tracking.
 const LABEL = 'text-label font-grotesk text-foundation-500 uppercase tracking-widest'

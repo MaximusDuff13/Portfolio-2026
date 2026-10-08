@@ -41,6 +41,8 @@ export type ProblemSolution = {
      the shipped screenshot. Must match concept titles exactly. */
   shippedFrom?: string[]
   shipped?: Picture
+  /* One or two sentences under the shipped screenshot, in the band's running-text colour. */
+  shippedCaption?: string
   /* A single full-width image after the card, such as a journey map, for a feature without
      concepts. Natural aspect ratio, never cropped, and click-to-enlarge. */
   image?: Picture
@@ -94,7 +96,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, image, states, sequence } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, shippedCaption, image, states, sequence } = feature
   return (
     // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
     // clips them there without a horizontal scrollbar.
@@ -170,6 +172,10 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                   />
                   <LightboxTrigger src={shipped.src} alt={shipped.alt} />
                 </figure>
+                {/* Outside the figure: the figure clips to its rounded frame. */}
+                {shippedCaption && (
+                  <p className={`m-0 mt-6 max-w-3xl font-sans text-body-sm ${surface.text}`}>{shippedCaption}</p>
+                )}
                 {shippedFrom.length > 0 && (
                   <ShippedConnectors
                     from={shippedFrom}

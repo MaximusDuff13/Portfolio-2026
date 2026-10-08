@@ -18,7 +18,7 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { PriorityPyramid, type PyramidTiers } from '@/components/PriorityPyramid'
 
 const paragraph =
-  'We came together, me as the designer, one frontend engineer and the AI Center of Excellence team, to build this MVP in a month. The design took 2 weeks of that.'
+  'We built this MVP in a month: me as the only designer, one frontend engineer, and the AI Center of Excellence team. Design had 2 weeks of it.'
 
 // Top to bottom: what was cut tapers away above the line, what shipped carries the width below.
 const tiers: PyramidTiers = [

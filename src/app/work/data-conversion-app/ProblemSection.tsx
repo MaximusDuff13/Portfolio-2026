@@ -39,9 +39,9 @@ const headingRest = ', done in Excel'
 // The F / M / O example is illustrative prose and stays prose — it is deliberately NOT drawn as
 // a table, diagram or field-mapping graphic.
 const paraLead =
-  "Converting a state's data from its legacy system into ours takes four steps. The first, "
+  "Moving a state's data from its legacy system into ours takes four steps. The first, "
 const paraEmphasis = 'mapping and transformation'
-const paraRest = `, is the longest and the one this project targets. Mapping matches each old field to a new one. Transformation rules reshape the data to fit, like turning F, M and O into Female, Male and Others. A team of 4 to 5 people does all of it in Excel, with no standard format. The state then reviews the result, ${ACENTRA} fixes it, and the state approves.`
+const paraRest = `, takes the longest, and it's the one this project goes after. Mapping matches each old field to a new one. Transformation rules reshape the data to fit, like turning F, M and O into Female, Male and Others. A team of 4 to 5 people does all of it in Excel, with no standard format. Then the state reviews it, ${ACENTRA} fixes what's flagged, and the state approves.`
 
 // SPACING. One source of space per side of every rule, so each hairline sits centred in 160px.
 // This is the first section after the product shot, and it carries that treatment:

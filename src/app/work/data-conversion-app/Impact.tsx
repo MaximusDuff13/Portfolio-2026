@@ -30,8 +30,10 @@ import { ImpactClosing } from './ImpactClosing'
 const bigAccent = '1 week'
 const bigRest = ', drafted by AI'
 
+// The last two sentences square the headline with the Program Director's quote: 1 week is the
+// whole step through state review; 24 hours (from 2 to 3 weeks) is the first draft alone.
 const paragraph =
-  'The MVP drafts the mappings and their transformation rules, and a person confirms them instead of writing each one from scratch.'
+  "The MVP drafts the mappings and their transformation rules, and a person checks and confirms each one instead of writing it from scratch. That 1 week covers the whole step, through the state's review. The first draft on its own used to take 2 to 3 weeks and now takes about 24 hours."
 
 // The results: three figures side by side, each a label, the figure in the stat token, and the
 // rest of its sentence below. This replaced a ledger of body-sm sentences, where the page's
@@ -39,7 +41,7 @@ const paragraph =
 // The wording is the ledger's, split around the figure.
 const stats = [
   { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from 4 to 6 weeks' },
-  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence' },
+  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence. The rest came back marked medium or low for a person to review.' },
   { label: 'Real use', figure: '2', rest: 'programs ran real conversions on the MVP' },
 ]
 
