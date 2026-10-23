@@ -1,0 +1,122 @@
+/* Page transitions (see PageTransitions.tsx), keyed on html[data-tx]. Only opacity, transform
+   and clip-path move. Under reduced motion transitionTo() never starts one, so nothing here
+   runs; the media query is a second guard. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the header stays put through every change (on the home page it isn't shown at all) */
+  body > header {
+    view-transition-name: site-header;
+  }
+  ::view-transition-group(site-header),
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) {
+    animation: none;
+  }
+
+  /* 1, 2, 4 · the old page fades out fast; the new one rises 8px into place as it fades in */
+  html:is([data-tx='1'], [data-tx='2'], [data-tx='4'])::view-transition-old(root) {
+    animation: tx-out 150ms cubic-bezier(0.4, 0, 1, 1) both;
+  }
+  html:is([data-tx='1'], [data-tx='2'], [data-tx='4'])::view-transition-new(root) {
+    animation: tx-rise 280ms cubic-bezier(0.2, 0.7, 0.3, 1) 90ms both;
+  }
+
+  /* 2 · the case card and the case study hero share names (globals: .vt-*), so their image and
+     title travel between the two places; this sets that journey's pace */
+  html[data-tx='2']::view-transition-group(*) {
+    animation-duration: 440ms;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  html[data-tx='2']::view-transition-group(root) {
+    animation-duration: 280ms;
+  }
+
+  /* 3 · the old page dims toward near-black while the new one wipes up over it from below */
+  html[data-tx='3']::view-transition-old(root) {
+    animation: tx-dim 520ms cubic-bezier(0.4, 0, 0.6, 1) both;
+  }
+  html[data-tx='3']::view-transition-new(root) {
+    animation: tx-wipe 560ms cubic-bezier(0.7, 0, 0.2, 1) both;
+  }
+}
+
+@keyframes tx-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes tx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes tx-dim {
+  to {
+    filter: brightness(0.15);
+  }
+}
+@keyframes tx-wipe {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* the morph's shared names: only in mode 2, so the other modes never morph */
+html[data-tx='2'] .vt-media-acentra {
+  view-transition-name: case-media-acentra;
+}
+html[data-tx='2'] .vt-title-acentra {
+  view-transition-name: case-title-acentra;
+}
+html[data-tx='2'] .vt-media-dca {
+  view-transition-name: case-media-dca;
+}
+html[data-tx='2'] .vt-title-dca {
+  view-transition-name: case-title-dca;
+}
+
+/* TEMPORARY · the development-only mode switcher */
+.tx-switch {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 4px 4px 12px;
+  border-radius: 999px;
+  background: #1c1917;
+  color: #fdfbf7;
+  font: 500 12px/1 system-ui, sans-serif;
+  box-shadow: 0 8px 20px -10px rgb(0 0 0 / 0.5);
+}
+.tx-switch span {
+  margin-right: 6px;
+  opacity: 0.8;
+}
+.tx-switch button {
+  min-width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.tx-switch button:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+.tx-switch button[aria-pressed='true'] {
+  background: #fdfbf7;
+  color: #1c1917;
+}
+.tx-switch button:focus-visible {
+  outline: 2px solid #f5a65b;
+  outline-offset: 1px;
+}

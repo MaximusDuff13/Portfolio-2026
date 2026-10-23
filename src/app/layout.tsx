@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Inter, Caveat, Fraunces } from 'next/font/google'
 import { Header } from '@/components/Header'
+import { PageTransitions } from '@/components/PageTransitions'
 import './globals.css'
 
 const spaceGrotesk = Space_Grotesk({
@@ -63,6 +64,7 @@ export default function RootLayout({
     >
       <body>
         <Header />
+        <PageTransitions />
         <div className="pt-16">{children}</div>
       </body>
     </html>

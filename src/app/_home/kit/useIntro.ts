@@ -14,7 +14,8 @@ import { useReducedMotionSafe } from '@/lib/useReducedMotionSafe'
    opens on final and never plays by itself; Replay then runs the cross-fade version: every
    card at once, a short hold, the cleanup steps at a reading pace, then final.
 
-   A hash on the URL (#work, #about...) opens on final, so a deep link never waits. */
+   A hash on the URL (#work, #about...) opens on final, so a deep link never waits, and so
+   does a second visit in the same session (back from a case study, say): the intro plays once. */
 
 export type Phase = 'noise' | 'cleanup' | 'final'
 
@@ -90,7 +91,12 @@ export function useIntro({ count, cleanupSteps, popFrom = 260, popTo = 45, start
     const t = window.setTimeout(() => {
       if (started.current) return
       started.current = true
-      if (reduced || window.location.hash) {
+      let seen = false
+      try {
+        seen = window.sessionStorage.getItem('home-intro-seen') === '1'
+        window.sessionStorage.setItem('home-intro-seen', '1')
+      } catch {}
+      if (reduced || window.location.hash || seen) {
         setPhase('final')
         return
       }

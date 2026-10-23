@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { links } from '@/data/links'
 import { BALL_GAP, DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
+import { afterPageTransition, transitionTo } from './PageTransitions'
 
 /* The site header on every page but home (the home page hides it: its docked tab row is the
    nav there). Just the logo, Michael and his dog cut from the home painting, and the dog
@@ -51,12 +52,19 @@ export function Header() {
       setInLogo(true)
       return
     }
-    const m = marks()
-    if (!m) return
-    setInLogo(false)
-    // a frame later, once the logo shows Michael alone, so the dog is never in two places
-    const raf = requestAnimationFrame(() => requestAnimationFrame(() => fetch(m.in, m.sit, m.far)))
-    return () => cancelAnimationFrame(raf)
+    // once the page transition (if any) has finished, so the two never compete
+    let raf = 0
+    const cancel = afterPageTransition(() => {
+      const m = marks()
+      if (!m) return
+      setInLogo(false)
+      // a frame later, once the logo shows Michael alone, so the dog is never in two places
+      raf = requestAnimationFrame(() => (raf = requestAnimationFrame(() => fetch(m.in, m.sit, m.far))))
+    })
+    return () => {
+      cancel()
+      cancelAnimationFrame(raf)
+    }
     // marks() reads the DOM; it only needs re-running when the page or the breakpoint changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, dogOn, fetch, hide])
@@ -72,7 +80,7 @@ export function Header() {
       hide()
       setInLogo(true)
       setGreet(true)
-      window.setTimeout(() => router.push(links.home), reduced ? 0 : 650)
+      window.setTimeout(() => transitionTo(links.home), reduced ? 0 : 650)
     }
     if (!m || reduced) return home()
     runIn(m.in).then(home)
@@ -83,6 +91,8 @@ export function Header() {
       <div ref={rowRef} className="relative flex items-center px-6 sm:px-10 lg:px-section h-16">
         <Link
           ref={logoRef}
+          // the homecoming runs first, then goHome hands over to the page transition itself
+          data-tx-skip
           href={links.home}
           aria-label="Michael Jerome, home"
           onClick={goHome}

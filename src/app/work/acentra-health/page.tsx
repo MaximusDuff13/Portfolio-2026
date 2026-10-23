@@ -224,7 +224,7 @@ export default function AcentraHealthPage() {
 
           <div className="flex-1 md:pr-20 flex items-center">
             <AnimatedSection>
-              <h1 className="text-display-2xl font-grotesk text-body">
+              <h1 className="vt-title-acentra text-display-2xl font-grotesk text-body">
                 One System.<br />Two Brands
               </h1>
             </AnimatedSection>
@@ -248,7 +248,9 @@ export default function AcentraHealthPage() {
         <div className="absolute inset-0 top-0 h-1/2 bg-foundation-900" />
         <section className="relative z-10 px-6 sm:px-10 lg:px-section pt-section pb-0">
           <div className="max-w-6xl mx-auto">
-            <BrowserMockup src="/videos/acentra-health.mp4" url="acentrahealth.com/design-system" />
+            <div className="vt-media-acentra">
+              <BrowserMockup src="/videos/acentra-health.mp4" url="acentrahealth.com/design-system" />
+            </div>
           </div>
         </section>
       </div>

@@ -60,7 +60,11 @@ export function HomePage() {
   }, [])
   const smooth = intro.reduced ? 'auto' : 'smooth'
   // switching tabs while docked starts the new panel at its top, under the bar
+  // for the tab transition: the side the new tab lies on, and that a tab has been picked
+  const [tabMove, setTabMove] = useState<'left' | 'right' | null>(null)
   const pickTab = (id: typeof tab) => {
+    const order = ['work', 'side', 'accolades', 'about']
+    if (id !== tab) setTabMove(order.indexOf(id) > order.indexOf(tab) ? 'right' : 'left')
     setTab(id)
     const marker = dockRef.current
     // 1px past the marker: exactly at 0 it would count as undocked
@@ -187,7 +191,13 @@ export function HomePage() {
           </div>
         </section>
 
-        <section ref={tabsRef} className="a-tabs" aria-label="Portfolio" data-on={final || undefined}>
+        <section
+          ref={tabsRef}
+          className="a-tabs"
+          aria-label="Portfolio"
+          data-on={final || undefined}
+          data-tab-move={tabMove ?? undefined}
+        >
           <div ref={dockRef} aria-hidden="true" />
           <div className="a-tabbar" data-docked={docked || undefined}>
             {/* back to the top: the painting's two figures, shown only while the bar is docked */}

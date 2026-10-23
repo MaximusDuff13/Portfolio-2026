@@ -29,15 +29,17 @@ export function SampleTag({ label = 'Sample' }: { label?: string }) {
 
 export function CaseCard({ item, compact, interactive = true }: Common & { item: CaseStudy }) {
   const Title = interactive ? 'a' : 'span'
+  // the page transition's morph targets (mode 2): only the real card, never the noise's copies
+  const vt = !compact && interactive
   return (
     <article className="cd cd-case" data-compact={compact || undefined}>
-      <div className="cd-media">
+      <div className={`cd-media${vt ? ` vt-media-${item.id}` : ''}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image.src} alt={compact ? '' : item.image.alt} loading="lazy" decoding="async" />
         {item.mediaPlaceholder && !compact && <SampleTag label="Placeholder media" />}
       </div>
       <div className="cd-body">
-        <h3 className="cd-title">
+        <h3 className={`cd-title${vt ? ` vt-title-${item.id}` : ''}`}>
           <Title {...(interactive ? { href: item.href } : {})} className="cd-link">
             {item.question}
           </Title>

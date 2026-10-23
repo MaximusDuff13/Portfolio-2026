@@ -337,7 +337,7 @@ export default function DataConversionAppPage() {
                   RESPONSIVE. display-2xl is a fixed 72px, which clipped "Reimagining" at a
                   390px viewport, so the size steps up: 44px on a phone, display-xl from sm,
                   display-2xl from lg. The token is global, so the steps live here. */}
-              <h1 className="mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-grotesk text-body">
+              <h1 className="vt-title-dca mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-grotesk text-body">
                 Reimagining data conversion at
                 <br />
                 <span className="font-accent accent-italic text-accent-warm">
@@ -396,7 +396,7 @@ export default function DataConversionAppPage() {
       <section className="relative z-10 px-6 sm:px-10 lg:px-section pb-section -mt-28">
         <div className="max-w-6xl mx-auto">
           <div
-            className="relative overflow-hidden rounded-lg border border-border bg-foundation-100 aspect-video"
+            className="vt-media-dca relative overflow-hidden rounded-lg border border-border bg-foundation-100 aspect-video"
             style={{
               boxShadow:
                 '0 0 0 1px rgba(255, 255, 255, 0.16), 0 25px 50px -12px rgba(0, 0, 0, 0.3)',
