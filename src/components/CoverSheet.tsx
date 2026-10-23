@@ -1,8 +1,6 @@
 /* NEW — a compact case-file cover sheet: Company, Role, Dates, Scope, Outcome, Read time,
-   Audience and Status in a ruled form. The signature detail of the work zone: it sits
-   under each case study card, and on the contents wall tiles (where ContentsWall handles
-   its hover/focus reveal). Built from existing tokens only; a "Draft" status reuses the
-   warning palette as a file stamp. */
+   Audience and Status in a ruled form. Used by the case study covers and entries. Built from
+   existing tokens only; a "Draft" status reuses the warning palette as a file stamp. */
 
 export type CoverSheetData = {
   company: string

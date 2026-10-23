@@ -1,0 +1,262 @@
+/* Window variant 3 · Hong Kong flat window. Scoped under .w3; the page sets
+   the window's materials as custom properties and the shapes read them. */
+
+.w3 {
+  --w3-pad: 12px; /* the reveal's depth around the frame */
+  --w3-sill: 14px;
+  --w3-sill-out: 8px; /* how far the ledge runs past the reveal */
+  position: relative;
+  width: 100%;
+}
+
+/* ── Structure ──────────────────────────────────────────────────────────── */
+.w3-reveal {
+  position: relative;
+  margin-inline: var(--w3-sill-out);
+  padding: var(--w3-pad) var(--w3-pad) 0;
+  background: var(--w3-wall);
+}
+.w3-glass {
+  position: relative;
+  isolation: isolate;
+}
+.w3-sashes {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.w3-sill {
+  position: relative;
+  height: var(--w3-sill);
+  background: var(--w3-ledge);
+}
+.w3-plant {
+  position: absolute;
+  z-index: 6;
+  left: calc(var(--w3-sill-out) + var(--w3-pad) + 2.5%);
+  bottom: calc(var(--w3-sill) - 2px);
+  width: clamp(30px, 9.5%, 46px);
+  height: auto;
+  aspect-ratio: 60 / 92;
+  pointer-events: none;
+}
+
+/* the loop sits square inside the frame, whatever the direction gave it */
+.w3 .a-loop,
+.w3 .b-loop,
+.w3 .c-loop {
+  border-radius: 0;
+  box-shadow: none;
+}
+/* the pause control steps in off the frame */
+.w3 .w3-glass button {
+  right: calc(2% + 8px);
+  bottom: calc(6% + 8px);
+}
+
+/* ── Shapes ─────────────────────────────────────────────────────────────── */
+.w3-pane {
+  fill: var(--w3-glass);
+}
+.w3-glint-a {
+  stop-color: var(--w3-glint);
+  stop-opacity: 1;
+}
+.w3-glint-b {
+  stop-color: var(--w3-glint);
+  stop-opacity: 0;
+}
+.w3-sash,
+.w3-frame {
+  fill: var(--w3-metal);
+  stroke: var(--w3-edge);
+  stroke-width: var(--w3-stroke, 1px);
+  vector-effect: var(--w3-vfx, non-scaling-stroke);
+  stroke-linejoin: round;
+}
+.w3-frame {
+  fill: var(--w3-metal-2, var(--w3-metal));
+}
+.w3-latch rect {
+  fill: var(--w3-hardware);
+}
+.w3-lever {
+  fill: none;
+  stroke: var(--w3-hardware);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.w3-stalk {
+  fill: none;
+  stroke: var(--w3-stalk);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+}
+.w3-node {
+  fill: none;
+  stroke: var(--w3-node);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.w3-leaf {
+  fill: var(--w3-leaf);
+  stroke: var(--w3-plant-line, none);
+  stroke-width: var(--w3-plant-stroke, 0);
+  stroke-linejoin: round;
+}
+.w3-pot,
+.w3-pot-rim {
+  fill: var(--w3-pot);
+  stroke: var(--w3-plant-line, none);
+  stroke-width: var(--w3-plant-stroke, 0);
+  stroke-linejoin: round;
+}
+.w3-pot-rim {
+  fill: var(--w3-pot-rim, var(--w3-pot));
+}
+
+/* ── The one moment: the front sash slides open ─────────────────────────── */
+.w3-front {
+  transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 260ms;
+}
+/* A and C: shut while the loop waits on the intro, open once it plays (the pause control
+   only exists while it plays). Browsers without :has() skip this and show it open. */
+.w3:not(:has(.w3-glass button)) .w3-front {
+  transform: translateX(504px);
+  transition-delay: 0ms;
+}
+/* B plays from the first frame, so it opens on load */
+.w3-b .w3-front {
+  animation: w3-open 1100ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+}
+@keyframes w3-open {
+  from {
+    transform: translateX(504px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w3 .w3-front {
+    transform: none !important;
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ── A · House Style: champagne aluminium, a plastered reveal, a stone ledge ── */
+.w3-a {
+  --w3-wall: light-dark(#f0eeeb, #2a2624);
+  --w3-metal: light-dark(#d9d4cd, #5a534d);
+  --w3-metal-2: light-dark(#cfc9c1, #4f4944);
+  --w3-edge: light-dark(#a8a29e, #2b2725);
+  --w3-hardware: light-dark(#57534e, #c9c2b8);
+  --w3-glass: light-dark(rgb(214 226 230 / 0.12), rgb(28 25 23 / 0.07));
+  --w3-glint: light-dark(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.18));
+  --w3-ledge: light-dark(#e7e5e4, #3a3532);
+  --w3-stalk: light-dark(#5c7a34, #7f9d55);
+  --w3-node: light-dark(#3f5622, #4f6a2e);
+  --w3-leaf: light-dark(#6f9140, #8aac5c);
+  --w3-pot: var(--x-accent);
+  --w3-pot-rim: light-dark(#a9530a, #f09a55);
+}
+.w3-a .w3-reveal {
+  border-radius: 14px 14px 0 0;
+  /* depth: the reveal is shaded from the top and the left, where the wall turns in */
+  box-shadow:
+    inset 0 10px 12px -10px var(--x-shadow),
+    inset 8px 0 10px -10px var(--x-shadow),
+    inset 0 0 0 1px var(--x-line);
+}
+.w3-a .w3-sill {
+  border-radius: 4px;
+  border-top: 1px solid light-dark(#f5f5f4, #57534e);
+  /* the ledge's front face, a shade down from its top */
+  background: linear-gradient(var(--w3-ledge) 55%, light-dark(#d6d3d1, #2f2a27) 55%);
+  box-shadow:
+    0 1px 0 var(--x-line),
+    0 12px 18px -14px var(--x-shadow);
+}
+.w3-a .a-loop-control {
+  background: light-dark(rgb(253 251 247 / 0.94), rgb(28 25 23 / 0.82));
+  color: var(--x-ink);
+  box-shadow: 0 1px 2px var(--x-shadow);
+}
+
+/* ── B · Canvas: the window as a component, flat fills and hairlines; the sash that moves
+   is the selected layer ─────────────────────────────────────────────────── */
+.w3-b {
+  --w3-pad: 10px;
+  --w3-sill: 12px;
+  --w3-sill-out: 6px;
+  --w3-wall: var(--x-frame-2);
+  --w3-metal: var(--x-frame);
+  --w3-metal-2: var(--x-frame);
+  --w3-edge: light-dark(#b9b9b4, #55555d);
+  --w3-hardware: var(--x-ink-3);
+  --w3-glass: light-dark(rgb(255 255 255 / 0.1), rgb(27 27 29 / 0.07));
+  --w3-glint: light-dark(rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.2));
+  --w3-ledge: var(--x-frame);
+  --w3-stalk: var(--x-ink-2);
+  --w3-node: var(--x-frame);
+  --w3-leaf: var(--x-frame);
+  --w3-pot: var(--x-frame-2);
+  --w3-plant-line: var(--x-ink-2);
+  --w3-plant-stroke: 1.2;
+}
+.w3-b .w3-reveal {
+  box-shadow: 0 0 0 1px var(--x-line);
+}
+.w3-b .w3-sill {
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px var(--w3-edge),
+    0 10px 24px -16px var(--x-shadow);
+}
+.w3-b .w3-stalk {
+  stroke-width: 3;
+}
+.w3-select rect {
+  fill: none;
+  stroke: var(--x-sel);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+.w3-select .w3-handle {
+  fill: var(--x-frame);
+}
+
+/* ── C · Affinity Wall: drawn in marker on the polaroid's paper ─────────── */
+.w3-c {
+  --w3-pad: 0px;
+  --w3-sill: 13px;
+  --w3-sill-out: 0px;
+  --w3-wall: transparent;
+  --w3-metal: var(--x-paper);
+  --w3-metal-2: var(--x-paper);
+  --w3-edge: var(--x-ink);
+  --w3-stroke: 3.2;
+  --w3-vfx: none;
+  --w3-hardware: var(--x-marker-on-paper);
+  --w3-glass: rgb(188 215 255 / 0.12);
+  --w3-glint: rgb(255 255 255 / 0.6);
+  --w3-ledge: var(--x-paper);
+  --w3-stalk: #3c7a52;
+  --w3-node: var(--x-ink);
+  --w3-leaf: var(--x-mint);
+  --w3-pot: var(--x-orange);
+  --w3-plant-line: var(--x-ink);
+  --w3-plant-stroke: 1.6;
+}
+.w3-c .w3-sill {
+  margin-inline: -6px;
+  border-top: 2.5px solid var(--x-ink);
+  border-radius: 0 0 3px 6px;
+  box-shadow: 0 6px 8px -7px var(--x-shadow);
+  transform: rotate(0.5deg);
+}
+.w3-c .w3-plant {
+  left: 3%;
+}

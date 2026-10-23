@@ -1,9 +1,9 @@
-/* TEMPORARY — /explore harness. Exports the HeroLoop's two paintings (the empty scene and the
+/* Exports the HeroLoop's two paintings (the empty scene and the
    final still) cropped to the loop's window, at 1x and 2x, as AVIF + WebP. The sprites are not
    re-exported: HeroLoop reads the existing ones in public/header-kit/web. Sources are the 2x
    masters in assets/header-kit when present, else the 1672px PNGs; neither is modified.
 
-   The crop window lives in src/app/explore/_kit/loopCrop.json, shared with HeroLoop, so the
+   The crop window lives in src/app/_home/kit/loopCrop.json, shared with HeroLoop, so the
    figures stay registered to the painting.
 
    Run: node scripts/export-hero-loop.mjs */
@@ -12,8 +12,8 @@ import path from 'node:path'
 import sharp from 'sharp'
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), '..')
-const crop = JSON.parse(fs.readFileSync(path.join(root, 'src/app/explore/_kit/loopCrop.json'), 'utf8'))
-const out = path.join(root, 'public', 'explore', 'loop')
+const crop = JSON.parse(fs.readFileSync(path.join(root, 'src/app/_home/kit/loopCrop.json'), 'utf8'))
+const out = path.join(root, 'public', 'home', 'loop')
 fs.rmSync(out, { recursive: true, force: true })
 fs.mkdirSync(out, { recursive: true })
 
@@ -40,6 +40,22 @@ for (const name of ['scene', 'final-still']) {
       const kb = fs.statSync(dest).size / 1024
       if (fmt === 'avif' && w === Math.max(...crop.widths)) total2x += kb
       console.log(`${path.basename(dest).padEnd(26)} ${kb.toFixed(1).padStart(7)} KB`)
+    }
+  }
+  // the scroll-to-top icon: Michael and the dog, cut from the final still at the same registration
+  if (name === 'final-still') {
+    const s = Math.round((crop.icon.size / 100) * region.width)
+    const icon = {
+      left: region.left + Math.round((crop.icon.left / 100) * region.width),
+      top: region.top + Math.round((crop.icon.top / 100) * region.height),
+      width: s,
+      height: s,
+    }
+    const base = sharp(source).extract(icon).resize({ width: crop.icon.px, kernel: 'lanczos3' })
+    for (const fmt of ['avif', 'webp']) {
+      const dest = path.join(out, `icon-${crop.icon.px}.${fmt}`)
+      await base.clone()[fmt](q[fmt]).toFile(dest)
+      console.log(`${path.basename(dest).padEnd(26)} ${(fs.statSync(dest).size / 1024).toFixed(1).padStart(7)} KB`)
     }
   }
 }

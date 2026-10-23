@@ -10,12 +10,10 @@ export const links = {
   /** optional personal link; set to null to hide it */
   personal: { label: '[SPOTIFY / OTHER]', href: '[PERSONAL LINK URL]' } as { label: string; href: string } | null,
 
-  /** in-page anchors on the home page */
+  /** the home page, and its tabs (a hash naming a tab opens it) */
   home: '/',
   work: '/#work',
-  experience: '/#experience',
   about: '/#about',
-  contact: '/#contact',
 
   /** the /about page and its interest sections */
   aboutPage: '/about',
@@ -32,9 +30,8 @@ export const links = {
   },
 } as const
 
-/** Header nav, in order */
+/** Header nav, in order. Contact returns once there is a real email to link to. */
 export const navLinks = [
   { label: 'Work', href: links.work },
   { label: 'About', href: links.about },
-  { label: 'Contact', href: links.contact },
 ] as const

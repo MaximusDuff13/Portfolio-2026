@@ -1,0 +1,18 @@
+{
+  "note": "HeroLoop window, in % of the full scene (1672x941). Aspect 2:1. The dog enters past the right edge, so the window runs to 100%.",
+  "left": 26,
+  "top": 31,
+  "width": 74,
+  "height": 65.74,
+  "widths": [
+    640,
+    1280
+  ],
+  "icon": {
+    "note": "Scroll-to-top icon: a square on Michael and the dog, in % of the loop window (left/top of its width/height, size of its width).",
+    "left": 16.4,
+    "top": 36.5,
+    "size": 26,
+    "px": 96
+  }
+}

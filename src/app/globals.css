@@ -33,7 +33,7 @@ body {
 }
 
 /* Header scene: the man breathes, a slow scaleY from his base (header-sequence.json).
-   Off under reduced motion. HeaderScene pauses it while the tab is hidden. */
+   Off under reduced motion. The home hero loop pauses it while the tab is hidden. */
 @keyframes scene-breathe {
   0%, 100% { transform: scaleY(1); }
   50%      { transform: scaleY(1.008); }
