@@ -1,7 +1,8 @@
 /* The nav dog and the logo he runs into (see NavDog.tsx). */
 
-/* feet on the bar's bottom line; every pose is stacked and only one is visible. He sits
-   below the logo in the stacking order, so running into it he disappears behind the circle. */
+/* feet on the header's bottom line. NavDog.tsx moves him (transform) and sets his pose,
+   facing and visibility as data attributes; every pose is stacked and only one is visible.
+   He sits below the logo in the stacking order, so running into it he vanishes behind it. */
 .nav-dog {
   position: absolute;
   left: 0;
@@ -9,14 +10,24 @@
   z-index: 1;
   height: 40px;
   pointer-events: none;
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.3, 0.6, 0.35, 1);
 }
 .nav-dog img {
   position: absolute;
   left: 0;
   bottom: 0;
   max-width: none;
+  visibility: hidden;
+}
+.nav-dog[data-shown='true'][data-pose='sit'] .nav-dog-sit,
+.nav-dog[data-shown='true'][data-pose='turn'] .nav-dog-turn,
+.nav-dog[data-shown='true'][data-pose='run1'] .nav-dog-run1,
+.nav-dog[data-shown='true'][data-pose='run2'] .nav-dog-run2,
+.nav-dog[data-shown='true'][data-pose='brake'] .nav-dog-brake {
+  visibility: visible;
+}
+/* the kit's run and brake poses face left; mirrored when he runs right */
+.nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake) {
+  transform: scaleX(-1);
 }
 
 .dog-logo {
@@ -34,10 +45,4 @@
   display: block;
   width: 100%;
   height: 100%;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav-dog {
-    transition: none;
-  }
 }

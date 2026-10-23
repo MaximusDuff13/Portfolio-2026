@@ -1,8 +1,7 @@
 'use client'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
-import { DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from '@/components/NavDog'
 import { person, caseStudies, type NoiseItem } from './content'
 import { HeroLoop } from './kit/HeroLoop'
 import { LoopWindow } from './kit/windows'
@@ -68,81 +67,10 @@ export function HomePage() {
     if (docked && marker) window.scrollTo({ top: marker.getBoundingClientRect().top + window.scrollY + 1, behavior: smooth })
   }
 
-  // The dog: in the logo until the bar docks (the painting above has him); docked, he hops out
-  // of the logo and sits by the active tab, and the logo shows Michael alone. He follows the
-  // tabs, and runs back into the logo when it is clicked, before the page scrolls up. On phones
-  // he stays in the logo.
-  const barRef = useRef<HTMLDivElement>(null)
-  const dog = useNavDog()
-  const dogOn = useDogEnabled()
-  const { place, runTo, hide } = dog
-  const [dogIn, setDogIn] = useState(true)
-  const spot = useCallback((at: 'tab' | 'logo') => {
-    const bar = barRef.current
-    const el = bar?.querySelector(at === 'tab' ? '[role="tab"][aria-selected="true"]' : '.a-home')
-    if (!bar || !el) return 0
-    const b = bar.getBoundingClientRect()
-    const r = el.getBoundingClientRect()
-    return at === 'tab' ? r.right - b.left + 5 : r.left + r.width / 2 - b.left - RUN_HALF
-  }, [])
-  useEffect(() => {
-    if (!docked || !dogOn) {
-      hide()
-      setDogIn(true)
-      return
-    }
-    // once the logo has popped in and the tabs have slid over: out from behind the logo
-    let raf = 0
-    const t = window.setTimeout(() => {
-      setDogIn(false)
-      place(spot('logo'), 'run1')
-      // a frame at the logo first, so the run starts from there
-      raf = requestAnimationFrame(() => (raf = requestAnimationFrame(() => runTo(spot('tab')))))
-    }, intro.reduced ? 0 : 240)
-    return () => {
-      window.clearTimeout(t)
-      cancelAnimationFrame(raf)
-    }
-  }, [docked, dogOn, intro.reduced, hide, place, runTo, spot])
-  // he follows the active tab (on a change of tab only: hopping out is the effect above);
-  // a resize just moves him
-  const dogOut = docked && !dogIn
-  const lastTab = useRef(tab)
-  useEffect(() => {
-    if (lastTab.current === tab) return
-    lastTab.current = tab
-    if (!dogOut) return
-    const raf = requestAnimationFrame(() => runTo(spot('tab')))
-    return () => cancelAnimationFrame(raf)
-  }, [tab, dogOut, runTo, spot])
-  useEffect(() => {
-    if (!dogOut) return
-    const onResize = () => place(spot('tab'))
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [dogOut, place, spot])
-
   const toTop = () => {
-    const go = () => {
-      window.scrollTo({ top: 0, behavior: smooth })
-      // the home button hides once the bar undocks, so keyboard focus moves to the page's title
-      titleRef.current?.focus({ preventScroll: true })
-    }
-    if (!dogOut || intro.reduced) {
-      hide()
-      setDogIn(true)
-      go()
-      return
-    }
-    runTo(
-      spot('logo'),
-      () => {
-        hide()
-        setDogIn(true)
-        window.setTimeout(go, 200)
-      },
-      'run',
-    )
+    window.scrollTo({ top: 0, behavior: smooth })
+    // the home button hides once the bar undocks, so keyboard focus moves to the page's title
+    titleRef.current?.focus({ preventScroll: true })
   }
   const { phase, step } = intro
   const final = phase === 'final'
@@ -261,7 +189,7 @@ export function HomePage() {
 
         <section ref={tabsRef} className="a-tabs" aria-label="Portfolio" data-on={final || undefined}>
           <div ref={dockRef} aria-hidden="true" />
-          <div ref={barRef} className="a-tabbar" data-docked={docked || undefined}>
+          <div className="a-tabbar" data-docked={docked || undefined}>
             {/* back to the top: the painting's two figures, shown only while the bar is docked */}
             <button
               type="button"
@@ -271,9 +199,11 @@ export function HomePage() {
               tabIndex={docked ? 0 : -1}
               aria-hidden={!docked || undefined}
             >
-              <DogLogo withDog={dogIn} />
+              <picture>
+                <source type="image/avif" srcSet="/home/loop/icon-96.avif" />
+                <img src="/home/loop/icon-96.webp" alt="" width={44} height={44} />
+              </picture>
             </button>
-            <NavDog x={dog.x} pose={dog.pose} facing={dog.facing} ms={dog.ms} shown={dog.shown} />
             <TabList
               active={tab}
               onChange={pickTab}
