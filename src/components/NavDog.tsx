@@ -35,12 +35,17 @@ const POSES = {
   brake: { f: `${KIT}/dog-brake-180`, w: 180, h: 101, k: RUN_K },
   carry1: { f: `${NAV}/dog-run-ball-1-198`, w: 198, h: 92, k: RUN_K },
   carry2: { f: `${NAV}/dog-run-ball-2-185`, w: 185, h: 96, k: RUN_K },
+  // the turn round, ball in mouth: three-quarter (faces left as drawn) and head-on. Scaled by
+  // the ball in scripts/export-nav-dog.mjs, which lands them on the run poses' own scale
+  turn34: { f: `${NAV}/dog-turn-34-ball-118`, w: 118, h: 108, k: RUN_K },
+  front: { f: `${NAV}/dog-turn-front-ball-53`, w: 53, h: 104, k: RUN_K },
 } as const
 type Pose = keyof typeof POSES
 /** from the ball's left edge to his: the ball (11px) and a little room either side of it */
 export const BALL_GAP = 16
 /** half his running width: aim at a point minus this to put his middle there */
 export const RUN_HALF = Math.round((POSES.run1.w * RUN_K) / 2)
+const RUN_W = POSES.run1.w * RUN_K
 
 // a small dog's gallop: each leg position held about 75ms (48px at 0.64px/ms, about two thirds
 // of his length), so the eye reads every stride instead of a blur
@@ -287,16 +292,22 @@ export function useNavDog() {
       // caught: the ball is in his mouth now
       drawBall(farX, 0, false)
       set('carry2')
-      // turning round: a beat with it, then a hop to face home
+      // the turn round, in the painted frames: three-quarter, head-on (a small hop, dust kicked
+      // back the way he came), three-quarter the other way, and he faces home
       const turnRound = async () => {
-        if (!(await wait(160, id))) return false
-        set('carry2', 'left')
-        draw(LIFT)
-        // the hop round kicks dust back the way he came
-        puff(x.current + (POSES.brake.w * RUN_K) / 2, 1)
-        if (!(await wait(90, id))) return false
+        if (!(await wait(130, id))) return false
+        set('turn34', 'right')
         draw(0)
-        return wait(120, id)
+        if (!(await wait(110, id))) return false
+        set('front')
+        draw(LIFT / 2)
+        puff(x.current + RUN_W / 2, 1)
+        if (!(await wait(150, id))) return false
+        set('turn34', 'left')
+        draw(0)
+        if (!(await wait(110, id))) return false
+        set('carry2', 'left')
+        return wait(60, id)
       }
       if (!(await turnRound())) return
       if (!(await gallop(sitX, true, id, true))) return
@@ -365,6 +376,8 @@ export function NavDog({
                 alt=""
                 width={Math.round(s.w * s.k)}
                 height={Math.round(s.h * s.k)}
+                // standing frames are narrower than a run: centre them on him
+                style={p === 'turn34' || p === 'front' ? { left: (RUN_W - s.w * s.k) / 2 } : undefined}
               />
             )
           })}

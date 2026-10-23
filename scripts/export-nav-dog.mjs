@@ -120,10 +120,40 @@ const ball2 = await sharp(run2)
   .toBuffer()
 console.log(`ball r=${ball.r.toFixed(1)} at (${ball.cx}, ${ball.cy}); nose 1 (${n1.x}, ${n1.y}), nose 2 (${n2.x}, ${n2.y}); placed at (${left}, ${top}) on ${r2.width}x${r2.height}`)
 
-// 3 · export at the run sprites' widths (dog-run-1 is shown from its 198/396 files, run-2 from 185/370)
+// 4 · the turn round, with the ball: three-quarter (facing left as drawn; mirrored for right)
+// and head-on. Drawn on other canvases and
+// at another size, so they are trimmed and scaled by the ball, the one thing the same size in
+// every frame: its painted core is found by colour and matched to carry1's on screen.
+const ballCore = async (input) => {
+  const { data, w, h } = await rgba(input)
+  let n = 0
+  for (let i = 0; i < w * h * 4; i += 4) if (data[i + 3] > 128 && isBall(data[i], data[i + 1], data[i + 2])) n++
+  return 2 * Math.sqrt(n / Math.PI)
+}
+const CARRY1_PX = (198 * 34) / 96 / r1.width // on-screen px per source px of carry1 (NavDog's RUN_K)
+const ballOnScreen = (await ballCore(ball1)) * CARRY1_PX
+const turns = []
+for (const [name, file] of [
+  ['dog-turn-34-ball', 'dog-turn-34-ball.png'],
+  ['dog-turn-front-ball', 'dog-turn-front-ball.png'],
+]) {
+  const buf = await sharp(path.join(kit, file)).trim().png().toBuffer()
+  const m = await sharp(buf).metadata()
+  const k = ballOnScreen / (await ballCore(buf))
+  const w = Math.round(m.width * k)
+  const h = Math.round(m.height * k)
+  // exported at about 2.8x the on-screen width, like the run sprites
+  const file1 = Math.round(w * 2.8)
+  turns.push([name, buf, [file1, file1 * 2]])
+  console.log(`${name}: on screen ${w}x${h}px (file ${file1}px wide)`)
+}
+
+// 3 · export at the run sprites' widths (dog-run-1 is shown from its 198/396 files, run-2 from
+// 185/370), and the turn frames at theirs
 for (const [name, buf, widths] of [
   ['dog-run-ball-1', ball1, [198, 396]],
   ['dog-run-ball-2', ball2, [185, 370]],
+  ...turns,
 ]) {
   await sharp(buf).toFile(path.join(out, `${name}.png`))
   for (const w of widths) {

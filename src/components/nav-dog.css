@@ -28,11 +28,13 @@
 .nav-dog[data-shown='true'][data-pose='run2'] .nav-dog-run2,
 .nav-dog[data-shown='true'][data-pose='brake'] .nav-dog-brake,
 .nav-dog[data-shown='true'][data-pose='carry1'] .nav-dog-carry1,
-.nav-dog[data-shown='true'][data-pose='carry2'] .nav-dog-carry2 {
+.nav-dog[data-shown='true'][data-pose='carry2'] .nav-dog-carry2,
+.nav-dog[data-shown='true'][data-pose='turn34'] .nav-dog-turn34,
+.nav-dog[data-shown='true'][data-pose='front'] .nav-dog-front {
   visibility: visible;
 }
-/* the kit's run, brake and carry poses face left; mirrored when he runs right */
-.nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake, .nav-dog-carry1, .nav-dog-carry2) {
+/* the kit's run, brake, carry and three-quarter turn poses face left; mirrored for right */
+.nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake, .nav-dog-carry1, .nav-dog-carry2, .nav-dog-turn34) {
   transform: scaleX(-1);
 }
 
@@ -66,6 +68,15 @@
 .nav-dog:is([data-pose='run2'], [data-pose='carry2']) .nav-dog-shadow {
   left: 6px;
   width: 54px;
+}
+/* standing to turn: under the narrower turn frames, centred on him (his run is ~70px wide) */
+.nav-dog[data-pose='turn34'] .nav-dog-shadow {
+  left: 15px;
+  width: 40px;
+}
+.nav-dog[data-pose='front'] .nav-dog-shadow {
+  left: 22px;
+  width: 26px;
 }
 .nav-dog[data-pose='brake'] .nav-dog-shadow {
   left: 3px;
