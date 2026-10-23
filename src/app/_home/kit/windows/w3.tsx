@@ -5,7 +5,8 @@ import './w3.css'
 
 /* Window variant 3 · Hong Kong flat window.
    The loop seen from a high-rise flat: a slim aluminium window in a deep reveal, a ledge with
-   a pot of lucky bamboo, a crescent latch on the meeting stile. One frame and one sash: the
+   the things Michael keeps there (his family's photo, his Bible, a folded Manchester United
+   shirt), a crescent latch on the meeting stile. One frame and one sash: the
    left of the view is seen through its glass, the right (where the dog runs in) is open. It
    doesn't move: the sliding front sash, and its open/shut moment, were taken out.
 
@@ -74,21 +75,50 @@ export default function W3({ direction, children }: WindowProps) {
 
       <div className="w3-sill" aria-hidden="true" />
 
-      {/* lucky bamboo on the ledge, the plant on half the window ledges in Hong Kong */}
-      <svg className="w3-plant" viewBox="0 0 60 92" aria-hidden="true" focusable="false">
-        <g filter={hand ? `url(#${wobble})` : undefined}>
-          <path className="w3-stalk" d="M23 70V10" />
-          <path className="w3-stalk" d="M31 70V24" />
-          <path className="w3-stalk" d="M39 70V36" />
-          <path className="w3-node" d="M20.5 30h5M20.5 50h5M28.5 44h5M36.5 54h5" />
-          <path className="w3-leaf" d="M23 12c-6-5-13-5-17-2 5 4 11 5 17 2Z" />
-          <path className="w3-leaf" d="M23 14c4-7 11-10 16-9-3 6-9 9-16 9Z" />
-          <path className="w3-leaf" d="M31 26c-5-6-12-7-16-5 4 5 10 7 16 5Z" />
-          <path className="w3-leaf" d="M39 38c5-5 12-6 16-4-4 5-10 6-16 4Z" />
-          <path className="w3-leaf" d="M31 28c3-6 8-9 13-9-2 5-7 8-13 9Z" />
-          <path className="w3-leaf" d="M39 40c-4-6-10-8-14-7 3 5 8 7 14 7Z" />
-          <path className="w3-pot" d="M12 67h36l-3 21a3 3 0 0 1-3 2.6H18a3 3 0 0 1-3-2.6Z" />
-          <path className="w3-pot-rim" d="M10 63.5h40a1 1 0 0 1 1 1V69a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-4.5a1 1 0 0 1 1-1Z" />
+      {/* What Michael keeps on the ledge: a photo of his family, his Bible standing beside it,
+          and a folded Manchester United shirt (red with the white trim, no crest). Low and in
+          the corner, clear of him in the painting. */}
+      <svg className="w3-keepsakes" viewBox="0 0 100 70" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id={`w3-photo-${uid}`}>
+            <rect x="7" y="33" width="18" height="24" rx="0.5" />
+          </clipPath>
+        </defs>
+        {/* the family photo in a wooden frame, propped on its stand */}
+        <g className="w3-photo">
+          <path className="w3-stand" d="M23 40 30 68" />
+          <rect className="w3-frame-wood" x="3" y="29" width="26" height="39" rx="1.5" />
+          <rect className="w3-mat" x="6" y="32" width="20" height="26" />
+          <g clipPath={`url(#w3-photo-${uid})`}>
+            {/* stand-in picture until the real photo is in: a family, sky behind them */}
+            <rect className="w3-pic-sky" x="7" y="33" width="18" height="24" />
+            <rect className="w3-pic-ground" x="7" y="50" width="18" height="7" />
+            <circle className="w3-pic-person" cx="11.5" cy="41" r="2.4" />
+            <path className="w3-pic-person" d="M7.8 57c0-6 1.6-11.6 3.7-11.6s3.7 5.6 3.7 11.6Z" />
+            <circle className="w3-pic-person w3-pic-b" cx="19.5" cy="40.4" r="2.5" />
+            <path className="w3-pic-person w3-pic-b" d="M15.6 57c0-6.4 1.7-12 3.9-12s3.9 5.6 3.9 12Z" />
+            <circle className="w3-pic-person w3-pic-c" cx="15.6" cy="47" r="1.7" />
+            <path className="w3-pic-person w3-pic-c" d="M13.2 57c0-4 1.1-7.6 2.4-7.6s2.4 3.6 2.4 7.6Z" />
+          </g>
+          <rect className="w3-frame-sheen" x="6" y="32" width="20" height="26" />
+        </g>
+        {/* the Bible, standing, cover out: dark leather, the gilt page edge, a gold cross, the
+            ribbon hanging below */}
+        <g className="w3-bible">
+          <rect className="w3-bible-pages" x="51" y="39.5" width="3" height="27.5" rx="0.6" />
+          <rect className="w3-bible-cover" x="34" y="38" width="18.5" height="30" rx="1.6" />
+          <path className="w3-bible-spine-line" d="M36.6 39v28" />
+          <path className="w3-bible-cross" d="M44 44.5v12.5M40.2 48.6h7.6" />
+          <path className="w3-bible-ribbon" d="M49 66.5c.6 1.4.4 2.4-.4 3" />
+        </g>
+        {/* the shirt, folded as on a shop shelf: red, the collar in white with its two points,
+            the shoulders folded in */}
+        <g className="w3-shirt">
+          <rect className="w3-shirt-body" x="58" y="46" width="36" height="22" rx="2" />
+          <path className="w3-shirt-fold" d="M58.6 50.6 64.4 46.6M93.4 50.6 87.6 46.6M58.8 64.6h34.4" />
+          <path className="w3-shirt-neck" d="M71 46 76 51.6 81 46Z" />
+          <path className="w3-shirt-collar" d="M70.4 46.2 76 52.4 81.6 46.2" />
+          <path className="w3-shirt-points" d="M70.4 46.2 71.8 51.2 74.6 49.6ZM81.6 46.2 80.2 51.2 77.4 49.6Z" />
         </g>
       </svg>
     </div>

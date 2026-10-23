@@ -34,15 +34,17 @@
   height: var(--w3-sill);
   background: var(--w3-ledge);
 }
-.w3-plant {
+/* the keepsakes on the ledge: in the bottom-left corner, low, so they never cover Michael */
+.w3-keepsakes {
   position: absolute;
   z-index: 6;
-  left: calc(var(--w3-sill-out) + var(--w3-pad) + 2.5%);
+  left: calc(var(--w3-sill-out) + var(--w3-pad) + 1.5%);
   bottom: calc(var(--w3-sill) - 2px);
-  width: clamp(30px, 9.5%, 46px);
+  width: clamp(62px, 21%, 96px);
   height: auto;
-  aspect-ratio: 60 / 92;
+  aspect-ratio: 100 / 70;
   pointer-events: none;
+  overflow: visible;
 }
 
 /* the loop sits square inside the frame, whatever the direction gave it */
@@ -90,33 +92,91 @@
   stroke-width: 7;
   stroke-linecap: round;
 }
-.w3-stalk {
+/* Drawn flat, like the frame, in the things' own colours. A soft shadow under each, on the
+   ledge. */
+.w3-photo,
+.w3-shirt,
+.w3-bible {
+  filter: drop-shadow(0 1px 0.6px rgb(28 25 23 / 0.28));
+}
+.w3-stand {
   fill: none;
-  stroke: var(--w3-stalk);
-  stroke-width: 4.5;
+  stroke: #5e4530;
+  stroke-width: 2.4;
   stroke-linecap: round;
 }
-.w3-node {
+.w3-frame-wood {
+  fill: #8a6646;
+}
+.w3-mat {
+  fill: #f5efe3;
+}
+.w3-pic-sky {
+  fill: #cfe0ea;
+}
+.w3-pic-ground {
+  fill: #a9c08a;
+}
+.w3-pic-person {
+  fill: #6b4f3c;
+}
+.w3-pic-b {
+  fill: #c2600a;
+}
+.w3-pic-c {
+  fill: #3f5a7a;
+}
+/* a little glass over the photo */
+.w3-frame-sheen {
+  fill: rgb(255 255 255 / 0.12);
+}
+.w3-shirt-body {
+  fill: #c8102e;
+}
+.w3-shirt-fold {
   fill: none;
-  stroke: var(--w3-node);
-  stroke-width: 1.4;
+  stroke: #96091f;
+  stroke-width: 1;
   stroke-linecap: round;
 }
-.w3-leaf {
-  fill: var(--w3-leaf);
-  stroke: var(--w3-plant-line, none);
-  stroke-width: var(--w3-plant-stroke, 0);
+.w3-shirt-neck {
+  fill: #96091f;
+}
+.w3-shirt-collar {
+  fill: none;
+  stroke: #fdfbf7;
+  stroke-width: 1.8;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
-.w3-pot,
-.w3-pot-rim {
-  fill: var(--w3-pot);
-  stroke: var(--w3-plant-line, none);
-  stroke-width: var(--w3-plant-stroke, 0);
+.w3-shirt-points {
+  fill: #fdfbf7;
+  stroke: #fdfbf7;
+  stroke-width: 0.6;
   stroke-linejoin: round;
 }
-.w3-pot-rim {
-  fill: var(--w3-pot-rim, var(--w3-pot));
+.w3-bible-pages {
+  fill: #e2c27a;
+}
+.w3-bible-cover {
+  fill: #2e231d;
+}
+.w3-bible-spine-line {
+  fill: none;
+  stroke: #1c1512;
+  stroke-width: 0.9;
+}
+.w3-bible-cross {
+  fill: none;
+  stroke: #d4a84a;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+}
+.w3-bible-ribbon {
+  fill: none;
+  stroke: #b0841e;
+  stroke-width: 1.6;
+  stroke-linecap: round;
 }
 
 /* ── A · House Style: champagne aluminium, a plastered reveal, a stone ledge ── */
