@@ -4,18 +4,15 @@ import type { WindowProps } from './types'
 import './w3.css'
 
 /* Window variant 3 · Hong Kong flat window.
-   The loop seen from a high-rise flat: a slim aluminium sliding window in a deep reveal, a
-   ledge with a pot of lucky bamboo, a crescent latch on the meeting stile. One frame and a
-   single mid-window stile; the front sash is slid over the back one, so the right of the view (where the dog
-   runs in) is open glass-free and the left is seen through two panes.
+   The loop seen from a high-rise flat: a slim aluminium window in a deep reveal, a ledge with
+   a pot of lucky bamboo, a crescent latch on the meeting stile. One frame and one sash: the
+   left of the view is seen through its glass, the right (where the dog runs in) is open. It
+   doesn't move: the sliding front sash, and its open/shut moment, were taken out.
 
-   The sashes are one SVG laid over the loop in the loop's own 2:1 space (1000 x 500 units),
-   so the frame scales with the painting. It never touches the figures' opacity: glass is a
-   faint tint laid over the painting, and nothing sits over Michael's face or the dog's sit
-   spot (the meeting stile at 49–51% of the width, the dog sits near 37–44%).
-
-   Motion, one moment: the front sash slides open when the loop starts playing (A, C) or on
-   load (B, which plays from the start). Reduced motion: the sash is simply open. */
+   The sash is one SVG laid over the loop in the loop's own 2:1 space (1000 x 500 units), so
+   the frame scales with the painting. It never touches the figures' opacity: glass is a faint
+   tint laid over the painting, and nothing sits over Michael's face or the dog's sit spot
+   (the meeting stile at 49–51% of the width, the dog sits near 37–44%). */
 
 // geometry, in units of the 1000 x 500 loop
 const F = 20 // outer frame
@@ -24,11 +21,8 @@ const S = 18 // sash band
 const LAP = 3 // the frame's inner lip, which hides the sashes' outer edges
 const TOP = F
 const BOT = 500 - FB
-// Only one frame is drawn. Each sash is glass plus a single stile: the back sash's meeting
-// stile stands mid-window; the front sash's stile tucks under the frame's left side while
-// it is open, and meets the back one when it slides shut (a CSS translate of +504).
-const MEET = 491 // the back sash's meeting stile
-const FRONT = { x0: 5, x1: 496 } // drawn open
+// One frame and one sash: glass on the left and the sash's meeting stile mid-window
+const MEET = 491
 
 export default function W3({ direction, children }: WindowProps) {
   const uid = useId().replace(/:/g, '')
@@ -67,26 +61,9 @@ export default function W3({ direction, children }: WindowProps) {
                 </g>
               </g>
 
-              {/* front sash, slid over the back one */}
-              <g className="w3-front">
-                <rect className="w3-pane" x={F} y={TOP} width={FRONT.x1 - F} height={BOT - TOP} />
-                <polygon className="w3-glint" fill={`url(#${glint})`} points={`400,${TOP} 460,${TOP} 370,${TOP + 112} 340,${TOP + 112}`} />
-                <polygon className="w3-glint" fill={`url(#${glint})`} points={`476,${TOP} 486,${TOP} 430,${TOP + 78} 420,${TOP + 78}`} />
-                <rect className="w3-sash" x={FRONT.x0} y={TOP} width={S} height={BOT - TOP} />
-                {direction === 'b' && (
-                  <g className="w3-select">
-                    <rect x={F} y={TOP} width={FRONT.x1 - F} height={BOT - TOP} />
-                    {[
-                      [F, TOP],
-                      [FRONT.x1, TOP],
-                      [F, BOT],
-                      [FRONT.x1, BOT],
-                    ].map(([x, y]) => (
-                      <rect key={`${x}-${y}`} className="w3-handle" x={x - 7} y={y - 7} width={14} height={14} />
-                    ))}
-                  </g>
-                )}
-              </g>
+              {/* the glint on the glass */}
+              <polygon className="w3-glint" fill={`url(#${glint})`} points={`400,${TOP} 460,${TOP} 370,${TOP + 112} 340,${TOP + 112}`} />
+              <polygon className="w3-glint" fill={`url(#${glint})`} points={`476,${TOP} 486,${TOP} 430,${TOP + 78} 420,${TOP + 78}`} />
 
               {/* the one outer frame, in front of both sashes */}
               <path className="w3-frame" fillRule="evenodd" d={`M0 0H1000V500H0Z M${F + LAP} ${F + LAP}V${BOT - LAP}H${1000 - F - LAP}V${F + LAP}Z`} />

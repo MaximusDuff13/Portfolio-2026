@@ -119,25 +119,6 @@
   fill: var(--w3-pot-rim, var(--w3-pot));
 }
 
-/* ── The one moment: the front sash slides open ─────────────────────────── */
-/* Shut while the home intro's noise runs; open the moment the loop starts, which is when the
-   cleanup starts (the pause control only exists while it plays). Quick, so the glass is out
-   of the way before the dog runs in from the right. Browsers without :has() skip this and
-   show it open. */
-.w3-front {
-  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.w3:not(:has(.w3-glass button)) .w3-front {
-  transform: translateX(504px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .w3 .w3-front {
-    transform: none !important;
-    transition: none;
-    animation: none;
-  }
-}
-
 /* ── A · House Style: champagne aluminium, a plastered reveal, a stone ledge ── */
 .w3-a {
   --w3-wall: light-dark(#f0eeeb, #2a2624);
@@ -209,15 +190,6 @@
 }
 .w3-b .w3-stalk {
   stroke-width: 3;
-}
-.w3-select rect {
-  fill: none;
-  stroke: var(--x-sel);
-  stroke-width: 1px;
-  vector-effect: non-scaling-stroke;
-}
-.w3-select .w3-handle {
-  fill: var(--x-frame);
 }
 
 /* ── C · Affinity Wall: drawn in marker on the polaroid's paper ─────────── */
