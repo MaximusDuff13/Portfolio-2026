@@ -64,6 +64,79 @@ export function useNavDog() {
   const timers = useRef<number[]>([])
   const run = useRef(0) // bumped by every new routine, so an older one stops where it is
   const busy = useRef(false)
+  const ballRef = useRef<HTMLSpanElement>(null)
+  const ballRaf = useRef(0)
+
+  // the ball: along the ground by x, up by y; its shadow stays down and shrinks as it rises
+  const drawBall = (bx: number, by: number, shown: boolean) => {
+    const b = ballRef.current
+    if (!b) return
+    b.dataset.shown = String(shown)
+    b.style.transform = `translateX(${bx}px)`
+    const [shadow, body] = Array.from(b.children) as HTMLElement[]
+    body.style.transform = `translateY(${-by}px)`
+    shadow.style.transform = `scale(${Math.max(0.35, 1 - by / 60)})`
+  }
+  /** Michael throws: from his hand in the logo, one high arc, two bounces and a roll to `to`.
+      Resolves when it lies still. */
+  const throwBall = (from: number, to: number, id: number) =>
+    new Promise<boolean>((done) => {
+      const span = to - from
+      // [share of the distance, ms, apex in px]; the first starts at hand height
+      const legs: [number, number, number][] = [
+        [0.6, 460, 44],
+        [0.22, 240, 12],
+        [0.1, 150, 4],
+        [0.08, 220, 0],
+      ]
+      let leg = 0
+      let x0 = from
+      let t0 = performance.now()
+      const HAND = 22
+      const tick = (now: number) => {
+        if (id !== run.current) return done(false)
+        const [share, ms, apex] = legs[leg]
+        const p = Math.min(1, (now - t0) / ms)
+        const x1 = x0 + span * share
+        let bx: number
+        let by: number
+        if (apex === 0) {
+          // the roll: slowing to a stop
+          bx = x0 + (x1 - x0) * (1 - (1 - p) * (1 - p))
+          by = 0
+        } else {
+          bx = x0 + (x1 - x0) * p
+          // a parabola through the apex; the first leg leaves from his hand, not the ground
+          const start = leg === 0 ? HAND : 0
+          by = (1 - p) * start + 4 * (apex - start / 2) * p * (1 - p)
+        }
+        drawBall(bx, Math.max(0, by), true)
+        if (p < 1) {
+          ballRaf.current = requestAnimationFrame(tick)
+          return
+        }
+        x0 = x1
+        t0 = now
+        if (++leg < legs.length) ballRaf.current = requestAnimationFrame(tick)
+        else done(true)
+      }
+      ballRaf.current = requestAnimationFrame(tick)
+    })
+  /** he lets it go: it drops from his mouth by his feet and gives one small hop */
+  const dropBall = (at: number, id: number) =>
+    new Promise<boolean>((done) => {
+      const t0 = performance.now()
+      const tick = (now: number) => {
+        if (id !== run.current) return done(false)
+        const p = Math.min(1, (now - t0) / 340)
+        const q = (p - 0.6) / 0.4
+        const by = p < 0.6 ? 18 * (1 - (p / 0.6) ** 2) : 20 * q * (1 - q)
+        drawBall(at, by, true)
+        if (p < 1) ballRaf.current = requestAnimationFrame(tick)
+        else done(true)
+      }
+      ballRaf.current = requestAnimationFrame(tick)
+    })
 
   const set = (pose?: Pose, facing?: 'left' | 'right', shown?: boolean) => {
     const n = ref.current
@@ -103,6 +176,7 @@ export function useNavDog() {
   const stop = () => {
     run.current++
     cancelAnimationFrame(raf.current)
+    cancelAnimationFrame(ballRaf.current)
     timers.current.forEach(clearTimeout)
     timers.current = []
     busy.current = false
@@ -167,20 +241,39 @@ export function useNavDog() {
   const hide = useCallback(() => {
     stop()
     set(undefined, undefined, false)
+    drawBall(0, 0, false)
   }, [])
 
-  /** Out of the logo and the zoomies: a sprint along the empty bar, a skid, a turn on the
-      spot, and a sprint straight back to sit by the logo. About three seconds, once (under the
-      5s at which moving content needs a pause control). */
-  const zoomies = useCallback(
+  // the ball lies at his feet once he is back: just right of where he sits
+  const atFeet = (sitX: number) => sitX + POSES.sit.w * SIT_K + 3
+
+  /** Fetch. Michael throws the ball out of the logo; the dog hops out after it, catches it in
+      a skid, turns on the spot, runs straight back and sits by the logo with the ball at his
+      feet. About three and a half seconds, once (under the 5s at which moving content needs a
+      pause control). Under reduced motion he is simply sitting there with the ball. */
+  const fetch = useCallback(
     async (fromX: number, sitX: number, farX: number) => {
-      if (reduced) return place(sitX)
+      if (reduced) {
+        place(sitX)
+        drawBall(atFeet(sitX), 0, true)
+        return
+      }
       stop()
       const id = run.current
       busy.current = true
       x.current = fromX
-      set('run1', 'right', true)
+      set('run1', 'right', false)
       draw(0)
+      // thrown from Michael's hand, a little right of the logo's centre, to where it stops;
+      // he runs to put his mouth on it (his head is at the right of the mirrored brake pose)
+      const hand = fromX + RUN_HALF + 8
+      const thrown = throwBall(hand, farX, id)
+      if (!(await wait(200, id))) return
+      const catchX = farX - POSES.brake.w * RUN_K + 8
+      if (!(await gallop(catchX, true, id))) return
+      if (!(await thrown)) return
+      // caught: the ball is in his mouth now
+      drawBall(farX, 0, false)
       // turning round: still braced from the skid, a beat, then a hop to face home
       const turnRound = async () => {
         if (!(await wait(160, id))) return false
@@ -192,9 +285,11 @@ export function useNavDog() {
         draw(0)
         return wait(120, id)
       }
-      const steps: (() => Promise<boolean>)[] = [() => gallop(farX, true, id), turnRound, () => gallop(sitX, true, id)]
-      for (const step of steps) if (!(await step())) return
+      if (!(await turnRound())) return
+      if (!(await gallop(sitX, true, id))) return
       set('sit', 'left')
+      // and he drops it at his feet
+      await dropBall(atFeet(sitX), id)
       busy.current = false
     },
     // gallop, wait, set and draw only touch refs, so they never go stale
@@ -202,13 +297,14 @@ export function useNavDog() {
     [reduced, place],
   )
 
-  /** back into the logo, still running; then he is gone */
+  /** back into the logo, still running (he picks the ball up on his way); then he is gone */
   const runIn = useCallback(
     async (inX: number) => {
       if (reduced) return hide()
       stop()
       const id = run.current
       busy.current = true
+      drawBall(0, 0, false)
       if (await gallop(inX, false, id)) {
         set(undefined, undefined, false)
         busy.current = false
@@ -225,30 +321,43 @@ export function useNavDog() {
     set(on ? 'turn' : 'sit')
   }, [])
 
-  return { ref, reduced, place, hide, zoomies, runIn, look }
+  return { ref, ballRef, reduced, place, hide, fetch, runIn, look }
 }
 
-export function NavDog({ dogRef }: { dogRef: RefObject<HTMLSpanElement> }) {
+export function NavDog({
+  dogRef,
+  ballRef,
+}: {
+  dogRef: RefObject<HTMLSpanElement>
+  ballRef: RefObject<HTMLSpanElement>
+}) {
   return (
-    <span ref={dogRef} className="nav-dog" aria-hidden="true" data-pose="sit" data-facing="left" data-shown="false">
-      <span className="nav-dog-shadow" />
-      {/* the body last: draw() lifts it, and only it */}
-      <span className="nav-dog-body">
-        {(Object.keys(POSES) as Pose[]).map((p) => {
-          const s = POSES[p]
-          return (
-            <img
-              key={p}
-              className={`nav-dog-${p}`}
-              src={`/header-kit/web/${s.f}.webp`}
-              alt=""
-              width={Math.round(s.w * s.k)}
-              height={Math.round(s.h * s.k)}
-            />
-          )
-        })}
+    <>
+      {/* the ball: drawn in code, in the site's accent, with its own shadow on the ground */}
+      <span ref={ballRef} className="nav-ball" aria-hidden="true" data-shown="false">
+        <span className="nav-ball-shadow" />
+        <span className="nav-ball-body" />
       </span>
-    </span>
+      <span ref={dogRef} className="nav-dog" aria-hidden="true" data-pose="sit" data-facing="left" data-shown="false">
+        <span className="nav-dog-shadow" />
+        {/* the body last: draw() lifts it, and only it */}
+        <span className="nav-dog-body">
+          {(Object.keys(POSES) as Pose[]).map((p) => {
+            const s = POSES[p]
+            return (
+              <img
+                key={p}
+                className={`nav-dog-${p}`}
+                src={`/header-kit/web/${s.f}.webp`}
+                alt=""
+                width={Math.round(s.w * s.k)}
+                height={Math.round(s.h * s.k)}
+              />
+            )
+          })}
+        </span>
+      </span>
+    </>
   )
 }
 
@@ -257,7 +366,12 @@ export function DogLogo({ withDog, className = '' }: { withDog: boolean; classNa
   return (
     <span className={`dog-logo ${className}`}>
       {(['icon-96', 'icon-solo-96'] as const).map((n) => (
-        <picture key={n} style={{ visibility: (n === 'icon-96') === withDog ? 'visible' : 'hidden' }}>
+        <picture
+          key={n}
+          style={{
+            visibility: (n === 'icon-96') === withDog ? 'visible' : 'hidden',
+          }}
+        >
           <source type="image/avif" srcSet={`/home/loop/${n}.avif`} />
           <img src={`/home/loop/${n}.webp`} alt="" width={44} height={44} />
         </picture>

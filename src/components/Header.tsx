@@ -7,14 +7,14 @@ import { DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
 
 /* The site header on every page but home (the home page hides it: its docked tab row is the
    nav there). Just the logo, Michael and his dog cut from the home painting, and the dog
-   himself: arriving on a page he hops out of the logo (which now shows Michael alone) and has
-   a few seconds of zoomies (out along the empty bar, a skid, a turn, and back) before sitting
-   beside it; pointing at the logo
+   himself: arriving on a page, Michael throws a ball out of the logo and the dog hops out
+   after it (the logo now shows Michael alone): he catches it in a skid along the empty bar,
+   turns, runs back and sits beside the logo with the ball at his feet; pointing at the logo
    turns his head; clicking it sends him running back in, the logo cuts to the two of them, and
    the page goes home. On phones he stays in the logo. */
 
 const LOGO = 44
-const ZOOM_PX = 640 // how far he sprints along the bar, at most
+const THROW_PX = 640 // how far the ball goes along the bar, at most
 
 export function Header() {
   const pathname = usePathname()
@@ -24,7 +24,7 @@ export function Header() {
   const [inLogo, setInLogo] = useState(true)
   const rowRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLAnchorElement>(null)
-  const { zoomies, runIn, hide, look, reduced } = dog
+  const { fetch, runIn, hide, look, reduced } = dog
 
   // his marks, in px from the row's left edge
   const marks = () => {
@@ -34,10 +34,10 @@ export function Header() {
     const left = logo.offsetLeft
     const sit = left + LOGO + 8
     const room = row.clientWidth - parseFloat(getComputedStyle(row).paddingRight) - 48
-    return { in: left + LOGO / 2 - RUN_HALF, sit, far: Math.max(sit + 80, Math.min(room, sit + ZOOM_PX)) }
+    return { in: left + LOGO / 2 - RUN_HALF, sit, far: Math.max(sit + 120, Math.min(room, sit + THROW_PX)) }
   }
 
-  // on every page (the header outlives navigation): out of the logo and the zoomies
+  // on every page (the header outlives navigation): the throw, and out of the logo after it
   useEffect(() => {
     if (pathname === links.home) return
     if (!dogOn) {
@@ -49,11 +49,11 @@ export function Header() {
     if (!m) return
     setInLogo(false)
     // a frame later, once the logo shows Michael alone, so the dog is never in two places
-    const raf = requestAnimationFrame(() => requestAnimationFrame(() => zoomies(m.in, m.sit, m.far)))
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => fetch(m.in, m.sit, m.far)))
     return () => cancelAnimationFrame(raf)
     // marks() reads the DOM; it only needs re-running when the page or the breakpoint changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, dogOn, zoomies, hide])
+  }, [pathname, dogOn, fetch, hide])
 
   const goHome = (e: MouseEvent<HTMLAnchorElement>) => {
     // new tab, new window and the like keep the browser's own behaviour
@@ -87,7 +87,7 @@ export function Header() {
             <DogLogo withDog={inLogo} />
           </span>
         </Link>
-        <NavDog dogRef={dog.ref} />
+        <NavDog dogRef={dog.ref} ballRef={dog.ballRef} />
       </div>
     </header>
   )

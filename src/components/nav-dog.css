@@ -70,6 +70,41 @@
   width: 58px;
 }
 
+/* The ball, drawn in code: the site's accent (accent.warm #c2600a) painted like the kit, a
+   lighter top-left, a darker bottom-right and a soft edge. NavDog.tsx moves it along the
+   ground and up through the air; its shadow stays on the floor and shrinks as the ball rises.
+   It starts behind the logo (below it in the stacking order), so it leaves from Michael. */
+.nav-ball {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  visibility: hidden;
+}
+.nav-ball[data-shown='true'] {
+  visibility: visible;
+}
+.nav-ball-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #f4b27a 0 14%, #d9732a 42%, #c2600a 62%, #8f4507 100%);
+  box-shadow: inset -1px -1px 1.5px rgb(90 40 5 / 0.35);
+  filter: saturate(0.9);
+}
+.nav-ball-shadow {
+  position: absolute;
+  left: -2px;
+  bottom: -3px;
+  width: 15px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(68 64 60 / 0.35), transparent);
+}
+
 /* A puff of dust (NavDog.tsx adds and removes it): soft warm-grey specks that spread, rise a
    little and fade, about half a second. */
 .nav-dust {
