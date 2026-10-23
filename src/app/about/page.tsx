@@ -25,7 +25,7 @@ export default function AboutPage() {
         {interests.map((i) => (
           <section key={i.id} id={i.id} className="scroll-mt-20 mt-section border-t border-border pt-section">
             <AnimatedSection className="flex flex-col gap-6">
-              <SectionHeader eyebrow={i.label} title={`[${i.label.toUpperCase()} HEADLINE]`} accessibleEyebrow />
+              <SectionHeader eyebrow={i.label} title={`[${i.label.toUpperCase()} HEADLINE]`} />
               {i.about.map((p) => (
                 <p key={p} className="text-body font-sans text-foundation-700">
                   {p}

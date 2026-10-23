@@ -11,7 +11,7 @@
 // CONTRAST. The caption is foundation-600, not the foundation-500 the spec named. On this
 // card's foundation-100 ground foundation-500 measures 4.40:1, under AA's 4.5:1 for text at
 // this size; foundation-600 measures 6.99:1. This is the same trade SectionHeader already
-// makes through its accessibleEyebrow prop, and the brief's own measured check requires 4.5:1,
+// makes with its eyebrow colour, and the brief's own measured check requires 4.5:1,
 // so the two instructions can only be satisfied one way.
 export function FigureCard({
   title,

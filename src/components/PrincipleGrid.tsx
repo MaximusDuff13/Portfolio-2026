@@ -11,7 +11,7 @@
 // CONTRAST. Measured against FigureCard's foundation-100 ground: the term at foundation-900
 // (16.03:1), the sentence and the icons at foundation-600 (6.99:1). foundation-500 is not
 // used for text here — it measures 4.40:1 on this ground, under AA's 4.5:1 — which is the
-// same trade FigureCard's caption and SectionHeader's accessibleEyebrow already make.
+// same trade FigureCard's caption and SectionHeader's eyebrow already make.
 import type { LucideIcon } from 'lucide-react'
 
 export type Principle = {

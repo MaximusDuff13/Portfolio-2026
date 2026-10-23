@@ -180,29 +180,30 @@ export function BuiltOnCarbon() {
               key={a.title}
               data-idx={i}
               ref={(el) => { refs.current[i] = el }}
-              className="grid grid-cols-12 gap-8 items-center min-h-[58vh]"
+              className="grid grid-cols-[2.5rem_1fr] gap-x-4 gap-y-6 py-12 md:py-0 md:grid-cols-12 md:gap-8 md:items-center md:min-h-[58vh]"
             >
-              {/* node — left-anchored so its centre (w-10 → 20px) lands on the rail at left-5 */}
-              <div className="col-span-1 flex justify-start">
+              {/* node — left-anchored so its centre (w-10 → 20px) lands on the rail at left-5. On
+                  phones the text and visual stack beside it. */}
+              <div className="row-span-2 md:row-span-1 md:col-span-1 flex justify-start">
                 <span
                   className={`shrink-0 w-10 h-10 rounded-full grid place-items-center text-body-sm font-grotesk z-10 transition-colors duration-300 ${
                     cur
                       ? 'bg-accent-warm text-body border border-accent-warm'
                       : done
                         ? 'bg-foundation-900 text-body border border-foundation-900'
-                        : 'bg-body border border-border text-foundation-400'
+                        : 'bg-body border border-border text-foundation-500'
                   }`}
                 >
                   {a.num}
                 </span>
               </div>
               {/* text */}
-              <div className={`col-span-4 transition-opacity duration-300 ${cur ? '' : 'opacity-40'}`}>
+              <div className={`col-start-2 md:col-start-auto md:col-span-4 transition-opacity duration-300 ${cur ? '' : 'opacity-40'}`}>
                 <p className="text-heading-xl font-grotesk text-foundation-900 mb-3">{a.title}</p>
                 <p className="text-body font-sans text-foundation-600">{a.desc}</p>
               </div>
               {/* visual — natural height (specimens vary in aspect ratio); rides in the same row, scales up when active */}
-              <div className={`col-span-7 transition-all duration-500 ${cur ? 'opacity-100 scale-100' : 'opacity-45 scale-[0.97]'}`}>
+              <div className={`col-start-2 md:col-start-auto md:col-span-7 transition-all duration-500 ${cur ? 'opacity-100 scale-100' : 'opacity-45 scale-[0.97]'}`}>
                 <a.Visual />
               </div>
             </div>
