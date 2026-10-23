@@ -72,9 +72,34 @@ export function useNavDog() {
     if (facing) n.dataset.facing = facing
     if (shown !== undefined) n.dataset.shown = String(shown)
   }
+  // the dog moves along the ground; only his body lifts, so his shadow stays on the floor
   const draw = (lift = 0) => {
-    if (ref.current) ref.current.style.transform = `translate(${x.current}px, ${-lift}px)`
+    const n = ref.current
+    if (!n) return
+    n.style.transform = `translateX(${x.current}px)`
+    const body = n.lastElementChild as HTMLElement | null
+    if (body) body.style.transform = lift ? `translateY(${-lift}px)` : ''
   }
+  // a puff of dust kicked up at his feet, drifting in `dir`; drawn in code, gone in ~0.7s
+  const puff = (at: number, dir: number) => {
+    const host = ref.current?.parentElement
+    if (!host) return
+    const p = document.createElement('span')
+    p.className = 'nav-dust'
+    p.setAttribute('aria-hidden', 'true')
+    p.style.left = `${Math.round(at)}px`
+    for (let i = 0; i < 6; i++) {
+      const d = document.createElement('i')
+      d.style.setProperty('--dx', `${dir * (6 + i * 7)}px`)
+      d.style.setProperty('--dy', `${-(4 + (i % 3) * 5)}px`)
+      d.style.animationDelay = `${i * 22}ms`
+      p.appendChild(d)
+    }
+    host.appendChild(p)
+    window.setTimeout(() => p.remove(), 1000)
+  }
+  // his front paws in the brake pose, from his left edge, by the way he faces
+  const paws = (dir: number) => x.current + (dir < 0 ? 10 : POSES.brake.w * RUN_K - 10)
   const stop = () => {
     run.current++
     cancelAnimationFrame(raf.current)
@@ -113,8 +138,9 @@ export function useNavDog() {
           return
         }
         if (!skid) return done(true)
-        // the stop: brake pose, sliding SKID_PX and slowing to nothing
+        // the stop: brake pose, sliding SKID_PX and slowing to nothing, dust at his front paws
         set('brake')
+        puff(paws(dir) + dir * SKID_PX, dir)
         const s0 = now
         const sx = x.current
         const slide = (t: number) => {
@@ -160,6 +186,8 @@ export function useNavDog() {
         if (!(await wait(160, id))) return false
         set('brake', 'left')
         draw(LIFT)
+        // the hop round kicks dust back the way he came
+        puff(x.current + (POSES.brake.w * RUN_K) / 2, 1)
         if (!(await wait(90, id))) return false
         draw(0)
         return wait(120, id)
@@ -203,19 +231,23 @@ export function useNavDog() {
 export function NavDog({ dogRef }: { dogRef: RefObject<HTMLSpanElement> }) {
   return (
     <span ref={dogRef} className="nav-dog" aria-hidden="true" data-pose="sit" data-facing="left" data-shown="false">
-      {(Object.keys(POSES) as Pose[]).map((p) => {
-        const s = POSES[p]
-        return (
-          <img
-            key={p}
-            className={`nav-dog-${p}`}
-            src={`/header-kit/web/${s.f}.webp`}
-            alt=""
-            width={Math.round(s.w * s.k)}
-            height={Math.round(s.h * s.k)}
-          />
-        )
-      })}
+      <span className="nav-dog-shadow" />
+      {/* the body last: draw() lifts it, and only it */}
+      <span className="nav-dog-body">
+        {(Object.keys(POSES) as Pose[]).map((p) => {
+          const s = POSES[p]
+          return (
+            <img
+              key={p}
+              className={`nav-dog-${p}`}
+              src={`/header-kit/web/${s.f}.webp`}
+              alt=""
+              width={Math.round(s.w * s.k)}
+              height={Math.round(s.h * s.k)}
+            />
+          )
+        })}
+      </span>
     </span>
   )
 }

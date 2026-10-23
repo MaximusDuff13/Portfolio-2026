@@ -11,6 +11,10 @@
   height: 52px;
   pointer-events: none;
 }
+.nav-dog-body {
+  position: absolute;
+  inset: 0;
+}
 .nav-dog img {
   position: absolute;
   left: 0;
@@ -28,6 +32,84 @@
 /* the kit's run and brake poses face left; mirrored when he runs right */
 .nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake) {
   transform: scaleX(-1);
+}
+
+/* His shadow, the painting's own idea (a soft ellipse under the figure) in the bar's warm
+   grey. It stays on the ground while his body lifts: long under a run, shorter and fainter
+   when he is in the air (run1), small and round when he sits. Each one is centred under its
+   pose, so mirroring a pose never moves it. */
+.nav-dog-shadow {
+  position: absolute;
+  bottom: -3px;
+  left: -4px;
+  width: 31px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(68 64 60 / 0.38), rgb(68 64 60 / 0.16) 60%, transparent);
+  visibility: hidden;
+}
+.nav-dog[data-shown='true'] .nav-dog-shadow {
+  visibility: visible;
+}
+.nav-dog[data-pose='turn'] .nav-dog-shadow {
+  left: -3px;
+  width: 33px;
+}
+.nav-dog[data-pose='run1'] .nav-dog-shadow {
+  left: 14px;
+  width: 42px;
+  height: 6px;
+  opacity: 0.65;
+}
+.nav-dog[data-pose='run2'] .nav-dog-shadow {
+  left: 6px;
+  width: 54px;
+}
+.nav-dog[data-pose='brake'] .nav-dog-shadow {
+  left: 3px;
+  width: 58px;
+}
+
+/* A puff of dust (NavDog.tsx adds and removes it): soft warm-grey specks that spread, rise a
+   little and fade, about half a second. */
+.nav-dust {
+  position: absolute;
+  bottom: 3px; /* off the bar's bottom line, so it never spills onto the page */
+  width: 0;
+  height: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.nav-dust i {
+  position: absolute;
+  left: -5px;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(168 162 158 / 0.75);
+  filter: blur(0.8px);
+  animation: nav-dust 680ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.nav-dust i:nth-child(2n) {
+  width: 14px;
+  height: 14px;
+  background: rgb(214 211 209 / 0.9);
+}
+.nav-dust i:nth-child(3n) {
+  width: 7px;
+  height: 7px;
+  background: rgb(120 113 108 / 0.45);
+}
+@keyframes nav-dust {
+  from {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(1.5);
+    opacity: 0;
+  }
 }
 
 .dog-logo {
