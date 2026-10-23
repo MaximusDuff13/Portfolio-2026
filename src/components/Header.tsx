@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { links } from '@/data/links'
-import { DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
+import { BALL_GAP, DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
 
 /* The site header on every page but home (the home page hides it: its docked tab row is the
    nav there). Just the logo, Michael and his dog cut from the home painting, and the dog
@@ -32,7 +32,8 @@ export function Header() {
     const logo = logoRef.current
     if (!row || !logo) return null
     const left = logo.offsetLeft
-    const sit = left + LOGO + 8
+    // he sits a ball's width out from the logo: the ball drops in the gap, beside the logo
+    const sit = left + LOGO + 6 + BALL_GAP
     const room = row.clientWidth - parseFloat(getComputedStyle(row).paddingRight) - 48
     return { in: left + LOGO / 2 - RUN_HALF, sit, far: Math.max(sit + 120, Math.min(room, sit + THROW_PX)) }
   }

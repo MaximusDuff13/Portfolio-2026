@@ -37,6 +37,8 @@ const POSES = {
   carry2: { f: `${NAV}/dog-run-ball-2-185`, w: 185, h: 96, k: RUN_K },
 } as const
 type Pose = keyof typeof POSES
+/** from the ball's left edge to his: the ball (11px) and a little room either side of it */
+export const BALL_GAP = 16
 /** half his running width: aim at a point minus this to put his middle there */
 export const RUN_HALF = Math.round((POSES.run1.w * RUN_K) / 2)
 
@@ -253,8 +255,9 @@ export function useNavDog() {
     drawBall(0, 0, false)
   }, [])
 
-  // the ball lies at his feet once he is back: just right of where he sits
-  const atFeet = (sitX: number) => sitX + POSES.sit.w * SIT_K + 3
+  // the ball lies between him and the logo once he is back: he comes home facing the logo, so
+  // it drops from his mouth on that side
+  const atFeet = (sitX: number) => sitX - BALL_GAP
 
   /** Fetch. Michael throws the ball out of the logo; the dog hops out after it, catches it in
       a skid, turns on the spot, runs straight back and sits by the logo with the ball at his
