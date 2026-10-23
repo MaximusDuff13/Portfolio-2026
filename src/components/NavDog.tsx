@@ -18,11 +18,11 @@ import './nav-dog.css'
    breakpoint) he stays in the logo: no dog in the nav at all. */
 
 // The 2x sprites and the scale each is drawn at. In the painting the running dog is further
-// off than the sitting one, so at a shared scale he runs at 30px long and looks tiny beside
-// his 40px sit. Here sitting he is 40px tall and running about 50px long, which reads as one
-// dog in the bar.
-const SIT_K = 40 / 259
-const RUN_K = 24 / 96
+// off than the sitting one, so at a shared scale he runs tiny beside his sit. Here, as big as
+// the 64px bar allows: running he is 34px tall and about 70px long, sitting 52px tall, which
+// reads as one dog.
+const SIT_K = 52 / 259
+const RUN_K = 34 / 96
 const POSES = {
   sit: { f: 'dog-sit-114', w: 114, h: 259, k: SIT_K },
   turn: { f: 'dog-turn-132', w: 132, h: 259, k: SIT_K },
@@ -34,13 +34,13 @@ type Pose = keyof typeof POSES
 /** half his running width: aim at a point minus this to put his middle there */
 export const RUN_HALF = Math.round((POSES.run1.w * RUN_K) / 2)
 
-// a small dog's gallop: each leg position held about 75ms (34px at 0.45px/ms, about two thirds
+// a small dog's gallop: each leg position held about 75ms (48px at 0.64px/ms, about two thirds
 // of his length), so the eye reads every stride instead of a blur
-const SPEED = 0.45 // px per ms at full gallop
-const ACCEL_MS = 200 // from a standing start to full speed
-const STRIDE = 34 // px of ground per pose
-const LIFT = 3 // px his body rises in the airborne pose (run1, legs stretched)
-const SKID_PX = 16
+const SPEED = 0.64 // px per ms at full gallop
+const ACCEL_MS = 220 // from a standing start to full speed
+const STRIDE = 48 // px of ground per pose
+const LIFT = 4 // px his body rises in the airborne pose (run1, legs stretched)
+const SKID_PX = 22
 const SKID_MS = 150
 
 /** false on phones (below Tailwind's sm, 640px), where the nav is just the logo */

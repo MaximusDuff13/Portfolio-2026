@@ -14,7 +14,7 @@ import { DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
    the page goes home. On phones he stays in the logo. */
 
 const LOGO = 44
-const ZOOM_PX = 560 // how far he sprints along the bar, at most
+const ZOOM_PX = 640 // how far he sprints along the bar, at most
 
 export function Header() {
   const pathname = usePathname()
