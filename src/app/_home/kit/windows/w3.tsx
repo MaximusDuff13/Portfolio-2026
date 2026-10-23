@@ -1,6 +1,5 @@
 'use client'
-import { useId } from 'react'
-import type { WindowProps } from './types'
+import { useId, type ReactNode } from 'react'
 import './w3.css'
 
 /* Window variant 3 · Hong Kong flat window.
@@ -25,14 +24,12 @@ const BOT = 500 - FB
 // One frame and one sash: glass on the left and the sash's meeting stile mid-window
 const MEET = 491
 
-export default function W3({ direction, children }: WindowProps) {
+export default function W3({ children }: { children: ReactNode }) {
   const uid = useId().replace(/:/g, '')
   const glint = `w3-glint-${uid}`
-  const wobble = `w3-wobble-${uid}`
-  const hand = direction === 'c'
 
   return (
-    <div className={`w3 w3-${direction}`}>
+    <div className="w3">
       <div className="w3-reveal">
         <div className="w3-glass">
           {children}
@@ -42,15 +39,9 @@ export default function W3({ direction, children }: WindowProps) {
                 <stop offset="0" className="w3-glint-a" />
                 <stop offset="1" className="w3-glint-b" />
               </linearGradient>
-              {hand && (
-                <filter id={wobble} x="-2%" y="-2%" width="104%" height="104%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" />
-                  <feDisplacementMap in="SourceGraphic" scale="3" />
-                </filter>
-              )}
             </defs>
 
-            <g filter={hand ? `url(#${wobble})` : undefined}>
+            <g>
               {/* back sash, closed on the left: glass and its meeting stile */}
               <g className="w3-rear">
                 <rect className="w3-pane" x={F} y={TOP} width={MEET - F} height={BOT - TOP} />

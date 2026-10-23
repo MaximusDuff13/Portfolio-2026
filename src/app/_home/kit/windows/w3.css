@@ -47,10 +47,8 @@
   overflow: visible;
 }
 
-/* the loop sits square inside the frame, whatever the direction gave it */
-.w3 .a-loop,
-.w3 .b-loop,
-.w3 .c-loop {
+/* the loop sits square inside the frame */
+.w3 .a-loop {
   border-radius: 0;
   box-shadow: none;
 }
@@ -153,8 +151,8 @@
   stroke-linecap: round;
 }
 
-/* ── A · House Style: champagne aluminium, a plastered reveal, a stone ledge ── */
-.w3-a {
+/* ── Materials: champagne aluminium, a plastered reveal, a stone ledge ───── */
+.w3 {
   --w3-wall: light-dark(#f0eeeb, #2a2624);
   --w3-metal: light-dark(#d9d4cd, #5a534d);
   --w3-metal-2: light-dark(#cfc9c1, #4f4944);
@@ -163,13 +161,8 @@
   --w3-glass: light-dark(rgb(214 226 230 / 0.12), rgb(28 25 23 / 0.07));
   --w3-glint: light-dark(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.18));
   --w3-ledge: light-dark(#e7e5e4, #3a3532);
-  --w3-stalk: light-dark(#5c7a34, #7f9d55);
-  --w3-node: light-dark(#3f5622, #4f6a2e);
-  --w3-leaf: light-dark(#6f9140, #8aac5c);
-  --w3-pot: var(--x-accent);
-  --w3-pot-rim: light-dark(#a9530a, #f09a55);
 }
-.w3-a .w3-reveal {
+.w3 .w3-reveal {
   border-radius: 14px 14px 0 0;
   /* depth: the reveal is shaded from the top and the left, where the wall turns in */
   box-shadow:
@@ -177,7 +170,7 @@
     inset 8px 0 10px -10px var(--x-shadow),
     inset 0 0 0 1px var(--x-line);
 }
-.w3-a .w3-sill {
+.w3 .w3-sill {
   border-radius: 4px;
   border-top: 1px solid light-dark(#f5f5f4, #57534e);
   /* the ledge's front face, a shade down from its top */
@@ -186,75 +179,8 @@
     0 1px 0 var(--x-line),
     0 12px 18px -14px var(--x-shadow);
 }
-.w3-a .a-loop-control {
+.w3 .a-loop-control {
   background: light-dark(rgb(253 251 247 / 0.94), rgb(28 25 23 / 0.82));
   color: var(--x-ink);
   box-shadow: 0 1px 2px var(--x-shadow);
-}
-
-/* ── B · Canvas: the window as a component, flat fills and hairlines; the sash that moves
-   is the selected layer ─────────────────────────────────────────────────── */
-.w3-b {
-  --w3-pad: 10px;
-  --w3-sill: 12px;
-  --w3-sill-out: 6px;
-  --w3-wall: var(--x-frame-2);
-  --w3-metal: var(--x-frame);
-  --w3-metal-2: var(--x-frame);
-  --w3-edge: light-dark(#b9b9b4, #55555d);
-  --w3-hardware: var(--x-ink-3);
-  --w3-glass: light-dark(rgb(255 255 255 / 0.1), rgb(27 27 29 / 0.07));
-  --w3-glint: light-dark(rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.2));
-  --w3-ledge: var(--x-frame);
-  --w3-stalk: var(--x-ink-2);
-  --w3-node: var(--x-frame);
-  --w3-leaf: var(--x-frame);
-  --w3-pot: var(--x-frame-2);
-  --w3-plant-line: var(--x-ink-2);
-  --w3-plant-stroke: 1.2;
-}
-.w3-b .w3-reveal {
-  box-shadow: 0 0 0 1px var(--x-line);
-}
-.w3-b .w3-sill {
-  border-radius: 2px;
-  box-shadow:
-    0 0 0 1px var(--w3-edge),
-    0 10px 24px -16px var(--x-shadow);
-}
-.w3-b .w3-stalk {
-  stroke-width: 3;
-}
-
-/* ── C · Affinity Wall: drawn in marker on the polaroid's paper ─────────── */
-.w3-c {
-  --w3-pad: 0px;
-  --w3-sill: 13px;
-  --w3-sill-out: 0px;
-  --w3-wall: transparent;
-  --w3-metal: var(--x-paper);
-  --w3-metal-2: var(--x-paper);
-  --w3-edge: var(--x-ink);
-  --w3-stroke: 3.2;
-  --w3-vfx: none;
-  --w3-hardware: var(--x-marker-on-paper);
-  --w3-glass: rgb(188 215 255 / 0.12);
-  --w3-glint: rgb(255 255 255 / 0.6);
-  --w3-ledge: var(--x-paper);
-  --w3-stalk: #3c7a52;
-  --w3-node: var(--x-ink);
-  --w3-leaf: var(--x-mint);
-  --w3-pot: var(--x-orange);
-  --w3-plant-line: var(--x-ink);
-  --w3-plant-stroke: 1.6;
-}
-.w3-c .w3-sill {
-  margin-inline: -6px;
-  border-top: 2.5px solid var(--x-ink);
-  border-radius: 0 0 3px 6px;
-  box-shadow: 0 6px 8px -7px var(--x-shadow);
-  transform: rotate(0.5deg);
-}
-.w3-c .w3-plant {
-  left: 3%;
 }

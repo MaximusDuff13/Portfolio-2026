@@ -146,7 +146,7 @@ export function HomePage() {
         <div className="a-layout">
         <section className="a-hero" aria-labelledby="a-title">
           <div ref={heroRef} className="a-hero-block">
-            <LoopWindow direction="a"><HeroLoop playing={phase !== 'noise'} poster="start" className="a-loop" controlClassName="a-loop-control" sizes="(min-width: 1024px) 460px, 92vw" /></LoopWindow>
+            <LoopWindow><HeroLoop playing={phase !== 'noise'} poster="start" className="a-loop" controlClassName="a-loop-control" sizes="(min-width: 1024px) 460px, 92vw" /></LoopWindow>
 
             <div className="a-stack">
               <div className="a-headline" data-on={final || undefined}>
