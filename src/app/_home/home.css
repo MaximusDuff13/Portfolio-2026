@@ -471,6 +471,7 @@ body:has(.home-root) {
 }
 .a-home {
   position: absolute;
+  z-index: 2; /* above the dog, who runs in behind it */
   left: 0;
   top: 18px; /* centred on the tab labels */
   width: 44px;

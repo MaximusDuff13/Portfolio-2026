@@ -1,0 +1,43 @@
+/* The nav dog and the logo he runs into (see NavDog.tsx). */
+
+/* feet on the bar's bottom line; every pose is stacked and only one is visible. He sits
+   below the logo in the stacking order, so running into it he disappears behind the circle. */
+.nav-dog {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 40px;
+  pointer-events: none;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.3, 0.6, 0.35, 1);
+}
+.nav-dog img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: none;
+}
+
+.dog-logo {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.dog-logo picture {
+  position: absolute;
+  inset: 0;
+}
+.dog-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dog {
+    transition: none;
+  }
+}
