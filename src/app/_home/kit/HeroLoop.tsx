@@ -10,10 +10,15 @@ import crop from './loopCrop.json'
 /* The painted skyline and dog as a small looping window, for the
    top-left of the home page. The header-sequence.json flip-book, cropped.
 
-   Poster: final-still, cropped to the window. It is what loads first and what shows while the
-   loop is idle, offscreen, paused or under reduced motion. When `playing` turns on, the poster
-   hard-cuts to the empty scene plus sprites and the sequence runs; after the last pose it
-   holds for `holdMs`, then cuts back to step 0 and runs again. Hard cuts only: a step swaps the
+   Poster: a still cropped to the window. It is what loads first and what shows while the loop
+   is idle, offscreen, paused or under reduced motion. `poster="final"` (the default) is the
+   final still, the two of them together. `poster="start"` is the loop's own first frame
+   (Michael seated, no dog yet), for when the loop is about to play from the top, as in the
+   home intro: the cut to the sprites then changes nothing on screen, and the loop waits on
+   step 0 instead of the last pose. Under reduced motion it is always the final still.
+   When `playing` turns on, the poster hard-cuts to the empty scene plus sprites and the
+   sequence runs; after the last pose it holds for `holdMs`, then cuts back to step 0 and
+   runs again. Hard cuts only: a step swaps the
    visible sprite and sets its box instantly. No figure's opacity is ever animated. The only
    tweens are the head tilt (240ms) and the breathing loop from globals.css.
 
@@ -48,11 +53,12 @@ const pct = (b: Box): CSSProperties => ({ left: `${b.left}%`, top: `${b.top}%`, 
 // translate in % of the scene wrapper, which is an inline-size container
 const moveTo = (left: number, top: number) => `translate(${left}cqw, calc(${top / RATIO} * 1cqw))`
 
-const cropSet = (name: 'scene' | 'final-still', fmt: 'avif' | 'webp') =>
+const cropSet = (name: 'scene' | 'final-still' | 'start-still', fmt: 'avif' | 'webp') =>
   crop.widths.map((w) => `/home/loop/${name}-${w}.${fmt} ${w}w`).join(', ')
 
 export function HeroLoop({
   playing,
+  poster = 'final',
   holdMs = 5200,
   sizes = '(min-width: 1024px) 520px, 92vw',
   className = '',
@@ -60,6 +66,8 @@ export function HeroLoop({
 }: {
   /** run the loop; false shows the poster */
   playing: boolean
+  /** the still shown until it plays: the final pose, or the loop's first frame */
+  poster?: 'final' | 'start'
   /** how long the final pose holds before the loop restarts */
   holdMs?: number
   /** the rendered width of the window, for the paintings' srcset */
@@ -75,7 +83,9 @@ export function HeroLoop({
   const [mounted, setMounted] = useState(false)
   const [ready, setReady] = useState(false)
   const [paused, setPaused] = useState(false)
-  const [step, setStep] = useState(LAST)
+  // where the loop rests while it waits: on its first frame when that is the poster
+  const rest = poster === 'start' && !reduced ? 0 : LAST
+  const [step, setStep] = useState(rest)
   const imgs = useRef(new Map<string, HTMLImageElement>())
   const imgRef = (key: string) => (el: HTMLImageElement | null) => {
     if (el) imgs.current.set(key, el)
@@ -108,8 +118,8 @@ export function HeroLoop({
 
   // Leaving play: return to the poster pose, so the poster and the sprites agree
   useEffect(() => {
-    if (!playing || reduced) setStep(LAST)
-  }, [playing, reduced])
+    if (!playing || reduced) setStep(rest)
+  }, [playing, reduced, rest])
 
   // Show the poster until the loop has actually started once
   const [started, setStarted] = useState(false)
@@ -123,6 +133,7 @@ export function HeroLoop({
   const dog = shown.dog
   const tilt = shown.headTilt
   const showPoster = !started || reduced
+  const still = poster === 'start' && !reduced ? 'start-still' : 'final-still'
 
   // sprites are drawn at a fraction of the scene; the scene is (100 / crop.width) x the window
   const spriteSizes = (widthPct: number) => {
@@ -146,11 +157,11 @@ export function HeroLoop({
       >
         {/* Poster: the final still, cropped */}
         <picture>
-          <source type="image/avif" srcSet={cropSet('final-still', 'avif')} sizes={sizes} />
+          <source type="image/avif" srcSet={cropSet(still, 'avif')} sizes={sizes} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`/home/loop/final-still-${crop.widths[0]}.webp`}
-            srcSet={cropSet('final-still', 'webp')}
+            src={`/home/loop/${still}-${crop.widths[0]}.webp`}
+            srcSet={cropSet(still, 'webp')}
             sizes={sizes}
             alt=""
             draggable={false}

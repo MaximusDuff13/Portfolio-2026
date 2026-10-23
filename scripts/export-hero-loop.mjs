@@ -82,6 +82,16 @@ for (const name of ['scene', 'final-still']) {
       .png()
       .toBuffer()
     iconName = `icon-solo-${crop.icon.px}`
+    // the same picture cut to the loop's window: the loop's first frame (Michael seated, no dog
+    // yet), its poster while the home intro runs, so starting the loop never cuts
+    for (const w of crop.widths) {
+      const base = sharp(iconSource).extract(region).resize({ width: w, kernel: 'lanczos3' })
+      for (const fmt of ['avif', 'webp']) {
+        const dest = path.join(out, `start-still-${w}.${fmt}`)
+        await base.clone()[fmt](q[fmt]).toFile(dest)
+        console.log(`${path.basename(dest).padEnd(26)} ${(fs.statSync(dest).size / 1024).toFixed(1).padStart(7)} KB`)
+      }
+    }
   }
   const iconBase = sharp(iconSource).extract(icon).resize({ width: crop.icon.px, kernel: 'lanczos3' })
   for (const fmt of ['avif', 'webp']) {

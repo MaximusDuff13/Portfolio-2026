@@ -120,23 +120,15 @@
 }
 
 /* ── The one moment: the front sash slides open ─────────────────────────── */
+/* Shut while the home intro's noise runs; open the moment the loop starts, which is when the
+   cleanup starts (the pause control only exists while it plays). Quick, so the glass is out
+   of the way before the dog runs in from the right. Browsers without :has() skip this and
+   show it open. */
 .w3-front {
-  transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 260ms;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* A and C: shut while the loop waits on the intro, open once it plays (the pause control
-   only exists while it plays). Browsers without :has() skip this and show it open. */
 .w3:not(:has(.w3-glass button)) .w3-front {
   transform: translateX(504px);
-  transition-delay: 0ms;
-}
-/* B plays from the first frame, so it opens on load */
-.w3-b .w3-front {
-  animation: w3-open 1100ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
-}
-@keyframes w3-open {
-  from {
-    transform: translateX(504px);
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .w3 .w3-front {
