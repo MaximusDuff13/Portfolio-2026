@@ -534,16 +534,16 @@ body:has(.home-root) {
    you went toward. 4: its cards settle in one after another, quicker than the intro does. A
    panel replays its animation each time it is shown, as it comes back from display: none. */
 .a-tabs[data-tab-move='left'] {
-  --tab-from: -28px;
+  --tab-from: -56px;
 }
 .a-tabs[data-tab-move='right'] {
-  --tab-from: 28px;
+  --tab-from: 56px;
 }
 html:is([data-tx='1'], [data-tx='2'], [data-tx='3']) .a-tabs[data-tab-move] .pn[data-settle] .pn-cell {
   animation: none;
 }
 html:is([data-tx='1'], [data-tx='2'], [data-tx='3']) .a-tabs[data-tab-move] .pn-panel:not([hidden]) {
-  animation: a-tab-in 280ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation: a-tab-in 420ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 @keyframes a-tab-in {
   from {
@@ -552,8 +552,14 @@ html:is([data-tx='1'], [data-tx='2'], [data-tx='3']) .a-tabs[data-tab-move] .pn-
   }
 }
 html[data-tx='4'] .a-tabs[data-tab-move] .pn[data-settle] .pn-cell {
-  animation-duration: 340ms;
-  animation-delay: calc(var(--i) * 60ms);
+  animation: a-tab-rise 460ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(var(--i) * 100ms);
+}
+@keyframes a-tab-rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
 }
 
 /* About */

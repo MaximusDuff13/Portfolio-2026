@@ -13,47 +13,49 @@
     animation: none;
   }
 
-  /* 1, 2, 4 · the old page fades out fast; the new one rises 8px into place as it fades in */
+  /* 1, 2, 4 · the old page fades and eases back a little; the new one rises 24px and settles
+     from 98% into place as it fades in. Visible, not showy: about half a second. */
   html:is([data-tx='1'], [data-tx='2'], [data-tx='4'])::view-transition-old(root) {
-    animation: tx-out 150ms cubic-bezier(0.4, 0, 1, 1) both;
+    animation: tx-out 250ms cubic-bezier(0.4, 0, 1, 1) both;
   }
   html:is([data-tx='1'], [data-tx='2'], [data-tx='4'])::view-transition-new(root) {
-    animation: tx-rise 280ms cubic-bezier(0.2, 0.7, 0.3, 1) 90ms both;
+    animation: tx-rise 500ms cubic-bezier(0.2, 0.7, 0.3, 1) 120ms both;
   }
 
   /* 2 · the case card and the case study hero share names (globals: .vt-*), so their image and
      title travel between the two places; this sets that journey's pace */
   html[data-tx='2']::view-transition-group(*) {
-    animation-duration: 440ms;
+    animation-duration: 700ms;
     animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   html[data-tx='2']::view-transition-group(root) {
-    animation-duration: 280ms;
+    animation-duration: 500ms;
   }
 
   /* 3 · the old page dims toward near-black while the new one wipes up over it from below */
   html[data-tx='3']::view-transition-old(root) {
-    animation: tx-dim 520ms cubic-bezier(0.4, 0, 0.6, 1) both;
+    animation: tx-dim 760ms cubic-bezier(0.4, 0, 0.6, 1) both;
   }
   html[data-tx='3']::view-transition-new(root) {
-    animation: tx-wipe 560ms cubic-bezier(0.7, 0, 0.2, 1) both;
+    animation: tx-wipe 800ms cubic-bezier(0.7, 0, 0.2, 1) both;
   }
 }
 
 @keyframes tx-out {
   to {
     opacity: 0;
+    transform: scale(0.98);
   }
 }
 @keyframes tx-rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(24px) scale(0.98);
   }
 }
 @keyframes tx-dim {
   to {
-    filter: brightness(0.15);
+    filter: brightness(0.08);
   }
 }
 @keyframes tx-wipe {

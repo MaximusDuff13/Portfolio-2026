@@ -6,8 +6,8 @@ import './page-transitions.css'
 /* How the screen changes between pages and between the home tabs. Four modes, set as
    html[data-tx] and styled in page-transitions.css (pages) and the home page's own CSS (tabs):
 
-   1 · Quiet crossfade: the page fades out fast and the next rises in; tabs slide in from the
-       side you went toward.
+   1 · Quiet crossfade: the page fades and eases back, the next rises and settles in (about
+       half a second); tabs slide in from the side you went toward.
    2 · The card becomes the case study: as 1, and a case card's image and title morph into
        the case study's hero (and back).
    3 · Colour wipe: the old page dims to near-black and the next wipes up over it from below.
