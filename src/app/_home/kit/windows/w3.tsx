@@ -5,8 +5,8 @@ import './w3.css'
 
 /* Window variant 3 · Hong Kong flat window.
    The loop seen from a high-rise flat: a slim aluminium window in a deep reveal, a ledge with
-   the things Michael keeps there (his family's photo, his Bible, a folded Manchester United
-   shirt), a crescent latch on the meeting stile. One frame and one sash: the
+   the things Michael keeps there (his family's photo and his Bible), a crescent latch on the
+   meeting stile. One frame and one sash: the
    left of the view is seen through its glass, the right (where the dog runs in) is open. It
    doesn't move: the sliding front sash, and its open/shut moment, were taken out.
 
@@ -75,10 +75,9 @@ export default function W3({ direction, children }: WindowProps) {
 
       <div className="w3-sill" aria-hidden="true" />
 
-      {/* What Michael keeps on the ledge: a photo of his family, his Bible standing beside it,
-          and a folded Manchester United shirt (red with the white trim, no crest). Low and in
-          the corner, clear of him in the painting. */}
-      <svg className="w3-keepsakes" viewBox="0 0 100 70" aria-hidden="true" focusable="false">
+      {/* What Michael keeps on the ledge: a photo of his family and his Bible standing beside
+          it. Low and in the corner, clear of him in the painting. */}
+      <svg className="w3-keepsakes" viewBox="0 0 58 70" aria-hidden="true" focusable="false">
         <defs>
           <clipPath id={`w3-photo-${uid}`}>
             <rect x="7" y="33" width="18" height="24" rx="0.5" />
@@ -110,15 +109,6 @@ export default function W3({ direction, children }: WindowProps) {
           <path className="w3-bible-spine-line" d="M36.6 39v28" />
           <path className="w3-bible-cross" d="M44 44.5v12.5M40.2 48.6h7.6" />
           <path className="w3-bible-ribbon" d="M49 66.5c.6 1.4.4 2.4-.4 3" />
-        </g>
-        {/* the shirt, folded as on a shop shelf: red, the collar in white with its two points,
-            the shoulders folded in */}
-        <g className="w3-shirt">
-          <rect className="w3-shirt-body" x="58" y="46" width="36" height="22" rx="2" />
-          <path className="w3-shirt-fold" d="M58.6 50.6 64.4 46.6M93.4 50.6 87.6 46.6M58.8 64.6h34.4" />
-          <path className="w3-shirt-neck" d="M71 46 76 51.6 81 46Z" />
-          <path className="w3-shirt-collar" d="M70.4 46.2 76 52.4 81.6 46.2" />
-          <path className="w3-shirt-points" d="M70.4 46.2 71.8 51.2 74.6 49.6ZM81.6 46.2 80.2 51.2 77.4 49.6Z" />
         </g>
       </svg>
     </div>

@@ -40,9 +40,9 @@
   z-index: 6;
   left: calc(var(--w3-sill-out) + var(--w3-pad) + 1.5%);
   bottom: calc(var(--w3-sill) - 2px);
-  width: clamp(62px, 21%, 96px);
+  width: clamp(48px, 16.5%, 76px);
   height: auto;
-  aspect-ratio: 100 / 70;
+  aspect-ratio: 58 / 70;
   pointer-events: none;
   overflow: visible;
 }
@@ -95,7 +95,6 @@
 /* Drawn flat, like the frame, in the things' own colours. A soft shadow under each, on the
    ledge. */
 .w3-photo,
-.w3-shirt,
 .w3-bible {
   filter: drop-shadow(0 1px 0.6px rgb(28 25 23 / 0.28));
 }
@@ -129,31 +128,6 @@
 /* a little glass over the photo */
 .w3-frame-sheen {
   fill: rgb(255 255 255 / 0.12);
-}
-.w3-shirt-body {
-  fill: #c8102e;
-}
-.w3-shirt-fold {
-  fill: none;
-  stroke: #96091f;
-  stroke-width: 1;
-  stroke-linecap: round;
-}
-.w3-shirt-neck {
-  fill: #96091f;
-}
-.w3-shirt-collar {
-  fill: none;
-  stroke: #fdfbf7;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.w3-shirt-points {
-  fill: #fdfbf7;
-  stroke: #fdfbf7;
-  stroke-width: 0.6;
-  stroke-linejoin: round;
 }
 .w3-bible-pages {
   fill: #e2c27a;
