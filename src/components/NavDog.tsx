@@ -23,12 +23,18 @@ import './nav-dog.css'
 // reads as one dog.
 const SIT_K = 52 / 259
 const RUN_K = 34 / 96
+// carry1/carry2 are run1/run2 with the ball in his mouth (scripts/export-nav-dog.mjs), on the
+// same canvases, so they swap in without a jump
+const KIT = '/header-kit/web'
+const NAV = '/home/nav'
 const POSES = {
-  sit: { f: 'dog-sit-114', w: 114, h: 259, k: SIT_K },
-  turn: { f: 'dog-turn-132', w: 132, h: 259, k: SIT_K },
-  run1: { f: 'dog-run-1-198', w: 198, h: 92, k: RUN_K },
-  run2: { f: 'dog-run-2-185', w: 185, h: 96, k: RUN_K },
-  brake: { f: 'dog-brake-180', w: 180, h: 101, k: RUN_K },
+  sit: { f: `${KIT}/dog-sit-114`, w: 114, h: 259, k: SIT_K },
+  turn: { f: `${KIT}/dog-turn-132`, w: 132, h: 259, k: SIT_K },
+  run1: { f: `${KIT}/dog-run-1-198`, w: 198, h: 92, k: RUN_K },
+  run2: { f: `${KIT}/dog-run-2-185`, w: 185, h: 96, k: RUN_K },
+  brake: { f: `${KIT}/dog-brake-180`, w: 180, h: 101, k: RUN_K },
+  carry1: { f: `${NAV}/dog-run-ball-1-198`, w: 198, h: 92, k: RUN_K },
+  carry2: { f: `${NAV}/dog-run-ball-2-185`, w: 185, h: 96, k: RUN_K },
 } as const
 type Pose = keyof typeof POSES
 /** half his running width: aim at a point minus this to put his middle there */
@@ -186,13 +192,16 @@ export function useNavDog() {
   const wait = (ms: number, id: number) =>
     new Promise<boolean>((done) => timers.current.push(window.setTimeout(() => done(id === run.current), ms)))
 
-  /** one gallop to `to`; resolves true on arrival (false if a newer routine took over) */
-  const gallop = (to: number, skid: boolean, id: number) =>
+  /** one gallop to `to`; resolves true on arrival (false if a newer routine took over).
+      `carry`: with the ball in his mouth; he then slows in the gathered carry pose, not the
+      brake (which has no ball). */
+  const gallop = (to: number, skid: boolean, id: number, carry = false) =>
     new Promise<boolean>((done) => {
       const from = x.current
       const dir = Math.sign(to - from) || 1
       const runPx = Math.max(0, Math.abs(to - from) - (skid ? SKID_PX : 0))
-      set('run1', dir < 0 ? 'left' : 'right', true)
+      const [air, land]: Pose[] = carry ? ['carry1', 'carry2'] : ['run1', 'run2']
+      set(air, dir < 0 ? 'left' : 'right', true)
       let covered = 0
       const t0 = performance.now()
       let last = t0
@@ -205,7 +214,7 @@ export function useNavDog() {
         x.current = from + dir * covered
         // the legs follow the ground: a new pose every STRIDE px
         const airborne = Math.floor(covered / STRIDE) % 2 === 0
-        set(airborne ? 'run1' : 'run2')
+        set(airborne ? air : land)
         draw(airborne ? LIFT : 0)
         if (covered < runPx) {
           raf.current = requestAnimationFrame(tick)
@@ -213,7 +222,7 @@ export function useNavDog() {
         }
         if (!skid) return done(true)
         // the stop: brake pose, sliding SKID_PX and slowing to nothing, dust at his front paws
-        set('brake')
+        set(carry ? land : 'brake')
         puff(paws(dir) + dir * SKID_PX, dir)
         const s0 = now
         const sx = x.current
@@ -274,10 +283,11 @@ export function useNavDog() {
       if (!(await thrown)) return
       // caught: the ball is in his mouth now
       drawBall(farX, 0, false)
-      // turning round: still braced from the skid, a beat, then a hop to face home
+      set('carry2')
+      // turning round: a beat with it, then a hop to face home
       const turnRound = async () => {
         if (!(await wait(160, id))) return false
-        set('brake', 'left')
+        set('carry2', 'left')
         draw(LIFT)
         // the hop round kicks dust back the way he came
         puff(x.current + (POSES.brake.w * RUN_K) / 2, 1)
@@ -286,7 +296,7 @@ export function useNavDog() {
         return wait(120, id)
       }
       if (!(await turnRound())) return
-      if (!(await gallop(sitX, true, id))) return
+      if (!(await gallop(sitX, true, id, true))) return
       set('sit', 'left')
       // and he drops it at his feet
       await dropBall(atFeet(sitX), id)
@@ -348,7 +358,7 @@ export function NavDog({
               <img
                 key={p}
                 className={`nav-dog-${p}`}
-                src={`/header-kit/web/${s.f}.webp`}
+                src={`${s.f}.webp`}
                 alt=""
                 width={Math.round(s.w * s.k)}
                 height={Math.round(s.h * s.k)}

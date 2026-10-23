@@ -26,11 +26,13 @@
 .nav-dog[data-shown='true'][data-pose='turn'] .nav-dog-turn,
 .nav-dog[data-shown='true'][data-pose='run1'] .nav-dog-run1,
 .nav-dog[data-shown='true'][data-pose='run2'] .nav-dog-run2,
-.nav-dog[data-shown='true'][data-pose='brake'] .nav-dog-brake {
+.nav-dog[data-shown='true'][data-pose='brake'] .nav-dog-brake,
+.nav-dog[data-shown='true'][data-pose='carry1'] .nav-dog-carry1,
+.nav-dog[data-shown='true'][data-pose='carry2'] .nav-dog-carry2 {
   visibility: visible;
 }
-/* the kit's run and brake poses face left; mirrored when he runs right */
-.nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake) {
+/* the kit's run, brake and carry poses face left; mirrored when he runs right */
+.nav-dog[data-facing='right'] :is(.nav-dog-run1, .nav-dog-run2, .nav-dog-brake, .nav-dog-carry1, .nav-dog-carry2) {
   transform: scaleX(-1);
 }
 
@@ -55,13 +57,13 @@
   left: -3px;
   width: 33px;
 }
-.nav-dog[data-pose='run1'] .nav-dog-shadow {
+.nav-dog:is([data-pose='run1'], [data-pose='carry1']) .nav-dog-shadow {
   left: 14px;
   width: 42px;
   height: 6px;
   opacity: 0.65;
 }
-.nav-dog[data-pose='run2'] .nav-dog-shadow {
+.nav-dog:is([data-pose='run2'], [data-pose='carry2']) .nav-dog-shadow {
   left: 6px;
   width: 54px;
 }
