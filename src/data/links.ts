@@ -29,9 +29,3 @@ export const links = {
     dataConversionApp: '/work/data-conversion-app',
   },
 } as const
-
-/** Header nav, in order. Contact returns once there is a real email to link to. */
-export const navLinks = [
-  { label: 'Work', href: links.work },
-  { label: 'About', href: links.about },
-] as const
