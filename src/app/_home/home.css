@@ -498,6 +498,27 @@ body:has(.home-root) {
 .a-home:hover {
   border-color: var(--x-accent);
 }
+/* Phones: the four labels with their counts are wider than the screen, so the counts go and
+   the gaps tighten. Docked, the home button takes 56px more. Whatever still doesn't fit
+   scrolls: TabList marks the row data-overflow, the right edge fades to say so, the end
+   padding lets the last tab scroll clear of the fade, and the selected tab is kept in view. */
+@media (max-width: 479px) {
+  .a-tablist {
+    gap: 20px;
+  }
+  .a-tab-count {
+    display: none;
+  }
+  .a-tabbar[data-docked] .a-tablist {
+    gap: 16px;
+    margin-left: 56px;
+    transform: none;
+  }
+}
+.a-tablist[data-overflow] {
+  padding-right: 28px;
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
 .a-home:focus-visible {
   outline: 2px solid var(--x-accent);
   outline-offset: 2px;
