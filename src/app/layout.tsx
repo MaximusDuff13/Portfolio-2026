@@ -63,7 +63,7 @@ export default function RootLayout({
     >
       <body>
         <Header />
-        <div className="pt-14">{children}</div>
+        <div className="pt-16">{children}</div>
       </body>
     </html>
   )

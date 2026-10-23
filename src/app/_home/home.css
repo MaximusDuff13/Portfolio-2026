@@ -3,12 +3,12 @@
    dark value is marked NEW below. Card CSS is em-based: the noise sets a small
    font-size and the same cards shrink into their compact form. */
 
-/* The site header and its 56px offset stay off the home page: its tab row is the nav.
+/* The site header and its 64px offset stay off the home page: its tab row is the nav.
    Scoped by :has, so no other route is touched. */
 body:has(.home-root) > header {
   display: none;
 }
-body:has(.home-root) > div.pt-14 {
+body:has(.home-root) > div.pt-16 {
   padding-top: 0;
 }
 /* the page behind the page (overscroll), in both themes */
@@ -387,7 +387,7 @@ body:has(.home-root) {
 .a-tabs {
   position: relative;
   z-index: 1;
-  padding: 42px 24px 96px; /* 56px less the tab bar's 14px top padding */
+  padding: 26px 24px 96px; /* 56px less the tab bar's 30px top padding */
   min-width: 0;
 }
 /* the tabs keep their space through the intro (no shift), and appear on resolve */
@@ -441,13 +441,14 @@ body:has(.home-root) {
 
 /* The tab row is the page's only nav, so it docks to the top once scrolled to. Docked, it
    becomes a full-width bar and the home button (Michael and the dog, cut from the painting)
-   pops in: at the hero's left edge on desktop, in front of the tabs below that. The 14px top
-   padding is always there, so docking never changes the row's height. */
+   pops in: at the hero's left edge on desktop, in front of the tabs below that. Docked, it is
+   64px tall with a 44px logo, the same as the site header. The 30px top padding is always
+   there, so docking never changes the row's height. */
 .a-tabbar {
   position: sticky;
   top: 0;
   z-index: 10;
-  padding-top: 14px;
+  padding-top: 30px;
 }
 .a-tabbar::before {
   content: '';
@@ -466,14 +467,14 @@ body:has(.home-root) {
 }
 .a-tabbar[data-docked] .a-tablist {
   border-bottom-color: transparent;
-  transform: translateX(52px);
+  transform: translateX(60px);
 }
 .a-home {
   position: absolute;
   left: 0;
-  top: 6px;
-  width: 36px;
-  height: 36px;
+  top: 18px; /* centred on the tab labels */
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 1px solid var(--x-line);
   border-radius: 999px;
@@ -1073,7 +1074,7 @@ body:has(.home-root) {
   }
   /* the hero scrolls away with the page; the docked tab bar carries the way back */
   .a-tabs {
-    padding-top: 34px; /* 48px less the tab bar's 14px */
+    padding-top: 18px; /* 48px less the tab bar's 30px */
   }
   /* docked, the home button sits at the hero's left edge (440px column + 64px gap to the left)
      and the tabs stay where they are */

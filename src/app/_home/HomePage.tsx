@@ -198,7 +198,7 @@ export function HomePage() {
             >
               <picture>
                 <source type="image/avif" srcSet="/home/loop/icon-96.avif" />
-                <img src="/home/loop/icon-96.webp" alt="" width={36} height={36} />
+                <img src="/home/loop/icon-96.webp" alt="" width={44} height={44} />
               </picture>
             </button>
             <TabList

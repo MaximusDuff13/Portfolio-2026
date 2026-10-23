@@ -8,24 +8,20 @@ const focusRing =
 
 /* The site header on every page but home (the home page hides it: its docked tab row is the
    nav there). Same language as that docked bar: the round icon of Michael and the dog, cut from
-   the home painting, leads home; the links open the matching home tabs, and the current
-   section carries the same 2px accent underline as the active tab. */
+   the home painting, is the logo and leads home; the links open the matching home tabs, and the
+   current section carries the same 2px accent underline as the active tab. */
 export function Header() {
   const pathname = usePathname()
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-body border-b border-border">
-      <div className="flex items-center justify-between px-6 sm:px-10 lg:px-section h-14">
-        {/* Home: icon + name */}
-        <Link
-          href={links.home}
-          className={`group flex items-center gap-3 text-nav-tab font-grotesk text-foundation-900 no-underline ${focusRing}`}
-        >
-          <picture className="block w-9 h-9 shrink-0 overflow-hidden rounded-full border border-border bg-foundation-100 group-hover:border-accent-warm transition-colors">
+      <div className="flex items-center justify-between px-6 sm:px-10 lg:px-section h-16">
+        {/* Home: the icon alone */}
+        <Link href={links.home} aria-label="Michael Jerome, home" className="group block rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body">
+          <picture className="block w-11 h-11 shrink-0 overflow-hidden rounded-full border border-border bg-foundation-100 group-hover:border-accent-warm transition-colors">
             <source type="image/avif" srcSet="/home/loop/icon-96.avif" />
-            <img src="/home/loop/icon-96.webp" alt="" width={36} height={36} className="block w-full h-full" />
+            <img src="/home/loop/icon-96.webp" alt="" width={44} height={44} className="block w-full h-full" />
           </picture>
-          Michael Jerome
         </Link>
 
         {/* Nav */}
