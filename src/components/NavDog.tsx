@@ -53,6 +53,10 @@ const SPEED = 0.64 // px per ms at full gallop
 const ACCEL_MS = 220 // from a standing start to full speed
 const STRIDE = 48 // px of ground per pose
 const LIFT = 4 // px his body rises in the airborne pose (run1, legs stretched)
+type Pace = { speed: number; stride: number }
+const GALLOP: Pace = { speed: SPEED, stride: STRIDE }
+// going home he trots, slow enough to follow: each leg position held about 115ms
+const TROT: Pace = { speed: 0.2, stride: 23 }
 const SKID_PX = 22
 const SKID_MS = 150
 
@@ -202,7 +206,7 @@ export function useNavDog() {
   /** one gallop to `to`; resolves true on arrival (false if a newer routine took over).
       `carry`: with the ball in his mouth; he then slows in the gathered carry pose, not the
       brake (which has no ball). */
-  const gallop = (to: number, skid: boolean, id: number, carry = false) =>
+  const gallop = (to: number, skid: boolean, id: number, carry = false, pace: Pace = GALLOP) =>
     new Promise<boolean>((done) => {
       const from = x.current
       const dir = Math.sign(to - from) || 1
@@ -215,12 +219,12 @@ export function useNavDog() {
       const tick = (now: number) => {
         if (id !== run.current) return done(false)
         // ease in from a standing start, then hold full speed
-        const v = SPEED * Math.min(1, 0.3 + (0.7 * (now - t0)) / ACCEL_MS)
+        const v = pace.speed * Math.min(1, 0.3 + (0.7 * (now - t0)) / ACCEL_MS)
         covered = Math.min(runPx, covered + v * (now - last))
         last = now
         x.current = from + dir * covered
         // the legs follow the ground: a new pose every STRIDE px
-        const airborne = Math.floor(covered / STRIDE) % 2 === 0
+        const airborne = Math.floor(covered / pace.stride) % 2 === 0
         set(airborne ? air : land)
         draw(airborne ? LIFT : 0)
         if (covered < runPx) {
@@ -321,15 +325,20 @@ export function useNavDog() {
     [reduced, place],
   )
 
-  /** back into the logo, still running (he picks the ball up on his way); then he is gone */
+  /** Home, slow enough to see: he stands up with the ball in his mouth, a beat, then trots
+      back into the logo, still moving as he passes behind it; then he is gone. */
   const runIn = useCallback(
     async (inX: number) => {
       if (reduced) return hide()
       stop()
       const id = run.current
       busy.current = true
+      // he picks the ball up: on his feet, facing the logo, ball in mouth
       drawBall(0, 0, false)
-      if (await gallop(inX, false, id)) {
+      set('carry2', 'left', true)
+      draw(0)
+      if (!(await wait(260, id))) return
+      if (await gallop(inX, false, id, true, TROT)) {
         set(undefined, undefined, false)
         busy.current = false
       }

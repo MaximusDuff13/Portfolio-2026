@@ -22,6 +22,7 @@ export function Header() {
   const dog = useNavDog()
   const dogOn = useDogEnabled()
   const [inLogo, setInLogo] = useState(true)
+  const [greet, setGreet] = useState(false)
   const rowRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLAnchorElement>(null)
   const { fetch, runIn, hide, look, reduced } = dog
@@ -38,8 +39,12 @@ export function Header() {
     return { in: left + LOGO / 2 - RUN_HALF, sit, far: Math.max(sit + 120, Math.min(room, sit + THROW_PX)) }
   }
 
+  // the home page is one click away from every page: have it ready
+  useEffect(() => router.prefetch(links.home), [router])
+
   // on every page (the header outlives navigation): the throw, and out of the logo after it
   useEffect(() => {
+    setGreet(false)
     if (pathname === links.home) return
     if (!dogOn) {
       hide()
@@ -61,10 +66,13 @@ export function Header() {
     if (!dogOn || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
     e.preventDefault()
     const m = marks()
+    // he is in: the logo cuts to the two of them and gives a little bounce, a beat to take it
+    // in, then home (prefetched, so it opens at once)
     const home = () => {
       hide()
       setInLogo(true)
-      window.setTimeout(() => router.push(links.home), reduced ? 0 : 220)
+      setGreet(true)
+      window.setTimeout(() => router.push(links.home), reduced ? 0 : 650)
     }
     if (!m || reduced) return home()
     runIn(m.in).then(home)
@@ -85,7 +93,7 @@ export function Header() {
           className="group relative z-[2] block rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body"
         >
           <span className="block w-11 h-11 overflow-hidden rounded-full border border-border bg-foundation-100 group-hover:border-accent-warm transition-colors">
-            <DogLogo withDog={inLogo} />
+            <DogLogo withDog={inLogo} className={greet ? 'dog-logo-greet' : ''} />
           </span>
         </Link>
         <NavDog dogRef={dog.ref} ballRef={dog.ballRef} />
