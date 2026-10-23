@@ -1,11 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { links, navLinks } from '@/data/links'
 
-const navLinks = [
-  { label: 'Work', href: '/' },
-  { label: 'About', href: '/about' },
-]
+const focusRing =
+  'rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body'
 
 export function Header() {
   const pathname = usePathname()
@@ -15,23 +14,26 @@ export function Header() {
       <div className="flex items-center justify-between px-6 sm:px-10 lg:px-section h-14">
         {/* Wordmark */}
         <Link
-          href="/"
-          className="text-nav-tab font-grotesk text-foundation-900 hover:text-foundation-600 transition-colors no-underline"
+          href={links.home}
+          className={`text-nav-tab font-grotesk text-foundation-900 hover:text-foundation-600 transition-colors no-underline ${focusRing}`}
         >
           Michael Jerome
         </Link>
 
         {/* Nav */}
-        <nav>
-          <ul className="flex items-center gap-8 list-none m-0 p-0">
+        <nav aria-label="Main">
+          <ul className="flex items-center gap-6 sm:gap-8 list-none m-0 p-0">
             {navLinks.map(({ label, href }) => {
-              const isActive = pathname === href
+              // Work stays active across the case study pages
+              const isActive = href === links.work && (pathname === '/' || pathname.startsWith('/work'))
               return (
                 <li key={href}>
                   <Link
                     href={href}
+                    aria-current={isActive ? 'page' : undefined}
                     className={[
                       'text-nav-tab font-grotesk transition-colors no-underline',
+                      focusRing,
                       isActive
                         ? 'text-foundation-900'
                         : 'text-foundation-500 hover:text-foundation-900',

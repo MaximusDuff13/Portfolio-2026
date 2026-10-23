@@ -1,0 +1,83 @@
+{
+  "viewport": 1440,
+  "sprites": {
+    "dog-brake": {
+      "widths": [
+        180,
+        360
+      ],
+      "source": "public/header-kit/dog-brake.png"
+    },
+    "dog-run-1": {
+      "widths": [
+        198,
+        396
+      ],
+      "source": "public/header-kit/dog-run-1.png"
+    },
+    "dog-run-2": {
+      "widths": [
+        185,
+        370
+      ],
+      "source": "public/header-kit/dog-run-2.png"
+    },
+    "dog-sit": {
+      "widths": [
+        57,
+        114
+      ],
+      "source": "public/header-kit/dog-sit.png"
+    },
+    "dog-turn": {
+      "widths": [
+        66,
+        132
+      ],
+      "source": "public/header-kit/dog-turn.png"
+    },
+    "final-still": {
+      "widths": [
+        1440,
+        2880
+      ],
+      "source": "assets/header-kit/final-still@2x.png"
+    },
+    "person-reach": {
+      "widths": [
+        186,
+        372
+      ],
+      "source": "public/header-kit/person-reach.png"
+    },
+    "person-seated-body": {
+      "widths": [
+        208,
+        416
+      ],
+      "source": "public/header-kit/person-seated-body.png"
+    },
+    "person-seated-head": {
+      "widths": [
+        208,
+        416
+      ],
+      "source": "public/header-kit/person-seated-head.png"
+    },
+    "person-seated": {
+      "widths": [
+        208,
+        416
+      ],
+      "source": "public/header-kit/person-seated.png"
+    },
+    "scene": {
+      "widths": [
+        1440,
+        2880
+      ],
+      "source": "assets/header-kit/scene@2x.png"
+    }
+  },
+  "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAwBQCdASogABIAPtFcpEyoJSOiMBgIAQAaCWMArDNkBSH6lIMSIDZOluAVBGOAzlLCQAD+82zdJGsSQJLi97uvnY9ExJa1vLdyWdqJyOB0AkLs9QGs19FCq0lI4mUsXX6Anum1mQDrbJfSTMYA9KLMyoggAA=="
+}

@@ -1,0 +1,8 @@
+{
+  "note": "HeroLoop window, in % of the full scene (1672x941). Aspect 2:1. The dog enters past the right edge, so the window runs to 100%.",
+  "left": 26,
+  "top": 31,
+  "width": 74,
+  "height": 65.74,
+  "widths": [640, 1280]
+}

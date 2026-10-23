@@ -2,18 +2,20 @@ interface FindingCardProps {
   title: string
   description: string
   src: string
+  /** image alt text; defaults to the title */
+  alt?: string
   /** 'hero' = fixed tall crop for emphasis; 'default' = natural image height */
   variant?: 'hero' | 'default'
 }
 
-export function FindingCard({ title, description, src, variant = 'default' }: FindingCardProps) {
+export function FindingCard({ title, description, src, alt, variant = 'default' }: FindingCardProps) {
   const isHero = variant === 'hero'
   return (
     <div className="flex flex-col gap-3">
       <div className={`w-full rounded border border-border overflow-hidden bg-foundation-900 ${isHero ? 'h-72' : ''}`}>
         <img
           src={src}
-          alt={title}
+          alt={alt ?? title}
           className={isHero ? 'w-full h-full object-cover object-center block' : 'w-full h-auto block'}
         />
       </div>

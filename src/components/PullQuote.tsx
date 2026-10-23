@@ -1,5 +1,6 @@
 'use client'
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
+import { useReducedMotionSafe } from '@/lib/useReducedMotionSafe'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -19,7 +20,9 @@ const word: Variants = {
 }
 
 export function PullQuote({ children }: { children: string }) {
-  const prefersReduced = useReducedMotion()
+  // Waits for mount: switching to the static fallback before then split the text
+  // differently from the server HTML and broke hydration.
+  const prefersReduced = useReducedMotionSafe()
 
   // Static fallback — no motion, same layout.
   if (prefersReduced) {

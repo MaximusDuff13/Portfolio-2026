@@ -1,0 +1,488 @@
+{
+ "units": "all boxes are % of the scene image (1672x941, aspect 1.7769); position figures inside a wrapper with that aspect ratio",
+ "scene": {
+  "src": "scene",
+  "width": 1672,
+  "height": 941,
+  "objectPosition": "50% 100%"
+ },
+ "person": {
+  "seated": {
+   "left": 38.776,
+   "top": 58.98,
+   "width": 14.434,
+   "height": 25.93,
+   "head": "person-seated-head",
+   "body": "person-seated-body",
+   "headPivot": {
+    "x": 44.43,
+    "y": 29.79,
+    "unit": "% of the seated box"
+   },
+   "headTiltNote": "rotate the head layer (degrees, negative = toward the dog) plus translateX(-0.05% of the box per degree); body layer sits ABOVE the head so the neck seam stays hidden"
+  },
+  "reach": {
+   "left": 40.156,
+   "top": 60.423,
+   "width": 12.933,
+   "height": 24.051
+  },
+  "shadow": {
+   "cx": 45.993,
+   "cy": 84.91,
+   "w": 12.991,
+   "h": 3.63
+  }
+ },
+ "shadowStyle": "ellipse, rgba(45,60,25,0.43) person / 0.39 dog, blur ~6px at 1672px wide (0.36% of scene width)",
+ "zOrder": "while person = seated the dog is drawn above the person; when person = reach the person is drawn above the dog (hand rests on the head)",
+ "breathing": "person container scaleY 1 -> 1.008 -> 1, transform-origin bottom centre, period 2900ms, ease-in-out, infinite; off for reduced motion",
+ "rules": "hard cuts only between steps: swap the sprite and set the box instantly. Never fade a figure's opacity.",
+ "reachAtMs": 2580,
+ "steps": [
+  {
+   "ms": 160,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": null,
+   "startMs": 0
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 93.309,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 99.586,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 160
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 85.775,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 92.052,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 240
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 80.018,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 85.675,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 320
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 74.701,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 80.358,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 400
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 69.727,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 76.005,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 480
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 66.241,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 72.519,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 560
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 64.147,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 69.804,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 640
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 62.107,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 67.764,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 720
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 60.025,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 66.302,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 800
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 59.045,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 65.322,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 880
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 59.071,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 64.728,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 960
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-2",
+    "left": 58.766,
+    "top": 73.796,
+    "width": 12.852,
+    "height": 11.858,
+    "shadow": {
+     "cx": 64.423,
+     "cy": 86.079,
+     "w": 8.996,
+     "h": 1.063
+    }
+   },
+   "startMs": 1040
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 58.033,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 64.31,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 1120
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-run-1",
+    "left": 58.017,
+    "top": 73.261,
+    "width": 13.756,
+    "height": 11.33,
+    "shadow": {
+     "cx": 64.294,
+     "cy": 86.079,
+     "w": 9.629,
+     "h": 1.063
+    }
+   },
+   "startMs": 1200
+  },
+  {
+   "ms": 100,
+   "person": "seated",
+   "headTilt": -2,
+   "dog": {
+    "sprite": "dog-brake",
+    "left": 57.332,
+    "top": 73.158,
+    "width": 12.518,
+    "height": 12.496,
+    "shadow": {
+     "cx": 62.919,
+     "cy": 86.079,
+     "w": 8.762,
+     "h": 1.063
+    }
+   },
+   "startMs": 1280
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": -4,
+   "dog": {
+    "sprite": "dog-brake",
+    "left": 56.016,
+    "top": 73.158,
+    "width": 12.518,
+    "height": 12.496,
+    "shadow": {
+     "cx": 61.603,
+     "cy": 86.079,
+     "w": 8.762,
+     "h": 1.063
+    }
+   },
+   "startMs": 1380
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-brake",
+    "left": 55.059,
+    "top": 73.158,
+    "width": 12.518,
+    "height": 12.496,
+    "shadow": {
+     "cx": 60.646,
+     "cy": 86.079,
+     "w": 8.762,
+     "h": 1.063
+    }
+   },
+   "startMs": 1460
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-brake",
+    "left": 54.82,
+    "top": 73.158,
+    "width": 12.518,
+    "height": 12.496,
+    "shadow": {
+     "cx": 60.407,
+     "cy": 86.079,
+     "w": 8.762,
+     "h": 1.063
+    }
+   },
+   "startMs": 1540
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-turn",
+    "left": 53.272,
+    "top": 68.332,
+    "width": 4.6,
+    "height": 16.047,
+    "shadow": {
+     "cx": 55.622,
+     "cy": 85.654,
+     "w": 4.187,
+     "h": 1.063
+    }
+   },
+   "startMs": 1620
+  },
+  {
+   "ms": 400,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-turn",
+    "left": 53.272,
+    "top": 69.288,
+    "width": 4.6,
+    "height": 16.047,
+    "shadow": {
+     "cx": 55.622,
+     "cy": 85.654,
+     "w": 4.187,
+     "h": 1.063
+    }
+   },
+   "startMs": 1700
+  },
+  {
+   "ms": 400,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-sit",
+    "left": 53.514,
+    "top": 69.288,
+    "width": 3.975,
+    "height": 16.047,
+    "shadow": {
+     "cx": 55.622,
+     "cy": 85.654,
+     "w": 4.187,
+     "h": 1.063
+    }
+   },
+   "startMs": 2100
+  },
+  {
+   "ms": 80,
+   "person": "seated",
+   "headTilt": -6,
+   "dog": {
+    "sprite": "dog-sit",
+    "left": 52.531,
+    "top": 69.288,
+    "width": 3.975,
+    "height": 16.047,
+    "shadow": {
+     "cx": 54.639,
+     "cy": 85.654,
+     "w": 4.187,
+     "h": 1.063
+    }
+   },
+   "startMs": 2500
+  },
+  {
+   "ms": null,
+   "person": "reach",
+   "headTilt": 0,
+   "dog": {
+    "sprite": "dog-sit",
+    "left": 51.548,
+    "top": 69.288,
+    "width": 3.975,
+    "height": 16.047,
+    "shadow": {
+     "cx": 53.656,
+     "cy": 85.654,
+     "w": 4.187,
+     "h": 1.063
+    }
+   },
+   "startMs": 2580
+  }
+ ]
+}

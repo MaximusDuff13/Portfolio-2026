@@ -1,6 +1,7 @@
 'use client'
-import { motion, useReducedMotion } from 'framer-motion'
-import { fadeIn, fadeUp } from '@/lib/motion'
+import { motion } from 'framer-motion'
+import { sectionEnter, sectionEnterReduced } from '@/lib/motion'
+import { useReducedMotionSafe } from '@/lib/useReducedMotionSafe'
 
 export function AnimatedSection({
   children,
@@ -9,13 +10,13 @@ export function AnimatedSection({
   children: React.ReactNode
   className?: string
 }) {
-  const prefersReduced = useReducedMotion()
+  const prefersReduced = useReducedMotionSafe()
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      variants={prefersReduced ? fadeIn : fadeUp}
+      variants={prefersReduced ? sectionEnterReduced : sectionEnter}
       className={className}
     >
       {children}

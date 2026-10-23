@@ -55,6 +55,11 @@ module.exports = {
       spacing: {
         section: '80px',
       },
+      // NEW — the one soft shadow, for cards that lift (contents wall tiles, stacked
+      // screens, the resume stamp). foundation-900 (#1c1917) at 18%.
+      boxShadow: {
+        lift: '0 12px 24px -12px rgb(28 25 23 / 0.18)',
+      },
     },
   },
   plugins: [],

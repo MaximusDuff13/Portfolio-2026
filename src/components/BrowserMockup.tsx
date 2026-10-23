@@ -2,7 +2,16 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { fadeIn, scaleUp } from '@/lib/motion'
 
-export function BrowserMockup({ src, url = 'acentrahealth.com' }: { src: string; url?: string }) {
+/** A browser frame around a looping video (`src`), or around a still screen (`image`) */
+export function BrowserMockup({
+  src,
+  image,
+  url = 'acentrahealth.com',
+}: {
+  src?: string
+  image?: { src: string; alt: string }
+  url?: string
+}) {
   const prefersReduced = useReducedMotion()
 
   return (
@@ -28,17 +37,22 @@ export function BrowserMockup({ src, url = 'acentrahealth.com' }: { src: string;
         </div>
       </div>
 
-      {/* Video */}
+      {/* Video, or a still */}
       <div className="bg-foundation-900 w-full">
-        <video
-          src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-          className="w-full block"
-        />
+        {image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={image.src} alt={image.alt} className="w-full block" />
+        ) : (
+          <video
+            src={src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            className="w-full block"
+          />
+        )}
       </div>
     </motion.div>
   )

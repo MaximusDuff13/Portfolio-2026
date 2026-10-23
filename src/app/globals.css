@@ -31,3 +31,25 @@ body {
   opacity: 1 !important;
   transform: none !important;
 }
+
+/* Header scene: the man breathes, a slow scaleY from his base (header-sequence.json).
+   Off under reduced motion. HeaderScene pauses it while the tab is hidden. */
+@keyframes scene-breathe {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(1.008); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-breathe {
+    transform-origin: 50% 100%;
+    animation: scene-breathe 2900ms ease-in-out infinite;
+  }
+}
+
+/* In-page anchors (header nav, hero CTAs, contents wall tiles) glide rather than jump.
+   Off under reduced motion, where the jump is the right behaviour. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
