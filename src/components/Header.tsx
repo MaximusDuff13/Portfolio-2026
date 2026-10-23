@@ -8,12 +8,13 @@ import { DogLogo, NavDog, RUN_HALF, useDogEnabled, useNavDog } from './NavDog'
 /* The site header on every page but home (the home page hides it: its docked tab row is the
    nav there). Just the logo, Michael and his dog cut from the home painting, and the dog
    himself: arriving on a page he hops out of the logo (which now shows Michael alone) and has
-   a few seconds of zoomies along the empty bar before sitting beside it; pointing at the logo
+   a few seconds of zoomies (out along the empty bar, a skid, a turn, and back) before sitting
+   beside it; pointing at the logo
    turns his head; clicking it sends him running back in, the logo cuts to the two of them, and
    the page goes home. On phones he stays in the logo. */
 
 const LOGO = 44
-const ZOOM_PX = 380 // how far he sprints along the bar, at most
+const ZOOM_PX = 560 // how far he sprints along the bar, at most
 
 export function Header() {
   const pathname = usePathname()

@@ -17,26 +17,30 @@ import './nav-dog.css'
    Under reduced motion he never runs: he is simply where he belongs. On phones (below the sm
    breakpoint) he stays in the logo: no dog in the nav at all. */
 
-// the 2x sprites, all drawn at one scale so the poses keep the painting's proportions
+// The 2x sprites and the scale each is drawn at. In the painting the running dog is further
+// off than the sitting one, so at a shared scale he runs at 30px long and looks tiny beside
+// his 40px sit. Here sitting he is 40px tall and running about 50px long, which reads as one
+// dog in the bar.
+const SIT_K = 40 / 259
+const RUN_K = 24 / 96
 const POSES = {
-  sit: { f: 'dog-sit-114', w: 114, h: 259 },
-  turn: { f: 'dog-turn-132', w: 132, h: 259 },
-  run1: { f: 'dog-run-1-198', w: 198, h: 92 },
-  run2: { f: 'dog-run-2-185', w: 185, h: 96 },
-  brake: { f: 'dog-brake-180', w: 180, h: 101 },
+  sit: { f: 'dog-sit-114', w: 114, h: 259, k: SIT_K },
+  turn: { f: 'dog-turn-132', w: 132, h: 259, k: SIT_K },
+  run1: { f: 'dog-run-1-198', w: 198, h: 92, k: RUN_K },
+  run2: { f: 'dog-run-2-185', w: 185, h: 96, k: RUN_K },
+  brake: { f: 'dog-brake-180', w: 180, h: 101, k: RUN_K },
 } as const
 type Pose = keyof typeof POSES
-const K = 40 / 259 // sitting, he is 40px tall
 /** half his running width: aim at a point minus this to put his middle there */
-export const RUN_HALF = Math.round((POSES.run1.w * K) / 2)
+export const RUN_HALF = Math.round((POSES.run1.w * RUN_K) / 2)
 
-// a small dog's gallop: each leg position held about 75ms (22px at 0.29px/ms), so the eye
-// reads every stride instead of a blur
-const SPEED = 0.29 // px per ms at full gallop
-const ACCEL_MS = 180 // from a standing start to full speed
-const STRIDE = 22 // px of ground per pose
-const LIFT = 2 // px his body rises in the airborne pose (run1, legs stretched)
-const SKID_PX = 12
+// a small dog's gallop: each leg position held about 75ms (34px at 0.45px/ms, about two thirds
+// of his length), so the eye reads every stride instead of a blur
+const SPEED = 0.45 // px per ms at full gallop
+const ACCEL_MS = 200 // from a standing start to full speed
+const STRIDE = 34 // px of ground per pose
+const LIFT = 3 // px his body rises in the airborne pose (run1, legs stretched)
+const SKID_PX = 16
 const SKID_MS = 150
 
 /** false on phones (below Tailwind's sm, 640px), where the nav is just the logo */
@@ -139,9 +143,9 @@ export function useNavDog() {
     set(undefined, undefined, false)
   }, [])
 
-  /** Out of the logo and the zoomies: a sprint along the empty bar, a skid and a look back at
-      you, a dash halfway home, another look, then back to his spot by the logo to sit. About
-      four seconds, once (under the 5s at which moving content needs a pause control). */
+  /** Out of the logo and the zoomies: a sprint along the empty bar, a skid, a turn on the
+      spot, and a sprint straight back to sit by the logo. About three seconds, once (under the
+      5s at which moving content needs a pause control). */
   const zoomies = useCallback(
     async (fromX: number, sitX: number, farX: number) => {
       if (reduced) return place(sitX)
@@ -151,14 +155,16 @@ export function useNavDog() {
       x.current = fromX
       set('run1', 'right', true)
       draw(0)
-      const midX = Math.round(sitX + (farX - sitX) * 0.45)
-      const steps: (() => Promise<boolean>)[] = [
-        () => gallop(farX, true, id),
-        () => (set('turn'), wait(520, id)),
-        () => gallop(midX, true, id),
-        () => (set('turn'), wait(360, id)),
-        () => gallop(sitX, true, id),
-      ]
+      // turning round: still braced from the skid, a beat, then a hop to face home
+      const turnRound = async () => {
+        if (!(await wait(160, id))) return false
+        set('brake', 'left')
+        draw(LIFT)
+        if (!(await wait(90, id))) return false
+        draw(0)
+        return wait(120, id)
+      }
+      const steps: (() => Promise<boolean>)[] = [() => gallop(farX, true, id), turnRound, () => gallop(sitX, true, id)]
       for (const step of steps) if (!(await step())) return
       set('sit', 'left')
       busy.current = false
@@ -205,8 +211,8 @@ export function NavDog({ dogRef }: { dogRef: RefObject<HTMLSpanElement> }) {
             className={`nav-dog-${p}`}
             src={`/header-kit/web/${s.f}.webp`}
             alt=""
-            width={Math.round(s.w * K)}
-            height={Math.round(s.h * K)}
+            width={Math.round(s.w * s.k)}
+            height={Math.round(s.h * s.k)}
           />
         )
       })}
