@@ -20,3 +20,6 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated preview output (screenshots, recordings): kept on disk, not in git
+/dev/

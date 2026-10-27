@@ -1,0 +1,397 @@
+/* /dev/cards-unfold. Existing tokens through the home page's --x-* properties; the two stage
+   colours are the only new values (content.ts, `stage`). Motion: transform and opacity only.
+   Enter 400ms on ease.enter [0.22, 1, 0.36, 1], 50ms stagger per screen; exit 280ms (70%) on
+   ease.exit [0.6, 0, 0.8, 0.6], all together. No bounce, no scale-pop, no blur. */
+
+.uf-page {
+  padding: 24px 24px 96px;
+}
+.uf-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  max-width: 648px;
+  margin: 0 auto 32px;
+}
+.uf-seg {
+  display: flex;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--x-btn-line);
+  border-radius: 999px;
+  scrollbar-width: none;
+}
+.uf-seg a,
+.uf-frame-toggle {
+  flex: none;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font: 500 13px/1 var(--font-inter), sans-serif;
+  color: var(--x-ink-2);
+  text-decoration: none;
+}
+.uf-seg a[aria-current='page'] {
+  background: var(--x-ink);
+  color: var(--x-bg);
+}
+.uf-frame-toggle {
+  border: 1px solid var(--x-btn-line);
+}
+.uf-frame-toggle[aria-pressed='true'] {
+  border-color: var(--x-ink);
+  color: var(--x-ink);
+}
+.uf-column {
+  max-width: 648px;
+  margin: 0 auto;
+}
+.uf-column[data-phone] {
+  max-width: 390px;
+  padding: 24px;
+  border: 1px dashed var(--x-btn-line);
+  border-radius: 24px;
+}
+.uf-grid {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 640px) {
+  .uf-column:not([data-phone]) .uf-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── The card ────────────────────────────────────────────────────────────── */
+.home-root .uf-card {
+  overflow: clip;
+}
+.home-root .uf-card .cd-title {
+  font-size: 1.375em;
+}
+/* the whole card is the link: the ring goes round the card */
+.home-root .uf-card:has(.uf-link:focus-visible) {
+  outline: 2px solid var(--x-accent);
+  outline-offset: 3px;
+  overflow: visible;
+}
+.home-root .uf-link:focus-visible {
+  outline: none;
+}
+.home-root .uf-link {
+  text-decoration: underline 2px transparent;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 150ms var(--ease-enter);
+}
+.home-root .uf-meta {
+  margin-top: 0.5em !important;
+  font: 400 0.8125em/1.4 var(--font-inter), sans-serif;
+  color: var(--x-ink-3);
+}
+
+/* the stage: the project's pale colour, fading into the card toward the bottom. Sized as a
+   container, so every screen is placed in % of it (cqw, cqh) */
+.home-root .uf-stage {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  container-type: size;
+  overflow: hidden;
+  border-radius: 0.75em;
+  background: linear-gradient(to bottom, light-dark(var(--uf-stage), var(--x-surface-2)) 0%, light-dark(var(--uf-stage), var(--x-surface-2)) 35%, var(--x-surface) 100%);
+}
+.home-root .uf-stage .cd-sample {
+  position: absolute;
+  z-index: 6;
+  top: 0.6em;
+  left: 0.6em;
+}
+
+/* a browser frame */
+.uf-frame {
+  overflow: hidden;
+  border: 1px solid var(--x-line);
+  border-radius: 6px;
+  background: var(--x-surface);
+  box-shadow: 0 10px 22px -14px var(--x-shadow);
+}
+.uf-chrome {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--x-line);
+  background: var(--x-surface-2);
+}
+.uf-chrome span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--x-btn-line);
+}
+.uf-chrome i {
+  flex: 1;
+  height: 6px;
+  margin-left: 6px;
+  border-radius: 3px;
+  background: var(--x-bg);
+}
+.uf-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--x-bg);
+}
+.uf-screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+.uf-label {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 2px 5px;
+  border: 1px dashed var(--x-btn-line);
+  border-radius: 4px;
+  background: var(--x-surface);
+  font: 500 8px/1.2 var(--font-inter), sans-serif;
+  color: var(--x-ink-2);
+  white-space: nowrap;
+}
+
+/* the placeholder screens: neutral blocks only */
+.uf-ph {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 5%;
+  gap: 5%;
+}
+.uf-ph b {
+  display: block;
+  border-radius: 2px;
+  background: var(--x-line);
+}
+.uf-ph-head {
+  height: 8%;
+}
+.uf-ph-main {
+  display: flex;
+  flex: 1;
+  gap: 5%;
+}
+.uf-ph-side {
+  width: 20%;
+}
+.uf-ph-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7%;
+}
+.uf-ph-tiles {
+  display: flex;
+  gap: 5%;
+  height: 28%;
+}
+.uf-ph-tiles b {
+  flex: 1;
+}
+.uf-ph .uf-ph-chart {
+  flex: 1;
+  background: var(--x-surface-2);
+  border: 1px solid var(--x-line);
+}
+.uf-ph-field {
+  height: 14%;
+  border: 1px solid var(--x-btn-line);
+  background: var(--x-bg) !important;
+}
+.uf-ph-short {
+  width: 60%;
+}
+.uf-ph .uf-ph-button {
+  width: 32%;
+  height: 13%;
+  margin-top: auto;
+  background: var(--x-ink-3);
+}
+.uf-ph-row {
+  height: 11%;
+}
+.uf-ph-row:nth-child(odd) {
+  background: var(--x-surface-2) !important;
+}
+.uf-ph-title {
+  width: 55%;
+  height: 10%;
+}
+.uf-ph-split {
+  display: flex;
+  flex: 1;
+  gap: 6%;
+}
+.uf-ph-split b {
+  flex: 1;
+}
+
+/* the cover and the screens: left 50%, then moved in % of the stage */
+.uf-cover,
+.uf-layer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+.uf-cover {
+  z-index: 2;
+  width: 72%;
+  transform: translate(-50%, 12cqh);
+  transition: transform 280ms var(--ease-exit);
+}
+.uf-layer {
+  z-index: var(--z);
+  width: var(--w);
+  transform: translate(-50%, 0) translate(calc(var(--rx) * 1cqw), calc(var(--ry) * 1cqh)) rotate(calc(var(--rr) * 1deg));
+  transition: transform 280ms var(--ease-exit);
+}
+/* c: at rest the screens sit behind the cover as a stack, their edges showing */
+.uf-card[data-uf='c'] .uf-layer {
+  opacity: 1;
+}
+
+/* the description waits until the card opens; its space is kept, so nothing shifts */
+.home-root .uf-desc {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 196ms var(--ease-exit), transform 196ms var(--ease-exit);
+}
+
+/* ── Open: hover (mouse) or keyboard focus, the same ─────────────────────── */
+@media (hover: hover) {
+  .uf-card:hover .uf-layer {
+    transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
+    transition: transform 400ms var(--ease-enter) calc(var(--i) * 50ms);
+  }
+  .uf-card:not([data-uf='c']):hover .uf-cover {
+    transform: translate(-50%, 6cqh) scale(0.94);
+    transition: transform 400ms var(--ease-enter);
+  }
+  .home-root .uf-card:hover .uf-desc {
+    opacity: 1;
+    transform: none;
+    transition: opacity 400ms var(--ease-enter) 120ms, transform 400ms var(--ease-enter) 120ms;
+  }
+  .home-root .uf-card:hover .uf-link {
+    text-decoration-color: var(--x-accent);
+  }
+  .home-root .uf-card:hover .cd-arrow {
+    transform: translate(2px, -2px);
+    color: var(--x-accent);
+  }
+}
+.uf-card:has(.uf-link:focus-visible) .uf-layer {
+  transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
+  transition: transform 400ms var(--ease-enter) calc(var(--i) * 50ms);
+}
+.uf-card:not([data-uf='c']):has(.uf-link:focus-visible) .uf-cover {
+  transform: translate(-50%, 6cqh) scale(0.94);
+  transition: transform 400ms var(--ease-enter);
+}
+.home-root .uf-card:has(.uf-link:focus-visible) .uf-desc {
+  opacity: 1;
+  transform: none;
+  transition: opacity 400ms var(--ease-enter) 120ms, transform 400ms var(--ease-enter) 120ms;
+}
+.home-root .uf-card:has(.uf-link:focus-visible) .uf-link {
+  text-decoration-color: var(--x-accent);
+}
+.home-root .uf-card:has(.uf-link:focus-visible) .cd-arrow {
+  transform: translate(2px, -2px);
+  color: var(--x-accent);
+}
+
+/* ── B: the "Read" pill ──────────────────────────────────────────────────── */
+.uf-pill {
+  position: absolute;
+  z-index: 8;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #1c1917;
+  color: #fdfbf7;
+  font: 500 13px/1 var(--font-inter), sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+}
+/* following the pointer: moved by script, faded in and out only */
+.uf-pill-cursor {
+  top: 0;
+  left: 0;
+  transform: translate3d(var(--px, 50%), var(--py, 50%), 0);
+  transition: opacity 150ms var(--ease-exit);
+}
+@media (hover: hover) and (pointer: fine) {
+  .uf-card:hover .uf-pill-cursor {
+    opacity: 1;
+    transition: opacity 150ms var(--ease-enter);
+  }
+}
+/* keyboard: the same words, in a fixed place in the stage, never following anything */
+.uf-pill-key {
+  right: 12px;
+  bottom: 12px;
+  transition: opacity 150ms var(--ease-exit);
+}
+.uf-card:has(.uf-link:focus-visible) .uf-pill-key {
+  opacity: 1;
+}
+.uf-card:has(.uf-link:focus-visible) .uf-pill-cursor {
+  opacity: 0;
+}
+
+/* ── Touch: unfolded and still, the description showing, no pill ─────────── */
+@media (hover: none) {
+  .uf-layer {
+    transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
+    transition: none;
+  }
+  .uf-card:not([data-uf='c']) .uf-cover {
+    transform: translate(-50%, 6cqh) scale(0.94);
+    transition: none;
+  }
+  .home-root .uf-desc {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .uf-pill-cursor {
+    display: none;
+  }
+}
+
+/* ── Reduced motion: unfolded at rest, nothing moves ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .uf-layer,
+  .uf-card .uf-layer {
+    transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg)) !important;
+    transition: none !important;
+  }
+  .uf-card:not([data-uf='c']) .uf-cover {
+    transform: translate(-50%, 6cqh) scale(0.94) !important;
+    transition: none !important;
+  }
+  .home-root .uf-desc {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .uf-pill,
+  .home-root .uf-link,
+  .home-root .uf-card .cd-arrow {
+    transition: none !important;
+  }
+}
