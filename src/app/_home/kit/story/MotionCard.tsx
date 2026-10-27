@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 
 /* Holds a story card open (data-open) while it is hovered with a mouse or has keyboard focus, so
-   motion.css can write each preset's open state once. A pointer has to rest 70ms before the card
+   story.css can write each preset's open state once. A pointer has to rest 70ms before the card
    opens, so a quick pass across it starts nothing; leaving mid-way reverses from wherever the
    motion is (CSS transitions, not keyframes). Never opens on touch (hover: none), below 640px or
    in the 390 frame (`still`): the cover only, and the tap follows the link. With reduced motion a

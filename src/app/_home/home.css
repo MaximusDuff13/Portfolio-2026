@@ -1209,7 +1209,7 @@ body:has(.home-root) {
   .a-tabs {
     padding-inline: 40px;
   }
-  .home-root .pn-work,
+  /* Work stays one card per row: each case study gets the column's full width */
   .home-root .pn-accolades,
   .home-root .pn-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));

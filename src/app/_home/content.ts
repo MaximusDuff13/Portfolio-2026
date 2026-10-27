@@ -111,7 +111,7 @@ export type CardLayer = {
 /* Variant E (story motion): each case study tells its story with its own motion preset, picked
    by `story.preset`, so no two cards on a page move the same way (the preview warns if they do).
    The presets, the motion of each and what it does with reduced motion are in
-   src/app/dev/cards/presets.tsx; /dev/cards?v=gallery shows all six.
+   src/app/_home/kit/story/presets.tsx; /dev/cards?v=gallery shows all six.
    - deconstruct: components lift out of the cover to the margins, a redline back to each origin
    - drawer: the cover slides left; a review panel slides in from the right and checks off rows
    - scroll: a tall screenshot scrolls inside the cover's frame
@@ -166,7 +166,7 @@ export type MappingRow = { source: string; target: string }
    - Data Conversion 1, list: the project hub's list of conversion projects
    - Data Conversion 2, detail: a mapping under review, source field to target with its rule
    - Data Conversion 3, form: upload and prompt, starting a new mapping
-   Variant E's slots and their sizes are listed per preset in src/app/dev/cards/presets.tsx. */
+   Variant E's slots and their sizes are listed per preset in src/app/_home/kit/story/presets.tsx. */
 
 export const caseStudies: CaseStudy[] = [
   {

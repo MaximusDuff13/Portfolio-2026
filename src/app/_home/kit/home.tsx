@@ -1,7 +1,8 @@
 'use client'
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { about, accolades, caseStudies, person, sideProjects, tabs, type TabId } from '../content'
-import { AccoladeRow, CaseCard, SampleTag, SideCard } from './cards'
+import { AccoladeRow, SampleTag, SideCard } from './cards'
+import { StoryCard } from './story/StoryCard'
 import { LOOP_ASPECT } from './HeroLoop'
 import { TabPanel } from './Tabs'
 import { useIntro, type Phase } from './useIntro'
@@ -90,7 +91,7 @@ export function Panels({
       <TabPanel id="work" active={active} idPrefix={idPrefix} className="pn-panel pn-work">
         {caseStudies.map((c, i) => (
           <div key={c.id} className="pn-cell" style={cell(i)}>
-            <CaseCard item={c} />
+            <StoryCard item={c} morph />
           </div>
         ))}
       </TabPanel>

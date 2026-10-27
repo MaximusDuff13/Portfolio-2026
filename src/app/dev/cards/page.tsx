@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { caseStudies } from '@/app/_home/content'
 import '@/app/_home/home.css'
-import { duplicatePresets, galleryItems, PRESETS, type CardItem } from './presets'
+import { duplicatePresets, galleryItems, PRESETS, type CardItem } from '@/app/_home/kit/story/presets'
 import { UnfoldCard, type Variant } from './UnfoldCard'
 import './unfold.css'
-import './motion.css'
 
 /* /dev/cards: the case-study cards, one per row, stacked, on the strong stage tint. Linked from
    nowhere and kept out of search. ?v=c|e|gallery (default e): c deals supporting screens from

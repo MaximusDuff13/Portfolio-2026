@@ -6,7 +6,7 @@ import { Frame, Phone, Placeholder, SlotImage, type PlaceholderKind } from './fr
 /* Variant E's motion library. A card's `story.preset` picks one; each brings its own content,
    drawn in code from the home tokens until its slots get real images. Everything is placed in the
    stage's 16:10 box: x in % of its width (cqw), y in % of its height (cqh). The motion is in
-   motion.css, keyed on the card's data-preset, and runs while MotionCard holds the card open
+   story.css, keyed on the card's data-preset, and runs while MotionCard holds the card open
    (hover or keyboard focus). Enter 400-600ms on ease.enter, staggers 70-80ms (scroll 2s); exit at
    about 70% of the enter on ease.exit, all together. Transform, opacity and clip-path only, plus
    stroke-dashoffset for the redlines.
