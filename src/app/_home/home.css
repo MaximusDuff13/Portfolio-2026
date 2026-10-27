@@ -164,7 +164,6 @@ body:has(.home-root) {
 .a-stack > * {
   grid-area: 1 / 1;
 }
-.a-headline,
 .a-name {
   margin: 0;
   font: 500 36px/1.12 var(--font-grotesk), sans-serif;
@@ -176,6 +175,8 @@ body:has(.home-root) {
   color: var(--x-ink-large);
 }
 .a-headline {
+  margin: 0;
+  color: var(--x-ink);
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 280ms var(--ease-enter) 140ms, transform 280ms var(--ease-enter) 140ms;
@@ -184,24 +185,133 @@ body:has(.home-root) {
   opacity: 1;
   transform: none;
 }
-.a-hello {
-  margin: 0;
-  font: inherit;
-  letter-spacing: inherit;
+/* Until the intro resolves, the (much taller) final text takes no room: the hero measures only
+   the loop and the checklist, so the noise and its piles still fit the first screen on phones.
+   The CTA row waits with it, so it never jumps down at the resolve. */
+.a-stack {
+  position: relative;
 }
-.a-pitch {
-  margin: 14px 0 0;
-  max-width: 24ch;
-  font: 400 21px/1.35 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.01em;
+.a-headline:not([data-on]) {
+  position: absolute;
+  inset: 0 0 auto 0;
+}
+.a-ctas {
+  transition: opacity 280ms var(--ease-enter) 140ms;
+}
+.a-ctas:not([data-on]) {
+  opacity: 0;
+  visibility: hidden;
+}
+/* name row: the name, a slash, the role in small secondary text (foundation-600) */
+.a-id {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  font: 500 16px/1.4 var(--font-grotesk), sans-serif;
+  color: var(--x-ink);
+}
+.a-id-sep,
+.a-id-role {
+  font-weight: 400;
+  color: var(--x-ink-3);
+}
+/* margin note under the name: the painting's ink off the canvas, in Caveat (font-hand, the
+   site's annotation face), with a hand-drawn arrow up to the painting. foundation-700. */
+.a-aside {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin: 2px 0 0;
+  font: 400 22px/1.1 var(--font-hand), cursive;
+  color: var(--x-ink-2);
+}
+.a-aside-arrow {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* the key phrase, underlined by hand in accent.warm. A background image, so the line follows
+   the phrase across a line break. The page's one signature moment: on resolve the pen draws it
+   once, left to right; under reduced motion it is simply there. */
+.a-key {
+  padding-bottom: 0.1em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23c2600a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat 0 100% / 100% 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@media (prefers-color-scheme: dark) {
+  .a-key {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23e8843a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+}
+.a-headline[data-on] .a-key {
+  animation: a-draw-key 700ms var(--ease-enter) 450ms both;
+}
+@keyframes a-draw-key {
+  from {
+    background-size: 0% 0.3em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .a-headline[data-on] .a-key {
+    animation: none;
+  }
+}
+/* the statement: heading-xl, two-tone like the loading state */
+.a-statement {
+  margin: 12px 0 0;
+  font: 500 36px/1.15 var(--font-grotesk), sans-serif;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+}
+.a-body {
+  margin: 16px 0 0;
+  font: 400 16px/1.65 var(--font-inter), sans-serif;
   color: var(--x-ink-2);
   text-wrap: pretty;
 }
-.a-role {
-  margin: 16px 0 0;
-  font: 400 14px/1.4 var(--font-inter), sans-serif;
-  letter-spacing: normal;
+/* the company strip: a label over each group, logos with names, wrapping on small screens */
+.a-cos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  margin-top: 28px;
+}
+.a-co-label {
+  margin: 0 0 10px;
+  font: 700 11px/1 var(--font-grotesk), sans-serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   color: var(--x-ink-3);
+}
+.a-co-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.a-co {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 14px/1.2 var(--font-inter), sans-serif;
+  color: var(--x-ink);
+}
+.home-root .a-co-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 13px;
 }
 .a-intro {
   align-self: start;
@@ -523,7 +633,7 @@ body:has(.home-root) {
   outline: 2px solid var(--x-accent);
   outline-offset: 2px;
 }
-.a-hello:focus {
+.a-id:focus {
   outline: none;
 }
 
@@ -756,6 +866,24 @@ body:has(.home-root) {
   background: var(--x-ink);
   color: var(--x-bg);
   font: 600 0.875em/1 var(--font-grotesk), sans-serif;
+}
+/* a real logo sits on the card's own surface, inside a hairline */
+.home-root .cd-mark-logo {
+  object-fit: contain;
+  background: var(--x-surface);
+  border: 1px solid var(--x-line);
+}
+/* a TODO in the narrow meta columns wraps rather than spilling into the next one */
+.home-root .cd-sheet .cd-todo {
+  max-width: 100%;
+  white-space: normal;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+/* no logo and no name yet: an empty dashed tile beside the TODO */
+.home-root .cd-mark[data-todo] {
+  background: transparent;
+  border: 1px dashed var(--x-btn-line);
 }
 .home-root .cd-names {
   display: grid;
@@ -1094,17 +1222,16 @@ body:has(.home-root) {
   .a-hero {
     padding-top: 48px;
   }
-  .a-headline,
   .a-name {
     font-size: 52px;
     line-height: 1.05;
     letter-spacing: -0.03em;
   }
-  .a-pitch {
-    font-size: 24px;
-  }
-  /* hero top-left, the tabs beside it: the work is in the first screen once resolved */
+  /* hero top-left, the tabs beside it: the work is in the first screen once resolved.
+     Content capped at max-w-6xl (72rem) inside the px-section gutters, like the case studies */
   .a-layout {
+    max-width: calc(72rem + 160px);
+    margin-inline: auto;
     display: grid;
     grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
     gap: 64px;
@@ -1145,7 +1272,8 @@ body:has(.home-root) {
     transition: none;
   }
   .a-headline,
-  .a-intro {
+  .a-intro,
+  .a-ctas {
     transform: none !important;
     transition: opacity 150ms linear;
   }

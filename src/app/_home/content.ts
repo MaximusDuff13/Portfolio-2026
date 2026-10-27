@@ -11,9 +11,44 @@ import { links } from '@/data/links'
 
 export const person = {
   name: 'Michael Jerome',
-  role: 'UX designer',
+  role: 'Product designer',
   initials: 'MJ',
 }
+
+/* A value still to be supplied. The page renders it as a dashed "TODO" tag naming what goes
+   there, never a guess. */
+export type Todo = { todo: string }
+export const todo = (hint: string): Todo => ({ todo: hint })
+export const isTodo = (v: unknown): v is Todo => typeof v === 'object' && v !== null && 'todo' in v
+
+/* The hero's text once the intro resolves. Two-tone statement like the loading state: the
+   lead in foundation-900, the trail in foundation-500 (large text only). */
+export const hero = {
+  lead: 'I’m a product designer',
+  trail: 'who makes complex products simple to use.',
+  /** the part of the trail underlined by hand; must appear in `trail` */
+  key: 'complex products simple to use',
+  /** a handwritten aside under the name, pointing up at the painting */
+  aside: 'that’s me up there, with the dog',
+  body: 'I started as a business analyst, so I design with the data in mind. Seven years across analysis and design, five in UX.',
+  contact: 'Get in touch',
+}
+
+/* The company strip under the hero: one `current`, the rest previous, newest first. `logo`
+   is a path under /public; without one the first-letter tile stands in. */
+export type Employer = {
+  id: string
+  name: string | Todo
+  logo?: string
+  current?: boolean
+}
+
+export const employers: Employer[] = [
+  { id: 'company-a', name: todo('Company A'), current: true },
+  { id: 'company-b', name: todo('Company B') },
+  { id: 'company-c', name: todo('Company C') },
+  { id: 'company-d', name: todo('Company D') },
+]
 
 export const headline = {
   lead: 'Michael Jerome takes complex, chaotic ideas',
@@ -34,12 +69,44 @@ export type CaseStudy = {
   question: string
   description: string
   duration: string
-  scope: string
+  /** my role on the project */
+  role: string | Todo
   status: string
+  /** company logo under /public; without one the first-letter tile stands in */
+  logo?: string
   image: { src: string; alt: string }
   /** the image is a stand-in, labelled on the card */
   mediaPlaceholder?: boolean
+  /** the pale colour behind the image area, fading toward the bottom (cards that unfold) */
+  stage?: string
+  /** supporting screens that unfold around the cover on hover or focus (cards that unfold) */
+  layers?: CardLayer[]
 }
+
+/* One supporting screen. Positions are in % of the image area (the stage): x from its centre,
+   y from its top. `rest` is where it waits, hidden below the stage's bottom edge; `open` is
+   where it settles once unfolded, turned up to 3deg. `width` is % of the stage, `z` the stacking
+   order (the cover is 2). Without `src` it shows a code-drawn placeholder screen, labelled. */
+export type CardLayer = {
+  src?: string
+  alt?: string
+  /** the kind of screen; drives the placeholder and says what to drop in */
+  kind: 'dashboard' | 'form' | 'list' | 'detail'
+  label: string
+  rest: { x: number; y: number }
+  open: { x: number; y: number; rotate: number }
+  width: number
+  z: number
+}
+
+/* Placeholder slots, to be swapped for real screens by adding `src` (a WebP in
+   public/images/<project>/cards/, 1280x800, 16:10, about 60KB; it shows inside a browser frame):
+   - Acentra 1, dashboard: a product overview built on the system (cards, a chart, nav)
+   - Acentra 2, form: a form built from the system's inputs, with validation states
+   - Acentra 3, detail: the component library or token page in Figma or Storybook
+   - Data Conversion 1, list: the project hub's list of conversion projects
+   - Data Conversion 2, detail: a mapping under review, source field to target with its rule
+   - Data Conversion 3, form: upload and prompt, starting a new mapping */
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -51,9 +118,16 @@ export const caseStudies: CaseStudy[] = [
     question: 'Can one design system keep a complex product consistent?',
     description: 'Tokens, components and accessibility standards, built from the ground up and shared across the product suite.',
     duration: '8 months',
-    scope: '9 sections',
+    role: todo('Role'),
     status: 'Draft',
     image: { src: '/images/beforeafter/After.png', alt: 'A product screen rebuilt on the Acentra Health Design System' },
+    // NEW token, stage only: pale green
+    stage: '#e4efe0',
+    layers: [
+      { kind: 'dashboard', label: 'Placeholder · Acentra · screen 1', rest: { x: -14, y: 112 }, open: { x: -26, y: 8, rotate: -3 }, width: 54, z: 1 },
+      { kind: 'form', label: 'Placeholder · Acentra · screen 2', rest: { x: 14, y: 112 }, open: { x: 27, y: 12, rotate: 2.5 }, width: 50, z: 1 },
+      { kind: 'detail', label: 'Placeholder · Acentra · screen 3', rest: { x: 20, y: 118 }, open: { x: 25, y: 52, rotate: -1.5 }, width: 44, z: 3 },
+    ],
   },
   {
     kind: 'case',
@@ -64,13 +138,20 @@ export const caseStudies: CaseStudy[] = [
     question: 'Can people review data mappings instead of writing every one?',
     description: 'An AI drafts the data mappings and their rules; people review and correct them instead of writing each one.',
     duration: '2 weeks',
-    scope: '5 sections',
+    role: todo('Role'),
     status: 'Draft',
     image: {
       src: '/images/data-conversion-app/project-hub/hub-project-completed.png',
       alt: 'Data Conversion App project hub showing a completed mapping project',
     },
     mediaPlaceholder: true,
+    // NEW token, stage only: pale blue
+    stage: '#e2ecf6',
+    layers: [
+      { kind: 'list', label: 'Placeholder · Data Conversion · screen 1', rest: { x: -14, y: 112 }, open: { x: -27, y: 10, rotate: -2.5 }, width: 52, z: 1 },
+      { kind: 'detail', label: 'Placeholder · Data Conversion · screen 2', rest: { x: 14, y: 112 }, open: { x: 26, y: 7, rotate: 3 }, width: 52, z: 1 },
+      { kind: 'form', label: 'Placeholder · Data Conversion · screen 3', rest: { x: -20, y: 118 }, open: { x: -25, y: 52, rotate: 1.5 }, width: 44, z: 3 },
+    ],
   },
 ]
 

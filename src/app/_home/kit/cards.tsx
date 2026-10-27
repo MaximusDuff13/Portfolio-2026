@@ -1,7 +1,10 @@
+import Image from 'next/image'
 import { ArrowUpRight, Award, Bell, CalendarDays, Hash, MessageSquareQuote } from 'lucide-react'
 import {
   about,
+  isTodo,
   person,
+  type Todo,
   type Accolade,
   type Article,
   type CaseStudy,
@@ -25,6 +28,22 @@ type Common = { compact?: boolean; interactive?: boolean }
 
 export function SampleTag({ label = 'Sample' }: { label?: string }) {
   return <span className="cd-sample">{label}</span>
+}
+
+/** A value from content.ts, or its dashed TODO tag while it is still to be supplied */
+export function Value({ value }: { value: string | Todo }) {
+  return isTodo(value) ? <span className="cd-sample cd-todo">TODO: {value.todo}</span> : <>{value}</>
+}
+
+/** A company's logo, or its first-letter tile when there is none (empty while the name is a TODO) */
+export function CompanyMark({ name, logo, className = '' }: { name: string | Todo; logo?: string; className?: string }) {
+  const label = isTodo(name) ? '' : name
+  if (logo) return <Image src={logo} alt={label} width={36} height={36} className={`cd-mark cd-mark-logo ${className}`} />
+  return (
+    <span className={`cd-mark ${className}`} data-todo={isTodo(name) || undefined} aria-hidden="true">
+      {label.charAt(0)}
+    </span>
+  )
 }
 
 export function CaseCard({ item, compact, interactive = true }: Common & { item: CaseStudy }) {
@@ -51,8 +70,10 @@ export function CaseCard({ item, compact, interactive = true }: Common & { item:
             <dd>{item.duration}</dd>
           </div>
           <div>
-            <dt>Scope</dt>
-            <dd>{item.scope}</dd>
+            <dt>Role</dt>
+            <dd>
+              <Value value={item.role} />
+            </dd>
           </div>
           <div>
             <dt>Status</dt>
@@ -60,9 +81,7 @@ export function CaseCard({ item, compact, interactive = true }: Common & { item:
           </div>
         </dl>
         <footer className="cd-foot">
-          <span className="cd-mark" aria-hidden="true">
-            {item.company.charAt(0)}
-          </span>
+          <CompanyMark name={item.company} logo={item.logo} />
           <span className="cd-names">
             <span className="cd-name">{item.name}</span>
             <span className="cd-company">{item.company}</span>

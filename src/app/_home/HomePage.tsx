@@ -1,8 +1,9 @@
 'use client'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
-import { person, caseStudies, type NoiseItem } from './content'
+import { Check } from 'lucide-react'
+import { links } from '@/data/links'
+import { person, hero, employers, type Employer, type NoiseItem } from './content'
+import { CompanyMark, Value } from './kit/cards'
 import { HeroLoop } from './kit/HeroLoop'
 import { LoopWindow } from './kit/windows'
 import { NoiseField, scatter, type ItemOut, type StateCtx } from './kit/NoiseField'
@@ -33,15 +34,48 @@ const THEMES: { label: string; kinds: NoiseItem['kind'][]; keep: boolean }[] = [
 const themeOf = (i: NoiseItem) => THEMES.findIndex((t) => t.kinds.includes(i.kind))
 // the scale cards shrink to in the piles (matches --s in a.css)
 const PILE_SCALE = 0.82
-// the flagship, for the one call to action
-const lead = caseStudies[0]
+// the email in links.ts is still a [PLACEHOLDER] until supplied
+const emailTodo = links.email.startsWith('[')
 
-// A's own intro copy (B and C keep the shared headline in content.ts). Personal, first person:
-// the coffee matches the painting above it; the role line is a searchable title and, with no
-// nav, the only place the full name stays once the intro resolves.
-const hello = `Hi, I'm ${person.name.split(' ')[0]}.`
-const pitch = "Give me a coffee and a complicated product, and I'll find the simple one hiding inside."
-const role = `${person.name} · Product designer, design systems and AI tools`
+/** the headline's trail, its key phrase underlined by hand in accent.warm */
+function Trail() {
+  const at = hero.trail.indexOf(hero.key)
+  if (at < 0) return <span className="a-trail">{hero.trail}</span>
+  return (
+    <span className="a-trail">
+      {hero.trail.slice(0, at)}
+      <span className="a-key">{hero.key}</span>
+      {hero.trail.slice(at + hero.key.length)}
+    </span>
+  )
+}
+
+/** "Currently at" / "Previously at": one small label over each group of company logos */
+function CompanyStrip({ items }: { items: Employer[] }) {
+  const groups = [
+    { label: 'Currently at', items: items.filter((e) => e.current) },
+    { label: 'Previously at', items: items.filter((e) => !e.current) },
+  ].filter((g) => g.items.length)
+  return (
+    <div className="a-cos">
+      {groups.map((g) => (
+        <div key={g.label} className="a-co-group">
+          <p className="a-co-label">{g.label}</p>
+          <ul className="a-co-list">
+            {g.items.map((e) => (
+              <li key={e.id} className="a-co">
+                <CompanyMark name={e.name} logo={e.logo} className="a-co-mark" />
+                <span className="a-co-name">
+                  <Value value={e.name} />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export function HomePage() {
   const { items, intro, tab, setTab, tabsRef } = useHome({ capSmall: 9, capLarge: 18, cleanupSteps: STEPS, popFrom: 90, popTo: 25, hold: 250 })
@@ -150,9 +184,24 @@ export function HomePage() {
 
             <div className="a-stack">
               <div className="a-headline" data-on={final || undefined}>
-                <h1 id="a-title" ref={titleRef} tabIndex={-1} className="a-hello">{hello}</h1>
-                <p className="a-pitch">{pitch}</p>
-                <p className="a-role">{role}</p>
+                {/* the name, once on the screen; the painting above is the picture */}
+                <h1 id="a-title" ref={titleRef} tabIndex={-1} className="a-id">
+                  {person.name}
+                  <span className="a-id-sep" aria-hidden="true">/</span>
+                  <span className="a-id-role">{person.role}</span>
+                </h1>
+                {/* margin note: the painting's ink, off the canvas, in the hand face */}
+                <p className="a-aside">
+                  <svg className="a-aside-arrow" viewBox="0 0 40 40" aria-hidden="true">
+                    <path d="M6 34 C 10 20, 18 12, 32 6 M24 5 L33 5 L30 13" />
+                  </svg>
+                  {hero.aside}
+                </p>
+                <p className="a-statement">
+                  {hero.lead} <Trail />
+                </p>
+                <p className="a-body">{hero.body}</p>
+                <CompanyStrip items={employers} />
               </div>
               <div className="a-intro" aria-hidden={final || undefined} data-on={!final || undefined}>
                 <p className="a-name">
@@ -176,13 +225,12 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="a-ctas">
-              {/* One action the page doesn't already show: straight into the flagship case study.
-                  The nav and the tabs cover Work and About, so no second button. */}
-              <Link href={lead.href} className="a-btn a-btn-primary">
-                Read the {lead.company} case study
-                <ArrowRight aria-hidden="true" />
-              </Link>
+            <div className="a-ctas" data-on={final || undefined}>
+              {/* One action the page doesn't already show: the tabs beside it carry the work */}
+              <a href={links.mailto} className="a-btn a-btn-primary">
+                {hero.contact}
+              </a>
+              {emailTodo && <Value value={{ todo: 'email in links.ts' }} />}
               {/* Replay only once resolved; hidden (not removed) during the intro so the row never shifts */}
               <button type="button" className="a-skip" onClick={intro.replay} style={{ visibility: final ? 'visible' : 'hidden' }}>
                 Replay intro
