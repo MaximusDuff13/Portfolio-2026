@@ -68,6 +68,8 @@ export type CaseStudy = {
   company: string
   question: string
   description: string
+  /** one short line for the unfolding card, always visible */
+  summary?: string
   duration: string
   /** my role on the project */
   role: string | Todo
@@ -79,14 +81,21 @@ export type CaseStudy = {
   mediaPlaceholder?: boolean
   /** the pale colour behind the image area, fading toward the bottom (cards that unfold) */
   stage?: string
+  /** the same hue, stronger, for the ?tint=strong comparison */
+  stageStrong?: string
   /** supporting screens that unfold around the cover on hover or focus (cards that unfold) */
   layers?: CardLayer[]
+  /** variant E: the motion preset that tells this project's story, with its content */
+  story?: Story
 }
 
-/* One supporting screen. Positions are in % of the image area (the stage): x from its centre,
-   y from its top. `rest` is where it waits, hidden below the stage's bottom edge; `open` is
-   where it settles once unfolded, turned up to 3deg. `width` is % of the stage, `z` the stacking
-   order (the cover is 2). Without `src` it shows a code-drawn placeholder screen, labelled. */
+/* One supporting screen. Positions are in % of a 16:10 composition box (the whole stage when
+   the card is stacked, centred in the taller stage when it is horizontal): x from its centre,
+   y from its top. `rest` is where it waits, tucked behind the cover with one edge peeking out,
+   or hidden below the bottom edge; `open` is where it settles once unfolded, turned up to 3deg.
+   `width` is % of the box, `z` the stacking order (the cover is 2: z 1 fans out behind it, z 3
+   overlaps a corner of it, never more than a third). Without `src` it shows a code-drawn
+   placeholder screen, labelled. */
 export type CardLayer = {
   src?: string
   alt?: string
@@ -99,14 +108,65 @@ export type CardLayer = {
   z: number
 }
 
+/* Variant E (story motion): each case study tells its story with its own motion preset, picked
+   by `story.preset`, so no two cards on a page move the same way (the preview warns if they do).
+   The presets, the motion of each and what it does with reduced motion are in
+   src/app/dev/cards/presets.tsx; /dev/cards?v=gallery shows all six.
+   - deconstruct: components lift out of the cover to the margins, a redline back to each origin
+   - drawer: the cover slides left; a review panel slides in from the right and checks off rows
+   - scroll: a tall screenshot scrolls inside the cover's frame
+   - wipe: a divider sweeps across the cover, from before to after
+   - spread: three stacked phones fan out side by side, the steps of a flow
+   - inset: an enlarged crop of one detail slides in, a line back to where it was taken from
+   Every image slot (`Slot`) shows a labelled, code-drawn placeholder until it gets `src`. */
+export type Story =
+  | { preset: 'deconstruct'; parts: Part[] }
+  | { preset: 'drawer'; title: string; rows: MappingRow[] }
+  | { preset: 'scroll'; tall: Slot & { /** the screenshot's height / width */ ratio: number } }
+  | { preset: 'wipe'; before: Slot; after: Slot }
+  | { preset: 'spread'; phones: [Slot, Slot, Slot] }
+  | { preset: 'inset'; crop: { x: number; y: number; w: number; label: string } }
+export type Preset = Story['preset']
+
+/** one image: real when it has `src`, a labelled placeholder until then */
+export type Slot = { src?: string; alt?: string; label: string }
+
+/* deconstruct: one component, lifted out of the cover. `origin` is where it sits on the cover's
+   screen, in % of the screen; `at` is its top-left once out, in % of the 16:10 stage (x of the
+   width, y of the height), `width` in % of the stage width. The redline leaves its left edge
+   (`side: 'right'`, it sits right of the cover) or its top edge (`'below'`). Drawn in code from
+   the home tokens until `src` (a transparent cut-out) replaces it. */
+export type Part = {
+  kind: 'button' | 'input' | 'checkbox' | 'swatches' | 'spacing'
+  /** the redline's name for it, e.g. "Button / primary" */
+  label: string
+  origin: { x: number; y: number }
+  at: { x: number; y: number }
+  width: number
+  side: 'right' | 'below'
+  /** button or checkbox text, input value */
+  text?: string
+  /** swatches: the colours, left to right */
+  colors?: string[]
+  src?: string
+  alt?: string
+}
+
+/** drawer: one mapping, source field to target field */
+export type MappingRow = { source: string; target: string }
+
 /* Placeholder slots, to be swapped for real screens by adding `src` (a WebP in
-   public/images/<project>/cards/, 1280x800, 16:10, about 60KB; it shows inside a browser frame):
+   public/images/<project>/cards/, 1280x800, 16:10, about 60KB; it shows inside a browser frame).
+   Shown at most (stacked, 810 column): cover 531x332, screens 1-2 390x244, screen 3 343x214;
+   in the live 648 column: cover 421x263, screens 1-2 309x193, screen 3 272x170. 1280x800
+   stays sharp at 2x in every case. Each screen is cropped from its top-left:
    - Acentra 1, dashboard: a product overview built on the system (cards, a chart, nav)
    - Acentra 2, form: a form built from the system's inputs, with validation states
    - Acentra 3, detail: the component library or token page in Figma or Storybook
    - Data Conversion 1, list: the project hub's list of conversion projects
    - Data Conversion 2, detail: a mapping under review, source field to target with its rule
-   - Data Conversion 3, form: upload and prompt, starting a new mapping */
+   - Data Conversion 3, form: upload and prompt, starting a new mapping
+   Variant E's slots and their sizes are listed per preset in src/app/dev/cards/presets.tsx. */
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -120,14 +180,31 @@ export const caseStudies: CaseStudy[] = [
     duration: '8 months',
     role: todo('Role'),
     status: 'Draft',
+    summary: 'Tokens, components and accessibility standards, shared across the product suite.',
     image: { src: '/images/beforeafter/After.png', alt: 'A product screen rebuilt on the Acentra Health Design System' },
     // NEW token, stage only: pale green
     stage: '#e4efe0',
+    // NEW token, stage only: the same green, stronger
+    stageStrong: '#d2e5c9',
     layers: [
-      { kind: 'dashboard', label: 'Placeholder · Acentra · screen 1', rest: { x: -14, y: 112 }, open: { x: -26, y: 8, rotate: -3 }, width: 54, z: 1 },
-      { kind: 'form', label: 'Placeholder · Acentra · screen 2', rest: { x: 14, y: 112 }, open: { x: 27, y: 12, rotate: 2.5 }, width: 50, z: 1 },
-      { kind: 'detail', label: 'Placeholder · Acentra · screen 3', rest: { x: 20, y: 118 }, open: { x: 25, y: 52, rotate: -1.5 }, width: 44, z: 3 },
+      { kind: 'dashboard', label: 'Placeholder · screen 1', rest: { x: -16, y: 21 }, open: { x: -26, y: 4, rotate: -3 }, width: 50, z: 1 },
+      { kind: 'form', label: 'Placeholder · screen 2', rest: { x: 16, y: 25 }, open: { x: 26, y: 8, rotate: 2.5 }, width: 50, z: 1 },
+      { kind: 'detail', label: 'Placeholder · screen 3', rest: { x: 28, y: 102 }, open: { x: 28, y: 52, rotate: -1.5 }, width: 44, z: 3 },
     ],
+    // the parts this screen is built from, lifted out of it: origins on After.png (shown from its
+    // top-left, 1280 of its 1674px wide), the components down the free right-hand side, the
+    // button below the cover
+    story: {
+      preset: 'deconstruct',
+      parts: [
+        // the breadcrumb's link colour; the foundation scale until the system's palette replaces it
+        { kind: 'swatches', label: 'Color / tokens', colors: ['#1c1917', '#57534e', '#a8a29e', '#e7e5e4', '#f5f5f4'], origin: { x: 31.6, y: 9.6 }, at: { x: 76, y: 6 }, width: 21, side: 'right' },
+        { kind: 'checkbox', label: 'Checkbox / checked', text: 'Federal Tax Info', origin: { x: 30.8, y: 38 }, at: { x: 76, y: 22 }, width: 21, side: 'right' },
+        { kind: 'input', label: 'Input / text', text: 'Philip', origin: { x: 66.6, y: 56.9 }, at: { x: 76, y: 36 }, width: 21, side: 'right' },
+        { kind: 'spacing', label: 'Spacing / scale', origin: { x: 79.5, y: 68.9 }, at: { x: 76, y: 56 }, width: 21, side: 'right' },
+        { kind: 'button', label: 'Button / primary', text: 'Next', origin: { x: 60.3, y: 92 }, at: { x: 38, y: 84 }, width: 15, side: 'below' },
+      ],
+    },
   },
   {
     kind: 'case',
@@ -140,6 +217,7 @@ export const caseStudies: CaseStudy[] = [
     duration: '2 weeks',
     role: todo('Role'),
     status: 'Draft',
+    summary: 'An AI drafts the data mappings; people review and correct them.',
     image: {
       src: '/images/data-conversion-app/project-hub/hub-project-completed.png',
       alt: 'Data Conversion App project hub showing a completed mapping project',
@@ -147,11 +225,23 @@ export const caseStudies: CaseStudy[] = [
     mediaPlaceholder: true,
     // NEW token, stage only: pale blue
     stage: '#e2ecf6',
+    // NEW token, stage only: the same blue, stronger
+    stageStrong: '#cddff1',
     layers: [
-      { kind: 'list', label: 'Placeholder · Data Conversion · screen 1', rest: { x: -14, y: 112 }, open: { x: -27, y: 10, rotate: -2.5 }, width: 52, z: 1 },
-      { kind: 'detail', label: 'Placeholder · Data Conversion · screen 2', rest: { x: 14, y: 112 }, open: { x: 26, y: 7, rotate: 3 }, width: 52, z: 1 },
-      { kind: 'form', label: 'Placeholder · Data Conversion · screen 3', rest: { x: -20, y: 118 }, open: { x: -25, y: 52, rotate: 1.5 }, width: 44, z: 3 },
+      { kind: 'list', label: 'Placeholder · screen 1', rest: { x: -16, y: 25 }, open: { x: -26, y: 8, rotate: -2.5 }, width: 50, z: 1 },
+      { kind: 'detail', label: 'Placeholder · screen 2', rest: { x: 16, y: 21 }, open: { x: 26, y: 4, rotate: 3 }, width: 50, z: 1 },
+      { kind: 'form', label: 'Placeholder · screen 3', rest: { x: -28, y: 102 }, open: { x: -28, y: 52, rotate: 1.5 }, width: 44, z: 3 },
     ],
+    // the AI drafts, a person reviews: three provider fields, mapped, then checked one by one
+    story: {
+      preset: 'drawer',
+      title: 'Review mappings',
+      rows: [
+        { source: 'PRV_NPI', target: 'npi' },
+        { source: 'PRV_LNAME', target: 'lastName' },
+        { source: 'ENRL_DT', target: 'enrollmentDate' },
+      ],
+    },
   },
 ]
 

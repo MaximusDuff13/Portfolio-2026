@@ -1,17 +1,22 @@
-/* /dev/cards-unfold. Existing tokens through the home page's --x-* properties; the two stage
-   colours are the only new values (content.ts, `stage`). Motion: transform and opacity only.
-   Enter 400ms on ease.enter [0.22, 1, 0.36, 1], 50ms stagger per screen; exit 280ms (70%) on
-   ease.exit [0.6, 0, 0.8, 0.6], all together. No bounce, no scale-pop, no blur. */
+/* /dev/cards, variant C and the card shell. Existing tokens through the home page's --x-* properties; the stage colours
+   (soft and strong) are the only new values (content.ts, `stage`, `stageStrong`). Motion:
+   transform and opacity only, ease.enter [0.22, 1, 0.36, 1] in and ease.exit [0.6, 0, 0.8, 0.6]
+   out, all together. C: enter 400ms, 50ms stagger, exit 280ms. E (the story presets) is in
+   motion.css. No bounce, no scale-pop, no blur. */
 
 .uf-page {
+  --uf-col: 648px;
   padding: 24px 24px 96px;
+}
+.uf-page[data-wide] {
+  --uf-col: 810px;
 }
 .uf-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 16px;
-  max-width: 648px;
+  gap: 10px 12px;
+  max-width: max(var(--uf-col), 880px);
   margin: 0 auto 32px;
 }
 .uf-seg {
@@ -45,7 +50,7 @@
   color: var(--x-ink);
 }
 .uf-column {
-  max-width: 648px;
+  max-width: var(--uf-col);
   margin: 0 auto;
 }
 .uf-column[data-phone] {
@@ -54,22 +59,34 @@
   border: 1px dashed var(--x-btn-line);
   border-radius: 24px;
 }
-.uf-grid {
+/* one card per row */
+.home-root .uf-grid {
   display: grid;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
 }
-@media (min-width: 640px) {
-  .uf-column:not([data-phone]) .uf-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+/* side by side: C beside D, each in its own column */
+.uf-page[data-compare] .uf-bar {
+  max-width: calc(2 * var(--uf-col) + 48px);
+}
+.uf-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, var(--uf-col)));
+  justify-content: center;
+  gap: 48px;
+}
+.uf-compare .uf-column {
+  margin: 0;
+}
+.uf-compare-label {
+  margin: 0 0 12px;
+  font: 600 13px/1.2 var(--font-inter), sans-serif;
+  color: var(--x-ink-2);
 }
 
 /* ── The card ────────────────────────────────────────────────────────────── */
 .home-root .uf-card {
   overflow: clip;
-}
-.home-root .uf-card .cd-title {
-  font-size: 1.375em;
 }
 /* the whole card is the link: the ring goes round the card */
 .home-root .uf-card:has(.uf-link:focus-visible) {
@@ -85,57 +102,102 @@
   text-underline-offset: 0.18em;
   transition: text-decoration-color 150ms var(--ease-enter);
 }
-.home-root .uf-meta {
+
+/* the text: company, question, one line, the facts; the arrow top-right */
+.home-root .uf-body {
+  position: relative;
+  padding: 1.25em 3em 0.5em 0.75em;
+}
+.home-root .uf-company {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.75em !important;
+  font: 500 0.8125em/1.3 var(--font-inter), sans-serif;
+  color: var(--x-ink-2);
+}
+.home-root .uf-company .cd-mark {
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 0.45em;
+  font-size: 0.8125em;
+}
+.home-root .uf-desc {
   margin-top: 0.5em !important;
+  font-size: 0.95em;
+  line-height: 1.5;
+  color: var(--x-ink-2);
+}
+.home-root .uf-meta {
+  margin-top: 0.75em !important;
   font: 400 0.8125em/1.4 var(--font-inter), sans-serif;
   color: var(--x-ink-3);
 }
+.home-root .uf-meta > * {
+  white-space: nowrap;
+}
+.home-root .uf-arrow {
+  position: absolute;
+  top: 1.25em;
+  right: 0.75em;
+}
 
-/* the stage: the project's pale colour, fading into the card toward the bottom. Sized as a
-   container, so every screen is placed in % of it (cqw, cqh) */
+/* the stage: the project's pale colour, clearly there at the top, fading toward the bottom */
 .home-root .uf-stage {
+  --uf-c: light-dark(var(--uf-stage), var(--x-surface-2));
   position: relative;
-  aspect-ratio: 16 / 11;
-  container-type: size;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 0.75em;
-  background: linear-gradient(to bottom, light-dark(var(--uf-stage), var(--x-surface-2)) 0%, light-dark(var(--uf-stage), var(--x-surface-2)) 35%, var(--x-surface) 100%);
+  background: linear-gradient(to bottom, var(--uf-c) 0%, var(--uf-c) 30%, var(--x-surface) 100%);
 }
-.home-root .uf-stage .cd-sample {
+.home-root .uf-card[data-tint='strong'] .uf-stage {
+  --uf-c: light-dark(var(--uf-stage-strong), var(--x-surface-2));
+  background: linear-gradient(
+    to bottom,
+    var(--uf-c) 0%,
+    var(--uf-c) 45%,
+    color-mix(in srgb, var(--uf-c) 35%, var(--x-surface)) 100%
+  );
+}
+/* the 16:10 box every screen is placed in, in % of it (cqw, cqh): the whole stage */
+.uf-comp {
   position: absolute;
-  z-index: 6;
-  top: 0.6em;
-  left: 0.6em;
+  inset-inline: 0;
+  top: 50%;
+  aspect-ratio: 16 / 10;
+  container-type: size;
+  transform: translateY(-50%);
 }
 
-/* a browser frame */
+/* a browser frame, its chrome scaled to the frame */
 .uf-frame {
   overflow: hidden;
   border: 1px solid var(--x-line);
   border-radius: 6px;
   background: var(--x-surface);
-  box-shadow: 0 10px 22px -14px var(--x-shadow);
+  box-shadow: 0 12px 26px -16px var(--x-shadow);
 }
 .uf-chrome {
   display: flex;
   align-items: center;
-  gap: 3px;
-  height: 14px;
-  padding: 0 6px;
+  gap: max(3px, 0.6cqw);
+  height: max(12px, 2.4cqw);
+  padding: 0 max(6px, 1.2cqw);
   border-bottom: 1px solid var(--x-line);
   background: var(--x-surface-2);
 }
 .uf-chrome span {
-  width: 4px;
-  height: 4px;
+  width: max(4px, 0.75cqw);
+  aspect-ratio: 1;
   border-radius: 50%;
   background: var(--x-btn-line);
 }
 .uf-chrome i {
   flex: 1;
-  height: 6px;
-  margin-left: 6px;
-  border-radius: 3px;
+  height: 45%;
+  margin-left: max(6px, 1cqw);
+  border-radius: 999px;
   background: var(--x-bg);
 }
 .uf-screen {
@@ -150,17 +212,24 @@
   object-fit: cover;
   object-position: top left;
 }
+/* the placeholder label: inside the frame, top-left, wrapping rather than ever being cut off */
 .uf-label {
   position: absolute;
-  right: 4px;
-  bottom: 4px;
-  padding: 2px 5px;
+  z-index: 1;
+  top: 6px;
+  left: 6px;
+  max-width: calc(100% - 12px);
+  padding: 3px 6px;
   border: 1px dashed var(--x-btn-line);
   border-radius: 4px;
   background: var(--x-surface);
-  font: 500 8px/1.2 var(--font-inter), sans-serif;
+  font: 500 10px/1.25 var(--font-inter), sans-serif;
   color: var(--x-ink-2);
-  white-space: nowrap;
+}
+/* on a screen that moves, the label shows once it has unfolded: at rest only an edge peeks out */
+.uf-layer .uf-label {
+  opacity: 0;
+  transition: opacity 196ms var(--ease-exit);
 }
 
 /* the placeholder screens: neutral blocks only */
@@ -239,7 +308,7 @@
   flex: 1;
 }
 
-/* the cover and the screens: left 50%, then moved in % of the stage */
+/* the cover and the screens: left 50%, then moved in % of the box */
 .uf-cover,
 .uf-layer {
   position: absolute;
@@ -248,8 +317,8 @@
 }
 .uf-cover {
   z-index: 2;
-  width: 72%;
-  transform: translate(-50%, 12cqh);
+  width: 68%;
+  transform: translate(-50%, 18cqh);
   transition: transform 280ms var(--ease-exit);
 }
 .uf-layer {
@@ -258,17 +327,6 @@
   transform: translate(-50%, 0) translate(calc(var(--rx) * 1cqw), calc(var(--ry) * 1cqh)) rotate(calc(var(--rr) * 1deg));
   transition: transform 280ms var(--ease-exit);
 }
-/* c: at rest the screens sit behind the cover as a stack, their edges showing */
-.uf-card[data-uf='c'] .uf-layer {
-  opacity: 1;
-}
-
-/* the description waits until the card opens; its space is kept, so nothing shifts */
-.home-root .uf-desc {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 196ms var(--ease-exit), transform 196ms var(--ease-exit);
-}
 
 /* ── Open: hover (mouse) or keyboard focus, the same ─────────────────────── */
 @media (hover: hover) {
@@ -276,14 +334,9 @@
     transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
     transition: transform 400ms var(--ease-enter) calc(var(--i) * 50ms);
   }
-  .uf-card:not([data-uf='c']):hover .uf-cover {
-    transform: translate(-50%, 6cqh) scale(0.94);
-    transition: transform 400ms var(--ease-enter);
-  }
-  .home-root .uf-card:hover .uf-desc {
+  .uf-card:hover .uf-label {
     opacity: 1;
-    transform: none;
-    transition: opacity 400ms var(--ease-enter) 120ms, transform 400ms var(--ease-enter) 120ms;
+    transition: opacity 300ms var(--ease-enter) calc(150ms + var(--i) * 50ms);
   }
   .home-root .uf-card:hover .uf-link {
     text-decoration-color: var(--x-accent);
@@ -297,14 +350,9 @@
   transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
   transition: transform 400ms var(--ease-enter) calc(var(--i) * 50ms);
 }
-.uf-card:not([data-uf='c']):has(.uf-link:focus-visible) .uf-cover {
-  transform: translate(-50%, 6cqh) scale(0.94);
-  transition: transform 400ms var(--ease-enter);
-}
-.home-root .uf-card:has(.uf-link:focus-visible) .uf-desc {
+.uf-card:has(.uf-link:focus-visible) .uf-label {
   opacity: 1;
-  transform: none;
-  transition: opacity 400ms var(--ease-enter) 120ms, transform 400ms var(--ease-enter) 120ms;
+  transition: opacity 300ms var(--ease-enter) calc(150ms + var(--i) * 50ms);
 }
 .home-root .uf-card:has(.uf-link:focus-visible) .uf-link {
   text-decoration-color: var(--x-accent);
@@ -314,62 +362,23 @@
   color: var(--x-accent);
 }
 
-/* ── B: the "Read" pill ──────────────────────────────────────────────────── */
-.uf-pill {
-  position: absolute;
-  z-index: 8;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: #1c1917;
-  color: #fdfbf7;
-  font: 500 13px/1 var(--font-inter), sans-serif;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
+/* ── Phones (and the 390 frame) and touch: unfolded and still ────────────── */
+.uf-card[data-still] .uf-layer {
+  transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
+  transition: none;
 }
-/* following the pointer: moved by script, faded in and out only */
-.uf-pill-cursor {
-  top: 0;
-  left: 0;
-  transform: translate3d(var(--px, 50%), var(--py, 50%), 0);
-  transition: opacity 150ms var(--ease-exit);
-}
-@media (hover: hover) and (pointer: fine) {
-  .uf-card:hover .uf-pill-cursor {
-    opacity: 1;
-    transition: opacity 150ms var(--ease-enter);
-  }
-}
-/* keyboard: the same words, in a fixed place in the stage, never following anything */
-.uf-pill-key {
-  right: 12px;
-  bottom: 12px;
-  transition: opacity 150ms var(--ease-exit);
-}
-.uf-card:has(.uf-link:focus-visible) .uf-pill-key {
+.uf-card[data-still] .uf-label {
   opacity: 1;
+  transition: none;
 }
-.uf-card:has(.uf-link:focus-visible) .uf-pill-cursor {
-  opacity: 0;
-}
-
-/* ── Touch: unfolded and still, the description showing, no pill ─────────── */
-@media (hover: none) {
+@media (hover: none), (max-width: 639px) {
   .uf-layer {
     transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg));
     transition: none;
   }
-  .uf-card:not([data-uf='c']) .uf-cover {
-    transform: translate(-50%, 6cqh) scale(0.94);
-    transition: none;
-  }
-  .home-root .uf-desc {
+  .uf-layer .uf-label {
     opacity: 1;
-    transform: none;
     transition: none;
-  }
-  .uf-pill-cursor {
-    display: none;
   }
 }
 
@@ -380,18 +389,13 @@
     transform: translate(-50%, 0) translate(calc(var(--ox) * 1cqw), calc(var(--oy) * 1cqh)) rotate(calc(var(--or) * 1deg)) !important;
     transition: none !important;
   }
-  .uf-card:not([data-uf='c']) .uf-cover {
-    transform: translate(-50%, 6cqh) scale(0.94) !important;
-    transition: none !important;
-  }
-  .home-root .uf-desc {
+  .uf-layer .uf-label {
     opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
   }
-  .uf-pill,
+  .uf-layer .uf-label,
   .home-root .uf-link,
   .home-root .uf-card .cd-arrow {
     transition: none !important;
   }
 }
+
