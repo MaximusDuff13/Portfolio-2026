@@ -17,7 +17,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-body">
       <div className={`${column} pt-12 pb-section`}>
         <BackToWork />
-        <h1 className="mt-12 text-heading-xl sm:text-display-xl font-grotesk text-foundation-900">
+        <h1 className="mt-12 text-heading-xl sm:text-display-xl font-display text-foundation-900">
           [ABOUT PAGE HEADLINE]
         </h1>
         <p className="mt-6 text-body font-sans text-foundation-700">[ONE-LINE INTRO TO THE INTERESTS BELOW]</p>

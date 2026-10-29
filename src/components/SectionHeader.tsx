@@ -13,12 +13,12 @@ export function SectionHeader({ index, eyebrow, title, quote }: SectionHeaderPro
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3">
-        <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+        <p className="text-label font-sans text-foundation-500 uppercase tracking-widest">
           {index ? `${index} — ${eyebrow}` : eyebrow}
         </p>
         <div className="w-8 h-px bg-accent-warm" />
       </div>
-      <h2 className="text-heading-xl font-grotesk text-foundation-900">{title}</h2>
+      <h2 className="text-heading-xl font-display text-foundation-900">{title}</h2>
       {quote && (
         <p className="text-body-sm font-sans text-foundation-600 italic">{quote}</p>
       )}

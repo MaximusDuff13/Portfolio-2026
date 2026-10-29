@@ -27,9 +27,9 @@ export function KeepExploring({ items }: { items: MoreWorkItem[] }) {
         <AnimatedSection>
           <div className="border-t border-border pt-section">
             <div className="mb-10">
-              <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest mb-3">More Case Studies</p>
+              <p className="text-label font-sans text-foundation-500 uppercase tracking-widest mb-3">More Case Studies</p>
               <div className="w-8 h-px bg-accent-warm mb-6" />
-              <h2 className="text-heading-l font-grotesk text-foundation-900">Keep exploring</h2>
+              <h2 className="text-heading-l font-display text-foundation-900">Keep exploring</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
               {items.map((p) => (
@@ -39,10 +39,10 @@ export function KeepExploring({ items }: { items: MoreWorkItem[] }) {
                   className="group rounded-lg border border-border p-6 sm:p-8 flex flex-col transition-colors hover:border-foundation-900"
                 >
                   <div className="flex items-start justify-between gap-4 mb-3">
-                    <span className="text-label font-grotesk uppercase tracking-widest text-foundation-500">{p.category}</span>
+                    <span className="text-label font-sans uppercase tracking-widest text-foundation-500">{p.category}</span>
                     <ArrowRight className="shrink-0 text-foundation-500 group-hover:text-accent-warm group-hover:translate-x-1 transition-all" />
                   </div>
-                  <p className="text-heading-m font-grotesk text-foundation-900 group-hover:text-accent-warm transition-colors">{p.title}</p>
+                  <p className="text-heading-m font-display text-foundation-900 group-hover:text-accent-warm transition-colors">{p.title}</p>
                   <p className="text-body-sm font-sans text-foundation-600 mt-3">{p.desc}</p>
                   {p.img && (
                     /* cover unfolds below the text on hover (grid-rows trick = smooth height animation) */

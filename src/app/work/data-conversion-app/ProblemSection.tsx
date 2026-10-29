@@ -16,7 +16,7 @@
 // fields, rules included?") has moved to the start of Impact, which is a separate section. It is
 // deliberately absent here — do not reintroduce it.
 //
-// THE SERIF is Fraunces italic (font-accent), which is NOT a named type token. It is a font
+// THE SERIF is Fraunces italic (font-display), which is NOT a named type token. It is a font
 // family declared in tailwind.config.js and loaded in layout.tsx for the case-study hero; the
 // sizes below are ordinary type tokens applied to it. See the report for the exact stack.
 import { AnimatedSection } from '@/components/AnimatedSection'
@@ -62,7 +62,7 @@ export function ProblemSection() {
 
               {/* The margin label. */}
               <div className="md:col-span-3">
-                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
                   Problem
                 </h2>
               </div>
@@ -73,7 +73,7 @@ export function ProblemSection() {
                     foundation-800 it competed with the paragraph for the same voice. */}
                 <p className="max-w-xl text-body-sm font-sans text-foundation-500">{setup}</p>
 
-                <p className="mt-6 max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
+                <p className="mt-6 max-w-3xl font-display accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   <span className="text-accent-warm">{headingAccent}</span>
                   {headingRest}
                 </p>

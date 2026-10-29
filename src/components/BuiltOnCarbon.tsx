@@ -52,7 +52,7 @@ function ScaleVisual() {
     <div className="h-80 rounded border border-border p-5 flex flex-col justify-center gap-3">
       {steps.map((st) => (
         <div key={st.label} className="flex items-baseline gap-4 border-b border-border pb-3 last:border-0">
-          <span className="font-grotesk text-foundation-900 leading-none" style={{ fontSize: `${Math.min(Number(st.s), 40)}px` }}>Aa</span>
+          <span className="font-sans text-foundation-900 leading-none" style={{ fontSize: `${Math.min(Number(st.s), 40)}px` }}>Aa</span>
           <span className="text-caption font-sans text-foundation-500">{st.label} · {st.s}px</span>
         </div>
       ))}
@@ -71,7 +71,7 @@ function HierarchyVisual() {
     <div className="h-80 rounded border border-border p-5 flex flex-col justify-center gap-2.5">
       {rows.map((r) => (
         <div key={r.role} className="flex items-center justify-between border-b border-border pb-2.5 last:border-0">
-          <span className="text-body-sm font-grotesk text-foundation-900">{r.role}</span>
+          <span className="text-body-sm font-display text-foundation-900">{r.role}</span>
           <span className="text-caption font-sans text-foundation-400">{r.wt}</span>
         </div>
       ))}
@@ -186,7 +186,7 @@ export function BuiltOnCarbon() {
                   phones the text and visual stack beside it. */}
               <div className="row-span-2 md:row-span-1 md:col-span-1 flex justify-start">
                 <span
-                  className={`shrink-0 w-10 h-10 rounded-full grid place-items-center text-body-sm font-grotesk z-10 transition-colors duration-300 ${
+                  className={`shrink-0 w-10 h-10 rounded-full grid place-items-center text-body-sm font-sans z-10 transition-colors duration-300 ${
                     cur
                       ? 'bg-accent-warm text-body border border-accent-warm'
                       : done
@@ -199,7 +199,7 @@ export function BuiltOnCarbon() {
               </div>
               {/* text */}
               <div className={`col-start-2 md:col-start-auto md:col-span-4 transition-opacity duration-300 ${cur ? '' : 'opacity-40'}`}>
-                <p className="text-heading-xl font-grotesk text-foundation-900 mb-3">{a.title}</p>
+                <p className="text-heading-xl font-display text-foundation-900 mb-3">{a.title}</p>
                 <p className="text-body font-sans text-foundation-600">{a.desc}</p>
               </div>
               {/* visual — natural height (specimens vary in aspect ratio); rides in the same row, scales up when active */}

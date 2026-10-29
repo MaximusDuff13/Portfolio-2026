@@ -51,7 +51,7 @@ export function ConceptRow({
     <ol className="m-0 grid list-none grid-cols-1 gap-9 p-0 md:grid-cols-3">
       {concepts.map((concept) => (
         <li key={concept.title} className="m-0 flex flex-col p-0">
-          <h4 className={`m-0 mb-3 font-grotesk text-heading-m font-medium ${titleClassName}`}>
+          <h4 className={`m-0 mb-3 font-display text-heading-m font-medium ${titleClassName}`}>
             {concept.title}
           </h4>
           <p className={`m-0 mb-6 font-sans text-body-sm ${bodyClassName}`}>{concept.body}</p>

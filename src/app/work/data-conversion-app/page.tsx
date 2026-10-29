@@ -304,7 +304,7 @@ export default function DataConversionAppPage() {
               {/* foundation-400, not accent-warm: accent-warm measures 4.14:1 on foundation-900,
                   under AA for 11px text. Orange stays on the large "Acentra Health" (3:1 is
                   enough there), the same trade the feature bands make for their eyebrows. */}
-              <p className="text-label font-grotesk text-foundation-400 uppercase">
+              <p className="text-label font-sans text-foundation-400 uppercase">
                 {heroEyebrow}
               </p>
 
@@ -315,10 +315,10 @@ export default function DataConversionAppPage() {
                   RESPONSIVE. display-2xl is a fixed 72px, which clipped "Reimagining" at a
                   390px viewport, so the size steps up: 44px on a phone, display-xl from sm,
                   display-2xl from lg. The token is global, so the steps live here. */}
-              <h1 className="vt-title-dca mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-grotesk text-body">
+              <h1 className="vt-title-dca mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-display text-body">
                 Reimagining data conversion at
                 <br />
-                <span className="font-accent accent-italic text-accent-warm">
+                <span className="font-display accent-italic text-accent-warm">
                   Acentra Health
                 </span>
               </h1>
@@ -334,8 +334,8 @@ export default function DataConversionAppPage() {
             <AnimatedSection>
               {heroMeta.map(({ label, value, note }) => (
                 <div key={label} className="border-t border-border pt-4 pb-6">
-                  <p className="text-label font-grotesk text-foundation-400 uppercase">{label}</p>
-                  <p className="mt-2 text-heading-m font-grotesk text-body">{value}</p>
+                  <p className="text-label font-sans text-foundation-400 uppercase">{label}</p>
+                  <p className="mt-2 text-heading-m font-display text-body">{value}</p>
                   <p className="mt-2 text-caption font-sans text-foundation-400">{note}</p>
                 </div>
               ))}
@@ -427,7 +427,7 @@ export default function DataConversionAppPage() {
               {/* The rail label, set like Problem's, MVP focus's and Impact's, and the section's
                   real h2 (it replaced an uppercase label + tick over an sr-only heading). */}
               <div className="md:col-span-3">
-                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
                   Process
                 </h2>
               </div>
@@ -441,7 +441,7 @@ export default function DataConversionAppPage() {
                         card's foundation-100 ground foundation-500 measures 4.40:1, under
                         the 4.5:1 the same brief requires. Same trade as FigureCard's own
                         caption. */}
-                    <p className="mb-6 font-grotesk text-label uppercase tracking-widest text-foundation-600">
+                    <p className="mb-6 font-sans text-label uppercase tracking-widest text-foundation-600">
                       Working with stakeholders
                     </p>
                     <PrincipleGrid items={processPrinciples} />

@@ -173,7 +173,7 @@ function NextImage({ label, src, className = '' }: { label: string; src?: string
         <img src={src} alt={label} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
         <div className="absolute inset-0 grid place-items-center px-4 text-center">
-          <span className="text-caption font-grotesk uppercase tracking-widest text-foundation-400">{label}</span>
+          <span className="text-caption font-sans uppercase tracking-widest text-foundation-400">{label}</span>
         </div>
       )}
     </div>
@@ -182,7 +182,7 @@ function NextImage({ label, src, className = '' }: { label: string; src?: string
 
 function SelectedTag() {
   return (
-    <span className="inline-flex items-center rounded-full bg-foundation-900 px-2.5 py-1 text-label font-grotesk uppercase tracking-widest text-body">
+    <span className="inline-flex items-center rounded-full bg-foundation-900 px-2.5 py-1 text-label font-sans uppercase tracking-widest text-body">
       Selected
     </span>
   )
@@ -190,7 +190,7 @@ function SelectedTag() {
 
 function RejectedTag() {
   return (
-    <span className="inline-flex items-center text-label font-grotesk uppercase tracking-widest text-foundation-500">
+    <span className="inline-flex items-center text-label font-sans uppercase tracking-widest text-foundation-500">
       Rejected
     </span>
   )
@@ -215,7 +215,7 @@ export default function AcentraHealthPage() {
 
           <div className="flex-1 md:pr-20 flex items-center">
             <AnimatedSection>
-              <h1 className="vt-title-acentra text-display-2xl font-grotesk text-body">
+              <h1 className="vt-title-acentra text-display-2xl font-display text-body">
                 One System.<br />Two Brands
               </h1>
             </AnimatedSection>
@@ -253,7 +253,7 @@ export default function AcentraHealthPage() {
           {/* Meta */}
           <AnimatedSection>
             <div className="mt-section mb-4 flex flex-col gap-3">
-              <p className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+              <p className="text-label font-sans text-foundation-500 uppercase tracking-widest">
                 About this Project
               </p>
               <div className="w-8 h-px bg-accent-warm" />
@@ -261,7 +261,7 @@ export default function AcentraHealthPage() {
             <section className="border-t border-border">
               {meta.map(({ label, items }) => (
                 <div key={label} className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-8 py-5 border-b border-border items-baseline">
-                  <p className="sm:col-span-2 text-label font-grotesk text-foundation-500 uppercase tracking-widest">{label}</p>
+                  <p className="sm:col-span-2 text-label font-sans text-foundation-500 uppercase tracking-widest">{label}</p>
                   <p className="sm:col-span-10 text-body font-sans text-foundation-800">
                     {items.map((item, idx) => (
                       <span key={item}>
@@ -331,10 +331,10 @@ export default function AcentraHealthPage() {
                 {/* Column headers */}
                 <div className="grid grid-cols-12 gap-6 pb-3 border-b border-foundation-300">
                   <p className="hidden sm:block sm:col-span-3" />
-                  <p className="col-span-6 sm:col-span-4 text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                  <p className="col-span-6 sm:col-span-4 text-label font-sans text-foundation-500 uppercase tracking-widest">
                     Committed
                   </p>
-                  <p className="col-span-6 sm:col-span-5 text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                  <p className="col-span-6 sm:col-span-5 text-label font-sans text-foundation-500 uppercase tracking-widest">
                     First Release
                   </p>
                 </div>
@@ -345,17 +345,17 @@ export default function AcentraHealthPage() {
                     key={g.metric}
                     className="grid grid-cols-12 gap-x-6 gap-y-2 py-6 border-b border-border items-baseline"
                   >
-                    <p className="col-span-12 sm:col-span-3 text-heading-m font-grotesk text-foundation-900">
+                    <p className="col-span-12 sm:col-span-3 text-heading-m font-display text-foundation-900">
                       {g.metric}
                     </p>
                     <div className="col-span-6 sm:col-span-4">
-                      <p className="text-stat font-grotesk text-foundation-500">{g.committed}</p>
+                      <p className="text-stat font-display text-foundation-500">{g.committed}</p>
                       <p className="text-caption font-sans text-foundation-500 mt-1">
                         {g.committedNote}
                       </p>
                     </div>
                     <div className="col-span-6 sm:col-span-5">
-                      <p className="text-stat font-grotesk text-accent-warm">{g.delivered}</p>
+                      <p className="text-stat font-display text-accent-warm">{g.delivered}</p>
                       <p className="text-caption font-sans text-foundation-600 mt-1">
                         {g.deliveredNote}
                       </p>
@@ -388,11 +388,11 @@ export default function AcentraHealthPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-5">
-                      <span className="text-caption font-grotesk text-foundation-500">Option {o.id}</span>
+                      <span className="text-caption font-sans text-foundation-500">Option {o.id}</span>
                       {o.selected ? <SelectedTag /> : <RejectedTag />}
                     </div>
                     <p
-                      className={`text-heading-m font-grotesk mb-3 ${
+                      className={`text-heading-m font-display mb-3 ${
                         o.selected ? 'text-foundation-900' : 'text-foundation-500'
                       }`}
                     >
@@ -405,12 +405,12 @@ export default function AcentraHealthPage() {
 
               {/* Why Carbon won */}
               <div className="border-t border-border pt-10 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
-                <p className="md:col-span-12 text-heading-m font-grotesk text-foundation-900 -mb-2">
+                <p className="md:col-span-12 text-heading-m font-display text-foundation-900 -mb-2">
                   Why Carbon was the right foundation
                 </p>
                 {foundationRationale.map((r) => (
                   <div key={r.group} className="md:col-span-6">
-                    <p className="text-label font-grotesk text-foundation-900 uppercase tracking-widest mb-4">
+                    <p className="text-label font-sans text-foundation-900 uppercase tracking-widest mb-4">
                       {r.group}
                     </p>
                     <ul className="flex flex-col gap-3 list-none m-0 p-0">
@@ -445,11 +445,11 @@ export default function AcentraHealthPage() {
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="flex flex-col items-center text-center mb-12">
-              <span className="text-label font-grotesk text-foundation-400 uppercase tracking-widest mb-4">
+              <span className="text-label font-sans text-foundation-400 uppercase tracking-widest mb-4">
                 05 · The Build
               </span>
               <div className="w-8 h-px bg-accent-warm mb-6" />
-              <h2 className="text-heading-xl font-grotesk text-body max-w-xl">
+              <h2 className="text-heading-xl font-display text-body max-w-xl">
                 From tokens to components
               </h2>
             </div>
@@ -517,9 +517,9 @@ export default function AcentraHealthPage() {
                   <div key={m.label} className="rounded-lg border border-border p-6 flex flex-col">
                     <div className="flex items-center gap-2 text-foundation-500 mb-6">
                       <MetricIcon name={m.icon} />
-                      <span className="text-label font-grotesk uppercase tracking-widest">{m.label}</span>
+                      <span className="text-label font-sans uppercase tracking-widest">{m.label}</span>
                     </div>
-                    <p className="text-stat font-grotesk text-accent-warm">{m.stat}</p>
+                    <p className="text-stat font-display text-accent-warm">{m.stat}</p>
                     <p className="text-body-sm font-sans text-foundation-700 mt-3">{m.value}</p>
                     <p className="text-caption font-sans text-foundation-500 italic mt-auto pt-4">{m.note}</p>
                   </div>
@@ -557,9 +557,9 @@ export default function AcentraHealthPage() {
                     key={r.stat}
                     className="grid grid-cols-12 gap-x-6 gap-y-2 py-6 border-b border-border items-baseline first:pt-0"
                   >
-                    <p className="col-span-12 sm:col-span-5 text-stat font-grotesk text-accent-warm">{r.stat}</p>
+                    <p className="col-span-12 sm:col-span-5 text-stat font-display text-accent-warm">{r.stat}</p>
                     <p className="col-span-12 sm:col-span-7 text-body-sm font-sans text-foundation-600">
-                      <span className="block text-body-sm font-grotesk text-foundation-900">{r.label}</span>
+                      <span className="block text-body-sm font-display text-foundation-900">{r.label}</span>
                       {r.desc}
                     </p>
                   </div>

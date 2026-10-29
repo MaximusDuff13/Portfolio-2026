@@ -30,7 +30,7 @@ export function TabBar<T extends string>({
             type="button"
             onClick={() => onChange(t.key)}
             aria-current={on ? 'true' : undefined}
-            className={`relative shrink-0 pb-3 -mb-px text-nav-tab font-grotesk transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body ${
+            className={`relative shrink-0 pb-3 -mb-px text-nav-tab font-sans transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body ${
               on ? 'text-foundation-900' : 'text-foundation-500 hover:text-foundation-700'
             }`}
           >

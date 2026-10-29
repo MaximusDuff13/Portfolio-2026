@@ -29,7 +29,7 @@ export function PullQuote({ children }: { children: string }) {
     return (
       <div className="py-12 flex flex-col gap-6">
         <div className="w-12 h-px bg-accent-warm" />
-        <p className="text-heading-l font-grotesk text-foundation-900 max-w-3xl">{children}</p>
+        <p className="text-heading-l font-display text-foundation-900 max-w-3xl">{children}</p>
       </div>
     )
   }
@@ -44,7 +44,7 @@ export function PullQuote({ children }: { children: string }) {
       viewport={{ once: true, amount: 0.4 }}
     >
       <motion.div className="w-12 h-px bg-accent-warm origin-left" variants={ruleDraw} />
-      <motion.p className="text-heading-l font-grotesk text-foundation-900 max-w-3xl" variants={container}>
+      <motion.p className="text-heading-l font-display text-foundation-900 max-w-3xl" variants={container}>
         {children.split(' ').map((w, i) => (
           // overflow-hidden clip + extra bottom room so descenders (g, y, p) aren't cut
           <span key={i} className="inline-block overflow-hidden mr-[0.26em] pb-[0.14em] -mb-[0.14em] align-bottom">

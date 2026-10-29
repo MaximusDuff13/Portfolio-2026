@@ -41,7 +41,7 @@
   align-items: center;
   gap: 0.5em;
   margin-bottom: 0.75em !important;
-  font: 500 0.8125em/1.3 var(--font-inter), sans-serif;
+  font: 500 0.8125em/1.3 var(--font-body), sans-serif;
   color: var(--x-ink-2);
 }
 .home-root .uf-company .cd-mark {
@@ -58,7 +58,7 @@
 }
 .home-root .uf-meta {
   margin-top: 0.75em !important;
-  font: 400 0.8125em/1.4 var(--font-inter), sans-serif;
+  font: 400 0.8125em/1.4 var(--font-body), sans-serif;
   color: var(--x-ink-3);
 }
 .home-root .uf-meta > * {
@@ -151,7 +151,7 @@
   border: 1px dashed var(--x-btn-line);
   border-radius: 4px;
   background: var(--x-surface);
-  font: 500 10px/1.25 var(--font-inter), sans-serif;
+  font: 500 10px/1.25 var(--font-body), sans-serif;
   color: var(--x-ink-2);
 }
 
@@ -336,7 +336,7 @@
   top: calc(var(--y) * 1cqh);
   left: calc(var(--x) * 1cqw);
   width: var(--w);
-  font: 500 11px/1.3 var(--font-inter), sans-serif;
+  font: 500 11px/1.3 var(--font-body), sans-serif;
   color: var(--x-ink);
   opacity: 0;
   /* waiting on its origin on the cover */
@@ -383,7 +383,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font: 500 9.5px/1.2 var(--font-inter), sans-serif;
+  font: 500 9.5px/1.2 var(--font-body), sans-serif;
   color: var(--x-ink-2);
   white-space: nowrap;
 }
@@ -483,7 +483,7 @@
   border-left: 1px solid var(--x-line);
   background: var(--x-surface);
   box-shadow: -14px 0 28px -20px var(--x-shadow);
-  font: 500 11px/1.3 var(--font-inter), sans-serif;
+  font: 500 11px/1.3 var(--font-body), sans-serif;
   color: var(--x-ink);
   /* out past the right edge, its shadow too */
   transform: translateX(calc(100% + 32px));
@@ -508,7 +508,7 @@
   border: 1px solid var(--x-btn-line);
   border-radius: 999px;
   background: var(--x-surface-2);
-  font: 600 10px/1.3 var(--font-inter), sans-serif;
+  font: 600 10px/1.3 var(--font-body), sans-serif;
   font-variant-numeric: tabular-nums;
   color: var(--x-ink-2);
 }
@@ -577,7 +577,7 @@
   padding: 2px 7px;
   border: 1px solid var(--x-btn-line);
   border-radius: 999px;
-  font: 600 9.5px/1.3 var(--font-inter), sans-serif;
+  font: 600 9.5px/1.3 var(--font-body), sans-serif;
   white-space: nowrap;
   transition: opacity 245ms var(--ease-exit);
 }
@@ -676,7 +676,7 @@
   padding: 2px 8px;
   border-radius: 999px;
   background: var(--x-ink);
-  font: 600 10px/1.4 var(--font-inter), sans-serif;
+  font: 600 10px/1.4 var(--font-body), sans-serif;
   color: var(--x-bg);
 }
 .mo-wipe-tag-before {

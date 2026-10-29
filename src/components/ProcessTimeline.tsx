@@ -62,7 +62,7 @@ export function ProcessTimeline({
                 className="absolute left-[-5px] top-1.5 block h-[10px] w-[10px] rounded-full border border-foundation-700 bg-foundation-100 lg:hidden"
               />
 
-              <h3 className="mb-4 font-grotesk text-body font-medium text-foundation-900">
+              <h3 className="mb-4 font-display text-body font-medium text-foundation-900">
                 {phase.label}
               </h3>
 

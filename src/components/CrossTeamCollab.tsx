@@ -47,7 +47,7 @@ function TabImage({ team }: { team: Team }) {
         <img src={team.img} alt={team.caption} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
         <div className="absolute inset-0 grid place-items-center">
-          <span className="text-caption font-grotesk uppercase tracking-widest text-foundation-500">
+          <span className="text-caption font-sans uppercase tracking-widest text-foundation-500">
             {team.label} · screenshot
           </span>
         </div>

@@ -6,7 +6,7 @@ const clamp = (n: number) => Math.min(100, Math.max(0, n))
 function Tag({ children, tone = 'muted' }: { children: React.ReactNode; tone?: 'muted' | 'warm' }) {
   const cls = tone === 'warm' ? 'bg-accent-warm text-body' : 'bg-foundation-900/80 text-body backdrop-blur'
   return (
-    <span className={`text-label font-grotesk uppercase tracking-widest px-3.5 py-1.5 rounded-md shadow-sm ${cls}`}>{children}</span>
+    <span className={`text-label font-sans uppercase tracking-widest px-3.5 py-1.5 rounded-md shadow-sm ${cls}`}>{children}</span>
   )
 }
 

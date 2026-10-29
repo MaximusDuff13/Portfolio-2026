@@ -173,7 +173,7 @@ export function PriorityPyramid({
             >
               <span aria-hidden="true" className="mt-[11px] h-px w-5 shrink-0 bg-foundation-400" />
               <span className="block">
-                <span className="block font-grotesk text-body font-medium leading-snug text-foundation-900">
+                <span className="block font-display text-body font-medium leading-snug text-foundation-900">
                   {tier.label}
                 </span>
               </span>
@@ -210,7 +210,7 @@ export function PriorityPyramid({
                   }`}
                 />
                 <span className="block">
-                  <span className="block font-grotesk text-body font-medium text-foundation-900">
+                  <span className="block font-display text-body font-medium text-foundation-900">
                     {tier.label}
                   </span>
                 </span>

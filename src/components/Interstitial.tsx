@@ -72,7 +72,7 @@ export function Interstitial({
 
       {/* The one tile. Overlaps the illustration's left edge from sm. */}
       <div className="relative z-10 mt-4 sm:mt-0 sm:absolute sm:left-0 sm:top-1/2 sm:-translate-y-1/2 w-full sm:w-[260px] lg:w-[280px] p-5 bg-body border border-border rounded-sm shadow-lift flex flex-col gap-3">
-        <p className="text-label font-grotesk uppercase text-foundation-600">{label}</p>
+        <p className="text-label font-sans uppercase text-foundation-600">{label}</p>
         <p className="text-body-sm font-sans text-foundation-900">{caption}</p>
         <Link
           href={href}
@@ -81,7 +81,7 @@ export function Interstitial({
               sessionStorage.setItem(FROM_HOME_KEY, '1')
             } catch {}
           }}
-          className="self-start rounded-sm text-link font-grotesk text-foundation-900 underline decoration-accent-warm underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body"
+          className="self-start rounded-sm text-link font-sans text-foundation-900 underline decoration-accent-warm underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body"
         >
           Read more <span aria-hidden="true">→</span>
           <span className="sr-only"> about {label.toLowerCase()}</span>

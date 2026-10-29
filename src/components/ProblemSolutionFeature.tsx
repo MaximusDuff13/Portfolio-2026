@@ -124,7 +124,7 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
                     strokeWidth={1.5}
                     className={`shrink-0 ${surface.cardIcon}`}
                   />
-                  <p className={`m-0 font-grotesk text-body font-medium ${surface.cardLabel}`}>
+                  <p className={`m-0 font-display text-body font-medium ${surface.cardLabel}`}>
                     {label}
                   </p>
                 </div>

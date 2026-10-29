@@ -97,7 +97,7 @@ body:has(.home-root) {
   --th-ink3: var(--x-ink-large);
   --th-accent: var(--x-accent);
 
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-body), sans-serif;
 }
 .home-root ::selection {
   background: var(--x-accent-subtle);
@@ -166,8 +166,8 @@ body:has(.home-root) {
 }
 .a-name {
   margin: 0;
-  font: 500 36px/1.12 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.02em;
+  font: 500 36px/1.12 var(--font-display), serif;
+  letter-spacing: -0.01em;
   color: var(--x-ink);
   text-wrap: balance;
 }
@@ -209,7 +209,7 @@ body:has(.home-root) {
   flex-wrap: wrap;
   align-items: baseline;
   column-gap: 8px;
-  font: 500 16px/1.4 var(--font-grotesk), sans-serif;
+  font: 500 16px/1.4 var(--font-body), sans-serif;
   color: var(--x-ink);
 }
 .a-id-sep,
@@ -268,13 +268,13 @@ body:has(.home-root) {
 /* the statement: heading-xl, two-tone like the loading state */
 .a-statement {
   margin: 12px 0 0;
-  font: 500 36px/1.15 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.02em;
+  font: 500 36px/1.15 var(--font-display), serif;
+  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 .a-body {
   margin: 16px 0 0;
-  font: 400 16px/1.65 var(--font-inter), sans-serif;
+  font: 400 16px/1.65 var(--font-body), sans-serif;
   color: var(--x-ink-2);
   text-wrap: pretty;
 }
@@ -287,8 +287,8 @@ body:has(.home-root) {
 }
 .a-co-label {
   margin: 0 0 10px;
-  font: 700 11px/1 var(--font-grotesk), sans-serif;
-  letter-spacing: 0.09em;
+  font: 600 12px/1 var(--font-body), sans-serif;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--x-ink-3);
 }
@@ -304,7 +304,7 @@ body:has(.home-root) {
   display: flex;
   align-items: center;
   gap: 8px;
-  font: 500 14px/1.2 var(--font-inter), sans-serif;
+  font: 500 14px/1.2 var(--font-body), sans-serif;
   color: var(--x-ink);
 }
 .home-root .a-co-mark {
@@ -334,7 +334,7 @@ body:has(.home-root) {
   align-items: center;
   gap: 12px;
   min-height: 30px;
-  font: 500 16px/1.25 var(--font-grotesk), sans-serif;
+  font: 500 16px/1.25 var(--font-display), serif;
   color: var(--x-ink);
   clip-path: inset(0 100% 0 0);
   transition: clip-path 420ms var(--ease-enter), color 280ms var(--ease-enter);
@@ -374,14 +374,14 @@ body:has(.home-root) {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  font: 500 15px/1.2 var(--font-grotesk), sans-serif;
+  font: 500 15px/1.2 var(--font-body), sans-serif;
   color: var(--x-ink);
   white-space: nowrap;
   clip-path: inset(0 100% 0 0);
   transition: clip-path 420ms var(--ease-enter);
 }
 .a-theme-count {
-  font: 400 13px/1 var(--font-inter), sans-serif;
+  font: 400 13px/1 var(--font-body), sans-serif;
   color: var(--x-ink-3);
   font-variant-numeric: tabular-nums;
 }
@@ -449,7 +449,7 @@ body:has(.home-root) {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  font: 500 14px/1 var(--font-inter), sans-serif;
+  font: 500 14px/1 var(--font-body), sans-serif;
   padding: 14px 20px;
   border-radius: 999px;
   border: 1px solid var(--x-btn-line);
@@ -478,7 +478,7 @@ body:has(.home-root) {
   transform: translateX(3px);
 }
 .a-skip {
-  font: 400 13px/1 var(--font-inter), sans-serif;
+  font: 400 13px/1 var(--font-body), sans-serif;
   color: var(--x-ink-3);
   background: none;
   border: 0;
@@ -522,7 +522,7 @@ body:has(.home-root) {
   margin-bottom: -1px;
   background: none;
   border: 0;
-  font: 500 14px/1 var(--font-grotesk), sans-serif;
+  font: 500 14px/1 var(--font-body), sans-serif;
   color: var(--x-ink-3);
   white-space: nowrap;
   cursor: pointer;
@@ -533,7 +533,7 @@ body:has(.home-root) {
   color: var(--x-ink);
 }
 .a-tab-count {
-  font: 500 12px/1 var(--font-inter), sans-serif;
+  font: 500 12px/1 var(--font-body), sans-serif;
   padding: 4px 7px;
   border-radius: 999px;
   background: var(--x-surface-2);
@@ -704,8 +704,8 @@ body:has(.home-root) {
 }
 .home-root .pn-about-title {
   margin: 14px 0 0;
-  font: 500 32px/1.15 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.02em;
+  font: 500 32px/1.15 var(--font-display), serif;
+  letter-spacing: -0.01em;
   color: var(--x-ink);
 }
 .home-root .pn-about-copy p {
@@ -723,8 +723,8 @@ body:has(.home-root) {
   border-bottom: 1px solid var(--x-line);
 }
 .home-root .pn-facts dt {
-  font: 700 11px/1.6 var(--font-grotesk), sans-serif;
-  letter-spacing: 0.09em;
+  font: 600 12px/1.6 var(--font-body), sans-serif;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--x-ink-3);
 }
@@ -753,8 +753,8 @@ body:has(.home-root) {
   margin: 0;
 }
 .home-root .cd-sample {
-  font: 700 10px/1 var(--font-grotesk), sans-serif;
-  letter-spacing: 0.09em;
+  font: 600 10px/1 var(--font-body), sans-serif;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 6px 8px;
   border-radius: 999px;
@@ -805,8 +805,8 @@ body:has(.home-root) {
   padding: 1.25em 0.75em 0.5em;
 }
 .home-root .cd-case .cd-title {
-  font: 500 1.5em/1.2 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.02em;
+  font: 500 1.5em/1.2 var(--font-display), serif;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 .home-root .cd-link {
@@ -840,8 +840,8 @@ body:has(.home-root) {
   border-left: 1px solid var(--x-line);
 }
 .home-root .cd-sheet dt {
-  font: 700 0.6875em/1 var(--font-grotesk), sans-serif;
-  letter-spacing: 0.09em;
+  font: 600 0.6875em/1 var(--font-body), sans-serif;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--x-ink-3);
 }
@@ -865,7 +865,7 @@ body:has(.home-root) {
   border-radius: 0.6em;
   background: var(--x-ink);
   color: var(--x-bg);
-  font: 600 0.875em/1 var(--font-grotesk), sans-serif;
+  font: 600 0.875em/1 var(--font-body), sans-serif;
 }
 /* a real logo sits on the card's own surface, inside a hairline */
 .home-root .cd-mark-logo {
@@ -920,7 +920,7 @@ body:has(.home-root) {
   padding: 1em 0.5em 0.5em;
 }
 .home-root .cd-side .cd-title {
-  font: 500 1.25em/1.2 var(--font-grotesk), sans-serif;
+  font: 500 1.25em/1.2 var(--font-display), serif;
   letter-spacing: -0.01em;
 }
 .home-root .cd-side .cd-desc {
@@ -969,7 +969,7 @@ body:has(.home-root) {
   flex: 1;
 }
 .home-root .cd-accolade .cd-title {
-  font: 500 1.0625em/1.25 var(--font-grotesk), sans-serif;
+  font: 500 1.0625em/1.25 var(--font-display), serif;
 }
 .home-root .cd-year {
   font-size: 0.8125em;
@@ -1000,7 +1000,7 @@ body:has(.home-root) {
 }
 .home-root .cd-article .cd-title {
   margin-top: 0.3em;
-  font: 500 1em/1.25 var(--font-grotesk), sans-serif;
+  font: 500 1em/1.25 var(--font-display), serif;
 }
 
 /* Event */
@@ -1023,18 +1023,18 @@ body:has(.home-root) {
   padding: 0.45em 0;
   background: var(--x-ink);
   color: var(--x-bg);
-  font: 700 0.6875em/1 var(--font-grotesk), sans-serif;
-  letter-spacing: 0.09em;
+  font: 600 0.6875em/1 var(--font-body), sans-serif;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .home-root .cd-day {
-  font: 600 1.4em/1.4 var(--font-grotesk), sans-serif;
+  font: 600 1.4em/1.4 var(--font-display), serif;
 }
 .home-root .cd-event .cd-title {
   display: flex;
   gap: 0.4em;
   align-items: center;
-  font: 500 1em/1.2 var(--font-grotesk), sans-serif;
+  font: 500 1em/1.2 var(--font-display), serif;
 }
 .home-root .cd-event .cd-title .cd-icon {
   display: none;
@@ -1056,7 +1056,7 @@ body:has(.home-root) {
   border-radius: 50%;
   background: var(--x-ink);
   color: var(--x-bg);
-  font: 700 0.8em/1 var(--font-grotesk), sans-serif;
+  font: 700 0.8em/1 var(--font-body), sans-serif;
 }
 .home-root .cd-note .cd-body {
   flex: 1;
@@ -1086,7 +1086,7 @@ body:has(.home-root) {
 }
 .home-root .cd-quote {
   margin-top: 0.5em !important;
-  font: 500 1.2em/1.25 var(--font-grotesk), sans-serif;
+  font: 500 1.2em/1.25 var(--font-display), serif;
   letter-spacing: -0.01em;
 }
 .home-root .cd-feedback .cd-meta {
@@ -1098,8 +1098,8 @@ body:has(.home-root) {
   padding: 1em 1.1em;
 }
 .home-root .cd-value {
-  font: 600 3em/1 var(--font-grotesk), sans-serif;
-  letter-spacing: -0.02em;
+  font: 500 3em/1 var(--font-display), serif;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
 .home-root .cd-stat .cd-meta {
@@ -1155,7 +1155,7 @@ body:has(.home-root) {
   object-position: 50% 12%;
 }
 .home-root .cd-about .cd-title {
-  font: 500 1.0625em/1.2 var(--font-grotesk), sans-serif;
+  font: 500 1.0625em/1.2 var(--font-display), serif;
 }
 
 /* ── Noise sizes and motion ──────────────────────────────────────────────── */
@@ -1225,7 +1225,7 @@ body:has(.home-root) {
   .a-name {
     font-size: 52px;
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
   }
   /* hero top-left, the tabs beside it: the work is in the first screen once resolved.
      Content capped at max-w-6xl (72rem) inside the px-section gutters, like the case studies */

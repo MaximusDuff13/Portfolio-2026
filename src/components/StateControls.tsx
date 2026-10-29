@@ -65,7 +65,7 @@ export function StatesIntro({ id, tone = 'dark' }: { id: string; tone?: StateTon
   return (
     <p
       id={id}
-      className={`mb-3 text-center font-grotesk text-label uppercase tracking-widest ${stateTone(tone).intro}`}
+      className={`mb-3 text-center font-sans text-label uppercase tracking-widest ${stateTone(tone).intro}`}
     >
       One step, four states
     </p>
@@ -135,7 +135,7 @@ export function Controls({
                 tabIndex={tabs ? (on ? 0 : -1) : undefined}
                 onClick={() => select(i)}
                 onKeyDown={(e) => onKey(e, i)}
-                className={`relative min-h-11 shrink-0 overflow-hidden whitespace-nowrap rounded-full border px-4 py-2 font-grotesk text-nav-tab transition-colors motion-reduce:transition-none ${t.ring} ${
+                className={`relative min-h-11 shrink-0 overflow-hidden whitespace-nowrap rounded-full border px-4 py-2 font-sans text-nav-tab transition-colors motion-reduce:transition-none ${t.ring} ${
                   on ? t.pillOn : t.pillOff
                 }`}
               >

@@ -55,7 +55,7 @@ export function CoverSheet({
       className={`rounded-sm text-left ${tone === 'fill' ? 'bg-foundation-100' : 'bg-body border border-border'}`}
     >
       <div className="flex items-center justify-between gap-3 px-3 py-2 border-b border-border">
-        <p className="text-label font-grotesk uppercase text-foundation-600">
+        <p className="text-label font-sans uppercase text-foundation-600">
           Cover sheet{fileNo ? ` · File ${fileNo}` : ''}
         </p>
         <div className="w-4 h-px bg-foundation-300" aria-hidden="true" />
@@ -63,12 +63,12 @@ export function CoverSheet({
       <dl className="divide-y divide-border">
         {rows.map(([label, value]) => (
           <div key={label} className={row}>
-            <dt className="text-label font-grotesk uppercase text-foundation-600 pt-[3px]">{label}</dt>
+            <dt className="text-label font-sans uppercase text-foundation-600 pt-[3px]">{label}</dt>
             <dd className="text-caption font-sans text-foundation-900">{value}</dd>
           </div>
         ))}
         <div className={`${row} items-center`}>
-          <dt className="text-label font-grotesk uppercase text-foundation-600">Status</dt>
+          <dt className="text-label font-sans uppercase text-foundation-600">Status</dt>
           <dd>
             <StatusChip status={data.status} />
           </dd>
@@ -83,7 +83,7 @@ function StatusChip({ status }: { status: string }) {
   const isDraft = status.toLowerCase() === 'draft'
   return (
     <span
-      className={`inline-block px-1.5 py-1 border rounded-sm text-label font-grotesk uppercase ${
+      className={`inline-block px-1.5 py-1 border rounded-sm text-label font-sans uppercase ${
         isDraft ? 'bg-warning-fill border-warning-border text-warning-text' : 'bg-foundation-100 border-border text-foundation-700'
       }`}
     >
@@ -106,12 +106,12 @@ function SheetStrip({ data, id }: { data: CoverSheetData; id?: string }) {
     <dl id={id} className="flex flex-wrap gap-x-8 gap-y-4 border-y border-border py-4 m-0">
       {fields.map(([label, value]) => (
         <div key={label} className="flex flex-col gap-1.5 min-w-0">
-          <dt className="text-label font-grotesk uppercase text-foundation-600">{label}</dt>
+          <dt className="text-label font-sans uppercase text-foundation-600">{label}</dt>
           <dd className="m-0 text-body-sm font-sans text-foundation-900">{value}</dd>
         </div>
       ))}
       <div className="flex flex-col gap-1.5">
-        <dt className="text-label font-grotesk uppercase text-foundation-600">Status</dt>
+        <dt className="text-label font-sans uppercase text-foundation-600">Status</dt>
         <dd className="m-0">
           <StatusChip status={data.status} />
         </dd>
@@ -124,7 +124,7 @@ function SheetStrip({ data, id }: { data: CoverSheetData; id?: string }) {
 function SheetCaption({ data, id }: { data: CoverSheetData; id?: string }) {
   return (
     <div id={id} className="flex flex-col gap-1.5">
-      <p className="m-0 text-body-sm font-grotesk font-medium text-foundation-900">
+      <p className="m-0 text-body-sm font-display font-medium text-foundation-900">
         {data.company} <span className="text-foundation-600 font-normal">· {data.role}</span>
       </p>
       <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-1 text-body-sm font-sans text-foundation-700">

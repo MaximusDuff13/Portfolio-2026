@@ -8,11 +8,11 @@
 
 body {
   background-color: var(--background);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-body), sans-serif;
   color: #292524;
 }
 
-/* Accent line of a case study hero headline — pair with font-accent.
+/* Accent line of a case study hero headline — pair with font-display.
    Fraunces' WONK axis is pinned off so the face stays warm without the wobble.
    opsz is deliberately left alone: font-optical-sizing defaults to auto, so it
    tracks the rendered size (72px on display-2xl, 36px on heading-xl). */

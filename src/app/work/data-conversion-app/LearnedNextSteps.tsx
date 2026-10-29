@@ -37,7 +37,7 @@ const learned = [
 ]
 
 const ROW = 'grid grid-cols-1 gap-x-12 gap-y-6 md:grid-cols-12'
-const LABEL = 'm-0 font-accent accent-italic text-heading-m text-foundation-900 md:col-span-3'
+const LABEL = 'm-0 font-display accent-italic text-heading-m text-foundation-900 md:col-span-3'
 const TEXT = 'font-sans text-body text-foundation-700'
 
 export function LearnedNextSteps() {

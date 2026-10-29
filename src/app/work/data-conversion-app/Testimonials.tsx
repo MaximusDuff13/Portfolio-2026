@@ -29,9 +29,9 @@ export function Testimonials() {
     <section className="px-6 sm:px-10 lg:px-section">
       <div className="max-w-6xl mx-auto border-t border-border py-section">
         <AnimatedSection>
-          <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">Testimonial</h2>
+          <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">Testimonial</h2>
           <figure className="m-0 mt-10 max-w-3xl">
-            <blockquote className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
+            <blockquote className="m-0 font-display accent-italic text-heading-m text-foundation-900">
               {designQuote}
             </blockquote>
             <figcaption className="mt-8 font-sans text-body-sm font-medium text-foundation-600">

@@ -29,7 +29,7 @@ export const hero = {
   /** the part of the trail underlined by hand; must appear in `trail` */
   key: 'complex products simple to use',
   /** a handwritten aside under the name, pointing up at the painting */
-  aside: 'that’s me up there, with the dog',
+  aside: 'that’s me up there, with my dog Maggie',
   body: 'I started as a business analyst, so I design with the data in mind. Seven years across analysis and design, five in UX.',
   contact: 'Get in touch',
 }

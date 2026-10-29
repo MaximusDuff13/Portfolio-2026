@@ -40,7 +40,7 @@ export function MvpFocus() {
 
               {/* The margin label — same treatment as Problem's. */}
               <div className="md:col-span-3">
-                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
                   MVP focus
                 </h2>
               </div>
@@ -49,7 +49,7 @@ export function MvpFocus() {
                 {/* Problem's and Impact's display line, without their accent-warm span, so the
                     three opening sections share one heading voice and the colour still belongs
                     to the two that carry the numbers. A <p>: the rail label is the h2. */}
-                <p className="m-0 max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
+                <p className="m-0 max-w-3xl font-display accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   Built to work, designed to be used
                 </p>
 

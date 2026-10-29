@@ -27,24 +27,24 @@ module.exports = {
         error:   { fill: '#fef2f2', border: '#fecaca', text: '#991b1b' },
       },
       fontFamily: {
-        grotesk: ['var(--font-grotesk)', 'sans-serif'],
-        sans:    ['var(--font-inter)', 'sans-serif'],
-        // NEW — third family, added for the Data Conversion App info-note annotations.
-        // Caveat, loaded in layout.tsx alongside the other two.
+        // Two faces. Display (Fraunces) is for headings, titles and stats only; body
+        // (Instrument Sans) is for running text and all interface text, labels included.
+        display: ['var(--font-display)', 'serif'],
+        sans:    ['var(--font-body)', 'sans-serif'],
+        // Handwriting, for notes (Caveat).
         hand:    ['var(--font-hand)', 'cursive'],
-        // NEW — fourth family, the italic accent face for the last line of a case study
-        // hero headline. Fraunces, loaded in layout.tsx. Italic-only: pair it with the
-        // .accent-italic utility, which pins the WONK axis off.
-        accent:  ['var(--font-accent)', 'serif'],
       },
+      // The type scale. Display sizes are set in font-display; label, nav-tab, link,
+      // ui-chrome, body, body-sm and caption in font-sans. Fraunces tracks its own
+      // optical size, so display tracking stays close to zero.
       fontSize: {
-        'display-2xl': ['72px', { lineHeight: '1.08', letterSpacing: '-0.04em', fontWeight: '500' }],
-        'display-xl': ['52px', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '500' }],
-        'heading-xl': ['36px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '500' }],
-        'heading-l':  ['32px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '500' }],
-        'heading-m':  ['24px', { lineHeight: '1.20', letterSpacing: '-0.02em', fontWeight: '500' }],
-        stat:         ['48px', { lineHeight: '1.00', letterSpacing: '-0.02em', fontWeight: '600' }],
-        label:        ['11px', { lineHeight: '1.00', letterSpacing: '0.09em',  fontWeight: '700' }],
+        'display-2xl': ['72px', { lineHeight: '1.04', letterSpacing: '-0.02em', fontWeight: '500' }],
+        'display-xl': ['52px', { lineHeight: '1.06', letterSpacing: '-0.015em', fontWeight: '500' }],
+        'heading-xl': ['36px', { lineHeight: '1.15', letterSpacing: '-0.01em', fontWeight: '500' }],
+        'heading-l':  ['32px', { lineHeight: '1.15', letterSpacing: '-0.01em', fontWeight: '500' }],
+        'heading-m':  ['24px', { lineHeight: '1.20', letterSpacing: '-0.01em', fontWeight: '500' }],
+        stat:         ['48px', { lineHeight: '1.00', letterSpacing: '-0.01em', fontWeight: '500' }],
+        label:        ['12px', { lineHeight: '1.00', letterSpacing: '0.08em',  fontWeight: '600' }],
         'nav-tab':    ['14px', { lineHeight: '1.00', fontWeight: '500' }],
         body:         ['16px', { lineHeight: '1.65', fontWeight: '400' }],
         'body-sm':    ['14px', { lineHeight: '1.65', fontWeight: '400' }],

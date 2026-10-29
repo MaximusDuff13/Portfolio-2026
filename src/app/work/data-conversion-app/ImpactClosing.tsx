@@ -52,7 +52,7 @@ const quoteText =
 const quoteRole = 'Pradeep Jain, Program Director'
 
 // One constant for both labels, so they cannot drift apart in size, weight, colour or tracking.
-const LABEL = 'text-label font-grotesk text-foundation-500 uppercase tracking-widest'
+const LABEL = 'text-label font-sans text-foundation-500 uppercase tracking-widest'
 
 export function ImpactClosing() {
   const prefersReduced = useReducedMotion()
@@ -83,7 +83,7 @@ export function ImpactClosing() {
         >
           <figure>
             <figcaption className={LABEL}>{quoteRole}</figcaption>
-            <blockquote className="mt-3 font-accent accent-italic text-body text-foundation-800">
+            <blockquote className="mt-3 font-display accent-italic text-body text-foundation-800">
               {quoteText}
             </blockquote>
           </figure>

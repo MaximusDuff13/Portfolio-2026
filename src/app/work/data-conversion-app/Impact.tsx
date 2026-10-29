@@ -4,7 +4,7 @@
 // SPINE: identical to Problem's — italic label alone in the left margin (md:col-span-3), content
 // in the right column (md:col-span-9), label stacking above content on a phone. The big line and
 // the paragraph reuse Problem's exact classes so the two sections set as a pair:
-//   big line  = Problem's heading    → font-accent accent-italic text-display-xl
+//   big line  = Problem's heading    → font-display accent-italic text-display-xl
 //   paragraph = Problem's paragraph  → max-w-lg text-body font-sans text-foundation-700
 //
 // The big line is the first thing in the content column, so it starts at the same grid row as
@@ -15,7 +15,7 @@
 // reproduced the doubled edge that was removed from the live page. Every divider INSIDE the
 // section is a border-t as specified.
 //
-// THE SERIF is Fraunces italic via `font-accent` + the `.accent-italic` utility — exactly what
+// THE SERIF is Fraunces italic via `font-display` + the `.accent-italic` utility — exactly what
 // Problem already uses. Nothing was added to tailwind.config.js or to globals.css.
 //
 // MOTION: each block is its own AnimatedSection, so the blocks cross the viewport threshold a
@@ -54,7 +54,7 @@ export function Impact() {
 
             <div className="md:col-span-3">
               <AnimatedSection>
-                <h2 className="m-0 font-accent accent-italic text-heading-m text-foundation-900">
+                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
                   Impact
                 </h2>
               </AnimatedSection>
@@ -62,7 +62,7 @@ export function Impact() {
 
             <div className="md:col-span-9">
               <AnimatedSection>
-                <p className="max-w-3xl font-accent accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
+                <p className="max-w-3xl font-display accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
                   {bigLead}
                   <span className="text-accent-warm">{bigAccent}</span>
                 </p>
@@ -77,10 +77,10 @@ export function Impact() {
                 <dl className="m-0 mt-12 grid grid-cols-1 gap-8 border-t border-border pt-8 md:grid-cols-3 md:gap-10">
                   {stats.map(({ label, figure, rest }) => (
                     <div key={label} className="flex flex-col">
-                      <dt className="text-label font-grotesk text-foundation-500 uppercase tracking-widest">
+                      <dt className="text-label font-sans text-foundation-500 uppercase tracking-widest">
                         {label}
                       </dt>
-                      <dd className="m-0 mt-4 text-stat font-grotesk text-foundation-900">{figure}</dd>
+                      <dd className="m-0 mt-4 text-stat font-display text-foundation-900">{figure}</dd>
                       <dd className="m-0 mt-3 text-body-sm font-sans text-foundation-600">{rest}</dd>
                     </div>
                   ))}

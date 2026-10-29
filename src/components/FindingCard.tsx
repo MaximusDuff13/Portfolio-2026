@@ -20,7 +20,7 @@ export function FindingCard({ title, description, src, alt, variant = 'default' 
         />
       </div>
       <div>
-        <p className="text-body-sm font-grotesk font-medium text-foundation-900 mb-0.5">{title}</p>
+        <p className="text-body-sm font-display font-medium text-foundation-900 mb-0.5">{title}</p>
         <p className="text-caption font-sans text-foundation-600">{description}</p>
       </div>
     </div>

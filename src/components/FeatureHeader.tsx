@@ -18,10 +18,10 @@ export function FeatureHeader({
 }) {
   return (
     <header>
-      <p className={`text-label font-grotesk uppercase tracking-widest ${eyebrowClassName}`}>
+      <p className={`text-label font-sans uppercase tracking-widest ${eyebrowClassName}`}>
         {eyebrow}
       </p>
-      <h3 className={`mt-3 font-grotesk text-heading-l ${titleClassName}`}>{title}</h3>
+      <h3 className={`mt-3 font-display text-heading-l ${titleClassName}`}>{title}</h3>
     </header>
   )
 }

@@ -157,7 +157,7 @@ export function StepSequence({
                 >
                   {/* leading-snug over the label token's 1.0: a step label can wrap at md, and at
                       1.0 its two lines touch. */}
-                  <p className={`m-0 font-grotesk text-label uppercase leading-snug tracking-widest ${labelClassName}`}>
+                  <p className={`m-0 font-sans text-label uppercase leading-snug tracking-widest ${labelClassName}`}>
                     {step.caption}
                   </p>
                   <p className={`m-0 mt-3 font-sans text-body ${textClassName}`}>{step.sentence}</p>

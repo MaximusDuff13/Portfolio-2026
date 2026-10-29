@@ -26,7 +26,7 @@ export function FigureCard({
         {/* The 24px tick. A graphic, which is where accent-warm is allowed: it measures
             3.87:1 on this ground, over the 3:1 WCAG asks of non-text. */}
         <span aria-hidden="true" className="block h-px w-6 bg-accent-warm" />
-        <span className="mt-3 block text-label font-grotesk uppercase tracking-widest text-foundation-600">
+        <span className="mt-3 block text-label font-sans uppercase tracking-widest text-foundation-600">
           {title}
         </span>
       </figcaption>
