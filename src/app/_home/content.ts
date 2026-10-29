@@ -50,8 +50,20 @@ export const hero = {
   contact: 'Get in touch',
 }
 
+/* The page's last word, under the tabs: the user's own line from the first hero, then the ways
+   to reach him. Links that are still placeholders in links.ts show as TODO tags. */
+export const signoff = {
+  line: 'Give me a coffee and a complicated product, and I’ll find the simple one hiding inside.',
+  contact: 'Get in touch',
+  linkedin: 'LinkedIn',
+  resume: 'Résumé',
+  credit: 'Painting illustrated with AI, directed by me.',
+}
+
 /* The company strip under the hero: one `current`, the rest previous, newest first. `logo`
-   is a path under /public; without one the first-letter tile stands in. */
+   is a path under /public; without one the first-letter tile stands in. The strip already
+   prints the name, so logos are the symbol alone: public/images/logos/marks/, cropped from
+   the full logos beside it. */
 export type Employer = {
   id: string
   name: string | Todo
@@ -60,10 +72,9 @@ export type Employer = {
 }
 
 export const employers: Employer[] = [
-  { id: 'company-a', name: todo('Company A'), current: true },
-  { id: 'company-b', name: todo('Company B') },
-  { id: 'company-c', name: todo('Company C') },
-  { id: 'company-d', name: todo('Company D') },
+  { id: 'acentra-health', name: 'Acentra Health', logo: '/images/logos/marks/acentra-health.webp', current: true },
+  { id: 'randstad', name: 'Randstad', logo: '/images/logos/marks/randstad.webp' },
+  { id: 'ruah-tech', name: 'Ruah Tech', logo: '/images/logos/marks/ruah-tech.webp' },
 ]
 
 export const headline = {
@@ -191,6 +202,7 @@ export const caseStudies: CaseStudy[] = [
     href: links.caseStudy.acentraDesignSystem,
     name: 'Acentra Health Design System',
     company: 'Acentra Health',
+    logo: '/images/logos/marks/acentra-health.webp',
     question: 'Can one design system keep a complex product consistent?',
     description: 'Tokens, components and accessibility standards, built from the ground up and shared across the product suite.',
     duration: '8 months',

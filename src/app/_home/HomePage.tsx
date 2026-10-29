@@ -2,8 +2,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check } from 'lucide-react'
 import { links } from '@/data/links'
-import { person, hero, employers, type Employer, type NoiseItem } from './content'
-import { CompanyMark, Value } from './kit/cards'
+import { person, hero, signoff, employers, type NoiseItem } from './content'
+import { Value } from './kit/cards'
+import { CompanyStrip } from './kit/companies'
 import { HeroLoop } from './kit/HeroLoop'
 import { LoopWindow } from './kit/windows'
 import { NoiseField, scatter, type ItemOut, type StateCtx } from './kit/NoiseField'
@@ -36,6 +37,7 @@ const themeOf = (i: NoiseItem) => THEMES.findIndex((t) => t.kinds.includes(i.kin
 const PILE_SCALE = 0.82
 // the email in links.ts is still a [PLACEHOLDER] until supplied
 const emailTodo = links.email.startsWith('[')
+const isPlaceholder = (href: string) => href.includes('[')
 
 /** the headline's trail, its key phrase underlined by hand in accent.warm */
 function Trail() {
@@ -51,32 +53,6 @@ function Trail() {
 }
 
 /** "Currently at" / "Previously at": one small label over each group of company logos */
-function CompanyStrip({ items }: { items: Employer[] }) {
-  const groups = [
-    { label: 'Currently at', items: items.filter((e) => e.current) },
-    { label: 'Previously at', items: items.filter((e) => !e.current) },
-  ].filter((g) => g.items.length)
-  return (
-    <div className="a-cos">
-      {groups.map((g) => (
-        <div key={g.label} className="a-co-group">
-          <p className="a-co-label">{g.label}</p>
-          <ul className="a-co-list">
-            {g.items.map((e) => (
-              <li key={e.id} className="a-co">
-                <CompanyMark name={e.name} logo={e.logo} className="a-co-mark" />
-                <span className="a-co-name">
-                  <Value value={e.name} />
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 export function HomePage() {
   const { items, intro, tab, setTab, tabsRef } = useHome({ capSmall: 9, capLarge: 18, cleanupSteps: STEPS, popFrom: 90, popTo: 25, hold: 250 })
   const heroRef = useRef<HTMLDivElement>(null)
@@ -275,7 +251,44 @@ export function HomePage() {
           <Panels active={tab} phase={phase} idPrefix="a" />
         </section>
         </div>
+
+        <SignOff on={final} />
       </main>
     </div>
+  )
+}
+
+/** The end of the page: one line in his voice, the ways to reach him, the credits. Waits for
+    the intro like the tabs, so nothing below the fold flashes in before the hero resolves. */
+function SignOff({ on }: { on: boolean }) {
+  const extra = [
+    { label: signoff.linkedin, href: links.linkedin, todo: 'LinkedIn URL in links.ts' },
+    { label: signoff.resume, href: links.resume, todo: 'résumé URL in links.ts' },
+  ]
+  return (
+    <footer className="a-signoff" data-on={on || undefined} aria-labelledby="a-signoff-line">
+      <p id="a-signoff-line" className="a-signoff-line">
+        {signoff.line}
+      </p>
+      <div className="a-signoff-ctas">
+        <a href={links.mailto} className="a-btn a-btn-primary">
+          {signoff.contact}
+        </a>
+        {emailTodo && <Value value={{ todo: 'email in links.ts' }} />}
+        {extra.map((l) =>
+          isPlaceholder(l.href) ? (
+            <Value key={l.label} value={{ todo: l.todo }} />
+          ) : (
+            <a key={l.label} href={l.href} className="a-btn" target="_blank" rel="noreferrer">
+              {l.label}
+            </a>
+          ),
+        )}
+      </div>
+      <p className="a-signoff-meta">
+        <span>© {new Date().getFullYear()} {person.name}</span>
+        <span>{signoff.credit}</span>
+      </p>
+    </footer>
   )
 }

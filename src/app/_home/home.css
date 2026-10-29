@@ -283,40 +283,39 @@ body:has(.home-root) {
   color: var(--x-ink-2);
   text-wrap: pretty;
 }
-/* the company strip: a label over each group, logos with names, wrapping on small screens */
-.a-cos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px 32px;
-  margin-top: 28px;
+/* the company strip: one line under the paragraph, at its size and colour, the company names
+   a step darker and the logos bare in the line (kit/companies.tsx) */
+.co-sentence {
+  margin: 16px 0 0;
+  font: 400 16px/1.9 var(--font-body), sans-serif;
+  color: var(--x-ink-2);
+  text-wrap: pretty;
 }
-.a-co-label {
-  margin: 0 0 10px;
-  font: 600 12px/1 var(--font-body), sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--x-ink-3);
-}
-.a-co-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.a-co {
-  display: flex;
+.co-inline {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font: 500 14px/1.2 var(--font-body), sans-serif;
+  gap: 6px;
+  vertical-align: bottom;
+  font-weight: 500;
   color: var(--x-ink);
+  white-space: nowrap;
 }
-.home-root .a-co-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  font-size: 13px;
+.home-root .cd-mark.co-inline-mark {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+/* dark mode: brand colours are drawn for light grounds, so the logo gets a small light backing
+   (no border); Ruah's blue would vanish on the dark page */
+@media (prefers-color-scheme: dark) {
+  .home-root .cd-mark.co-inline-mark {
+    padding: 2px;
+    border-radius: 5px;
+    background: oklch(var(--c-body));
+  }
 }
 .a-intro {
   align-self: start;
@@ -504,6 +503,43 @@ body:has(.home-root) {
   z-index: 1;
   padding: 26px 24px 96px; /* 56px less the tab bar's 30px top padding */
   min-width: 0;
+}
+/* the sign-off: the page's last word, across the whole layout under the tabs */
+.a-signoff {
+  position: relative;
+  z-index: 1;
+  margin: 0 24px;
+  padding: 56px 0 32px;
+  border-top: 1px solid var(--x-line);
+  transition: opacity 280ms var(--ease-enter);
+}
+.a-signoff:not([data-on]) {
+  opacity: 0;
+  visibility: hidden;
+}
+.a-signoff-line {
+  margin: 0;
+  max-width: 22ch;
+  font: 500 32px/1.15 var(--font-display), serif;
+  letter-spacing: -0.01em;
+  color: var(--x-ink);
+  text-wrap: balance;
+}
+.a-signoff-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.a-signoff-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin: 72px 0 0;
+  font: 400 13px/1.4 var(--font-body), sans-serif;
+  color: var(--x-ink-3);
 }
 /* the tabs keep their space through the intro (no shift), and appear on resolve */
 .a-tabs:not([data-on]) {
@@ -872,10 +908,12 @@ body:has(.home-root) {
   color: var(--x-bg);
   font: 600 0.875em/1 var(--font-body), sans-serif;
 }
-/* a real logo sits on the card's own surface, inside a hairline */
+/* a real logo sits on a light tile inside a hairline, in dark mode too: brand colours are
+   drawn for light grounds (Ruah's blue vanishes on the dark surface) */
 .home-root .cd-mark-logo {
   object-fit: contain;
-  background: var(--x-surface);
+  padding: 0.3em; /* the symbol breathes inside its hairline tile */
+  background: oklch(var(--c-body));
   border: 1px solid var(--x-line);
 }
 /* a TODO in the narrow meta columns wraps rather than spilling into the next one */
@@ -1214,6 +1252,9 @@ body:has(.home-root) {
   .a-tabs {
     padding-inline: 40px;
   }
+  .a-signoff {
+    margin-inline: 40px;
+  }
   /* Work stays one card per row: each case study gets the column's full width */
   .home-root .pn-accolades,
   .home-root .pn-side {
@@ -1246,6 +1287,31 @@ body:has(.home-root) {
   .a-hero,
   .a-tabs {
     padding-inline: 0;
+  }
+  /* the line on the left, the ways to reach him on the right, the credits along the bottom */
+  .a-signoff {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-top: 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 64px;
+  }
+  .a-signoff-ctas {
+    margin-top: 0;
+    justify-content: flex-end;
+  }
+  .a-signoff-meta {
+    grid-column: 1 / -1;
+  }
+  @media (max-width: calc(72rem + 160px)) {
+    .a-signoff {
+      margin-inline: 80px;
+    }
+  }
+  .a-signoff-line {
+    font-size: 40px;
   }
   /* the hero scrolls away with the page; the docked tab bar carries the way back */
   .a-tabs {
