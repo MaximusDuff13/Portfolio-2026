@@ -69,6 +69,17 @@ export function HomePage() {
     return () => io.disconnect()
   }, [])
   const smooth = intro.reduced ? 'auto' : 'smooth'
+
+  // Desktop: once the page moves, the hero folds into a profile card pinned beside the work
+  // (home.css, "Profile card"). It folds as soon as the page moves: at full size the hero is
+  // taller than a laptop screen, so pinned it would be cut by the docked bar.
+  const [condensed, setCondensed] = useState(false)
+  useEffect(() => {
+    const on = () => setCondensed(window.scrollY > 24)
+    on()
+    window.addEventListener('scroll', on, { passive: true })
+    return () => window.removeEventListener('scroll', on)
+  }, [])
   // switching tabs while docked starts the new panel at its top, under the bar
   // for the tab transition: the side the new tab lies on, and that a tab has been picked
   const [tabMove, setTabMove] = useState<'left' | 'right' | null>(null)
@@ -154,7 +165,7 @@ export function HomePage() {
         />
 
         <div className="a-layout">
-        <section className="a-hero" aria-labelledby="a-title">
+        <section className="a-hero" aria-labelledby="a-title" data-condensed={(condensed && final) || undefined}>
           <div ref={heroRef} className="a-hero-block">
             <LoopWindow><HeroLoop playing={phase !== 'noise'} poster="start" className="a-loop" controlClassName="a-loop-control" sizes="(min-width: 1024px) 460px, 92vw" /></LoopWindow>
 
@@ -259,7 +270,9 @@ export function HomePage() {
 }
 
 /** The end of the page: one line in his voice, the ways to reach him, the credits. Waits for
-    the intro like the tabs, so nothing below the fold flashes in before the hero resolves. */
+    the intro like the tabs, so nothing below the fold flashes in before the hero resolves.
+    On desktop the profile card already carries Get in touch, so only the colophon line shows
+    there, with LinkedIn and the résumé in it; smaller screens keep the whole sign-off. */
 function SignOff({ on }: { on: boolean }) {
   const extra = [
     { label: signoff.linkedin, href: links.linkedin, todo: 'LinkedIn URL in links.ts' },
@@ -287,6 +300,17 @@ function SignOff({ on }: { on: boolean }) {
       </div>
       <p className="a-signoff-meta">
         <span>© {new Date().getFullYear()} {person.name}</span>
+        <span className="a-colophon-links">
+          {extra.map((l) =>
+            isPlaceholder(l.href) ? (
+              <Value key={l.label} value={{ todo: l.todo }} />
+            ) : (
+              <a key={l.label} href={l.href} target="_blank" rel="noreferrer">
+                {l.label}
+              </a>
+            ),
+          )}
+        </span>
         <span>{signoff.credit}</span>
       </p>
     </footer>

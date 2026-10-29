@@ -1364,3 +1364,129 @@ body:has(.home-root) {
     transition: none;
   }
 }
+
+/* ── Profile card (desktop). The hero stays beside the work; once the page moves it folds into
+   a card: the window, the name, the companies and Get in touch. Picked Oct 29 2026 from sticky,
+   profile card, case-in-view, narrator and bookend, with the timed fold over a scroll-linked one.
+   The fold, in order: the text fades (140ms), then closes up (480ms) while the card's padding,
+   surface and hairline arrive; once the bar docks the tabs glide to the page's left edge
+   (640ms). Unfolding runs it back: the space opens, then the text fades in. Only opacity,
+   transform, height (interpolated from auto) and small spacings move. ───────────────────── */
+@media (min-width: 1024px) {
+  .home-root {
+    interpolate-size: allow-keywords;
+  }
+  /* the column's own 48px top padding moves into `top`, so at rest it lines up with the tabs
+     and, pinned, it clears the docked bar (64px) with a little air */
+  .a-hero {
+    position: sticky;
+    top: 72px;
+    align-self: start;
+    padding-top: 0;
+    margin-top: 48px;
+  }
+  /* the cards end with room below, so the pinned card is never pushed under the bar */
+  .a-layout {
+    padding-bottom: 48px;
+  }
+  /* the intro's checklist shares the headline's grid cell; once it has gone it must not hold
+     the space the folding text gives up */
+  .a-intro[aria-hidden='true'] {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+
+  /* the fold */
+  .a-hero :is(.a-aside, .a-statement, .a-body) {
+    height: auto;
+    overflow: clip;
+    transition: height 480ms var(--ease-enter), margin 480ms var(--ease-enter), opacity 240ms var(--ease-enter) 280ms;
+  }
+  .a-hero[data-condensed] :is(.a-aside, .a-statement, .a-body) {
+    height: 0;
+    margin-top: 0;
+    opacity: 0;
+    transition: opacity 140ms cubic-bezier(0.4, 0, 1, 1), height 480ms var(--ease-enter) 100ms, margin 480ms var(--ease-enter) 100ms;
+  }
+  .a-hero[data-condensed] .a-skip {
+    visibility: hidden !important;
+  }
+
+  /* the card: its own surface, a hairline, the window inset */
+  .a-hero-block {
+    border: 1px solid transparent;
+    border-radius: 20px;
+    transition: padding 480ms var(--ease-enter) 100ms, background-color 360ms var(--ease-enter) 180ms, border-color 360ms var(--ease-enter) 180ms;
+  }
+  .a-hero[data-condensed] .a-hero-block {
+    padding: 20px;
+    background: var(--x-surface-2);
+    border-color: var(--x-line);
+  }
+  .a-hero :is(.a-stack, .co-sentence, .a-ctas) {
+    transition: margin 480ms var(--ease-enter) 100ms;
+  }
+  .a-hero[data-condensed] .a-stack {
+    margin-top: 16px;
+  }
+  .a-hero[data-condensed] .co-sentence {
+    margin-top: 8px;
+  }
+  .a-hero[data-condensed] .a-ctas {
+    margin-top: 16px;
+  }
+
+  /* the docked bar: the card is the face of the page now, so the round icon would only repeat
+     it; the tabs glide over to the left edge (the 440px card column + 64px gap) instead */
+  .a-home {
+    display: none;
+  }
+  .a-tabbar::before {
+    visibility: visible;
+    opacity: 0;
+    transition: opacity 240ms var(--ease-enter);
+  }
+  .a-tabbar[data-docked]::before {
+    opacity: 1;
+  }
+  .a-tabbar .a-tablist {
+    transition: transform 640ms cubic-bezier(0.16, 1, 0.3, 1) 60ms;
+  }
+  .a-tabbar[data-docked] .a-tablist {
+    transform: translateX(-504px);
+  }
+
+  /* the footer: the card carries Get in touch, so only the colophon line stays */
+  .a-signoff {
+    padding-top: 24px;
+  }
+  .a-signoff :is(.a-signoff-line, .a-signoff-ctas) {
+    display: none;
+  }
+  .a-signoff-meta {
+    margin-top: 0;
+  }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .a-hero :is(.a-aside, .a-statement, .a-body, .a-hero-block, .a-stack, .co-sentence, .a-ctas),
+  .a-hero .a-hero-block,
+  .a-tabbar .a-tablist {
+    transition: none;
+  }
+}
+/* the colophon's links: LinkedIn and the résumé, between the copyright and the credit */
+.a-colophon-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.a-colophon-links a {
+  color: var(--x-ink-2);
+  text-underline-offset: 4px;
+}
+/* smaller screens keep the full sign-off, whose buttons already include these links */
+@media (max-width: 1023px) {
+  .a-colophon-links {
+    display: none;
+  }
+}
