@@ -49,7 +49,7 @@ export function StoryCard({
 }: {
   item: CardItem
   tint?: 'soft' | 'strong'
-  /** the cover only, never opening (the /dev/cards 390 frame) */
+  /** the cover only, never opening */
   still?: boolean
   /** the stage is the page transition's morph target into the case study (the live card) */
   morph?: boolean

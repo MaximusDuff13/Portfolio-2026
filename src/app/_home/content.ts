@@ -136,9 +136,9 @@ export type CardLayer = {
 }
 
 /* Variant E (story motion): each case study tells its story with its own motion preset, picked
-   by `story.preset`, so no two cards on a page move the same way (the preview warns if they do).
+   by `story.preset`, so no two cards on a page move the same way.
    The presets, the motion of each and what it does with reduced motion are in
-   src/app/_home/kit/story/presets.tsx; /dev/cards?v=gallery shows all six.
+   src/app/_home/kit/story/presets.tsx.
    - deconstruct: components lift out of the cover to the margins, a redline back to each origin
    - drawer: the cover slides left; a review panel slides in from the right and checks off rows
    - scroll: a tall screenshot scrolls inside the cover's frame

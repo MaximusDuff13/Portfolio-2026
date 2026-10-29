@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { Check } from 'lucide-react'
-import { STAGES, type CaseStudy, type MappingRow, type Part, type Preset, type Slot, type Story } from '@/app/_home/content'
+import type { CaseStudy, MappingRow, Part, Preset, Slot, Story } from '@/app/_home/content'
 import { Frame, Phone, Placeholder, SlotImage, type PlaceholderKind } from './frame'
 
 /* Variant E's motion library. A card's `story.preset` picks one; each brings its own content,
@@ -51,13 +51,6 @@ export const PRESETS: Record<Preset, { name: string; blurb: string; reduced: 'co
   wipe: { name: 'Wipe', blurb: 'A divider sweeps across the screen, from before to after.', reduced: 'end' },
   spread: { name: 'Spread', blurb: 'Three stacked phones fan out side by side, the steps of a flow.', reduced: 'end' },
   inset: { name: 'Inset', blurb: 'An enlarged crop of one detail slides in, a line back to its spot.', reduced: 'end' },
-}
-
-/** presets used by more than one card on the same page */
-export function duplicatePresets(items: CardItem[]) {
-  const seen = new Map<Preset, string[]>()
-  for (const i of items) if (i.story) seen.set(i.story.preset, [...(seen.get(i.story.preset) ?? []), i.name])
-  return Array.from(seen.entries()).filter(([, names]) => names.length > 1)
 }
 
 /* the cover at rest: 70% of the stage wide, centred, its top 13% down; the screen under a chrome
@@ -342,57 +335,3 @@ export function StoryStage({ item, story }: { item: CardItem; story?: Story }) {
       return <Cover item={item} />
   }
 }
-
-/* ── the motion gallery: every preset on a placeholder card ───────────────── */
-const sample = (preset: Preset, story: Story, coverKind: PlaceholderKind = 'dashboard'): CardItem => ({
-  id: `gallery-${preset}`,
-  href: '#',
-  name: PRESETS[preset].name,
-  company: 'Motion gallery',
-  question: PRESETS[preset].name,
-  description: PRESETS[preset].blurb,
-  duration: preset === 'scroll' ? '2s in, 1.4s out' : 'about 0.6s in',
-  role: `reduced motion: ${PRESETS[preset].reduced === 'cover' ? 'cover only' : 'end state'}`,
-  status: preset,
-  coverKind,
-  stage: STAGES.sage.pale,
-  stageStrong: (preset === 'drawer' || preset === 'scroll' || preset === 'inset' ? STAGES.sky : STAGES.sage).strong,
-  story,
-})
-
-export const galleryItems: CardItem[] = [
-  sample(
-    'deconstruct',
-    {
-      preset: 'deconstruct',
-      parts: [
-        { kind: 'swatches', label: 'Color / tokens', colors: ['#1c1917', '#57534e', '#a8a29e', '#e7e5e4', '#f5f5f4'], origin: { x: 10, y: 6 }, at: { x: 76, y: 6 }, width: 21, side: 'right' },
-        { kind: 'checkbox', label: 'Checkbox / checked', text: 'Remember me', origin: { x: 30, y: 30 }, at: { x: 76, y: 22 }, width: 21, side: 'right' },
-        { kind: 'input', label: 'Input / text', text: 'Jordan', origin: { x: 50, y: 40 }, at: { x: 76, y: 36 }, width: 21, side: 'right' },
-        { kind: 'spacing', label: 'Spacing / scale', origin: { x: 60, y: 62 }, at: { x: 76, y: 56 }, width: 21, side: 'right' },
-        { kind: 'button', label: 'Button / primary', text: 'Continue', origin: { x: 34, y: 86 }, at: { x: 38, y: 84 }, width: 15, side: 'below' },
-      ],
-    },
-    'form',
-  ),
-  sample('drawer', {
-    preset: 'drawer',
-    title: 'Review mappings',
-    rows: [
-      { source: 'CUST_ID', target: 'customerId' },
-      { source: 'CUST_NM', target: 'name' },
-      { source: 'OPEN_DT', target: 'openedOn' },
-    ],
-  }),
-  sample('scroll', { preset: 'scroll', tall: { label: 'Placeholder · tall page', ratio: 1.75 } }),
-  sample('wipe', {
-    preset: 'wipe',
-    before: { label: 'Placeholder · before' },
-    after: { label: 'Placeholder · after' },
-  }),
-  sample('spread', {
-    preset: 'spread',
-    phones: [{ label: 'Placeholder · step 1' }, { label: 'Placeholder · step 2' }, { label: 'Placeholder · step 3' }],
-  }),
-  sample('inset', { preset: 'inset', crop: { x: 8, y: 20, w: 30, label: 'Placeholder · detail' } }),
-]
