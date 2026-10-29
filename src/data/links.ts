@@ -15,14 +15,6 @@ export const links = {
   work: '/#work',
   about: '/#about',
 
-  /** the /about page and its interest sections */
-  aboutPage: '/about',
-  aboutTopic: {
-    travel: '/about#travel',
-    games: '/about#games',
-    volunteering: '/about#volunteering',
-  },
-
   /** case studies */
   caseStudy: {
     acentraDesignSystem: '/work/acentra-health',
