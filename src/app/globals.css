@@ -2,8 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colour tokens, as OKLCH channels (L C H) so Tailwind can add an alpha:
+   oklch(var(--c-f900) / 0.8). Tailwind's colours (tailwind.config.js) and the home page's
+   --x-* roles (_home/home.css) both read these, so the palette is changed here and nowhere else.
+
+   Palette: Straw & Olive (picked Oct 29 2026), sampled from the hero painting: the dry grass
+   for the page, olive-umber for ink, Maggie's ginger as the one accent. Everything stays in
+   one warm family; the accent is a neighbour of straw, never an opposite.
+   f100–f900: the neutral ramp (text, lines, surfaces, dark heroes). Its lightness is the old
+   stone ramp's, so text contrast is unchanged. body: the page.
+   accent / accent-subtle: ginger and its tint. Ginger marks what matters (outcomes, key
+   numbers, the italic accent line, the underline), never decoration. 4.6:1 on the page.
+   accent-bright, accent-deep, stage-dark: the dark-mode accent, accent tint and card stage.
+   cta: the primary button. lede: the softer second line of a headline (large text only).
+   If the accent changes, redraw the underline in _home/home.css (.a-key), a data URI. */
 :root {
-  --background: #fdfbf7;
+  --c-f100: 0.9699 0.006 95;
+  --c-f200: 0.9232 0.01 95;
+  --c-f300: 0.8687 0.014 95;
+  --c-f400: 0.7161 0.02 95;
+  --c-f500: 0.5534 0.026 95;
+  --c-f600: 0.4444 0.026 95;
+  --c-f700: 0.3741 0.024 95;
+  --c-f800: 0.2685 0.02 95;
+  --c-f900: 0.2161 0.016 95;
+  --c-body: 0.982 0.014 90;
+  --c-accent: 0.56 0.14 55;
+  --c-accent-subtle: 0.955 0.035 80;
+  --c-accent-bright: 0.74 0.13 65;
+  --c-accent-deep: 0.30 0.04 70;
+  --c-stage-dark: 0.245 0.015 95;
+  --c-cta: var(--c-f900);
+  --c-lede: 0.50 0.05 95;
+
+  /* Showcase backgrounds: the pale stage behind a case study's screens (cards, figures), each
+     a pale and a strong step. Pick one per case study by what it should feel like; they sit
+     under screenshots, never under text that needs the page's contrast. sage and sky are the
+     Acentra and Data Conversion stages, unchanged. The rest come from the other palettes
+     tried on Oct 29: harbour water, straw grass, Maggie's ginger, the misty far hills. */
+  --c-stage-sage: 0.9397 0.0231 137.25;
+  --c-stage-sage-strong: 0.9002 0.0427 135.48;
+  --c-stage-sky: 0.9385 0.0173 248.01;
+  --c-stage-sky-strong: 0.8957 0.0314 248.18;
+  --c-stage-harbour: 0.95 0.022 210;
+  --c-stage-harbour-strong: 0.91 0.04 210;
+  --c-stage-straw: 0.955 0.035 90;
+  --c-stage-straw-strong: 0.92 0.06 88;
+  --c-stage-ginger: 0.955 0.025 60;
+  --c-stage-ginger-strong: 0.92 0.045 58;
+  --c-stage-mist: 0.955 0.008 230;
+  --c-stage-mist-strong: 0.92 0.014 230;
+
+  --background: oklch(var(--c-body));
 }
 
 body {

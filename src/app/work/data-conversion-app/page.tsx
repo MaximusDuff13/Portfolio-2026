@@ -259,8 +259,8 @@ const moreWork: MoreWorkItem[] = [
 function CheckMark() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="mt-0.5 shrink-0">
-      <circle cx="8" cy="8" r="7.25" stroke="#c2600a" strokeWidth="1" />
-      <path d="M5 8.2l2 2 4-4.2" stroke="#c2600a" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="8" cy="8" r="7.25" className="stroke-accent-warm" strokeWidth="1" />
+      <path d="M5 8.2l2 2 4-4.2" className="stroke-accent-warm" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

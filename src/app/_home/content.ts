@@ -15,6 +15,22 @@ export const person = {
   initials: 'MJ',
 }
 
+/* Showcase backgrounds for a case study's stage (globals.css --c-stage-*), each a pale and a
+   strong step. Pick one per case study for what it should feel like; no two cards on a page
+   share one. In Tailwind: bg-stage-sage, bg-stage-sage-strong… */
+const stage = (name: string) => ({
+  pale: `oklch(var(--c-stage-${name}))`,
+  strong: `oklch(var(--c-stage-${name}-strong))`,
+})
+export const STAGES = {
+  sage: stage('sage'),
+  sky: stage('sky'),
+  harbour: stage('harbour'),
+  straw: stage('straw'),
+  ginger: stage('ginger'),
+  mist: stage('mist'),
+}
+
 /* A value still to be supplied. The page renders it as a dashed "TODO" tag naming what goes
    there, never a guess. */
 export type Todo = { todo: string }
@@ -79,9 +95,9 @@ export type CaseStudy = {
   image: { src: string; alt: string }
   /** the image is a stand-in, labelled on the card */
   mediaPlaceholder?: boolean
-  /** the pale colour behind the image area, fading toward the bottom (cards that unfold) */
+  /** the pale colour behind the image area, fading toward the bottom: one of STAGES */
   stage?: string
-  /** the same hue, stronger, for the ?tint=strong comparison */
+  /** the same hue, stronger, where the card shows the stage at full strength */
   stageStrong?: string
   /** supporting screens that unfold around the cover on hover or focus (cards that unfold) */
   layers?: CardLayer[]
@@ -182,10 +198,8 @@ export const caseStudies: CaseStudy[] = [
     status: 'Draft',
     summary: 'Tokens, components and accessibility standards, shared across the product suite.',
     image: { src: '/images/beforeafter/After.png', alt: 'A product screen rebuilt on the Acentra Health Design System' },
-    // NEW token, stage only: pale green
-    stage: '#e4efe0',
-    // NEW token, stage only: the same green, stronger
-    stageStrong: '#d2e5c9',
+    stage: STAGES.sage.pale,
+    stageStrong: STAGES.sage.strong,
     layers: [
       { kind: 'dashboard', label: 'Placeholder · screen 1', rest: { x: -16, y: 21 }, open: { x: -26, y: 4, rotate: -3 }, width: 50, z: 1 },
       { kind: 'form', label: 'Placeholder · screen 2', rest: { x: 16, y: 25 }, open: { x: 26, y: 8, rotate: 2.5 }, width: 50, z: 1 },
@@ -223,10 +237,8 @@ export const caseStudies: CaseStudy[] = [
       alt: 'Data Conversion App project hub showing a completed mapping project',
     },
     mediaPlaceholder: true,
-    // NEW token, stage only: pale blue
-    stage: '#e2ecf6',
-    // NEW token, stage only: the same blue, stronger
-    stageStrong: '#cddff1',
+    stage: STAGES.sky.pale,
+    stageStrong: STAGES.sky.strong,
     layers: [
       { kind: 'list', label: 'Placeholder · screen 1', rest: { x: -16, y: 25 }, open: { x: -26, y: 8, rotate: -2.5 }, width: 50, z: 1 },
       { kind: 'detail', label: 'Placeholder · screen 2', rest: { x: 16, y: 21 }, open: { x: 26, y: 4, rotate: 3 }, width: 50, z: 1 },

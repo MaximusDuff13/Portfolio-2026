@@ -3,25 +3,33 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      // Every colour reads a token from globals.css (--c-*), so palettes swap in one place.
       colors: {
-        body: '#fdfbf7',
+        body: 'oklch(var(--c-body) / <alpha-value>)',
         foundation: {
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
+          100: 'oklch(var(--c-f100) / <alpha-value>)',
+          200: 'oklch(var(--c-f200) / <alpha-value>)',
+          300: 'oklch(var(--c-f300) / <alpha-value>)',
+          400: 'oklch(var(--c-f400) / <alpha-value>)',
+          500: 'oklch(var(--c-f500) / <alpha-value>)',
+          600: 'oklch(var(--c-f600) / <alpha-value>)',
+          700: 'oklch(var(--c-f700) / <alpha-value>)',
+          800: 'oklch(var(--c-f800) / <alpha-value>)',
+          900: 'oklch(var(--c-f900) / <alpha-value>)',
         },
-        border:        '#e7e5e4',
-        'btn-border':  '#d6d3d1',
+        border:        'oklch(var(--c-f200) / <alpha-value>)',
+        'btn-border':  'oklch(var(--c-f300) / <alpha-value>)',
         accent: {
-          warm:   '#c2600a',
-          subtle: '#fef3e2',
+          warm:   'oklch(var(--c-accent) / <alpha-value>)',
+          subtle: 'oklch(var(--c-accent-subtle) / <alpha-value>)',
         },
+        // Showcase backgrounds for case studies (globals.css --c-stage-*): bg-stage-sage, bg-stage-sage-strong…
+        stage: Object.fromEntries(
+          ['sage', 'sky', 'harbour', 'straw', 'ginger', 'mist'].flatMap((n) => [
+            [n, `oklch(var(--c-stage-${n}) / <alpha-value>)`],
+            [`${n}-strong`, `oklch(var(--c-stage-${n}-strong) / <alpha-value>)`],
+          ]),
+        ),
         success: { fill: '#f0f4ee', border: '#c2d4bc', text: '#3a5c35' },
         warning: { fill: '#fdf6ec', border: '#e8d5b4', text: '#7c5a2a' },
         error:   { fill: '#fef2f2', border: '#fecaca', text: '#991b1b' },

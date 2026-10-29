@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { Check } from 'lucide-react'
-import type { CaseStudy, MappingRow, Part, Preset, Slot, Story } from '@/app/_home/content'
+import { STAGES, type CaseStudy, type MappingRow, type Part, type Preset, type Slot, type Story } from '@/app/_home/content'
 import { Frame, Phone, Placeholder, SlotImage, type PlaceholderKind } from './frame'
 
 /* Variant E's motion library. A card's `story.preset` picks one; each brings its own content,
@@ -355,8 +355,8 @@ const sample = (preset: Preset, story: Story, coverKind: PlaceholderKind = 'dash
   role: `reduced motion: ${PRESETS[preset].reduced === 'cover' ? 'cover only' : 'end state'}`,
   status: preset,
   coverKind,
-  stage: '#e4efe0',
-  stageStrong: preset === 'drawer' || preset === 'scroll' || preset === 'inset' ? '#cddff1' : '#d2e5c9',
+  stage: STAGES.sage.pale,
+  stageStrong: (preset === 'drawer' || preset === 'scroll' || preset === 'inset' ? STAGES.sky : STAGES.sage).strong,
   story,
 })
 

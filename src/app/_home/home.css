@@ -73,18 +73,20 @@ body:has(.home-root) {
 
 
 .home-root {
-  --x-bg: light-dark(#fdfbf7, #1c1917); /* body · dark: foundation-900 */
-  --x-surface: light-dark(#fdfbf7, #292524); /* body · dark: foundation-800 */
-  --x-surface-2: light-dark(#f5f5f4, #44403c); /* foundation-100 · dark: foundation-700 */
-  --x-line: light-dark(#e7e5e4, #44403c); /* border · dark: foundation-700 */
-  --x-btn-line: light-dark(#d6d3d1, #57534e); /* btn-border · dark: foundation-600 */
-  --x-ink: light-dark(#1c1917, #f5f5f4); /* foundation-900 · dark: foundation-100 */
-  --x-ink-2: light-dark(#44403c, #d6d3d1); /* foundation-700 · dark: foundation-300 */
-  --x-ink-3: light-dark(#57534e, #a8a29e); /* foundation-600 (small text) · dark: foundation-400 */
-  --x-ink-large: light-dark(#78716c, #a8a29e); /* foundation-500: large text only */
-  --x-accent: light-dark(#c2600a, #e8843a); /* accent.warm · dark: NEW */
-  --x-accent-subtle: light-dark(#fef3e2, #3a2a1a); /* accent.subtle · dark: NEW */
-  --x-stage: light-dark(#f5f5f4, #231f1d); /* foundation-100 · dark: NEW */
+  --x-bg: light-dark(oklch(var(--c-body)), oklch(var(--c-f900))); /* body · dark: foundation-900 */
+  --x-surface: light-dark(oklch(var(--c-body)), oklch(var(--c-f800))); /* body · dark: foundation-800 */
+  --x-surface-2: light-dark(oklch(var(--c-f100)), oklch(var(--c-f700))); /* foundation-100 · dark: foundation-700 */
+  --x-line: light-dark(oklch(var(--c-f200)), oklch(var(--c-f700))); /* border · dark: foundation-700 */
+  --x-btn-line: light-dark(oklch(var(--c-f300)), oklch(var(--c-f600))); /* btn-border · dark: foundation-600 */
+  --x-ink: light-dark(oklch(var(--c-f900)), oklch(var(--c-f100))); /* foundation-900 · dark: foundation-100 */
+  --x-ink-2: light-dark(oklch(var(--c-f700)), oklch(var(--c-f300))); /* foundation-700 · dark: foundation-300 */
+  --x-ink-3: light-dark(oklch(var(--c-f600)), oklch(var(--c-f400))); /* foundation-600 (small text) · dark: foundation-400 */
+  --x-ink-large: light-dark(oklch(var(--c-f500)), oklch(var(--c-f400))); /* foundation-500: large text only */
+  --x-accent: light-dark(oklch(var(--c-accent)), oklch(var(--c-accent-bright))); /* accent.warm · dark: NEW */
+  --x-accent-subtle: light-dark(oklch(var(--c-accent-subtle)), oklch(var(--c-accent-deep))); /* accent.subtle · dark: NEW */
+  --x-stage: light-dark(oklch(var(--c-f100)), oklch(var(--c-stage-dark))); /* foundation-100 · dark: NEW */
+  --x-cta: light-dark(oklch(var(--c-cta)), oklch(var(--c-f100))); /* primary button · dark: foundation-100 */
+  --x-lede: light-dark(oklch(var(--c-lede)), oklch(var(--c-f400))); /* headline second line, large text only */
   --x-shadow: light-dark(rgb(28 25 23 / 0.18), rgb(0 0 0 / 0.55)); /* shadow.lift */
 
   --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
@@ -172,7 +174,7 @@ body:has(.home-root) {
   text-wrap: balance;
 }
 .a-trail {
-  color: var(--x-ink-large);
+  color: var(--x-lede);
 }
 .a-headline {
   margin: 0;
@@ -240,16 +242,19 @@ body:has(.home-root) {
 /* the key phrase, underlined by hand in accent.warm. A background image, so the line follows
    the phrase across a line break. The page's one signature moment: on resolve the pen draws it
    once, left to right; under reduced motion it is simply there. */
+/* The hand-drawn underline is a data URI, which can't read a CSS colour, so the stroke is
+   baked in: accent (light) and accent-bright (dark). A palette that changes the accent
+   supplies its own drawings through --x-key-line and --x-key-line-dark. */
 .a-key {
   padding-bottom: 0.1em;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23c2600a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+  background: var(--x-key-line, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23b15900' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"))
     no-repeat 0 100% / 100% 0.3em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 @media (prefers-color-scheme: dark) {
   .a-key {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23e8843a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: var(--x-key-line-dark, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23e39849' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"));
   }
 }
 .a-headline[data-on] .a-key {
@@ -462,12 +467,12 @@ body:has(.home-root) {
   background: var(--x-surface-2);
 }
 .a-btn-primary {
-  background: var(--x-ink);
-  border-color: var(--x-ink);
+  background: var(--x-cta);
+  border-color: var(--x-cta);
   color: var(--x-bg);
 }
 .a-btn-primary:hover {
-  background: var(--x-ink-2);
+  background: color-mix(in oklch, var(--x-cta) 84%, var(--x-bg));
 }
 .a-btn svg {
   width: 16px;
