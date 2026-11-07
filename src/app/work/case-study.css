@@ -1,0 +1,103 @@
+/* The home page's language, carried into the case studies (Oct 30 2026): the two-tone headline,
+   the hand-drawn key underline and the Caveat margin note. Same tokens and drawings as home.css
+   (.a-trail, .a-key, .a-aside), which only loads on the home page. */
+
+/* a headline's second voice: olive-umber, large text only */
+.cs-lede {
+  color: oklch(var(--c-lede));
+}
+
+/* the key phrase, underlined by hand in accent.warm; drawn once, after the hero collage settles */
+.cs-key {
+  padding-bottom: 0.1em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23b15900' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat 0 100% / 100% 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: cs-draw-key 700ms cubic-bezier(0.22, 1, 0.36, 1) 1.8s both;
+}
+@keyframes cs-draw-key {
+  from {
+    background-size: 0% 0.3em;
+  }
+}
+
+/* a margin note in the site's annotation face */
+.cs-note {
+  font: 400 22px/1.15 var(--font-hand), cursive;
+  color: oklch(var(--c-f700));
+}
+
+@media (prefers-color-scheme: dark) {
+  .cs-lede {
+    color: oklch(var(--c-f400));
+  }
+  .cs-key {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23e39849' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  .cs-note {
+    color: oklch(var(--c-f300));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-key {
+    animation: none;
+  }
+}
+
+/* The audit's review pen (MarkedUpShot): rings and notes drawn on the evidence. Light ginger
+   (the dark-mode key stroke, #e39849) because it sits on the dark Figma panels, where the
+   page's ginger would be too dim. */
+.cs-ring {
+  fill: none;
+  stroke: #e39849;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.cs-arrow {
+  fill: none;
+  stroke: #e39849;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.cs-mark-note text {
+  font: 400 36px var(--font-hand), cursive;
+  fill: #e39849;
+}
+.cs-mark-note {
+  opacity: 0;
+}
+.cs-markup[data-on] .cs-ring {
+  animation: cs-draw-ring 650ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.cs-markup[data-on] .cs-mark-note {
+  animation: cs-fade-note 400ms ease-out both;
+}
+@keyframes cs-draw-ring {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes cs-fade-note {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-ring {
+    stroke-dashoffset: 0;
+  }
+  .cs-mark-note {
+    opacity: 1;
+  }
+  .cs-markup[data-on] .cs-ring,
+  .cs-markup[data-on] .cs-mark-note {
+    animation: none;
+  }
+}

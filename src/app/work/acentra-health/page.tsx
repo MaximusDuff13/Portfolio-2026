@@ -1,34 +1,52 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { BeforeAfter } from '@/components/BeforeAfter'
-import { BrowserMockup } from '@/components/BrowserMockup'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { CrossTeamCollab } from '@/components/CrossTeamCollab'
-import { FindingCard } from '@/components/FindingCard'
+import { HeroCollage } from '@/components/HeroCollage'
+import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
+import { brands, description, facts, heroMetrics, heroPieces } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SectionHeader } from '@/components/SectionHeader'
 import { PullQuote } from '@/components/PullQuote'
+import '../case-study.css'
 
-const auditQuote =
+const auditIntro =
   'Before building the design system, I partnered with a lead developer to audit the ecosystem — reviewing Figma libraries, component structures, and design workflows to understand what was blocking progress.'
 
-// The hero finding leads the bento grid; the two smaller findings sit below it.
-const heroFinding = {
-  title: 'Accessibility Risk',
-  description: 'Existing color combinations failed WCAG contrast minimums, creating legal and usability risk across the product suite.',
-  src: '/images/audit/Accessibility.png',
-}
-
-const auditFindings = [
+// The three audit findings (option C, "marked up", picked Nov 7 2026): each cropped evidence panel
+// (public/images/acentra-audit) carries the review pen, with rings and notes in the image's own
+// pixels (w × h). headline: the finding in plain words; desc: Michael's original card copy.
+const auditFindings: { tag: string; headline: string; desc: string; src: string; alt: string; w: number; h: number; rings: Ring[]; notes: Note[] }[] = [
   {
-    title: 'Color Audit',
-    description: 'Colors were hardcoded hex values with no shared tokens — every design change meant hunting across dozens of files.',
-    src: '/images/audit/Color Audit.png',
+    tag: 'Accessibility',
+    headline: 'The brand green failed contrast',
+    desc: 'Existing color combinations failed WCAG contrast minimums, creating legal and usability risk across the product suite.',
+    src: '/images/acentra-audit/contrast.webp',
+    alt: 'Stark contrast check: the brand green #1C8B38 on white measures 4.37:1, failing WCAG AA for normal text',
+    w: 569, h: 730,
+    rings: [{ cx: 282, cy: 396, rx: 132, ry: 46 }, { cx: 72, cy: 540, rx: 50, ry: 24 }],
+    notes: [{ x: 300, y: 336, text: '0.13 short of AA' }],
   },
   {
-    title: 'Text Styles',
-    description: 'Typography was inconsistent. Non-brand fonts and ad-hoc sizes with no shared text styles across either product.',
-    src: '/images/audit/Text Styles.png',
+    tag: 'Color',
+    headline: 'Colours were hardcoded',
+    desc: 'Colors were hardcoded hex values with no shared tokens — every design change meant hunting across dozens of files.',
+    src: '/images/acentra-audit/hex.webp',
+    alt: 'Figma fill panel: the button uses the raw hex 1C8B38 rather than a shared token',
+    w: 488, h: 650,
+    rings: [{ cx: 140, cy: 210, rx: 64, ry: 28 }],
+    notes: [{ x: 180, y: 350, text: 'a raw hex, no token', arrow: [214, 318, 176, 250] }],
+  },
+  {
+    tag: 'Typography',
+    headline: 'Type had no rules',
+    desc: 'Typography was inconsistent. Non-brand fonts and ad-hoc sizes with no shared text styles across either product.',
+    src: '/images/acentra-audit/type.webp',
+    alt: 'Figma text panel: Arial Medium 14, flagged as a missing font, with no text style applied',
+    w: 565, h: 636,
+    rings: [{ cx: 100, cy: 157, rx: 82, ry: 32 }],
+    notes: [{ x: 228, y: 140, text: 'not a brand font,' }, { x: 228, y: 178, text: 'no text style' }],
   },
 ]
 
@@ -37,15 +55,6 @@ export const metadata: Metadata = {
   description:
     'How I built a scalable design system that unified tokens, components, and accessibility standards across two product teams.',
 }
-
-const description =
-  "Without a shared system, two product teams were shipping inconsistent, inaccessible UIs with zero shared vocabulary. I partnered with a lead developer to audit the existing ecosystem, identify the risks, and build Acentra Health Design System from the ground up — a scalable system that unified tokens, components, and accessibility standards across Acentra Health's product suite."
-
-const meta = [
-  { label: 'My Role',  items: ['Design Ops', 'Accessibility', 'Token Strategy'] },
-  { label: 'Team',     items: ['1 Developer', 'Lead Designer'] },
-  { label: 'Timeline', items: ['8 months', '2024'] },
-]
 
 // Goals committed to leadership vs. what the first release delivered.
 const goals = [
@@ -143,8 +152,8 @@ const moreWork: MoreWorkItem[] = [
 
 // Results (09) — the payoff metrics (first three tiles; WCAG tile dropped per Michael).
 const results = [
-  { stat: '19K+', label: 'Component insertions · 30 days', desc: 'Used 19,000 times across 5 product teams.' },
-  { stat: '5', label: 'Product teams adopting', desc: 'Five teams started using the system in month one.' },
+  { stat: '19K+', label: 'Component insertions · 30 days', desc: 'Used 19,000 times across 5 project teams.' },
+  { stat: '5', label: 'Project teams adopting', desc: 'Five project teams adopted the system in its first quarter.' },
   { stat: '1 Month', label: 'Faster UI delivery', desc: 'A supporting tool shipped in one month.' },
 ]
 
@@ -209,99 +218,106 @@ export default function AcentraHealthPage() {
   return (
     <main className="min-h-screen bg-body">
 
-      {/* Dark hero */}
-      <section className="bg-foundation-900 px-6 sm:px-10 lg:px-section pt-section pb-0">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row">
-
-          <div className="flex-1 md:pr-20 flex items-center">
-            <AnimatedSection>
-              <h1 className="vt-title-acentra text-display-2xl font-display text-body">
-                One System.<br />Two Brands
-              </h1>
-            </AnimatedSection>
-          </div>
-
-          <div className="hidden md:block w-px bg-foundation-600" />
-
-          <div className="flex-1 md:pl-20 flex items-center">
-            <AnimatedSection>
-              <p className="text-body font-sans text-foundation-300">
-                {description}
-              </p>
-            </AnimatedSection>
-          </div>
-
+      {/* Hero, in the home page's language (option B, picked Oct 30 2026): the title on one line,
+          its second half in olive italic; the outcomes as a row of large figures, each with what it
+          replaced struck through; the collage on the sage stage the home card uses (so the card's
+          morph lands on the same colour); then the brief. */}
+      <section className="px-6 sm:px-10 lg:px-section pt-section">
+        <div className="max-w-6xl mx-auto">
+          <p className="m-0 flex flex-wrap items-baseline gap-x-2 text-body font-sans text-foundation-900">
+            <span className="font-medium">Acentra Health</span>
+            <span className="text-foundation-600">/ Design system · 8 months · 2024</span>
+          </p>
+          <h1 className="vt-title-acentra mt-6 mb-0 font-display font-medium text-foundation-900" style={{ fontSize: 'clamp(52px, 8.6vw, 128px)', lineHeight: 0.96, letterSpacing: '-0.03em' }}>
+            One system, <span className="cs-lede accent-italic">two brands.</span>
+          </h1>
+          <dl className="mt-12 mb-0 grid grid-cols-2 border-t border-foundation-900 md:grid-cols-4">
+            {heroMetrics.map((m, i) => (
+              <div key={m.n} className={`flex flex-col py-6 md:px-6 ${i ? 'md:border-l md:border-border' : 'md:pl-0'} ${i % 2 ? 'pl-5 border-l border-border md:pl-6' : ''}`}>
+                <dt className="order-last mt-3 text-body-sm font-sans text-foundation-600">
+                  {m.label}
+                  {m.was && <s className="block mt-1 text-caption text-foundation-500 decoration-1">was {m.was}</s>}
+                </dt>
+                <dd className="m-0 whitespace-nowrap font-display font-medium text-accent-warm" style={{ fontSize: 'clamp(40px, 5.2vw, 72px)', lineHeight: 1, letterSpacing: '-0.02em' }}>{m.n}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* Browser mockup — split dark/light background */}
-      <div className="relative">
-        <div className="absolute inset-0 top-0 h-1/2 bg-foundation-900" />
-        <section className="relative z-10 px-6 sm:px-10 lg:px-section pt-section pb-0">
-          <div className="max-w-6xl mx-auto">
-            <div className="vt-media-acentra">
-              <BrowserMockup src="/videos/acentra-health.mp4" url="acentrahealth.com/design-system" />
-            </div>
+      <section className="px-6 sm:px-10 lg:px-section pt-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="vt-media-acentra rounded-2xl bg-stage-sage p-3 sm:p-6 md:p-8">
+            <HeroCollage pieces={heroPieces} />
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* The brief (Oct 30 2026): the merge as one line across the page, like an equation
+          (Kepro + CNSI = one design system), between two hairlines and with no container, so it
+          doesn't compete with the hero's sage stage; the brief and its facts underneath, flush left. */}
+      <section className="px-6 sm:px-10 lg:px-section pt-section pb-16">
+        <div className="max-w-6xl mx-auto">
+          {/* two halves that wrap as units on phones: "Kepro + CNSI" over "= One design system" */}
+          <figure className="m-0 flex flex-wrap items-center gap-x-5 gap-y-4 border-y border-border py-8 sm:gap-x-8" aria-label="Kepro and CNSI, merged into one design system">
+            <span className="flex items-center gap-x-5 sm:gap-x-8">
+              {brands.map((b, i) => (
+                <span key={b.name} className="contents">
+                  {i > 0 && <span aria-hidden="true" className="font-display text-heading-m text-foundation-400 sm:text-heading-xl">+</span>}
+                  <img src={b.logo} alt={b.name} width={b.width} height={36} className="h-7 w-auto sm:h-9" />
+                </span>
+              ))}
+            </span>
+            <span className="flex items-center gap-x-5 sm:gap-x-8">
+              <span aria-hidden="true" className="font-display text-heading-m text-foundation-400 sm:text-heading-xl">=</span>
+              <figcaption className="flex items-center gap-3 whitespace-nowrap text-heading-m font-display text-foundation-900 sm:text-heading-xl">
+                <img src="/images/logos/marks/acentra-health.webp" alt="" className="h-8 w-8 sm:h-10 sm:w-10" />
+                One design system
+              </figcaption>
+            </span>
+          </figure>
+          <div className="mt-10 max-w-4xl">
+            <p className="m-0 text-label font-sans uppercase tracking-widest text-foundation-600">The brief</p>
+            <p className="mt-4 mb-0 text-[20px] leading-[1.6] font-sans text-foundation-800">{description}</p>
+            <dl className="mt-6 mb-0 flex flex-wrap gap-x-6 gap-y-2 text-body-sm font-sans">
+              {facts.map((x) => (
+                <div key={x.k} className="flex gap-1.5">
+                  <dt className="text-foundation-900">{x.k}:</dt>
+                  <dd className="m-0 text-foundation-600">{x.v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
 
       {/* Case study grid */}
       <div className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
 
-          {/* Meta */}
+          {/* Audit: the intro, then the three findings as marked-up exhibits. The shots share a
+              bottom line (subgrid), so the three headlines start on one row whatever each
+              shot's height. */}
           <AnimatedSection>
-            <div className="mt-section mb-4 flex flex-col gap-3">
-              <p className="text-label font-sans text-foundation-500 uppercase tracking-widest">
-                About this Project
-              </p>
-              <div className="w-8 h-px bg-accent-warm" />
-            </div>
-            <section className="border-t border-border">
-              {meta.map(({ label, items }) => (
-                <div key={label} className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-8 py-5 border-b border-border items-baseline">
-                  <p className="sm:col-span-2 text-label font-sans text-foundation-500 uppercase tracking-widest">{label}</p>
-                  <p className="sm:col-span-10 text-body font-sans text-foundation-800">
-                    {items.map((item, idx) => (
-                      <span key={item}>
-                        {idx > 0 && <span className="text-foundation-300">{'  ·  '}</span>}
-                        {item}
-                      </span>
-                    ))}
-                  </p>
-                </div>
-              ))}
-            </section>
-          </AnimatedSection>
-
-          {/* Audit & Findings */}
-          <AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-
-              {/* Narrative column */}
-              <div className="md:col-span-4 md:pr-8 pt-section md:pb-section md:border-r border-border">
-                <SectionHeader
-                  index="01"
-                  eyebrow="Audit"
-                  title="A Fragmented Foundation"
-                  quote={auditQuote}
-                />
+            <div className="pt-section pb-section">
+              <div className="max-w-2xl">
+                <SectionHeader index="01" eyebrow="Audit" title="A fragmented foundation" />
+                <p className="mt-4 mb-0 text-body font-sans text-foundation-700">{auditIntro}</p>
               </div>
-
-              {/* Bento grid */}
-              <div className="md:col-span-8 md:pt-section pb-section flex flex-col gap-4">
-                {/* Hero — Accessibility Risk */}
-                <FindingCard variant="hero" {...heroFinding} />
-
-                {/* Two smaller cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {auditFindings.map(f => (
-                    <FindingCard key={f.title} {...f} />
-                  ))}
-                </div>
-              </div>
-
+              <ol className="mt-12 mb-0 p-0 list-none grid grid-cols-1 gap-12 md:grid-cols-3 md:grid-rows-[auto_auto] md:gap-x-8 md:gap-y-0">
+                {auditFindings.map((f, i) => (
+                  <li key={f.tag} className="md:row-span-2 md:grid md:grid-rows-subgrid">
+                    <div className="md:self-end">
+                      <MarkedUpShot src={f.src} alt={f.alt} w={f.w} h={f.h} rings={f.rings} notes={f.notes} delay={i * 180} />
+                    </div>
+                    <div>
+                      <p className="mt-5 mb-0 text-label font-sans uppercase tracking-widest text-foundation-600">{String(i + 1).padStart(2, '0')} · {f.tag}</p>
+                      <h3 className="mt-2 mb-0 text-heading-m font-display text-foundation-900">{f.headline}</h3>
+                      <p className="mt-2 mb-0 text-body-sm font-sans text-foundation-700">{f.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           </AnimatedSection>
 
