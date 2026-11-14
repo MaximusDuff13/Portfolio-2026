@@ -1,19 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { SectionHeader } from './SectionHeader'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { MarkedUpShot } from './MarkedUpShot'
 import { TokenFlow } from './TokenFlow'
-import { FlowNote, HOW, HowDisclosure, MARKUP } from './ColourDetails'
+import { FlowNote, HOW, HowDisclosure, MARKUP, type How } from './ColourDetails'
+import { Develop } from './Develop'
+import { PenRing } from './PenRing'
 
-/* 04 Built on Carbon (rebuilt Nov 14 2026): the colour story in Michael's three beats.
-   1 one green that works on both of Carbon's themes, White and Gray 100;
-   2 the scale grown from it with the USWDS magic numbers;
-   3 how it was set up in the design system as tokens.
-   His exports do the talking, marked up by hand like the 01 Audit; each caption is one line,
-   and "How I did it" under it opens the method (ColourDetails.tsx). Marketing's starting green
-   and every hex value are deliberately left out: the page is public. Type and Shape were single
-   facts, not a story, so they are one slim "Also changed" row underneath. */
+/* 04 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three fold-out rows so the
+   section never grows: Colour (open at first), Type, Corners. Opening one closes the others.
+   Colour is the story in Michael's three beats: one green for both of Carbon's themes, the scale
+   grown from it with the USWDS magic numbers, and the tokens. Type and Corners show his own
+   exports. Every caption is one line; "How I did it" opens the method. Marketing's starting green
+   and every hex value are deliberately left out: the page is public. */
 
 type Beat = { title: string; line: string }
 const BEATS: Beat[] = [
@@ -39,7 +39,7 @@ function Caption({ i }: { i: number }) {
   return (
     <>
       <p className="mt-4 mb-0 font-sans text-caption tabular-nums text-foundation-600">{String(i + 1).padStart(2, '0')}</p>
-      <h3 className="mt-1 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h3>
+      <h4 className="mt-1 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h4>
       <p className="mt-1 mb-0 max-w-[36rem] text-body-sm font-sans text-foundation-700">{BEATS[i].line}</p>
       <HowDisclosure how={HOW[i]} />
     </>
@@ -59,34 +59,148 @@ function Shot({ i }: { i: number }) {
   )
 }
 
-function AlsoChanged() {
-  const items = [
-    { line: <><s className="text-foundation-600 decoration-1">IBM Plex</s> → Acumin Pro, the brand font</>, art: true },
-    { line: <>Standard and Compact type modes, for external and internal apps</>, img: { src: '/images/acentra-hero/type-modes.webp', alt: 'The same beneficiary screen in Standard, left, and Compact, right' } },
-    { line: <>0 → 2px corners, for a friendlier product</>, img: { src: '/images/acentra-hero/radius-before-after.webp', alt: 'Before: border-radius token radius-00, a 0px corner. After: radius-01, a 2px corner, shown at 16× zoom' } },
-  ]
+/** the three colour beats; needs a LightboxProvider above it */
+export function ColourStory() {
   return (
-    <div className="mt-16 border-t border-border pt-6">
-      <h3 className="m-0 text-label font-sans uppercase tracking-widest text-foundation-600">Also changed</h3>
-      <ul className="m-0 mt-5 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-3 sm:gap-6">
-        {items.map((it, i) => (
-          <li key={i} className="flex items-center gap-4 sm:block">
-            <div className="relative grid h-[72px] w-[112px] flex-none place-items-center overflow-hidden rounded-lg bg-stage-sage sm:h-[120px] sm:w-full">
-              {it.img ? (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={it.img.src} alt="" loading="lazy" className="h-full w-full object-cover" />
-                  <LightboxTrigger src={it.img.src} alt={it.img.alt} />
-                </>
-              ) : (
-                <p className="m-0 whitespace-nowrap font-display text-[18px] text-foundation-900 sm:text-[30px]">Acumin Pro</p>
-              )}
-            </div>
-            <p className="m-0 text-body-sm font-sans text-foundation-800 sm:mt-3">{it.line}</p>
+    <>
+      {/* 01 and 02: the two exports, side by side; tap either to see it full size */}
+      <ol className="m-0 mt-12 grid list-none grid-cols-1 gap-12 p-0 md:grid-cols-2 md:gap-8">
+        {IMAGES.map((img, i) => (
+          <li key={img.src}>
+            <Shot i={i} />
+            <Caption i={i} />
           </li>
         ))}
-      </ul>
-    </div>
+      </ol>
+
+      {/* 03: the token flow, redrawn in HTML so it is sharp and readable everywhere */}
+      <div className="mt-12">
+        <div className="rounded-xl bg-stage-sage p-5 sm:p-8">
+          <TokenFlow mark={(k) => <FlowNote k={k} />} />
+        </div>
+        <Caption i={2} />
+      </div>
+    </>
+  )
+}
+
+/* ---------- Type and Corners: Michael's exports, two to a row ---------- */
+
+const TR = '/images/acentra-type-radius/'
+// Method copy written from Michael's answers (Nov 14 2026).
+const HOW_TYPE: How = {
+  story: [
+    'Carbon ships with IBM Plex. We replaced it with Roboto across the system.',
+    'Healthcare products come in two kinds, so I added two type modes. Standard is for external products, where there is room and slightly larger text reads better. Compact is for internal tools, where staff need more on one screen. Every type token is 2px smaller in Compact, so a team switches mode, not individual sizes.',
+  ],
+  facts: [],
+}
+const HOW_CORNERS: How = {
+  story: [
+    'Carbon’s corners are square. I gave every Acentra component a 2px corner, enough to feel friendlier without changing how Carbon looks.',
+    'Layout surfaces such as tiles and containers get their own radius tokens, from 2px to 16px, plus round. The steps follow Carbon’s 8px grid, so they stay consistent with the rest of the system.',
+  ],
+  facts: [],
+}
+
+type Export = { src: string; full?: string; w: number; h: number; alt: string; caption: string; note?: ReactNode; ring?: string }
+const TYPE_SHOTS: Export[] = [
+  {
+    src: `${TR}type-modes.webp`,
+    full: `${TR}type-modes-full.webp`,
+    w: 1522,
+    h: 700,
+    alt: 'The same beneficiary screen in Standard, left, and Compact, right: the text is 2px smaller in Compact',
+    caption: 'The same screen in both modes.',
+    note: (
+      <span className="grid grid-cols-2 gap-4">
+        <span>Standard: external</span>
+        <span className="pl-[4%]">Compact: internal</span>
+      </span>
+    ),
+  },
+  {
+    src: `${TR}type-table.webp`,
+    w: 1521,
+    h: 769,
+    alt: 'Typography size comparison. Body-01: 16 Standard, 14 Compact. Body-02: 18 and 16. Label-01: 16 and 14. Heading-01: 16 and 14',
+    caption: 'Every type token has a Standard and a Compact size.',
+    note: '2px smaller, on every token',
+  },
+]
+const CORNER_SHOTS: Export[] = [
+  {
+    src: `${TR}radius-before-after.webp`,
+    w: 851,
+    h: 310,
+    alt: 'A button corner at 16× zoom. Before: token radius-00, a square 0px corner. After: token radius-01, a 2px corner',
+    caption: 'Components: a square corner became 2px.',
+    note: 'every component',
+  },
+  {
+    src: `${TR}radius-scale.webp`,
+    w: 901,
+    h: 288,
+    alt: 'Seven tiles showing the radius tokens in order, from a square corner to the roundest',
+    caption: 'Tiles and containers choose from a scale.',
+    note: 'the larger steps are for layouts',
+    ring: 'left-[16.5%] top-[15%] h-[62%] w-[15.5%]',
+  },
+]
+
+/** one export on a sage stage with a handwritten note; tap it to see it full size */
+function ExportShot({ shot, delay }: { shot: Export; delay: number }) {
+  return (
+    <figure className="m-0 flex flex-col">
+      <div className="flex flex-1 flex-col justify-center rounded-xl bg-stage-sage p-4 sm:p-6">
+        {shot.note && <p className="cs-note m-0 mb-2" aria-hidden="true">{shot.note}</p>}
+        <div className="relative">
+          <Develop delay={delay} className="rounded-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} loading="lazy" className="block h-auto w-full rounded-lg" />
+          </Develop>
+          {shot.ring && <PenRing className={`pointer-events-none absolute ${shot.ring}`} />}
+          <LightboxTrigger src={shot.full ?? shot.src} alt={shot.alt} />
+        </div>
+      </div>
+      <figcaption className="mt-3 font-sans text-body-sm text-foundation-700">{shot.caption}</figcaption>
+    </figure>
+  )
+}
+function Exports({ shots, how }: { shots: Export[]; how: How }) {
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {shots.map((s, i) => (
+          <ExportShot key={s.src} shot={s} delay={i * 180} />
+        ))}
+      </div>
+      <HowDisclosure how={how} />
+    </>
+  )
+}
+
+/* ---------- the fold-out rows ---------- */
+
+function FoldRow({ label, teaser, open, children }: { label: string; teaser: string; open?: boolean; children: ReactNode }) {
+  return (
+    <details
+      name="c04"
+      open={open}
+      className="group/row scroll-mt-32 border-b border-border"
+      // opening one row closes the others; if that pulled this row above the screen, bring it back
+      onToggle={(e) => {
+        const el = e.currentTarget
+        if (el.open && el.getBoundingClientRect().top < 120) el.scrollIntoView({ block: 'start' })
+      }}
+    >
+      <summary className="flex min-h-[64px] cursor-pointer list-none items-center gap-x-6 rounded-sm py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-warm [&::-webkit-details-marker]:hidden">
+        <h3 className="m-0 w-24 flex-none font-display text-heading-m text-foundation-900">{label}</h3>
+        <span className="min-w-0 flex-1 font-sans text-body-sm text-foundation-700">{teaser}</span>
+        <span aria-hidden="true" className="flex-none font-sans text-[22px] leading-none text-foundation-900 transition-transform group-open/row:rotate-45 motion-reduce:transition-none">+</span>
+      </summary>
+      <div className="pb-10 pt-6">{children}</div>
+    </details>
   )
 }
 
@@ -94,34 +208,26 @@ export function BuiltOnCarbon() {
   return (
     <LightboxProvider>
       <section className="border-t border-border pt-section pb-section">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <SectionHeader index="04" eyebrow="Built on Carbon" title="One green, built for both themes" />
-            <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
-              I tuned Acentra’s green to work on White and Gray 100, grew it into a scale with magic numbers, and set it up as tokens.
-            </p>
-          </div>
+        <div className="max-w-2xl">
+          <SectionHeader index="04" eyebrow="Built on Carbon" title="What we changed in Carbon" />
+          <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
+            Carbon gave us a tested base. We changed three things to make it Acentra’s: colour, type and corners.
+          </p>
         </div>
 
-        {/* 01 and 02: the two exports, side by side; tap either to see it full size */}
-        <ol className="m-0 mt-12 grid list-none grid-cols-1 gap-12 p-0 md:grid-cols-2 md:gap-8">
-          {IMAGES.map((img, i) => (
-            <li key={img.src}>
-              <Shot i={i} />
-              <Caption i={i} />
-            </li>
-          ))}
-        </ol>
-
-        {/* 03: the token flow, redrawn in HTML so it is sharp and readable everywhere */}
-        <div className="mt-12">
-          <div className="rounded-xl bg-stage-sage p-5 sm:p-8">
-            <TokenFlow mark={(k) => <FlowNote k={k} />} />
-          </div>
-          <Caption i={2} />
+        <div className="mt-10 border-t border-border">
+          <FoldRow open label="Colour" teaser="One green, built for both themes.">
+            <div className="-mt-12">
+              <ColourStory />
+            </div>
+          </FoldRow>
+          <FoldRow label="Type" teaser="IBM Plex became Roboto, in two sizes: Standard and Compact.">
+            <Exports shots={TYPE_SHOTS} how={HOW_TYPE} />
+          </FoldRow>
+          <FoldRow label="Corners" teaser="2px on every component, and a radius scale for layouts.">
+            <Exports shots={CORNER_SHOTS} how={HOW_CORNERS} />
+          </FoldRow>
         </div>
-
-        <AlsoChanged />
       </section>
     </LightboxProvider>
   )
