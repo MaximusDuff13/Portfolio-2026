@@ -2,6 +2,7 @@
 // A screenshot marked up by hand (the Acentra audit): ginger rings round the evidence and Caveat notes beside them,
 // drawn on once when the shot scrolls into view. Coordinates are in the image's own pixels.
 import { useEffect, useRef, useState } from 'react'
+import { Develop } from './Develop'
 
 export type Ring = { cx: number; cy: number; rx: number; ry: number }
 export type Note = { x: number; y: number; text: string; arrow?: [number, number, number, number] }
@@ -32,8 +33,11 @@ export function MarkedUpShot({ src, alt, w, h, rings, notes, delay = 0 }: { src:
     return () => io.disconnect()
   }, [])
   return (
-    <div ref={ref} className="cs-markup relative overflow-hidden rounded-xl bg-[#2c2c2c]" data-on={on || undefined} style={{ ['--d' as string]: `${delay}ms` }}>
-      <img src={src} alt={alt} width={w} height={h} className="block h-auto w-full" />
+    <div ref={ref} className="cs-markup relative overflow-hidden rounded-xl bg-[#2c2c2c]" data-on={on || undefined} style={{ ['--d' as string]: `${delay + 900}ms` }}>
+      {/* the screenshot develops first; the pen marks wait 900ms for it */}
+      <Develop delay={delay}>
+        <img src={src} alt={alt} width={w} height={h} className="block h-auto w-full" />
+      </Develop>
       <svg viewBox={`0 0 ${w} ${h}`} className="absolute inset-0 h-full w-full" aria-hidden="true">
         {rings.map((r, i) => (
           <path key={i} d={ringPath(r)} pathLength={1} className="cs-ring" style={{ animationDelay: `calc(var(--d) + ${i * 260}ms)` }} />

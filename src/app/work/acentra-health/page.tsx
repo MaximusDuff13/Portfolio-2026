@@ -3,12 +3,12 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { BeforeAfter } from '@/components/BeforeAfter'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { CrossTeamCollab } from '@/components/CrossTeamCollab'
-import { HeroCollage } from '@/components/HeroCollage'
 import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
-import { brands, description, facts, heroMetrics, heroPieces } from './hero-data'
+import { brands, description, facts, heroMetrics, targets } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SectionHeader } from '@/components/SectionHeader'
-import { PullQuote } from '@/components/PullQuote'
+import { PenRing } from '@/components/PenRing'
+import { Develop } from '@/components/Develop'
 import '../case-study.css'
 
 const auditIntro =
@@ -56,31 +56,6 @@ export const metadata: Metadata = {
     'How I built a scalable design system that unified tokens, components, and accessibility standards across two product teams.',
 }
 
-// Goals committed to leadership vs. what the first release delivered.
-const goals = [
-  {
-    metric: 'Compliance',
-    committed: '90%',
-    committedNote: 'Target AA compliance coverage',
-    delivered: '60%',
-    deliveredNote: 'AA coverage, month one',
-  },
-  {
-    metric: 'Adoption',
-    committed: '2–3',
-    committedNote: 'Products with unified components',
-    delivered: '5',
-    deliveredNote: 'Projects adopted AHDS in a quarter',
-  },
-  {
-    metric: 'Efficiency',
-    committed: '30%',
-    committedNote: 'Design-to-dev handoff reduction',
-    delivered: '50%',
-    deliveredNote: 'Faster handoff, dev estimate',
-  },
-]
-
 // Choosing the foundation — three options weighed, Adapt & Extend selected.
 const foundationOptions = [
   {
@@ -103,24 +78,11 @@ const foundationOptions = [
   },
 ]
 
-const foundationRationale = [
-  {
-    group: 'Technical Fit',
-    points: [
-      'Native compatibility with our Angular stack',
-      'WCAG 2.2 AA compliant out of the box',
-      'Eliminated accessibility debt from day one',
-    ],
-  },
-  {
-    group: 'Strategic Fit',
-    points: [
-      'Small team constraint — one designer, one developer, zero downtime',
-      'Ship incrementally vs. waiting for a big-bang launch',
-      "Modular token architecture ready for Acentra's dual-brand future",
-    ],
-  },
-]
+// Why Carbon, in one sentence: replaced the six Technical / Strategic Fit bullets (Nov 7 2026);
+// "AA out of the box" and "accessibility debt eliminated from day one" went, as the audit shows
+// the green failing.
+const foundationWhy =
+  'Carbon fit our Angular stack, let two people ship in small releases instead of one big launch, and its tokens were ready for two brands.'
 
 // Small Wins (07) — a pilot proving the system's impact.
 const smallWinsBody = [
@@ -179,38 +141,15 @@ function NextImage({ label, src, className = '' }: { label: string; src?: string
   return (
     <div className={`relative overflow-hidden rounded-lg border border-border bg-foundation-900 ${className}`}>
       {src ? (
-        <img src={src} alt={label} className="absolute inset-0 w-full h-full object-cover" />
+        <Develop className="absolute inset-0">
+          <img src={src} alt={label} className="absolute inset-0 w-full h-full object-cover" />
+        </Develop>
       ) : (
         <div className="absolute inset-0 grid place-items-center px-4 text-center">
           <span className="text-caption font-sans uppercase tracking-widest text-foundation-400">{label}</span>
         </div>
       )}
     </div>
-  )
-}
-
-function SelectedTag() {
-  return (
-    <span className="inline-flex items-center rounded-full bg-foundation-900 px-2.5 py-1 text-label font-sans uppercase tracking-widest text-body">
-      Selected
-    </span>
-  )
-}
-
-function RejectedTag() {
-  return (
-    <span className="inline-flex items-center text-label font-sans uppercase tracking-widest text-foundation-500">
-      Rejected
-    </span>
-  )
-}
-
-function CheckMark() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="mt-0.5 shrink-0">
-      <circle cx="8" cy="8" r="7.25" className="stroke-accent-warm" strokeWidth="1" />
-      <path d="M5 8.2l2 2 4-4.2" className="stroke-accent-warm" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   )
 }
 
@@ -248,7 +187,20 @@ export default function AcentraHealthPage() {
       <section className="px-6 sm:px-10 lg:px-section pt-4">
         <div className="max-w-6xl mx-auto">
           <div className="vt-media-acentra rounded-2xl bg-stage-sage p-3 sm:p-6 md:p-8">
-            <HeroCollage pieces={heroPieces} />
+            {/* the documentation site's hero banner (Nov 14 2026; replaced the four-piece collage).
+                Every image on this page arrives through Develop, the standard image animation. */}
+            <Develop className="rounded-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/acentra-hero/docs-hero-1200.webp"
+                srcSet="/images/acentra-hero/docs-hero-1200.webp 1200w, /images/acentra-hero/docs-hero-2400.webp 2400w"
+                sizes="(min-width: 1152px) 1088px, 100vw"
+                width={6048}
+                height={3072}
+                alt="The Acentra Health Design System documentation site: the AHDS v1.0 home page beside product screens built on the system, including a pricing page, a project dashboard, an add-user form and an AI query tool"
+                className="block h-auto w-full rounded-lg border border-border shadow-lg"
+              />
+            </Develop>
           </div>
         </div>
       </section>
@@ -279,6 +231,7 @@ export default function AcentraHealthPage() {
           <div className="mt-10 max-w-4xl">
             <p className="m-0 text-label font-sans uppercase tracking-widest text-foundation-600">The brief</p>
             <p className="mt-4 mb-0 text-[20px] leading-[1.6] font-sans text-foundation-800">{description}</p>
+            <p className="mt-4 mb-0 text-[20px] leading-[1.6] font-sans text-foundation-800">{targets}</p>
             <dl className="mt-6 mb-0 flex flex-wrap gap-x-6 gap-y-2 text-body-sm font-sans">
               {facts.map((x) => (
                 <div key={x.k} className="flex gap-1.5">
@@ -318,68 +271,10 @@ export default function AcentraHealthPage() {
                   </li>
                 ))}
               </ol>
-            </div>
-          </AnimatedSection>
-
-          {/* Post-audit pull-quote — transition into the brief */}
-          <div className="border-t border-border">
-            <PullQuote>
-              We presented these findings to leadership to align on the risks of the legacy path and the need for a scalable restart.
-            </PullQuote>
-          </div>
-
-          {/* Goals & Outcomes — narrative rail + committed-vs-delivered ledger */}
-          <AnimatedSection>
-            <div className="border-t border-border pt-section grid grid-cols-1 md:grid-cols-12 gap-8">
-
-              {/* Narrative rail */}
-              <div className="md:col-span-4 md:pr-8 md:border-r border-border">
-                <SectionHeader
-                  index="02"
-                  eyebrow="Goals & Outcomes"
-                  title="Measured against the promise"
-                  quote="We committed to three targets in the leadership review. One release in, two were already exceeded and the third was well on track."
-                />
-              </div>
-
-              {/* Ledger as evidence */}
-              <div className="md:col-span-8">
-                {/* Column headers */}
-                <div className="grid grid-cols-12 gap-6 pb-3 border-b border-foundation-300">
-                  <p className="hidden sm:block sm:col-span-3" />
-                  <p className="col-span-6 sm:col-span-4 text-label font-sans text-foundation-500 uppercase tracking-widest">
-                    Committed
-                  </p>
-                  <p className="col-span-6 sm:col-span-5 text-label font-sans text-foundation-500 uppercase tracking-widest">
-                    First Release
-                  </p>
-                </div>
-
-                {/* One row per metric */}
-                {goals.map((g) => (
-                  <div
-                    key={g.metric}
-                    className="grid grid-cols-12 gap-x-6 gap-y-2 py-6 border-b border-border items-baseline"
-                  >
-                    <p className="col-span-12 sm:col-span-3 text-heading-m font-display text-foundation-900">
-                      {g.metric}
-                    </p>
-                    <div className="col-span-6 sm:col-span-4">
-                      <p className="text-stat font-display text-foundation-500">{g.committed}</p>
-                      <p className="text-caption font-sans text-foundation-500 mt-1">
-                        {g.committedNote}
-                      </p>
-                    </div>
-                    <div className="col-span-6 sm:col-span-5">
-                      <p className="text-stat font-display text-accent-warm">{g.delivered}</p>
-                      <p className="text-caption font-sans text-foundation-600 mt-1">
-                        {g.deliveredNote}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
+              {/* what happened next: was a full-width pull quote, folded in here (Nov 7 2026) */}
+              <p className="mt-12 mb-0 max-w-2xl text-body font-sans text-foundation-800">
+                We presented these findings to leadership to align on the risks of the legacy path and the need for a scalable restart.
+              </p>
             </div>
           </AnimatedSection>
 
@@ -392,63 +287,45 @@ export default function AcentraHealthPage() {
                 title="Three paths, one fit"
               />
 
-              {/* The three options weighed side by side */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10 mb-12">
-                {foundationOptions.map((o) => (
-                  <div
-                    key={o.id}
-                    className={`rounded-lg border p-6 flex flex-col ${
-                      o.selected
-                        ? 'border-foundation-900 shadow-[0_1px_0_#1c1917] -translate-y-1'
-                        : 'border-border opacity-70'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-5">
-                      <span className="text-caption font-sans text-foundation-500">Option {o.id}</span>
-                      {o.selected ? <SelectedTag /> : <RejectedTag />}
-                    </div>
-                    <p
-                      className={`text-heading-m font-display mb-3 ${
-                        o.selected ? 'text-foundation-900' : 'text-foundation-500'
-                      }`}
-                    >
-                      {o.name}
-                    </p>
-                    <p className="text-body-sm font-sans text-foundation-600">{o.desc}</p>
-                  </div>
-                ))}
+              {/* The trade-off line (picked Nov 7 2026): one axis, fastest to ship → most
+                  control, the options as points on it and the chosen one ringed by hand.
+                  Phones: the axis turns vertical. */}
+              <div className="mt-12">
+                <div className="hidden md:flex justify-between text-label font-sans uppercase tracking-widest text-foundation-600">
+                  <span>← Fastest to ship</span>
+                  <span>Most control →</span>
+                </div>
+                <ol className="relative mt-4 mb-0 p-0 list-none grid grid-cols-1 gap-10 border-l border-foundation-900 pl-8 md:grid-cols-3 md:gap-8 md:border-l-0 md:border-t md:pl-0 md:pt-10">
+                  {foundationOptions.map((o, i) => (
+                    <li key={o.id} className={`relative ${['md:text-left', 'md:text-center', 'md:text-right'][i]}`}>
+                      <span
+                        aria-hidden="true"
+                        className={`absolute -left-[37px] top-2 md:top-[-46px] ${['md:left-0', 'md:left-1/2 md:-translate-x-1/2', 'md:left-auto md:right-0'][i]} block rounded-full ${o.selected ? 'h-[18px] w-[18px] -ml-[2px] md:ml-0 md:-mt-[3px] bg-accent-warm' : 'h-3 w-3 border border-foundation-500 bg-body'}`}
+                      />
+                      <p className="m-0 text-caption font-sans text-foundation-600">
+                        Option {o.id}
+                        <span className="sr-only">{o.selected ? ', chosen' : ', rejected'}</span>
+                      </p>
+                      <p className={`relative mt-1 mb-0 inline-block font-display text-heading-m ${o.selected ? 'text-foundation-900' : 'text-foundation-600'}`}>
+                        {o.name}
+                        {o.selected && <PenRing className="absolute -inset-x-6 -inset-y-3 h-[calc(100%+24px)] w-[calc(100%+48px)]" />}
+                      </p>
+                      <p className={`mt-2 mb-0 max-w-xs text-body-sm font-sans text-foundation-700 ${['', 'md:mx-auto', 'md:ml-auto'][i]}`}>{o.desc}</p>
+                      {o.selected && <p className="cs-note mt-3 mb-0" aria-hidden="true">the fit</p>}
+                    </li>
+                  ))}
+                </ol>
               </div>
 
-              {/* Why Carbon won */}
-              <div className="border-t border-border pt-10 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
-                <p className="md:col-span-12 text-heading-m font-display text-foundation-900 -mb-2">
-                  Why Carbon was the right foundation
+              {/* why Carbon (was six bullets) and the sign-off (was a pull quote), Nov 7 2026 */}
+              <div className="mt-12 max-w-2xl">
+                <p className="m-0 text-body font-sans text-foundation-800">{foundationWhy}</p>
+                <p className="mt-4 mb-0 text-body font-sans text-foundation-800">
+                  We pitched the adapt-and-extend approach to leadership, secured buy-in, and set Carbon as the foundation, the decision that made everything else possible.
                 </p>
-                {foundationRationale.map((r) => (
-                  <div key={r.group} className="md:col-span-6">
-                    <p className="text-label font-sans text-foundation-900 uppercase tracking-widest mb-4">
-                      {r.group}
-                    </p>
-                    <ul className="flex flex-col gap-3 list-none m-0 p-0">
-                      {r.points.map((p) => (
-                        <li key={p} className="flex gap-3 text-body-sm font-sans text-foundation-600">
-                          <CheckMark />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
               </div>
             </div>
           </AnimatedSection>
-
-          {/* Foundation pull-quote — buy-in secured, transition into the build */}
-          <div className="border-t border-border">
-            <PullQuote>
-              We pitched the adapt-and-extend approach to leadership, secured buy-in, and set Carbon as the foundation, the decision that made everything else possible.
-            </PullQuote>
-          </div>
 
           {/* Built on Carbon — tabbed Color / Typography spine */}
           <BuiltOnCarbon />
@@ -469,7 +346,7 @@ export default function AcentraHealthPage() {
                 From tokens to components
               </h2>
             </div>
-            <div className="rounded-lg border border-foundation-800 overflow-hidden shadow-2xl">
+            <Develop className="rounded-lg border border-foundation-800 overflow-hidden shadow-2xl">
               <video
                 src="/videos/Component-Video.mp4"
                 autoPlay
@@ -479,7 +356,7 @@ export default function AcentraHealthPage() {
                 controls
                 className="w-full block"
               />
-            </div>
+            </Develop>
             <p className="text-caption font-sans text-foundation-400 mt-4 text-center">
               The component library, themed live across both Acentra Health brands.
             </p>
@@ -499,10 +376,12 @@ export default function AcentraHealthPage() {
                 quote="Drag to compare — the old, fragmented UI against the redesign on Acentra Health's design system."
               />
             </div>
-            <BeforeAfter
-              before="/images/beforeafter/Before Image.png"
-              after="/images/beforeafter/After.png"
-            />
+            <Develop className="rounded-lg">
+              <BeforeAfter
+                before="/images/beforeafter/Before Image.png"
+                after="/images/beforeafter/After.png"
+              />
+            </Develop>
           </AnimatedSection>
         </div>
       </section>
