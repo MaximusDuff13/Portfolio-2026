@@ -52,7 +52,7 @@ export const GROUPS: { label: string; changes: Change[] }[] = [
         was: 'IBM’s green',
         title: 'Acentra’s green, at Carbon’s brightness',
         desc: "We partnered with Marketing to select a green that worked for both brand and product — mapped to Carbon's Green 60 to match the luminance of the rest of their colour scale.",
-        img: { src: "/images/Carbon/Anchor.png", alt: "Acentra palette contrast ratios against light and dark backgrounds", ratio: 1 },
+        img: { src: "/images/acentra-colour/themes-800.webp", alt: "Acentra Green against White and Gray 100: 5.1:1 and 3.6:1", ratio: 1 },
       },
       {
         title: 'A ramp where every step has a job',

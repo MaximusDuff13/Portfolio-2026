@@ -9,6 +9,7 @@ import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SectionHeader } from '@/components/SectionHeader'
 import { PenRing } from '@/components/PenRing'
 import { Develop } from '@/components/Develop'
+import { CaseToc, type TocItem } from '@/components/CaseToc'
 import '../case-study.css'
 
 const auditIntro =
@@ -153,6 +154,21 @@ function NextImage({ label, src, className = '' }: { label: string; src?: string
   )
 }
 
+// the contents list (CaseToc): one entry per section, in page order. Numbers follow the
+// section headers (there is no 02 on the page today).
+const toc: TocItem[] = [
+  { id: 'brief', label: 'The brief' },
+  { id: 'audit', n: '01', label: 'Audit' },
+  { id: 'foundation', n: '03', label: 'Foundation' },
+  { id: 'carbon', n: '04', label: 'Built on Carbon' },
+  { id: 'build', n: '05', label: 'The build' },
+  { id: 'transformation', n: '06', label: 'Before & after' },
+  { id: 'wins', n: '07', label: 'Small wins' },
+  { id: 'collab', n: '08', label: 'Collaboration' },
+  { id: 'results', n: '09', label: 'Results' },
+  { id: 'next', label: 'What’s next' },
+]
+
 export default function AcentraHealthPage() {
   return (
     <main className="min-h-screen bg-body">
@@ -208,7 +224,7 @@ export default function AcentraHealthPage() {
       {/* The brief (Oct 30 2026): the merge as one line across the page, like an equation
           (Kepro + CNSI = one design system), between two hairlines and with no container, so it
           doesn't compete with the hero's sage stage; the brief and its facts underneath, flush left. */}
-      <section className="px-6 sm:px-10 lg:px-section pt-section pb-16">
+      <section id="brief" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-16">
         <div className="max-w-6xl mx-auto">
           {/* two halves that wrap as units on phones: "Kepro + CNSI" over "= One design system" */}
           <figure className="m-0 flex flex-wrap items-center gap-x-5 gap-y-4 border-y border-border py-8 sm:gap-x-8" aria-label="Kepro and CNSI, merged into one design system">
@@ -252,7 +268,7 @@ export default function AcentraHealthPage() {
               bottom line (subgrid), so the three headlines start on one row whatever each
               shot's height. */}
           <AnimatedSection>
-            <div className="pt-section pb-section">
+            <div id="audit" data-toc-section className="pt-section pb-section">
               <div className="max-w-2xl">
                 <SectionHeader index="01" eyebrow="Audit" title="A fragmented foundation" />
                 <p className="mt-4 mb-0 text-body font-sans text-foundation-700">{auditIntro}</p>
@@ -280,7 +296,7 @@ export default function AcentraHealthPage() {
 
           {/* Choosing the Foundation — three-up comparison + rationale */}
           <AnimatedSection>
-            <div className="border-t border-border pt-section pb-section">
+            <div id="foundation" data-toc-section className="border-t border-border pt-section pb-section">
               <SectionHeader
                 index="03"
                 eyebrow="Choosing the Foundation"
@@ -328,13 +344,13 @@ export default function AcentraHealthPage() {
           </AnimatedSection>
 
           {/* Built on Carbon — tabbed Color / Typography spine */}
-          <BuiltOnCarbon />
+          <div id="carbon" data-toc-section><BuiltOnCarbon /></div>
 
         </div>
       </div>
 
       {/* The Build (05) — full-bleed dark component-library showcase */}
-      <section className="bg-foundation-900 px-6 sm:px-10 lg:px-section py-section">
+      <section id="build" data-toc-section className="bg-foundation-900 px-6 sm:px-10 lg:px-section py-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="flex flex-col items-center text-center mb-12">
@@ -365,7 +381,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* The Transformation (06) — drag-to-compare before/after */}
-      <section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
+      <section id="transformation" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="max-w-2xl mb-10">
@@ -387,7 +403,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* Small Wins (07) — pilot proving the system's impact (stat cards) */}
-      <section className="px-6 sm:px-10 lg:px-section pb-section">
+      <section id="wins" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -427,10 +443,10 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* Cross-Team Collaboration & Governance (08) — tabbed, mirrors section 04 */}
-      <CrossTeamCollab />
+      <div id="collab" data-toc-section><CrossTeamCollab /></div>
 
       {/* Results (09) — narrative rail + payoff-metric ledger */}
-      <section className="px-6 sm:px-10 lg:px-section pb-section">
+      <section id="results" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -467,7 +483,7 @@ export default function AcentraHealthPage() {
       </section>
 
       {/* What's Next — forward-looking "Next Chapter" bento (one large + two stacked) */}
-      <section className="px-6 sm:px-10 lg:px-section pb-section">
+      <section id="next" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section">
@@ -492,6 +508,8 @@ export default function AcentraHealthPage() {
       </section>
 
       <KeepExploring items={moreWork} />
+
+      <CaseToc items={toc} />
 
     </main>
   )

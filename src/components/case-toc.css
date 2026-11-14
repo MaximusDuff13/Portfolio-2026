@@ -1,0 +1,69 @@
+/* Case-study contents bar (CaseToc.tsx), picked Nov 14 2026. */
+
+/* jumping to a section clears the fixed header (64px) and the bar under it (47px) */
+[data-toc-section] { scroll-margin-top: 136px; }
+
+.toc-num {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  color: oklch(var(--c-f500));
+}
+[aria-current='location'] .toc-num { color: oklch(var(--c-accent)); }
+
+.toc-d {
+  font-family: var(--font-body), system-ui, sans-serif;
+  transition: opacity 240ms ease, transform 320ms cubic-bezier(.2,.7,.2,1);
+}
+
+/* the bar, under the header (every width); fades in past the hero */
+.toc-d {
+  position: fixed;
+  z-index: 40;
+  top: 64px; left: 0; right: 0;
+  background: oklch(var(--c-body) / .94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid oklch(var(--c-f200));
+}
+.toc-d[data-shown='false'] { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.toc-d-row {
+  display: flex; align-items: center; gap: 24px;
+  max-width: calc(1152px + 160px); margin: 0 auto;
+  padding: 0 24px;
+}
+@media (min-width: 640px) { .toc-d-row { padding: 0 40px; } }
+@media (min-width: 1024px) { .toc-d-row { padding: 0 80px; } }
+.toc-d-head {
+  display: none; flex: none; margin: 0;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: oklch(var(--c-f600));
+}
+@media (min-width: 768px) { .toc-d-head { display: block; } }
+.toc-d ol {
+  margin: 0; padding: 0; list-style: none;
+  display: flex; gap: 4px;
+  overflow-x: auto; scrollbar-width: none;
+  mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);
+}
+.toc-d ol::-webkit-scrollbar { display: none; }
+.toc-d a {
+  position: relative;
+  display: flex; align-items: center; height: 46px; padding: 0 10px;
+  white-space: nowrap;
+  font-size: 13px; color: oklch(var(--c-f600)); text-decoration: none;
+  transition: color 160ms ease;
+}
+.toc-d a .toc-num { min-width: 0; margin-right: 6px; }
+.toc-d a:hover, .toc-d a:focus-visible { color: oklch(var(--c-f900)); }
+.toc-d a[aria-current='location'] { color: oklch(var(--c-f900)); font-weight: 500; }
+.toc-d a[aria-current='location']::after {
+  content: ''; position: absolute; left: 10px; right: 10px; bottom: 8px; height: 2px; border-radius: 2px;
+  background: oklch(var(--c-accent));
+}
+.toc-d-progress {
+  position: absolute; left: 0; bottom: -1px; width: 0; height: 2px;
+  background: oklch(var(--c-accent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc-d { transition: none; }
+}

@@ -1,36 +1,133 @@
 'use client'
 import { useState } from 'react'
 import { SectionHeader } from './SectionHeader'
-import { Develop } from './Develop'
-import { GROUPS, RADIUS_SCALE, TYPE_MODES, type Change } from '@/app/work/acentra-health/carbon-data'
+import { LightboxProvider, LightboxTrigger } from './Lightbox'
+import { MarkedUpShot } from './MarkedUpShot'
+import { TokenFlow } from './TokenFlow'
+import { FlowNote, HOW, HowDisclosure, MARKUP } from './ColourDetails'
 
-/* 04 Built on Carbon (rewritten Nov 7 2026): what Carbon gave us, and what we changed, in two
-   groups built differently on purpose. Colour is one still row of the exports, side by side;
-   Type is a spec sheet, one column per mode; Shape is a slider through the radius scale.
-   Each change can name the Carbon default it replaced, struck through the way the hero does. */
+/* 04 Built on Carbon (rebuilt Nov 14 2026): the colour story in Michael's three beats.
+   1 one green that works on both of Carbon's themes, White and Gray 100;
+   2 the scale grown from it with the USWDS magic numbers;
+   3 how it was set up in the design system as tokens.
+   His exports do the talking, marked up by hand like the 01 Audit; each caption is one line,
+   and "How I did it" under it opens the method (ColourDetails.tsx). Marketing's starting green
+   and every hex value are deliberately left out: the page is public. Type and Shape were single
+   facts, not a story, so they are one slim "Also changed" row underneath. */
 
-export function Shot({ src, alt, imgClass = 'max-h-[360px]' }: { src: string; alt: string; imgClass?: string }) {
+type Beat = { title: string; line: string }
+const BEATS: Beat[] = [
+  { title: 'One green, both themes', line: 'Passes for text on White, and for buttons, icons and large text on Gray 100.' },
+  { title: 'A scale from magic numbers', line: 'Ten steps. The gap between two grades sets their contrast.' },
+  { title: 'Set up as tokens', line: 'Teams pick a role, not a shade.' },
+]
+
+const IMAGES = [
+  {
+    src: '/images/acentra-colour/themes-800.webp',
+    full: '/images/acentra-colour/themes-1600.webp',
+    alt: 'Acentra Green as a button beside Carbon’s red, blue, pink and purple, across a white half and a dark half: 5.1:1 against white, 3.6:1 against dark',
+  },
+  {
+    src: '/images/acentra-colour/scale-800.webp',
+    full: '/images/acentra-colour/scale-1600.webp',
+    alt: 'The Acentra green scale: Leaf, the primary brand colour, with Green 10, 60 and 100 and their magic-number contrast notes',
+  },
+]
+
+function Caption({ i }: { i: number }) {
   return (
-    <div className="flex justify-center rounded-xl bg-stage-sage p-4 sm:p-6">
-      <img src={src} alt={alt} loading="lazy" className={`block w-auto max-w-full rounded border border-border ${imgClass}`} />
+    <>
+      <p className="mt-4 mb-0 font-sans text-caption tabular-nums text-foundation-600">{String(i + 1).padStart(2, '0')}</p>
+      <h3 className="mt-1 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h3>
+      <p className="mt-1 mb-0 max-w-[36rem] text-body-sm font-sans text-foundation-700">{BEATS[i].line}</p>
+      <HowDisclosure how={HOW[i]} />
+    </>
+  )
+}
+
+/** one export on its sage stage, marked up by hand; tap it to see it full size */
+function Shot({ i }: { i: number }) {
+  const img = IMAGES[i]
+  return (
+    <div className="rounded-xl bg-stage-sage p-4 sm:p-6">
+      <div className="relative mx-auto max-w-[420px]">
+        <MarkedUpShot src={img.src} alt={img.alt} w={800} h={800} rings={MARKUP[i].rings} notes={MARKUP[i].notes} delay={i * 180} />
+        <LightboxTrigger src={img.full} alt={img.alt} />
+      </div>
     </div>
   )
 }
 
-// A slot still waiting for Michael's export; dashed, and says what goes in it.
-export function Needed({ what, className = 'min-h-[240px]' }: { what: string; className?: string }) {
+function AlsoChanged() {
+  const items = [
+    { line: <><s className="text-foundation-600 decoration-1">IBM Plex</s> → Acumin Pro, the brand font</>, art: true },
+    { line: <>Standard and Compact type modes, for external and internal apps</>, img: { src: '/images/acentra-hero/type-modes.webp', alt: 'The same beneficiary screen in Standard, left, and Compact, right' } },
+    { line: <>0 → 2px corners, for a friendlier product</>, img: { src: '/images/acentra-hero/radius-before-after.webp', alt: 'Before: border-radius token radius-00, a 0px corner. After: radius-01, a 2px corner, shown at 16× zoom' } },
+  ]
   return (
-    <div className={`grid ${className} place-items-center rounded-xl border border-dashed border-foundation-500 p-6 text-center`}>
-      <p className="m-0 text-body-sm font-sans text-foundation-700">
-        <span className="block text-label font-semibold uppercase tracking-widest text-foundation-600">To come</span>
-        {what}
-      </p>
+    <div className="mt-16 border-t border-border pt-6">
+      <h3 className="m-0 text-label font-sans uppercase tracking-widest text-foundation-600">Also changed</h3>
+      <ul className="m-0 mt-5 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-3 sm:gap-6">
+        {items.map((it, i) => (
+          <li key={i} className="flex items-center gap-4 sm:block">
+            <div className="relative grid h-[72px] w-[112px] flex-none place-items-center overflow-hidden rounded-lg bg-stage-sage sm:h-[120px] sm:w-full">
+              {it.img ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={it.img.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  <LightboxTrigger src={it.img.src} alt={it.img.alt} />
+                </>
+              ) : (
+                <p className="m-0 whitespace-nowrap font-display text-[18px] text-foundation-900 sm:text-[30px]">Acumin Pro</p>
+              )}
+            </div>
+            <p className="m-0 text-body-sm font-sans text-foundation-800 sm:mt-3">{it.line}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
 
-/* The typography modes, as a working sketch: one screen fragment, Standard or Compact, at the
-   real token sizes (Heading-01, Body-01, Label-01). Only the dev layouts page uses it now. */
+export function BuiltOnCarbon() {
+  return (
+    <LightboxProvider>
+      <section className="border-t border-border pt-section pb-section">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <SectionHeader index="04" eyebrow="Built on Carbon" title="One green, built for both themes" />
+            <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
+              I tuned Acentra’s green to work on White and Gray 100, grew it into a scale with magic numbers, and set it up as tokens.
+            </p>
+          </div>
+        </div>
+
+        {/* 01 and 02: the two exports, side by side; tap either to see it full size */}
+        <ol className="m-0 mt-12 grid list-none grid-cols-1 gap-12 p-0 md:grid-cols-2 md:gap-8">
+          {IMAGES.map((img, i) => (
+            <li key={img.src}>
+              <Shot i={i} />
+              <Caption i={i} />
+            </li>
+          ))}
+        </ol>
+
+        {/* 03: the token flow, redrawn in HTML so it is sharp and readable everywhere */}
+        <div className="mt-12">
+          <div className="rounded-xl bg-stage-sage p-5 sm:p-8">
+            <TokenFlow mark={(k) => <FlowNote k={k} />} />
+          </div>
+          <Caption i={2} />
+        </div>
+
+        <AlsoChanged />
+      </section>
+    </LightboxProvider>
+  )
+}
+
+/* The typography modes, as a working sketch. Only the temporary /dev/layouts page uses it. */
 const MODES = {
   standard: { label: 'Standard', body: 16, small: 16, head: 16, note: 'External healthcare apps' },
   compact: { label: 'Compact', body: 14, small: 14, head: 14, note: 'Internal tools' },
@@ -62,181 +159,6 @@ export function ModeSketch() {
         <p className="bc-b mt-2 mb-0 font-sans text-foundation-700">We received the provider’s notes. A reviewer will reply within two working days.</p>
         <p className="bc-s mt-3 mb-0 font-sans text-foundation-600">Body {m.body}px · {m.note}</p>
       </div>
-      <p className="mt-3 mb-0 text-caption font-sans text-foundation-700">A sketch of the idea, set in this site’s font; the real sizes live in the Figma library.</p>
     </div>
-  )
-}
-
-export function Evidence({ c, imgClass }: { c: Change; imgClass?: string }) {
-  if (c.img) return <Shot src={c.img.src} alt={c.img.alt} imgClass={imgClass} />
-  if (c.needed) return <Needed what={c.needed} />
-  return <ModeSketch />
-}
-
-const Was = ({ c, className = '' }: { c: Change; className?: string }) =>
-  c.was ? <s className={`block text-body-sm font-sans text-foundation-600 decoration-1 ${className}`}>Carbon: {c.was}</s> : null
-
-const GroupHead = ({ label, count }: { label: string; count: number }) => (
-  <h3 className="m-0 flex items-baseline justify-between border-b border-foundation-900 pb-3 text-label font-sans font-semibold uppercase tracking-widest text-foundation-900">
-    {label}
-    <span className="font-normal text-foundation-600">{count} {count === 1 ? 'change' : 'changes'}</span>
-  </h3>
-)
-
-/* Colour: the exports are the story, so they hang side by side as one still wall. Each print
-   keeps its own shape and they share one height, so the row fills the column exactly: the two
-   square exports and the wide token flow, no scrolling. On phones they stack. */
-function ColourWall({ label, changes }: { label: string; changes: Change[] }) {
-  return (
-    <div className="mt-14">
-      <GroupHead label={label} count={changes.length} />
-      <ol aria-label="Colour changes" className="m-0 mt-8 flex list-none flex-col gap-10 p-0 md:flex-row md:gap-6">
-        {changes.map((c) => (
-          // flex-grow by shape (width ÷ height) gives every print the same height
-          <li key={c.title} className="min-w-0 md:[flex:var(--r)_1_0%]" style={{ ['--r' as string]: c.img?.ratio ?? 1 }}>
-            {c.img && (
-              <Develop className="rounded-xl">
-                <img src={c.img.src} alt={c.img.alt} loading="lazy" style={{ aspectRatio: c.img.ratio }} className="block w-full rounded-xl border border-border bg-white object-cover" />
-              </Develop>
-            )}
-            <h4 className="mt-4 mb-0 text-heading-m font-display text-foundation-900">{c.title}</h4>
-            <p className="mt-2 mb-0 text-body-sm font-sans text-foundation-700">{c.desc}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  )
-}
-
-const [COLOUR, TYPE, SHAPE] = GROUPS
-const [FONT, MODE_CHANGE] = TYPE.changes
-const [CORNER] = SHAPE.changes
-const SIZES = MODE_CHANGE.sizes ?? []
-// the two halves are cut from one export, so they must share one scale: Compact's half is
-// narrower (737 vs 785px) and stretching it to the same width would inflate its text
-const HALF_W = TYPE_MODES.map((m) => m.img.ratio * 1366)
-const SCALE_COLS = HALF_W.map((w) => `${w}fr`).join(' ')
-
-const ChangeTitle = ({ c, className = '' }: { c: Change; className?: string }) => (
-  <>
-    <Was c={c} />
-    <h4 className={`mt-1 mb-0 text-heading-xl font-display text-foundation-900 ${className}`}>{c.title}</h4>
-    <p className="mt-3 mb-0 text-body font-sans text-foundation-700">{c.desc}</p>
-  </>
-)
-const Export = ({ img, className = '', style }: { img: { src: string; alt: string; ratio: number }; className?: string; style?: React.CSSProperties }) => (
-  <Develop className={`rounded-xl ${className}`} style={style}>
-    <img src={img.src} alt={img.alt} loading="lazy" style={{ aspectRatio: img.ratio }} className="block w-full rounded-xl border border-border bg-white" />
-  </Develop>
-)
-const FontLine = () => (
-  <>
-    <p className="m-0 font-display text-[clamp(2rem,5vw,3.5rem)] leading-tight text-foundation-900">
-      <s className="text-foundation-500 decoration-2">IBM Plex</s> became Acumin Pro.
-    </p>
-    <p className="mt-4 mb-0 max-w-[40rem] text-body font-sans text-foundation-700">{FONT.desc}</p>
-    {FONT.needed && <Needed what={FONT.needed} className="mt-6 min-h-[120px] max-w-[40rem]" />}
-  </>
-)
-
-/* Type: a spec sheet. The font swap is a sentence set large; then the two modes as two columns
-   of one sheet: name, when to use it, its half of the screen, and its own sizes underneath, so
-   each column reads top to bottom as one mode. */
-function TypeSpec() {
-  return (
-    <>
-      <FontLine />
-      <div className="mt-16 max-w-[40rem]">
-        <ChangeTitle c={MODE_CHANGE} />
-      </div>
-      <div className="mt-10 grid grid-cols-1 gap-10 sm:gap-8 sm:[grid-template-columns:var(--cols)]" style={{ ['--cols' as string]: SCALE_COLS }}>
-        {TYPE_MODES.map((m, i) => (
-          <section key={m.key} aria-label={`${m.label} mode`}>
-            <div className="flex items-baseline gap-3 border-b border-foundation-900 pb-3">
-              <h5 className="m-0 text-heading-m font-display text-foundation-900">{m.label}</h5>
-              <span className="text-label font-sans font-semibold uppercase tracking-widest text-foundation-600">{m.tag}</span>
-            </div>
-            <ul className="m-0 mt-4 list-none p-0 text-body-sm font-sans text-foundation-700">
-              {m.when.map((w) => (
-                <li key={w} className="py-1">{w}</li>
-              ))}
-            </ul>
-            {/* stacked on phones, each half keeps its share of the export width so Compact stays smaller */}
-            <Export img={m.img} className="mt-5 sm:!w-full" style={{ width: `${(HALF_W[i] / HALF_W[0]) * 100}%` }} />
-            <dl className="m-0 mt-5 grid grid-cols-[1fr_auto] font-sans text-body-sm">
-              {SIZES.map(([token, standard, compact]) => (
-                <div key={token} className="contents">
-                  <dt className="border-b border-border py-2 text-foundation-700">{token}</dt>
-                  <dd className="m-0 border-b border-border py-2 text-right tabular-nums text-foundation-900">{i === 0 ? standard : compact}px</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        ))}
-      </div>
-    </>
-  )
-}
-
-
-/* Shape: a slider, not a sheet or a gallery. One sample tile and a slider through the seven
-   radius tokens: drag it and the corner, the token name and the px value change together.
-   Michael's zoomed before/after sits with the words as the proof. */
-function ShapeSlider() {
-  const [i, setI] = useState(1)
-  const [token, px] = RADIUS_SCALE[i]
-  return (
-    <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-      <div className="md:col-span-5">
-        <ChangeTitle c={CORNER} />
-        {CORNER.img && <Export img={CORNER.img} className="mt-8" />}
-      </div>
-      <div className="md:col-span-7">
-        <div className="rounded-xl bg-stage-sage p-6 sm:p-10">
-          <div className="mx-auto flex max-w-sm flex-col gap-4 border border-border bg-body p-6 transition-[border-radius] duration-200" style={{ borderRadius: px }}>
-            <p className="m-0 text-body font-sans font-semibold text-foundation-900">Tile title</p>
-            <p className="m-0 text-body-sm font-sans text-foundation-700">Supporting text for this tile.</p>
-            <span className="self-start px-4 py-2 text-body-sm font-sans font-semibold text-white transition-[border-radius] duration-200" style={{ borderRadius: px, background: '#028202' }}>Button</span>
-          </div>
-          <p className="mt-8 mb-0 text-center font-sans">
-            <span className="text-heading-m font-display tabular-nums text-foundation-900">{px}px</span>
-            <span className="ml-3 text-body-sm text-foundation-700">{token}</span>
-          </p>
-          <label className="mt-4 block">
-            <span className="sr-only">Border radius token</span>
-            <input type="range" min={0} max={RADIUS_SCALE.length - 1} step={1} value={i} onChange={(e) => setI(Number(e.target.value))} aria-valuetext={`${token}, ${px}px`} className="w-full accent-[#028202]" />
-          </label>
-          <div className="mt-1 flex justify-between font-sans text-caption text-foundation-600">
-            <span>radius-00</span>
-            <span>radius-06</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function BuiltOnCarbon() {
-  const [colour, type, shape] = [COLOUR, TYPE, SHAPE]
-  return (
-    <section className="border-t border-border pt-section pb-section">
-      <div className="max-w-2xl">
-        <SectionHeader index="04" eyebrow="Built on Carbon" title="Carbon, made Acentra’s" />
-        <p className="mt-4 mb-0 text-body font-sans text-foundation-700">We kept Carbon’s structure and changed what makes it look and read like Acentra: the colour, the type and the corners.</p>
-      </div>
-      <ColourWall label={colour.label} changes={colour.changes} />
-      <div className="mt-20">
-        <GroupHead label={type.label} count={type.changes.length} />
-        <div className="mt-10">
-          <TypeSpec />
-        </div>
-      </div>
-      <div className="mt-20">
-        <GroupHead label={shape.label} count={shape.changes.length} />
-        <div className="mt-8">
-          <ShapeSlider />
-        </div>
-      </div>
-    </section>
   )
 }
