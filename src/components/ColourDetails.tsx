@@ -7,7 +7,11 @@ import type { FlowMark } from './TokenFlow'
    No hex values anywhere: the page is public and his exports mask them too. The White ratio is
    written "just over 5:1" because his export says 5.1 and the measured value is 5.0. */
 
-export type How = { story: string[]; facts: { title: string; body: string }[] }
+/* `groups` is for a longer method that reads better in titled parts (Type): a small subheading,
+   its paragraphs, and an optional short list. The subheadings use the same style as the facts'
+   titles below, so they help a reader scan without looking like page sections. */
+export type HowGroup = { title: string; body: string[]; list?: { term: string; text: string }[] }
+export type How = { story: string[]; facts: { title: string; body: string }[]; groups?: HowGroup[] }
 
 export const HOW: How[] = [
   {
@@ -42,14 +46,32 @@ export const HOW: How[] = [
 
 export function HowDisclosure({ how }: { how: How }) {
   return (
-    <details className="group mt-3 max-w-[38rem]">
+    // a grouped method spreads its groups across the full width in columns, so it stays short
+    <details className={`group mt-3 ${how.groups ? '' : 'max-w-[38rem]'}`}>
       <summary className="inline-flex min-h-[44px] cursor-pointer list-none items-center gap-1.5 font-sans text-body-sm font-medium text-foundation-900 underline decoration-foundation-300 underline-offset-4 hover:decoration-accent-warm [&::-webkit-details-marker]:hidden">
         How I did it
         <span aria-hidden="true" className="inline-block transition-transform group-open:rotate-90 motion-reduce:transition-none">›</span>
       </summary>
-      <div className="mt-1 border-l border-border pl-4">
+      <div className={`mt-1 border-l border-border pl-4 ${how.groups ? 'grid grid-cols-1 gap-x-8 gap-y-5 pb-3 md:grid-cols-2 xl:grid-cols-4' : ''}`}>
         {how.story.map((p) => (
           <p key={p.slice(0, 24)} className="mt-0 mb-3 font-sans text-body-sm text-foundation-800">{p}</p>
+        ))}
+        {how.groups?.map((g) => (
+          <div key={g.title}>
+            <h4 className="m-0 mb-1 font-sans text-body-sm font-medium text-foundation-900">{g.title}</h4>
+            {g.body.map((p) => (
+              <p key={p.slice(0, 24)} className="mt-0 mb-2 font-sans text-body-sm text-foundation-800 last:mb-0">{p}</p>
+            ))}
+            {g.list && (
+              <ul className="m-0 mt-2 list-disc pl-5 marker:text-foundation-500">
+                {g.list.map((li) => (
+                  <li key={li.term} className="mt-1 font-sans text-body-sm text-foundation-800">
+                    <strong className="font-semibold text-foundation-900">{li.term}</strong> {li.text}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         ))}
         {how.facts.length > 0 && (
           <dl className="m-0 mt-4 grid gap-3">

@@ -139,8 +139,10 @@ export function useLightbox() {
   return ctx
 }
 
-/* Sits over an image as a transparent button. Shows a small expand hint on hover and focus. */
-export function LightboxTrigger({ src, alt }: { src: string; alt: string }) {
+/* Sits over an image as a transparent button. Shows a small expand hint on hover and focus, or all
+   the time with `always` (for images that sit in a pair, where a hint on only the hovered one
+   reads as if the other can't be enlarged). */
+export function LightboxTrigger({ src, alt, always = false }: { src: string; alt: string; always?: boolean }) {
   const ctx = useContext(LightboxContext)
   if (!ctx) throw new Error('LightboxTrigger must be inside a LightboxProvider')
   return (
@@ -152,7 +154,7 @@ export function LightboxTrigger({ src, alt }: { src: string; alt: string }) {
     >
       <span
         aria-hidden="true"
-        className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-md border border-foundation-600 bg-foundation-900 text-foundation-100 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+        className={`absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-md border border-foundation-600 bg-foundation-900 text-foundation-100 transition-opacity duration-200 motion-reduce:transition-none ${always ? '' : 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'}`}
       >
         <Maximize2 size={16} />
       </span>

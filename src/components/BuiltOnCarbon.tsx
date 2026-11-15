@@ -1,5 +1,5 @@
 'use client'
-import { useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { SectionHeader } from './SectionHeader'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { MarkedUpShot } from './MarkedUpShot'
@@ -89,11 +89,27 @@ export function ColourStory() {
 const TR = '/images/acentra-type-radius/'
 // Method copy written from Michael's answers (Nov 14 2026).
 const HOW_TYPE: How = {
-  story: [
-    'Carbon ships with IBM Plex. We replaced it with Roboto across the system.',
-    'Healthcare products come in two kinds, so I added two type modes. Standard is for external products, where there is room and slightly larger text reads better. Compact is for internal tools, where staff need more on one screen. Every type token is 2px smaller in Compact, so a team switches mode, not individual sizes.',
-  ],
+  story: [],
   facts: [],
+  groups: [
+    { title: 'The problem', body: ['Carbon was built for data-heavy enterprise tools. In our healthcare products, the text was too small.'] },
+    {
+      title: 'The font',
+      body: ['I suggested Roboto over IBM Plex. It’s very legible, which matters in healthcare, and it’s open source, so there’s no licensing fee. We chose it over the company font, Acumin Pro, for every product.'],
+    },
+    {
+      title: 'The sizes',
+      body: ['Healthcare products usually start body text at 16px. We build external products and internal tools, so we made two modes:'],
+      list: [
+        { term: 'Standard', text: '(external): starts at 16px' },
+        { term: 'Compact', text: '(internal): 2px smaller on every token' },
+      ],
+    },
+    {
+      title: 'How teams use it',
+      body: ['Modes live in Figma and in code. Teams switch the mode instead of resizing text, for a whole screen, one component or one area.'],
+    },
+  ],
 }
 const HOW_CORNERS: How = {
   story: [
@@ -104,30 +120,103 @@ const HOW_CORNERS: How = {
 }
 
 type Export = { src: string; full?: string; w: number; h: number; alt: string; caption: string; note?: ReactNode; ring?: string }
-const TYPE_SHOTS: Export[] = [
+/* Type: one export (type-modes.webp, 1522×700) holds both screens. Each mode shows its own half
+   through a window, so the two can sit side by side or stack on a phone without touching the file.
+   `x` is where that screen starts in the export; each screen is 680px wide. */
+// The windows start 544px down the full export (the text above them is left out) and run to its
+// bottom edge, so each mode shows everything the export has of its screen, at a modest size.
+const MODES_IMG = { full: `${TR}type-modes-full.webp`, w: 1522, h: 1894, top: 544, half: 680 }
+/* The sizes are written on each screen by hand: a note in the white space beside the text it
+   names, and a pen line to it. Coordinates are in the window's own pixels (680 × 1350). */
+type Mark = { text: string; x: number; y: number; line: [number, number, number, number] }
+const TYPE_MODES: { label: string; x: number; alt: string; marks: Mark[] }[] = [
   {
-    src: `${TR}type-modes.webp`,
-    full: `${TR}type-modes-full.webp`,
-    w: 1522,
-    h: 700,
-    alt: 'The same beneficiary screen in Standard, left, and Compact, right: the text is 2px smaller in Compact',
-    caption: 'The same screen in both modes.',
-    note: (
-      <span className="grid grid-cols-2 gap-4">
-        <span>Standard: external</span>
-        <span className="pl-[4%]">Compact: internal</span>
-      </span>
-    ),
+    label: 'Standard: external',
+    x: 48,
+    alt: 'A beneficiary screen in Standard mode: label, heading and body text are all 16px',
+    marks: [
+      { text: 'Label 16px', x: 500, y: 520, line: [492, 516, 246, 578] },
+      { text: 'Heading 16px', x: 440, y: 722, line: [432, 714, 356, 726] },
+      { text: 'Body 16px', x: 340, y: 822, line: [332, 812, 254, 812] },
+    ],
   },
   {
-    src: `${TR}type-table.webp`,
-    w: 1521,
-    h: 769,
-    alt: 'Typography size comparison. Body-01: 16 Standard, 14 Compact. Body-02: 18 and 16. Label-01: 16 and 14. Heading-01: 16 and 14',
-    caption: 'Every type token has a Standard and a Compact size.',
-    note: '2px smaller, on every token',
+    label: 'Compact: internal',
+    x: 842,
+    alt: 'The same beneficiary screen in Compact mode: label, heading and body text are all 14px',
+    marks: [
+      { text: 'Label 14px', x: 470, y: 518, line: [462, 514, 228, 574] },
+      { text: 'Heading 14px', x: 404, y: 718, line: [396, 710, 328, 722] },
+      { text: 'Body 14px', x: 316, y: 816, line: [308, 806, 236, 806] },
+    ],
   },
 ]
+const PEN = '#b15900' // the darker ginger of the pen rings; the screens are white in both themes
+
+function TypeMarks({ marks, delay }: { marks: Mark[]; delay: number }) {
+  const ref = useRef<SVGSVGElement>(null)
+  const [on, setOn] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.4 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  const { half, h, top } = MODES_IMG
+  return (
+    <svg ref={ref} viewBox={`0 0 ${half} ${h - top}`} className="cs-markup pointer-events-none absolute inset-0 h-full w-full" data-on={on || undefined} aria-hidden="true">
+      {marks.map((m, i) => {
+        const [x1, y1, x2, y2] = m.line
+        return (
+          // the screenshot develops first; the pen marks wait for it
+          <g key={m.text} className="cs-mark-note" style={{ animationDelay: `${delay + 900 + i * 200}ms` }}>
+            <path d={`M ${x1} ${y1} Q ${(x1 + x2) / 2 + 8} ${(y1 + y2) / 2 - 10}, ${x2} ${y2}`} className="cs-arrow" style={{ stroke: PEN }} />
+            <text x={m.x} y={m.y} style={{ fill: PEN }}>{m.text}</text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+function TypeModes({ how }: { how: How }) {
+  const { full, w, h, top, half } = MODES_IMG
+  const shown = h - top
+  return (
+    <>
+      <figure className="m-0">
+        <div className="grid grid-cols-1 gap-8 rounded-xl bg-stage-sage p-4 sm:p-6 md:grid-cols-2">
+          {TYPE_MODES.map((m, i) => (
+            <div key={m.label} className="mx-auto w-full max-w-[380px]">
+              <p className="cs-note m-0 mb-2">{m.label}</p>
+              <div className="relative">
+                <Develop delay={i * 180} className="rounded-lg">
+                  <div className="relative overflow-hidden rounded-lg" style={{ aspectRatio: `${half} / ${shown}` }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={full}
+                      alt={m.alt}
+                      width={w}
+                      height={h}
+                      loading="lazy"
+                      className="absolute block h-auto max-w-none"
+                      style={{ width: `${(w / half) * 100}%`, left: `${(-m.x / half) * 100}%`, top: `${(-top / shown) * 100}%` }}
+                    />
+                    <TypeMarks marks={m.marks} delay={i * 180} />
+                  </div>
+                </Develop>
+                <LightboxTrigger always src={full} alt="The same beneficiary screen in Standard, left, and Compact, right: the text is 2px smaller in Compact" />
+              </div>            </div>
+          ))}
+        </div>
+        <figcaption className="mt-3 font-sans text-body-sm text-foundation-700">Same screen, both modes. Every token drops 2px in Compact.</figcaption>
+      </figure>
+      <HowDisclosure how={how} />
+    </>
+  )
+}
+
 const CORNER_SHOTS: Export[] = [
   {
     src: `${TR}radius-before-after.webp`,
@@ -221,8 +310,8 @@ export function BuiltOnCarbon() {
               <ColourStory />
             </div>
           </FoldRow>
-          <FoldRow label="Type" teaser="IBM Plex became Roboto, in two sizes: Standard and Compact.">
-            <Exports shots={TYPE_SHOTS} how={HOW_TYPE} />
+          <FoldRow label="Type" teaser="Roboto replaced IBM Plex, in two sizes: Standard and Compact.">
+            <TypeModes how={HOW_TYPE} />
           </FoldRow>
           <FoldRow label="Corners" teaser="2px on every component, and a radius scale for layouts.">
             <Exports shots={CORNER_SHOTS} how={HOW_CORNERS} />
