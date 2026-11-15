@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
-import { BeforeAfter } from '@/components/BeforeAfter'
+import { SystemInUse } from '@/components/SystemInUse'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { CrossTeamCollab } from '@/components/CrossTeamCollab'
 import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
@@ -161,8 +161,7 @@ const toc: TocItem[] = [
   { id: 'audit', n: '01', label: 'Audit' },
   { id: 'foundation', n: '03', label: 'Foundation' },
   { id: 'carbon', n: '04', label: 'Built on Carbon' },
-  { id: 'build', n: '05', label: 'The build' },
-  { id: 'transformation', n: '06', label: 'Before & after' },
+  { id: 'build', n: '05', label: 'The system in use' },
   { id: 'wins', n: '07', label: 'Small wins' },
   { id: 'collab', n: '08', label: 'Collaboration' },
   { id: 'results', n: '09', label: 'Results' },
@@ -349,55 +348,14 @@ export default function AcentraHealthPage() {
         </div>
       </div>
 
-      {/* The Build (05) — full-bleed dark component-library showcase */}
-      <section id="build" data-toc-section className="bg-foundation-900 px-6 sm:px-10 lg:px-section py-section">
+      {/* The system in use (05; Nov 15 2026): the old 05 The Build and 06 The Transformation as one
+          section (SystemInUse): one frame, the open exhibit wide and the other a sliver. */}
+      <section id="build" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
-            <div className="flex flex-col items-center text-center mb-12">
-              <span className="text-label font-sans text-foundation-400 uppercase tracking-widest mb-4">
-                05 · The Build
-              </span>
-              <div className="w-8 h-px bg-accent-warm mb-6" />
-              <h2 className="text-heading-xl font-display text-body max-w-xl">
-                From tokens to components
-              </h2>
+            <div className="border-t border-border pt-section">
+              <SystemInUse />
             </div>
-            <Develop className="rounded-lg border border-foundation-800 overflow-hidden shadow-2xl">
-              <video
-                src="/videos/Component-Video.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                controls
-                className="w-full block"
-              />
-            </Develop>
-            <p className="text-caption font-sans text-foundation-400 mt-4 text-center">
-              The component library, themed live across both Acentra Health brands.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* The Transformation (06) — drag-to-compare before/after */}
-      <section id="transformation" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="max-w-2xl mb-10">
-              <SectionHeader
-                index="06"
-                eyebrow="The Transformation"
-                title="The same screen, rebuilt on the system"
-                quote="Drag to compare — the old, fragmented UI against the redesign on Acentra Health's design system."
-              />
-            </div>
-            <Develop className="rounded-lg">
-              <BeforeAfter
-                before="/images/beforeafter/Before Image.png"
-                after="/images/beforeafter/After.png"
-              />
-            </Develop>
           </AnimatedSection>
         </div>
       </section>

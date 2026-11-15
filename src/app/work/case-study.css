@@ -157,3 +157,31 @@
   }
 }
 
+
+/* 05 The system in use: the closed panel's hint. A handwritten note on the dark panel, and a
+   round arrow that nudges sideways every few seconds to say "open me". */
+.cs-hand-light {
+  font: 400 26px/1 var(--font-hand), cursive;
+  color: #e39849;
+}
+.cs-nudge {
+  animation: cs-nudge 2.8s ease-in-out infinite;
+}
+@keyframes cs-nudge {
+  0%,
+  60%,
+  100% {
+    transform: translateX(0);
+  }
+  72% {
+    transform: translateX(7px);
+  }
+  84% {
+    transform: translateX(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-nudge {
+    animation: none;
+  }
+}

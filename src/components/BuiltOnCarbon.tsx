@@ -6,7 +6,6 @@ import { MarkedUpShot } from './MarkedUpShot'
 import { TokenFlow } from './TokenFlow'
 import { FlowNote, HOW, HowDisclosure, MARKUP, type How } from './ColourDetails'
 import { Develop } from './Develop'
-import { PenRing } from './PenRing'
 
 /* 04 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three fold-out rows so the
    section never grows: Colour (open at first), Type, Corners. Opening one closes the others.
@@ -38,8 +37,7 @@ const IMAGES = [
 function Caption({ i }: { i: number }) {
   return (
     <>
-      <p className="mt-4 mb-0 font-sans text-caption tabular-nums text-foundation-600">{String(i + 1).padStart(2, '0')}</p>
-      <h4 className="mt-1 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h4>
+      <h4 className="mt-4 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h4>
       <p className="mt-1 mb-0 max-w-[36rem] text-body-sm font-sans text-foundation-700">{BEATS[i].line}</p>
       <HowDisclosure how={HOW[i]} />
     </>
@@ -112,14 +110,22 @@ const HOW_TYPE: How = {
   ],
 }
 const HOW_CORNERS: How = {
-  story: [
-    'Carbon’s corners are square. I gave every Acentra component a 2px corner, enough to feel friendlier without changing how Carbon looks.',
-    'Layout surfaces such as tiles and containers get their own radius tokens, from 2px to 16px, plus round. The steps follow Carbon’s 8px grid, so they stay consistent with the rest of the system.',
-  ],
+  story: [],
   facts: [],
+  groups: [
+    {
+      title: 'The problem',
+      body: ['Carbon uses square corners. Our healthcare research showed that slightly rounded corners feel friendlier, and that was the only real difference users noticed.'],
+    },
+    { title: 'Components', body: ['We changed every Carbon component from 0px to 2px. It’s a small change that keeps Carbon familiar.'] },
+    {
+      title: 'Layouts',
+      body: ['Tiles, cards and containers can go further. Teams choose from a scale built on the 8px grid: 0, 2, 4, 8, 12, 16 and 24px.'],
+    },
+    { title: 'Why both', body: ['Components stay consistent everywhere, and layouts can look different from product to product.'] },
+  ],
 }
 
-type Export = { src: string; full?: string; w: number; h: number; alt: string; caption: string; note?: ReactNode; ring?: string }
 /* Type: one export (type-modes.webp, 1522×700) holds both screens. Each mode shows its own half
    through a window, so the two can sit side by side or stack on a phone without touching the file.
    `x` is where that screen starts in the export; each screen is 680px wide. */
@@ -217,51 +223,45 @@ function TypeModes({ how }: { how: How }) {
   )
 }
 
-const CORNER_SHOTS: Export[] = [
+/* Corners (picked Nov 15 2026: "D Numbers"): the two ideas as two numbers, each with Michael's
+   export underneath, shown whole. The scale gets the wider column so its labels can be read. */
+const CORNERS: { stat: string; line: string; src: string; w: number; h: number; alt: string }[] = [
   {
+    stat: '2px',
+    line: 'on every component',
     src: `${TR}radius-before-after.webp`,
     w: 851,
     h: 310,
     alt: 'A button corner at 16× zoom. Before: token radius-00, a square 0px corner. After: token radius-01, a 2px corner',
-    caption: 'Components: a square corner became 2px.',
-    note: 'every component',
   },
   {
+    stat: '0 to 24px',
+    line: 'a scale for tiles, cards and containers',
     src: `${TR}radius-scale.webp`,
     w: 901,
     h: 288,
-    alt: 'Seven tiles showing the radius tokens in order, from a square corner to the roundest',
-    caption: 'Tiles and containers choose from a scale.',
-    note: 'the larger steps are for layouts',
-    ring: 'left-[16.5%] top-[15%] h-[62%] w-[15.5%]',
+    alt: 'Seven tiles showing the radius tokens in order: 0, 2, 4, 8, 12, 16 and 24px',
   },
 ]
 
-/** one export on a sage stage with a handwritten note; tap it to see it full size */
-function ExportShot({ shot, delay }: { shot: Export; delay: number }) {
-  return (
-    <figure className="m-0 flex flex-col">
-      <div className="flex flex-1 flex-col justify-center rounded-xl bg-stage-sage p-4 sm:p-6">
-        {shot.note && <p className="cs-note m-0 mb-2" aria-hidden="true">{shot.note}</p>}
-        <div className="relative">
-          <Develop delay={delay} className="rounded-lg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} loading="lazy" className="block h-auto w-full rounded-lg" />
-          </Develop>
-          {shot.ring && <PenRing className={`pointer-events-none absolute ${shot.ring}`} />}
-          <LightboxTrigger src={shot.full ?? shot.src} alt={shot.alt} />
-        </div>
-      </div>
-      <figcaption className="mt-3 font-sans text-body-sm text-foundation-700">{shot.caption}</figcaption>
-    </figure>
-  )
-}
-function Exports({ shots, how }: { shots: Export[]; how: How }) {
+function Corners({ how }: { how: How }) {
   return (
     <>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {shots.map((s, i) => (
-          <ExportShot key={s.src} shot={s} delay={i * 180} />
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
+        {CORNERS.map((c, i) => (
+          <div key={c.stat} className="flex flex-col">
+            <p className="m-0 font-display text-[40px] leading-none text-accent-warm">{c.stat}</p>
+            <p className="m-0 mt-2 mb-4 font-sans text-body-sm text-foundation-700">{c.line}</p>
+            <div className="flex flex-1 flex-col justify-center rounded-xl bg-stage-sage p-4 sm:p-6">
+              <div className="relative">
+                <Develop delay={i * 180} className="rounded-lg">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.src} alt={c.alt} width={c.w} height={c.h} loading="lazy" className="block h-auto w-full rounded-lg" />
+                </Develop>
+                <LightboxTrigger always src={c.src} alt={c.alt} />
+              </div>
+            </div>
+          </div>
         ))}
       </div>
       <HowDisclosure how={how} />
@@ -271,20 +271,41 @@ function Exports({ shots, how }: { shots: Export[]; how: How }) {
 
 /* ---------- the fold-out rows ---------- */
 
-function FoldRow({ label, teaser, open, children }: { label: string; teaser: string; open?: boolean; children: ReactNode }) {
+function FoldRow({ n, label, teaser, open, children }: { n: string; label: string; teaser: string; open?: boolean; children: ReactNode }) {
   return (
     <details
       name="c04"
       open={open}
       className="group/row scroll-mt-32 border-b border-border"
-      // opening one row closes the others; if that pulled this row above the screen, bring it back
+      // opened some other way (find-in-page, a link): if that pulled the row above the screen, bring it back
       onToggle={(e) => {
         const el = e.currentTarget
-        if (el.open && el.getBoundingClientRect().top < 120) el.scrollIntoView({ block: 'start' })
+        // React passes a "How I did it" toggle up to its row; that one must not move the page
+        if (e.target !== el) return
+        if (el.open && el.getBoundingClientRect().top < 120) el.scrollIntoView({ block: 'start', behavior: 'instant' })
       }}
     >
-      <summary className="flex min-h-[64px] cursor-pointer list-none items-center gap-x-6 rounded-sm py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-warm [&::-webkit-details-marker]:hidden">
-        <h3 className="m-0 w-24 flex-none font-display text-heading-m text-foundation-900">{label}</h3>
+      <summary
+        // Opening one row closes the others, and a row closing above this one would drag it up the
+        // screen. So the row is toggled here by hand and the page is scrolled by exactly the amount
+        // the row moved, in the same frame: the row you clicked stays under your pointer.
+        // Opening a row also opens every "How I did it" inside it; each can still be closed.
+        onClick={(e) => {
+          e.preventDefault()
+          const summary = e.currentTarget
+          const row = summary.parentElement as HTMLDetailsElement
+          const before = summary.getBoundingClientRect().top
+          row.open = !row.open
+          if (row.open) row.querySelectorAll('details').forEach((d) => (d.open = true))
+          const moved = summary.getBoundingClientRect().top - before
+          if (moved) window.scrollBy({ top: moved, behavior: 'instant' })
+        }}
+        className="flex min-h-[64px] cursor-pointer list-none items-center gap-x-4 rounded-sm py-3 sm:gap-x-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-warm [&::-webkit-details-marker]:hidden">
+        <h3 className="m-0 flex w-28 flex-none items-baseline gap-3 sm:w-32 font-display text-heading-m text-foundation-900">
+          {/* the numbers count the three changes; the steps inside a row are not numbered */}
+          <span className="font-sans text-caption font-normal tabular-nums text-foundation-600">{n}</span>
+          {label}
+        </h3>
         <span className="min-w-0 flex-1 font-sans text-body-sm text-foundation-700">{teaser}</span>
         <span aria-hidden="true" className="flex-none font-sans text-[22px] leading-none text-foundation-900 transition-transform group-open/row:rotate-45 motion-reduce:transition-none">+</span>
       </summary>
@@ -300,21 +321,21 @@ export function BuiltOnCarbon() {
         <div className="max-w-2xl">
           <SectionHeader index="04" eyebrow="Built on Carbon" title="What we changed in Carbon" />
           <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
-            Carbon gave us a tested base. We changed three things to make it Acentra’s: colour, type and corners.
+            Carbon was built for enterprise data tools. These three changes made it fit healthcare.
           </p>
         </div>
 
         <div className="mt-10 border-t border-border">
-          <FoldRow open label="Colour" teaser="One green, built for both themes.">
+          <FoldRow open n="01" label="Colour" teaser="Carbon’s blue became our green, accessible in light and dark mode.">
             <div className="-mt-12">
               <ColourStory />
             </div>
           </FoldRow>
-          <FoldRow label="Type" teaser="Roboto replaced IBM Plex, in two sizes: Standard and Compact.">
+          <FoldRow n="02" label="Type" teaser="Clearer, larger text, with a compact mode for staff tools.">
             <TypeModes how={HOW_TYPE} />
           </FoldRow>
-          <FoldRow label="Corners" teaser="2px on every component, and a radius scale for layouts.">
-            <Exports shots={CORNER_SHOTS} how={HOW_CORNERS} />
+          <FoldRow n="03" label="Corners" teaser="Softer corners, because they feel friendlier.">
+            <Corners how={HOW_CORNERS} />
           </FoldRow>
         </div>
       </section>
