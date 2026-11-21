@@ -1,4 +1,4 @@
-// Closing thoughts: the case study's last section, after 07 Testimonials and before Keep exploring.
+// Closing thoughts: the case study's last section, after 06 Testimonials and before Keep exploring.
 // Michael's own text (Nov 21 2026), word for word: three lessons, each with what happened and what
 // he'd do next time, then the one-line summary. It replaced the old What's next roadmap (guides,
 // Acentra-driven patterns, charts and dashboards).

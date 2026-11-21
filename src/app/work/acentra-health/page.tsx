@@ -103,7 +103,7 @@ const moreWork: MoreWorkItem[] = [
   },
 ]
 
-// Results (06; Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, written
+// Results (05; Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, written
 // for hiring managers. Each row reads as a sentence: the result, what it means, and what it was
 // measured against. The target is the brief's; the rebrand is the old Small Wins story. Left out:
 // the 50% faster handoff (an estimate; Michael cut it, Nov 21 2026), 19K+ insertions (the hero has
@@ -119,15 +119,15 @@ const results: Result[] = [
 const quotes = testimonials.filter((t) => process.env.NODE_ENV !== 'production' || !t.placeholder)
 
 // the contents list (CaseToc): one entry per section, in page order. Numbers follow the
-// section headers (there is no 02 on the page today).
+// section headers (01 to 06, renumbered Nov 22 2026; the brief and the closing are unnumbered).
 const toc: TocItem[] = [
   { id: 'brief', label: 'The brief' },
   { id: 'audit', n: '01', label: 'Audit' },
-  { id: 'foundation', n: '03', label: 'Foundation' },
-  { id: 'carbon', n: '04', label: 'Built on Carbon' },
-  { id: 'build', n: '05', label: 'The system in use' },
-  { id: 'results', n: '06', label: 'Results' },
-  ...(quotes.length ? [{ id: 'quotes', n: '07', label: 'Testimonials' }] : []),
+  { id: 'foundation', n: '02', label: 'Foundation' },
+  { id: 'carbon', n: '03', label: 'Built on Carbon' },
+  { id: 'build', n: '04', label: 'The system in use' },
+  { id: 'results', n: '05', label: 'Results' },
+  ...(quotes.length ? [{ id: 'quotes', n: '06', label: 'Testimonials' }] : []),
   { id: 'closing', label: 'Closing thoughts' },
 ]
 
@@ -260,7 +260,7 @@ export default function AcentraHealthPage() {
           <AnimatedSection>
             <div id="foundation" data-toc-section className="border-t border-border pt-section pb-section">
               <SectionHeader
-                index="03"
+                index="02"
                 eyebrow="Choosing the Foundation"
                 title="Three paths, one fit"
               />
@@ -311,7 +311,7 @@ export default function AcentraHealthPage() {
         </div>
       </div>
 
-      {/* The system in use (05; Nov 15 2026): the old 05 The Build and 06 The Transformation as one
+      {/* The system in use (04; Nov 15 2026): the old 05 The Build and 06 The Transformation as one
           section (SystemInUse): one frame, the open exhibit wide and the other a sliver. */}
       <section id="build" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
@@ -323,7 +323,7 @@ export default function AcentraHealthPage() {
         </div>
       </section>
 
-      {/* Results (06; Nov 21 2026): Small Wins and Results merged, in plain words for hiring
+      {/* Results (05; Nov 21 2026): Small Wins and Results merged, in plain words for hiring
           managers (ResultsSection, layout E, picked Nov 21 2026): each result with its proof underneath. */}
       <section id="results" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
@@ -335,7 +335,7 @@ export default function AcentraHealthPage() {
         </div>
       </section>
 
-      {/* Testimonials (07; Nov 21 2026): the people who worked with the system, in their words, as
+      {/* Testimonials (06; Nov 21 2026): the people who worked with the system, in their words, as
           stage cards (Testimonials). It replaced 08 Cross-Team Collaboration, removed the same day. */}
       {quotes.length > 0 && (
         <section id="quotes" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">

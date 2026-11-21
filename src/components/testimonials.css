@@ -1,4 +1,4 @@
-/* 07 Testimonials (Testimonials.tsx): the stage cards rise into place one after another once they
+/* 06 Testimonials (Testimonials.tsx): the stage cards rise into place one after another once they
    scroll into view (data-on on the .qt-in wrapper), so the moment is seen, not spent at page load. */
 .qt-in [data-rise] {
   opacity: 0;

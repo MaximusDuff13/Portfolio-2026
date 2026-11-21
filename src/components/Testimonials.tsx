@@ -1,6 +1,6 @@
 'use client'
-/* 07 Testimonials (Nov 21 2026): what the managers, developers and designers Michael worked with
-   said, about the system and about him. It sits after 06 Results, so the numbers come first and
+/* 06 Testimonials (Nov 21 2026): what the managers, developers and designers Michael worked with
+   said, about the system and about him. It sits after 05 Results, so the numbers come first and
    people confirm them, and it replaced 08 Collaboration, whose point ("built with the teams who
    use it") it makes in their words.
    Layout E, "Stage cards", picked Nov 21 2026 (over plain rows and columns, pinned notes,
@@ -144,7 +144,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
   return (
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-12">
-        <SectionHeader index="07" eyebrow="Testimonials" title="In their own words" />
+        <SectionHeader index="06" eyebrow="Testimonials" title="In their own words" />
         <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 [text-wrap:balance] md:pb-1">From the managers, developers and designers I worked with.</p>
       </div>
       <InView className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-12">

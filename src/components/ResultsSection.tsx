@@ -1,4 +1,4 @@
-/* 06 Results (Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, in plain
+/* 05 Results (Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, in plain
    words for hiring managers. Each result is a number, what it means and what it beat, with its
    proof directly underneath at full width: layout E, "Claim, then proof", picked Nov 21 2026 (A to
    D put the proof beside the results; F to H were the marked-up, five-screens and card versions).
@@ -85,7 +85,7 @@ export function ResultsSection({ results }: { results: Result[] }) {
   return (
     <LightboxProvider>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-12">
-        <SectionHeader index="06" eyebrow="Results" title="More teams than planned" />
+        <SectionHeader index="05" eyebrow="Results" title="More teams than planned" />
         <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 md:pb-1">Then a rebrand put it to a real test.</p>
       </div>
       <div className="mt-10 border-0 border-t border-solid border-foundation-900">

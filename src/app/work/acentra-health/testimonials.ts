@@ -1,4 +1,4 @@
-// 07 Testimonials: what the people Michael worked with said, about the system and about him.
+// 06 Testimonials: what the people Michael worked with said, about the system and about him.
 //
 // HOW TO FILL IN: replace a placeholder's text with the real details, then delete its
 // `placeholder: true` line. Quotes are used exactly as written, so ask each person's OK first.

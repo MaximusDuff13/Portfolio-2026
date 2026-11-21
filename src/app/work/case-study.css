@@ -158,7 +158,7 @@
 }
 
 
-/* 05 The system in use: the closed panel's hint. A handwritten note on the dark panel, and a
+/* 04 The system in use: the closed panel's hint. A handwritten note on the dark panel, and a
    round arrow that nudges sideways every few seconds to say "open me". */
 .cs-hand-light {
   font: 400 26px/1 var(--font-hand), cursive;

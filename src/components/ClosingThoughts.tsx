@@ -1,5 +1,5 @@
 'use client'
-/* Closing thoughts (Nov 21–22 2026): the Acentra case study's last section, after 07 Testimonials
+/* Closing thoughts (Nov 21–22 2026): the Acentra case study's last section, after 06 Testimonials
    and before Keep exploring. The words are Michael's (closing.ts): three lessons, each with what
    happened and what he'd do next time, then an "In short" line.
    Layout F, "In my own pen", picked Nov 22 2026 (over a margin rail, columns, a signed note,

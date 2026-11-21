@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { BeforeAfter } from './BeforeAfter'
 import { SectionHeader } from './SectionHeader'
 
-/* 05 The system in use (picked Nov 15 2026: "G Accordion"). The old 05 The Build and 06 The
+/* 04 The system in use (picked Nov 15 2026: "G Accordion"). The old 05 The Build and 06 The
    Transformation in one frame: the open exhibit is wide, the other is a sliver you click to swap.
    Phones: the sliver becomes a short bar. Both are cropped to fill the frame (object-cover). */
 
@@ -21,7 +21,7 @@ export function SystemInUse() {
   return (
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-12">
-        <SectionHeader index="05" eyebrow="The system in use" title="From tokens to real screens" />
+        <SectionHeader index="04" eyebrow="The system in use" title="From tokens to real screens" />
         <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 md:pb-1">
           The tokens became a component library, and the library rebuilt our product screens.
         </p>

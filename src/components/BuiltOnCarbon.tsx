@@ -7,7 +7,7 @@ import { TokenFlow } from './TokenFlow'
 import { FlowNote, HOW, HowDisclosure, MARKUP, type How } from './ColourDetails'
 import { Develop } from './Develop'
 
-/* 04 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three fold-out rows so the
+/* 03 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three fold-out rows so the
    section never grows: Colour (open at first), Type, Corners. Opening one closes the others.
    Colour is the story in Michael's three beats: one green for both of Carbon's themes, the scale
    grown from it with the USWDS magic numbers, and the tokens. Type and Corners show his own
@@ -319,7 +319,7 @@ export function BuiltOnCarbon() {
     <LightboxProvider>
       <section className="border-t border-border pt-section pb-section">
         <div className="max-w-2xl">
-          <SectionHeader index="04" eyebrow="Built on Carbon" title="What we changed in Carbon" />
+          <SectionHeader index="03" eyebrow="Built on Carbon" title="What we changed in Carbon" />
           <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
             Carbon was built for enterprise data tools. These three changes made it fit healthcare.
           </p>
