@@ -253,7 +253,16 @@ const problemSolutions: ProblemSolution[] = [
 ]
 
 const moreWork: MoreWorkItem[] = [
-  { title: 'Acentra Health Design System', category: 'Design System', desc: 'Built a scalable design system that unified tokens, components, and accessibility standards across two product teams.', href: '/work/acentra-health' },
+  {
+    title: 'Acentra Health Design System',
+    category: 'Design System',
+    desc: 'Built a scalable design system that unified tokens, components, and accessibility standards across two product teams.',
+    href: '/work/acentra-health',
+    // the home page card's cover and stage tint for this case study (content.ts)
+    img: '/images/beforeafter/After.png',
+    stage: 'bg-stage-sage',
+    meta: 'Design system · 8 months',
+  },
 ]
 
 function CheckMark() {

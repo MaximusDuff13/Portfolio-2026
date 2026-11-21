@@ -1,0 +1,25 @@
+/* 07 Testimonials (Testimonials.tsx): the stage cards rise into place one after another once they
+   scroll into view (data-on on the .qt-in wrapper), so the moment is seen, not spent at page load. */
+.qt-in [data-rise] {
+  opacity: 0;
+  translate: 0 18px;
+}
+.qt-in[data-on] [data-rise] {
+  animation: qt-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 120ms) both;
+}
+@keyframes qt-rise {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qt-in [data-rise] {
+    opacity: 1;
+    translate: none;
+  }
+  .qt-in[data-on] [data-rise] {
+    animation: none;
+  }
+}

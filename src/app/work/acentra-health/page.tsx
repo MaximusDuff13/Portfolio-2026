@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { SystemInUse } from '@/components/SystemInUse'
+import { ResultsSection, type Result } from '@/components/ResultsSection'
+import { Testimonials } from '@/components/Testimonials'
+import { testimonials } from './testimonials'
+import { ClosingThoughts } from '@/components/ClosingThoughts'
+import { closing } from './closing'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
-import { CrossTeamCollab } from '@/components/CrossTeamCollab'
 import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
 import { brands, description, facts, heroMetrics, targets } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
@@ -85,74 +89,34 @@ const foundationOptions = [
 const foundationWhy =
   'Carbon fit our Angular stack, let two people ship in small releases instead of one big launch, and its tokens were ready for two brands.'
 
-// Small Wins (07) — a pilot proving the system's impact.
-const smallWinsBody = [
-  'When the new marketing team updated the color scheme, the product team expected months of rework. Instead, we used AHDS tokens to update the entire primary palette in just two weeks — across both design (Figma) and development (Angular).',
-  "By changing values in a single token config, the update propagated instantly, proving the system wasn't just a library — it was infrastructure for speed, consistency, and accessibility.",
-]
-
-const smallWins = [
-  {
-    icon: 'clock',
-    label: 'Time to Value',
-    stat: '2 weeks',
-    value: 'Brand update rolled out in 2 weeks',
-    note: 'vs. 6 months in legacy environment',
-  },
-  {
-    icon: 'layers',
-    label: 'Coverage',
-    stat: '40+',
-    value: '40+ components refreshed instantly',
-    note: 'propagated via global tokens',
-  },
-] as const
-
 // More Work — closing cross-case-study links.
 const moreWork: MoreWorkItem[] = [
-  { title: 'Data Conversion App', category: 'Product Design', desc: 'Designed a lightweight tool that mapped, previewed, and safely converted legacy case data ahead of a system cutover — in two weeks.', href: '/work/data-conversion-app' },
+  {
+    title: 'Data Conversion App',
+    category: 'Product Design',
+    desc: 'Designed a lightweight tool that mapped, previewed, and safely converted legacy case data ahead of a system cutover — in two weeks.',
+    href: '/work/data-conversion-app',
+    // the home page card's cover and stage tint for this case study (content.ts)
+    img: '/images/data-conversion-app/project-hub/hub-project-completed.png',
+    stage: 'bg-stage-sky',
+    meta: 'Product design · 2 weeks',
+  },
 ]
 
-// Results (09) — the payoff metrics (first three tiles; WCAG tile dropped per Michael).
-const results = [
-  { stat: '19K+', label: 'Component insertions · 30 days', desc: 'Used 19,000 times across 5 project teams.' },
-  { stat: '5', label: 'Project teams adopting', desc: 'Five project teams adopted the system in its first quarter.' },
-  { stat: '1 Month', label: 'Faster UI delivery', desc: 'A supporting tool shipped in one month.' },
+// Results (06; Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, written
+// for hiring managers. Each row reads as a sentence: the result, what it means, and what it was
+// measured against. The target is the brief's; the rebrand is the old Small Wins story. Left out:
+// the 50% faster handoff (an estimate; Michael cut it, Nov 21 2026), 19K+ insertions (the hero has
+// it), 40+ components, the supporting tool that shipped in 1 month (which tool is unconfirmed) and
+// the draft quote. `id` ties each row to its evidence in ResultsSection.
+const results: Result[] = [
+  { id: 'teams', n: '5 teams', what: 'adopted the system in its first quarter.', vs: 'Target: 2–3 products' },
+  { id: 'rebrand', n: '2 weeks', what: 'to roll out new brand colours, in design and in code.', vs: 'Old estimate: 6 months' },
 ]
 
-function MetricIcon({ name, className = '' }: { name: 'clock' | 'layers'; className?: string }) {
-  if (name === 'clock') {
-    return (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={className}>
-        <circle cx="8" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.1" />
-        <path d="M8 6v3l2 1.4M6 1.5h4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      </svg>
-    )
-  }
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={className}>
-      <path d="M8 1.8l6 3-6 3-6-3 6-3z" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" />
-      <path d="M2 8l6 3 6-3M2 11l6 3 6-3" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-// Placeholder image tile for the What's Next bento — pass `src` when the real renders land.
-function NextImage({ label, src, className = '' }: { label: string; src?: string; className?: string }) {
-  return (
-    <div className={`relative overflow-hidden rounded-lg border border-border bg-foundation-900 ${className}`}>
-      {src ? (
-        <Develop className="absolute inset-0">
-          <img src={src} alt={label} className="absolute inset-0 w-full h-full object-cover" />
-        </Develop>
-      ) : (
-        <div className="absolute inset-0 grid place-items-center px-4 text-center">
-          <span className="text-caption font-sans uppercase tracking-widest text-foundation-400">{label}</span>
-        </div>
-      )}
-    </div>
-  )
-}
+// Testimonials (07): placeholders show only in development; on the live site the section and its
+// contents chip appear once a real quote is in testimonials.ts.
+const quotes = testimonials.filter((t) => process.env.NODE_ENV !== 'production' || !t.placeholder)
 
 // the contents list (CaseToc): one entry per section, in page order. Numbers follow the
 // section headers (there is no 02 on the page today).
@@ -162,10 +126,9 @@ const toc: TocItem[] = [
   { id: 'foundation', n: '03', label: 'Foundation' },
   { id: 'carbon', n: '04', label: 'Built on Carbon' },
   { id: 'build', n: '05', label: 'The system in use' },
-  { id: 'wins', n: '07', label: 'Small wins' },
-  { id: 'collab', n: '08', label: 'Collaboration' },
-  { id: 'results', n: '09', label: 'Results' },
-  { id: 'next', label: 'What’s next' },
+  { id: 'results', n: '06', label: 'Results' },
+  ...(quotes.length ? [{ id: 'quotes', n: '07', label: 'Testimonials' }] : []),
+  { id: 'closing', label: 'Closing thoughts' },
 ]
 
 export default function AcentraHealthPage() {
@@ -360,106 +323,40 @@ export default function AcentraHealthPage() {
         </div>
       </section>
 
-      {/* Small Wins (07) — pilot proving the system's impact (stat cards) */}
-      <section id="wins" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="border-t border-border pt-section grid grid-cols-1 md:grid-cols-12 gap-8">
-
-              {/* Narrative */}
-              <div className="md:col-span-4 md:pr-8">
-                <SectionHeader
-                  index="07"
-                  eyebrow="Small Wins"
-                  title="Proving value through a pilot"
-                />
-                <div className="mt-6 flex flex-col gap-4">
-                  {smallWinsBody.map((p) => (
-                    <p key={p} className="text-body-sm font-sans text-foundation-600">{p}</p>
-                  ))}
-                </div>
-              </div>
-
-              {/* Stat cards */}
-              <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {smallWins.map((m) => (
-                  <div key={m.label} className="rounded-lg border border-border p-6 flex flex-col">
-                    <div className="flex items-center gap-2 text-foundation-500 mb-6">
-                      <MetricIcon name={m.icon} />
-                      <span className="text-label font-sans uppercase tracking-widest">{m.label}</span>
-                    </div>
-                    <p className="text-stat font-display text-accent-warm">{m.stat}</p>
-                    <p className="text-body-sm font-sans text-foundation-700 mt-3">{m.value}</p>
-                    <p className="text-caption font-sans text-foundation-500 italic mt-auto pt-4">{m.note}</p>
-                  </div>
-                ))}
-              </div>
-
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Cross-Team Collaboration & Governance (08) — tabbed, mirrors section 04 */}
-      <div id="collab" data-toc-section><CrossTeamCollab /></div>
-
-      {/* Results (09) — narrative rail + payoff-metric ledger */}
+      {/* Results (06; Nov 21 2026): Small Wins and Results merged, in plain words for hiring
+          managers (ResultsSection, layout E, picked Nov 21 2026): each result with its proof underneath. */}
       <section id="results" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
-            <div className="border-t border-border pt-section grid grid-cols-1 md:grid-cols-12 gap-8">
-
-              {/* Narrative rail — DRAFT title/quote, Michael to finalize */}
-              <div className="md:col-span-4 md:pr-8 md:border-r border-border">
-                <SectionHeader
-                  index="09"
-                  eyebrow="Results"
-                  title="A system teams actually adopted"
-                  quote="One release in, the system was already being used thousands of times a week — adoption, not just availability."
-                />
-              </div>
-
-              {/* Payoff-metric ledger */}
-              <div className="md:col-span-8">
-                {results.map((r) => (
-                  <div
-                    key={r.stat}
-                    className="grid grid-cols-12 gap-x-6 gap-y-2 py-6 border-b border-border items-baseline first:pt-0"
-                  >
-                    <p className="col-span-12 sm:col-span-5 text-stat font-display text-accent-warm">{r.stat}</p>
-                    <p className="col-span-12 sm:col-span-7 text-body-sm font-sans text-foundation-600">
-                      <span className="block text-body-sm font-display text-foundation-900">{r.label}</span>
-                      {r.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
+            <div className="border-t border-border pt-section">
+              <ResultsSection results={results} />
             </div>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* What's Next — forward-looking "Next Chapter" bento (one large + two stacked) */}
-      <section id="next" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
+      {/* Testimonials (07; Nov 21 2026): the people who worked with the system, in their words, as
+          stage cards (Testimonials). It replaced 08 Cross-Team Collaboration, removed the same day. */}
+      {quotes.length > 0 && (
+        <section id="quotes" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
+          <div className="max-w-6xl mx-auto">
+            <AnimatedSection>
+              <div className="border-t border-border pt-section">
+                <Testimonials items={quotes} />
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
+      )}
+
+      {/* Closing thoughts (Nov 21 2026): the last section, then Keep exploring. Replaced the What's
+          next bento (three placeholder tiles). Layout F, "In my own pen" (ClosingThoughts, picked
+          Nov 22 2026); Michael's text in closing.ts. */}
+      <section id="closing" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
           <AnimatedSection>
             <div className="border-t border-border pt-section">
-              <div className="max-w-2xl mb-10">
-                <SectionHeader
-                  eyebrow="Next Chapter"
-                  title="What's Next: Scaling with Insight and Structure"
-                />
-                <p className="text-body font-sans text-foundation-600 mt-6">
-                  Moving from adoption to optimization by expanding comprehensive guides, building
-                  Acentra-driven patterns, and scaling into charts and dashboards.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 auto-rows-[180px] gap-4 md:grid-cols-12 md:grid-rows-2 md:auto-rows-auto md:h-[520px]">
-                <NextImage label="Comprehensive guides" className="md:col-span-7 md:row-span-2 h-full" />
-                <NextImage label="Acentra-driven patterns" className="md:col-span-5 h-full" />
-                <NextImage label="Charts & dashboards" className="md:col-span-5 h-full" />
-              </div>
+              <ClosingThoughts closing={closing} />
             </div>
           </AnimatedSection>
         </div>

@@ -1,0 +1,78 @@
+/* Closing thoughts (ClosingThoughts.tsx, "In my own pen"): one entrance when the section scrolls
+   into view (data-on on .cl-in): the lessons rise in turn, then the pen draws its arrows and
+   underlines. */
+
+.cl-in [data-rise] {
+  opacity: 0;
+  translate: 0 18px;
+}
+.cl-in[data-on] [data-rise] {
+  animation: cl-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 120ms) both;
+}
+@keyframes cl-rise {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* the pen's arrows: SVG paths with pathLength="1", drawn on after their lesson lands */
+.cl-draw {
+  fill: none;
+  stroke: oklch(var(--c-accent));
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.cl-in[data-on] .cl-draw {
+  animation: cl-draw 700ms cubic-bezier(0.65, 0, 0.35, 1) calc(var(--i, 0) * 120ms + 520ms) both;
+}
+@keyframes cl-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* the phrase the pen underlines (the hero's stroke, as .cs-key), drawn last */
+.cl-key {
+  padding-bottom: 0.06em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 60 4, 140 12, 210 6 S 280 5, 297 8' fill='none' stroke='%23b15900' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat 0 100% / 0% 0.26em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.cl-in[data-on] .cl-key {
+  animation: cl-key 900ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 120ms + 900ms) both;
+}
+@keyframes cl-key {
+  to {
+    background-size: 100% 0.26em;
+  }
+}
+
+/* Michael's own pen, writing next time beside each lesson (the review pen of the 01 audit) */
+.cl-hand {
+  font: 400 27px/1.22 var(--font-hand), cursive;
+  color: oklch(var(--c-accent));
+  rotate: -1deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl-in [data-rise] {
+    opacity: 1;
+    translate: none;
+  }
+  .cl-in[data-on] [data-rise],
+  .cl-in[data-on] .cl-draw,
+  .cl-in[data-on] .cl-key {
+    animation: none;
+  }
+  .cl-draw {
+    stroke-dashoffset: 0;
+  }
+  .cl-key {
+    background-size: 100% 0.26em;
+  }
+}
