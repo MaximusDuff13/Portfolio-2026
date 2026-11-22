@@ -52,7 +52,7 @@ function Strip() {
           <LightboxTrigger src={ANALYTICS.src} alt={ANALYTICS.alt} />
         </div>
       </Develop>
-      <figcaption className="mt-3 mb-0 text-body-sm font-sans text-foundation-700">Figma’s library analytics for the system.</figcaption>
+      <figcaption className="mt-3 mb-0 text-body-sm font-sans text-foundation-700">Figma’s library analytics for the system. Its 10 teams are Figma team projects, which belong to 5 key teams. Its 119 components include variants and other parts of 39 components.</figcaption>
     </figure>
   )
 }

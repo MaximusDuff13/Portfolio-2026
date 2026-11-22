@@ -39,7 +39,8 @@
 }
 @media (min-width: 768px) { .toc-d-head { display: block; } }
 .toc-d ol {
-  margin: 0; padding: 0; list-style: none;
+  /* the side padding keeps the first and last labels clear of the edge fade below */
+  margin: 0; padding: 0 16px 0 8px; list-style: none;
   display: flex; gap: 4px;
   overflow-x: auto; scrollbar-width: none;
   mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent);

@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { links } from '@/data/links'
 import { AnimatedSection } from '@/components/AnimatedSection'
+import { BriefFacts } from '@/components/BriefFacts'
+import { HeroMetrics } from '@/components/HeroMetrics'
 import { SystemInUse } from '@/components/SystemInUse'
 import { ResultsSection, type Result } from '@/components/ResultsSection'
 import { Testimonials } from '@/components/Testimonials'
@@ -8,7 +12,7 @@ import { ClosingThoughts } from '@/components/ClosingThoughts'
 import { closing } from './closing'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
-import { brands, description, facts, heroMetrics, targets } from './hero-data'
+import { brands, description, facts, heroMetrics } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SectionHeader } from '@/components/SectionHeader'
 import { PenRing } from '@/components/PenRing'
@@ -105,12 +109,12 @@ const moreWork: MoreWorkItem[] = [
 
 // Results (05; Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, written
 // for hiring managers. Each row reads as a sentence: the result, what it means, and what it was
-// measured against. The target is the brief's; the rebrand is the old Small Wins story. Left out:
-// the 50% faster handoff (an estimate; Michael cut it, Nov 21 2026), 19K+ insertions (the hero has
-// it), 40+ components, the supporting tool that shipped in 1 month (which tool is unconfirmed) and
-// the draft quote. `id` ties each row to its evidence in ResultsSection.
+// measured against. The rebrand is the old Small Wins story. Left out:
+// the 50% faster handoff (an estimate; Michael cut it, Nov 21 2026), 19K+ insertions (Figma's
+// strip disagrees; cut from the hero too, Nov 22 2026), 40+ components, the supporting
+// tool that shipped in 1 month (which tool is unconfirmed) and the draft quote. `id` ties each row to its evidence in ResultsSection.
 const results: Result[] = [
-  { id: 'teams', n: '5 teams', what: 'adopted the system in its first quarter.', vs: 'Target: 2–3 products' },
+  { id: 'teams', n: '1 quarter', what: 'to get 5 teams onto the system.', vs: 'Today: 2 product modules, 5+ internal tools' },
   { id: 'rebrand', n: '2 weeks', what: 'to roll out new brand colours, in design and in code.', vs: 'Old estimate: 6 months' },
 ]
 
@@ -136,29 +140,24 @@ export default function AcentraHealthPage() {
     <main className="min-h-screen bg-body">
 
       {/* Hero, in the home page's language (option B, picked Oct 30 2026): the title on one line,
-          its second half in olive italic; the outcomes as a row of large figures, each with what it
-          replaced struck through; the collage on the sage stage the home card uses (so the card's
+          its second half in olive italic; the outcomes as a row of large figures, each with one
+          supporting line (HeroMetrics); the collage on the sage stage the home card uses (so the card's
           morph lands on the same colour); then the brief. */}
       <section className="px-6 sm:px-10 lg:px-section pt-section">
         <div className="max-w-6xl mx-auto">
-          <p className="m-0 flex flex-wrap items-baseline gap-x-2 text-body font-sans text-foundation-900">
-            <span className="font-medium">Acentra Health</span>
-            <span className="text-foundation-600">/ Design system · 8 months · 2024</span>
-          </p>
+          <nav aria-label="Breadcrumb">
+            <ol className="m-0 flex list-none flex-wrap items-baseline gap-x-2 p-0 text-body font-sans">
+              <li>
+                <Link href={links.home} className="rounded-sm text-foundation-600 underline-offset-4 hover:text-foundation-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body">Home</Link>
+              </li>
+              <li aria-hidden="true" className="text-foundation-500">/</li>
+              <li aria-current="page" className="font-medium text-foundation-900">Acentra Health Design System</li>
+            </ol>
+          </nav>
           <h1 className="vt-title-acentra mt-6 mb-0 font-display font-medium text-foundation-900" style={{ fontSize: 'clamp(52px, 8.6vw, 128px)', lineHeight: 0.96, letterSpacing: '-0.03em' }}>
             One system, <span className="cs-lede accent-italic">two brands.</span>
           </h1>
-          <dl className="mt-12 mb-0 grid grid-cols-2 border-t border-foundation-900 md:grid-cols-4">
-            {heroMetrics.map((m, i) => (
-              <div key={m.n} className={`flex flex-col py-6 md:px-6 ${i ? 'md:border-l md:border-border' : 'md:pl-0'} ${i % 2 ? 'pl-5 border-l border-border md:pl-6' : ''}`}>
-                <dt className="order-last mt-3 text-body-sm font-sans text-foundation-600">
-                  {m.label}
-                  {m.was && <s className="block mt-1 text-caption text-foundation-500 decoration-1">was {m.was}</s>}
-                </dt>
-                <dd className="m-0 whitespace-nowrap font-display font-medium text-accent-warm" style={{ fontSize: 'clamp(40px, 5.2vw, 72px)', lineHeight: 1, letterSpacing: '-0.02em' }}>{m.n}</dd>
-              </div>
-            ))}
-          </dl>
+          <HeroMetrics items={heroMetrics} />
         </div>
       </section>
 
@@ -168,16 +167,20 @@ export default function AcentraHealthPage() {
             {/* the documentation site's hero banner (Nov 14 2026; replaced the four-piece collage).
                 Every image on this page arrives through Develop, the standard image animation. */}
             <Develop className="rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/acentra-hero/docs-hero-1200.webp"
-                srcSet="/images/acentra-hero/docs-hero-1200.webp 1200w, /images/acentra-hero/docs-hero-2400.webp 2400w"
-                sizes="(min-width: 1152px) 1088px, 100vw"
-                width={6048}
-                height={3072}
-                alt="The Acentra Health Design System documentation site: the AHDS v1.0 home page beside product screens built on the system, including a pricing page, a project dashboard, an add-user form and an AI query tool"
-                className="block h-auto w-full rounded-lg border border-border shadow-lg"
-              />
+              <picture>
+                {/* phones get a closer crop, so the title can be read */}
+                <source media="(max-width: 639px)" srcSet="/images/acentra-hero/docs-hero-phone.webp" width={1300} height={1219} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/acentra-hero/docs-hero-1200.webp"
+                  srcSet="/images/acentra-hero/docs-hero-1200.webp 1200w, /images/acentra-hero/docs-hero-2400.webp 2400w"
+                  sizes="(min-width: 1152px) 1088px, 100vw"
+                  width={6048}
+                  height={3072}
+                  alt="The Acentra Health Design System documentation site: the AHDS v1.0 home page beside product screens built on the system, including a pricing page, a project dashboard, an add-user form and an AI query tool"
+                  className="block h-auto w-full rounded-lg border border-border shadow-lg"
+                />
+              </picture>
             </Develop>
           </div>
         </div>
@@ -185,7 +188,7 @@ export default function AcentraHealthPage() {
 
       {/* The brief (Oct 30 2026): the merge as one line across the page, like an equation
           (Kepro + CNSI = one design system), between two hairlines and with no container, so it
-          doesn't compete with the hero's sage stage; the brief and its facts underneath, flush left. */}
+          doesn't compete with the hero's sage stage; the brief and its facts underneath. */}
       <section id="brief" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-16">
         <div className="max-w-6xl mx-auto">
           {/* two halves that wrap as units on phones: "Kepro + CNSI" over "= One design system" */}
@@ -206,19 +209,7 @@ export default function AcentraHealthPage() {
               </figcaption>
             </span>
           </figure>
-          <div className="mt-10 max-w-4xl">
-            <p className="m-0 text-label font-sans uppercase tracking-widest text-foundation-600">The brief</p>
-            <p className="mt-4 mb-0 text-[20px] leading-[1.6] font-sans text-foundation-800">{description}</p>
-            <p className="mt-4 mb-0 text-[20px] leading-[1.6] font-sans text-foundation-800">{targets}</p>
-            <dl className="mt-6 mb-0 flex flex-wrap gap-x-6 gap-y-2 text-body-sm font-sans">
-              {facts.map((x) => (
-                <div key={x.k} className="flex gap-1.5">
-                  <dt className="text-foundation-900">{x.k}:</dt>
-                  <dd className="m-0 text-foundation-600">{x.v}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
+          <BriefFacts description={description} facts={facts} />
         </div>
       </section>
 

@@ -1,37 +1,39 @@
+import type { Facts } from '@/components/BriefFacts'
+import type { HeroMetric } from '@/components/HeroMetrics'
+
 // The case study's opening content, shared by the page and its hero previews.
-// The outcomes under the title; `was` is what each one replaced, shown struck through. Sources:
-// 2 weeks vs 6 months (the rebrand, in Results); WCAG 2.2 AA cross-checked with JAWS and WAVE, the
-// old green at 4.37:1 (the audit); 119 components and 307 tokens (Figma library analytics,
-// public/images/acentra-hero/Metrics.png, Oct 2026); 19K+ insertions by 5 project teams (from the
-// old Results section, merged into Results Nov 21 2026).
-export const heroMetrics: { n: string; label: string; was?: string }[] = [
-  { n: '2 weeks', was: '6 months', label: 'to roll a new brand palette across the system' },
-  { n: '100%', was: '4.37:1, fails AA', label: 'of components pass WCAG 2.2 AA, checked with JAWS and WAVE' },
-  { n: '119', label: 'components, built on 307 design tokens' },
-  { n: '19K+', label: 'insertions in 30 days, by 5 project teams' },
+// The outcomes under the title, each with one supporting line (`note`). Sources: 2 weeks vs the old
+// 6-month estimate (the rebrand, in Results); WCAG 2.2 AA cross-checked with JAWS and WAVE; 39
+// components (Michael, Nov 22 2026; Figma's 119 also counts variants) and 307 tokens (Figma library
+// analytics, Metrics.png, Oct 2026); 5 teams, on 2 major product modules and 5 to 6 internal tools
+// today (Michael, Nov 22 2026; leadership's 2–3 was products, so it isn't set against teams). 19K+
+// insertions went on Nov 22 2026: Figma's own strip says 1.2k a week, about 5k a month.
+export const heroMetrics: HeroMetric[] = [
+  { n: '2 weeks', label: 'to roll out a new brand palette', note: 'Old estimate: 6 months' },
+  { n: '100%', label: 'of components pass WCAG 2.2 AA', note: 'Checked with JAWS and WAVE' },
+  { n: '39', label: 'components, in Figma and code', note: 'Built on 307 design tokens' },
+  { n: '5 teams', label: 'adopted the system', note: '2 product modules, 5+ internal tools' },
 ]
 
 // The two brands the system served. Logos cropped from public/images/logos/Kepro.png and CNSI.jpg,
-// white made transparent; `width` is at the 36px display height.
+// white made transparent; `width` is at the 36px display height. Kepro.png is clipped: the missing edge of
+// its last o was rebuilt in kepro.webp by mirroring the letter (Nov 22 2026).
 export const brands = [
-  { name: 'Kepro', logo: '/images/logos/marks/kepro.webp', width: 127 },
+  { name: 'Kepro', logo: '/images/logos/marks/kepro.webp', width: 129 },
   { name: 'CNSI', logo: '/images/logos/marks/cnsi.webp', width: 149 },
 ]
 
-// The project facts, under the brief
-export const facts = [
-  { k: 'Role', v: 'Lead designer' },
-  { k: 'Team', v: 'Me and a lead developer' },
-  { k: 'Focus', v: 'Tokens · Accessibility · Design ops' },
-  { k: 'Timeline', v: '8 months · 2024' },
-]
+// The project facts, with the brief (BriefFacts)
+export const facts: Facts = {
+  role: 'Lead designer',
+  team: '2 people',
+  teamNote: 'A designer and a lead developer',
+  focus: ['Design tokens', 'Accessibility', 'Design ops'],
+  time: '8 months',
+  year: '2024',
+}
 
+// Michael's approved brief (Nov 22 2026): says the merger and Carbon; replaced "from the ground up",
+// which contradicted 02, and the targets line.
 export const description =
-  "Without a shared system, two product teams were shipping inconsistent, inaccessible UIs with zero shared vocabulary. I partnered with a lead developer to audit the existing ecosystem, identify the risks, and build Acentra Health Design System from the ground up — a scalable system that unified tokens, components, and accessibility standards across Acentra Health's product suite."
-
-// The target leadership set, and what the system reached: all that was left of the old 02 Goals
-// table once the hero carried the results (Nov 7 2026). AA stays out until Michael confirms its
-// timeline (the table said 60% in month one, the hero says 100%). The 30% handoff target and the
-// developers' 50% estimate were cut at Michael's request (Nov 21 2026).
-export const targets =
-  'Leadership asked for 2–3 products on the system. We reached 5 project teams.'
+  'When Kepro and CNSI merged into Acentra Health, their products looked inconsistent and weren’t accessible. With a lead developer, I audited both and built one design system on IBM’s Carbon, with shared tokens, components and accessibility standards.'
