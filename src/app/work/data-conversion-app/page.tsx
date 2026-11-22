@@ -261,7 +261,7 @@ const moreWork: MoreWorkItem[] = [
     // the home page card's cover and stage tint for this case study (content.ts)
     img: '/images/beforeafter/After.png',
     stage: 'bg-stage-sage',
-    meta: 'Design system · 8 months',
+    meta: 'Design system',
   },
 ]
 

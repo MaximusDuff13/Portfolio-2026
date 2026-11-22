@@ -97,7 +97,8 @@ export type CaseStudy = {
   description: string
   /** one short line for the unfolding card, always visible */
   summary?: string
-  duration: string
+  /** left out when there is no confirmed figure: the cards then skip it */
+  duration?: string
   /** my role on the project */
   role: string | Todo
   status: string
@@ -205,7 +206,6 @@ export const caseStudies: CaseStudy[] = [
     logo: '/images/logos/marks/acentra-health.webp',
     question: 'Can one design system keep a complex product consistent?',
     description: 'Tokens, components and accessibility standards, built from the ground up and shared across the product suite.',
-    duration: '8 months',
     role: todo('Role'),
     status: 'Draft',
     summary: 'Tokens, components and accessibility standards, shared across the product suite.',

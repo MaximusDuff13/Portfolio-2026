@@ -29,8 +29,9 @@ export const facts: Facts = {
   team: '2 people',
   teamNote: 'A designer and a lead developer',
   focus: ['Design tokens', 'Accessibility', 'Design ops'],
-  time: '8 months',
-  year: '2024',
+  // the pace (Michael, Nov 22 2026); "8 months · 2024" was unconfirmed and went
+  time: '2-week sprints',
+  timeNote: '2–3 components in each',
 }
 
 // Michael's approved brief (Nov 22 2026): says the merger and Carbon; replaced "from the ground up",

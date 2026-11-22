@@ -65,10 +65,12 @@ export function CaseCard({ item, compact, interactive = true }: Common & { item:
         </h3>
         {!compact && <p className="cd-desc">{item.description}</p>}
         <dl className="cd-sheet">
-          <div>
-            <dt>Duration</dt>
-            <dd>{item.duration}</dd>
-          </div>
+          {item.duration && (
+            <div>
+              <dt>Duration</dt>
+              <dd>{item.duration}</dd>
+            </div>
+          )}
           <div>
             <dt>Role</dt>
             <dd>

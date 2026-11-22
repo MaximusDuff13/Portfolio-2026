@@ -28,7 +28,12 @@ export function CardBody({ item }: { item: CardItem }) {
       </h3>
       <p className="uf-desc">{item.summary ?? item.description}</p>
       <p className="uf-meta">
-        <span>{item.duration}</span> · <Value value={item.role} /> · <span>{statusLabel(item.status)}</span>
+        {item.duration && (
+          <>
+            <span>{item.duration}</span> ·{' '}
+          </>
+        )}
+        <Value value={item.role} /> · <span>{statusLabel(item.status)}</span>
       </p>
       <ArrowUpRight className="cd-arrow uf-arrow" aria-hidden="true" />
     </div>

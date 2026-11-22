@@ -868,7 +868,9 @@ body:has(.home-root) {
 }
 .home-root .cd-sheet {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* as many equal columns as there are facts (a card may have no duration) */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   margin: 1.25em 0 0;
   border-top: 1px solid var(--x-line);
   border-bottom: 1px solid var(--x-line);
