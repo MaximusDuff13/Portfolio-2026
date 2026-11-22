@@ -2,8 +2,8 @@ import type { Note, Ring } from './MarkedUpShot'
 import type { FlowMark } from './TokenFlow'
 
 /* The detail behind the 04 colour story (picked Nov 14 2026: "C + A"). Skimmers get the facts
-   handwritten on the exports, the way the 01 Audit is marked up; readers who want the method
-   open "How I did it" under each beat. Facts come from Michael's brief and exports only.
+   handwritten on the exports, the way the 01 Audit is marked up; the method is in the Design notes
+   (DesignNotes.tsx). HowDisclosure is only used by the temporary /dev pages now. Facts come from Michael's brief and exports only.
    No hex values anywhere: the page is public and his exports mask them too. The White ratio is
    written "just over 5:1" because his export says 5.1 and the measured value is 5.0. */
 
@@ -12,82 +12,6 @@ import type { FlowMark } from './TokenFlow'
    titles below, so they help a reader scan without looking like page sections. */
 export type HowGroup = { title: string; body: string[]; list?: { term: string; text: string }[] }
 export type How = { story: string[]; facts: { title: string; body: string }[]; groups?: HowGroup[] }
-
-export const HOW: How[] = [
-  // Nov 15 2026: each beat reads as problem, solution, result, the way Type's method does.
-  {
-    story: [],
-    facts: [],
-    groups: [
-      {
-        title: 'The problem',
-        body: ['Carbon has two main backgrounds, White and Gray 100. Accessibility was a hard requirement for the organisation, so Acentra’s brand green had to hold up on both.'],
-      },
-      {
-        title: 'The solution',
-        body: [
-          'I worked in OKLCH. I held the brand hue fixed and moved only lightness and chroma, the approach Stripe used for its accessible colours, until the green passed and still read as Acentra’s.',
-          'Then I placed it at Carbon’s step 60, so it carries the same weight as Carbon’s red, blue, pink and purple beside it.',
-        ],
-      },
-      {
-        title: 'The result',
-        body: [],
-        list: [
-          { term: 'Just over 5:1 on White:', text: 'passes AA for text, which needs 4.5:1.' },
-          { term: '3.6:1 on Gray 100:', text: 'passes for buttons, icons and large text, which need 3:1.' },
-        ],
-      },
-    ],
-  },
-  {
-    story: [],
-    facts: [],
-    groups: [
-      {
-        title: 'The problem',
-        body: ['A system needs more than one green, and every pair of greens used together has to pass contrast. Nobody should have to run a check each time.'],
-      },
-      {
-        title: 'The solution',
-        body: [
-          'From that green I built a ten-step scale, from 10 (lightest) to 100 (darkest), on the USWDS “magic numbers”: the gap between two steps’ grades tells you their contrast.',
-          'Any two steps 40 apart reach 3:1, enough for large text and UI. Any two 50 apart reach 4.5:1, enough for body text. Teams subtract the grades instead of running a check.',
-        ],
-      },
-      {
-        title: 'The result',
-        body: [],
-        list: [
-          { term: 'Green 10:', text: '3:1 with Green 50, 4.5:1 with Green 60 and darker.' },
-          { term: 'Green 60, Acentra’s green:', text: '3:1 with Green 20 and lighter and with Green 90; 4.5:1 with Green 10.' },
-          { term: 'Green 100:', text: '3:1 with Green 60, 4.5:1 with Green 50 and lighter.' },
-        ],
-      },
-    ],
-  },
-  {
-    story: [],
-    facts: [],
-    groups: [
-      {
-        title: 'The problem',
-        body: ['With all ten greens on offer, each team would pick its own shade for the same job.'],
-      },
-      {
-        title: 'The solution',
-        body: [
-          'I exposed only a few tokens. Green 60 is a primitive: it lives in the library, but nobody picks it directly.',
-          'One component token, button-primary, and three semantic tokens, focus-primary, icon-interactive and border-interactive, point at it.',
-        ],
-      },
-      {
-        title: 'The result',
-        body: ['Teams choose a role and the right green comes with it, so the same decision gets made the same way on every team.'],
-      },
-    ],
-  },
-]
 
 export function HowDisclosure({ how }: { how: How }) {
   return (

@@ -11,7 +11,7 @@ import { testimonials } from './testimonials'
 import { ClosingThoughts } from '@/components/ClosingThoughts'
 import { closing } from './closing'
 import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
-import { MarkedUpShot, type Note, type Ring } from '@/components/MarkedUpShot'
+import { AuditFindings, type Finding } from '@/components/AuditFindings'
 import { brands, description, facts, heroMetrics } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SectionHeader } from '@/components/SectionHeader'
@@ -21,28 +21,29 @@ import { CaseToc, type TocItem } from '@/components/CaseToc'
 import '../case-study.css'
 
 const auditIntro =
-  'Before building the design system, I partnered with a lead developer to audit the ecosystem — reviewing Figma libraries, component structures, and design workflows to understand what was blocking progress.'
+  'Before building anything, we audited both products’ Figma libraries, components and workflows to find what was blocking progress.'
 
-// The three audit findings (option C, "marked up", picked Nov 7 2026): each cropped evidence panel
+// The three audit findings (marked up by hand, picked Nov 7 2026; grouped by source in AuditFindings): each cropped evidence panel
 // (public/images/acentra-audit) carries the review pen, with rings and notes in the image's own
-// pixels (w × h). headline: the finding in plain words; desc: Michael's original card copy.
-const auditFindings: { tag: string; headline: string; desc: string; src: string; alt: string; w: number; h: number; rings: Ring[]; notes: Note[] }[] = [
+// pixels (w × h). headline: the finding in plain words; desc: Michael's card copy, UK spelling (Nov 22 2026).
+// The hex codes inside the shots stay: evidence, and not the final colours (Michael); the alt texts don't repeat them.
+const auditFindings: Finding[] = [
   {
     tag: 'Accessibility',
     headline: 'The brand green failed contrast',
-    desc: 'Existing color combinations failed WCAG contrast minimums, creating legal and usability risk across the product suite.',
+    desc: 'Existing colour combinations failed WCAG contrast minimums, creating legal and usability risk across the product suite.',
     src: '/images/acentra-audit/contrast.webp',
-    alt: 'Stark contrast check: the brand green #1C8B38 on white measures 4.37:1, failing WCAG AA for normal text',
+    alt: 'Stark contrast check: the brand green on white measures 4.37:1, failing WCAG AA for normal text',
     w: 569, h: 730,
     rings: [{ cx: 282, cy: 396, rx: 132, ry: 46 }, { cx: 72, cy: 540, rx: 50, ry: 24 }],
     notes: [{ x: 300, y: 336, text: '0.13 short of AA' }],
   },
   {
-    tag: 'Color',
+    tag: 'Colour',
     headline: 'Colours were hardcoded',
-    desc: 'Colors were hardcoded hex values with no shared tokens — every design change meant hunting across dozens of files.',
+    desc: 'Colours were hardcoded hex values with no shared tokens, so every design change meant hunting across dozens of files.',
     src: '/images/acentra-audit/hex.webp',
-    alt: 'Figma fill panel: the button uses the raw hex 1C8B38 rather than a shared token',
+    alt: 'Figma fill panel: the button uses a raw hex value rather than a shared token',
     w: 488, h: 650,
     rings: [{ cx: 140, cy: 210, rx: 64, ry: 28 }],
     notes: [{ x: 180, y: 350, text: 'a raw hex, no token', arrow: [214, 318, 176, 250] }],
@@ -50,9 +51,11 @@ const auditFindings: { tag: string; headline: string; desc: string; src: string;
   {
     tag: 'Typography',
     headline: 'Type had no rules',
-    desc: 'Typography was inconsistent. Non-brand fonts and ad-hoc sizes with no shared text styles across either product.',
-    src: '/images/acentra-audit/type.webp',
-    alt: 'Figma text panel: Arial Medium 14, flagged as a missing font, with no text style applied',
+    desc: 'Both products used non-brand fonts and ad-hoc sizes, with no shared text styles.',
+    // redrawn line for line from the blurry capture (type.webp), at 3x; w × h stay the capture's, so the
+    // pen marks line up (Nov 22 2026)
+    src: '/images/acentra-audit/type-redrawn.webp',
+    alt: 'Figma text panel, redrawn from the original capture: Arial Medium 14, flagged as a missing font, with no text style applied',
     w: 565, h: 636,
     rings: [{ cx: 100, cy: 157, rx: 82, ry: 32 }],
     notes: [{ x: 228, y: 140, text: 'not a brand font,' }, { x: 228, y: 178, text: 'no text style' }],
@@ -71,13 +74,13 @@ const foundationOptions = [
     id: 'A',
     name: 'Adopt',
     selected: false,
-    desc: "Quickest to implement, but wouldn't scale to Acentra's brand requirements.",
+    desc: 'Quickest to implement, but wouldn’t scale to Acentra’s brand requirements.',
   },
   {
     id: 'B',
     name: 'Adapt & Extend',
     selected: true,
-    desc: "Carbon's proven foundation, extended with Acentra's tokens and brand language.",
+    desc: 'Carbon’s proven foundation, extended with Acentra’s tokens and brand language.',
   },
   {
     id: 'C',
@@ -217,29 +220,15 @@ export default function AcentraHealthPage() {
       <div className="px-6 sm:px-10 lg:px-section pb-section">
         <div className="max-w-6xl mx-auto">
 
-          {/* Audit: the intro, then the three findings as marked-up exhibits. The shots share a
-              bottom line (subgrid), so the three headlines start on one row whatever each
-              shot's height. */}
+          {/* Audit: the intro, then the three findings as marked-up exhibits, grouped by the screen
+              they were taken from (AuditFindings). */}
           <AnimatedSection>
             <div id="audit" data-toc-section className="pt-section pb-section">
               <div className="max-w-2xl">
                 <SectionHeader index="01" eyebrow="Audit" title="A fragmented foundation" />
                 <p className="mt-4 mb-0 text-body font-sans text-foundation-700">{auditIntro}</p>
               </div>
-              <ol className="mt-12 mb-0 p-0 list-none grid grid-cols-1 gap-12 md:grid-cols-3 md:grid-rows-[auto_auto] md:gap-x-8 md:gap-y-0">
-                {auditFindings.map((f, i) => (
-                  <li key={f.tag} className="md:row-span-2 md:grid md:grid-rows-subgrid">
-                    <div className="md:self-end">
-                      <MarkedUpShot src={f.src} alt={f.alt} w={f.w} h={f.h} rings={f.rings} notes={f.notes} delay={i * 180} />
-                    </div>
-                    <div>
-                      <p className="mt-5 mb-0 text-label font-sans uppercase tracking-widest text-foundation-600">{String(i + 1).padStart(2, '0')} · {f.tag}</p>
-                      <h3 className="mt-2 mb-0 text-heading-m font-display text-foundation-900">{f.headline}</h3>
-                      <p className="mt-2 mb-0 text-body-sm font-sans text-foundation-700">{f.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <AuditFindings items={auditFindings} />
               {/* what happened next: was a full-width pull quote, folded in here (Nov 7 2026) */}
               <p className="mt-12 mb-0 max-w-2xl text-body font-sans text-foundation-800">
                 We presented these findings to leadership to align on the risks of the legacy path and the need for a scalable restart.
@@ -275,11 +264,11 @@ export default function AcentraHealthPage() {
                         Option {o.id}
                         <span className="sr-only">{o.selected ? ', chosen' : ', rejected'}</span>
                       </p>
-                      <p className={`relative mt-1 mb-0 inline-block font-display text-heading-m ${o.selected ? 'text-foundation-900' : 'text-foundation-600'}`}>
+                      <p className={`relative mt-4 mb-0 inline-block font-display text-heading-m ${o.selected ? 'text-foundation-900' : 'text-foundation-600'}`}>
                         {o.name}
-                        {o.selected && <PenRing className="absolute -inset-x-6 -inset-y-3 h-[calc(100%+24px)] w-[calc(100%+48px)]" />}
+                        {o.selected && <PenRing className="absolute -inset-x-6 -inset-y-2 h-[calc(100%+16px)] w-[calc(100%+48px)]" />}
                       </p>
-                      <p className={`mt-2 mb-0 max-w-xs text-body-sm font-sans text-foundation-700 ${['', 'md:mx-auto', 'md:ml-auto'][i]}`}>{o.desc}</p>
+                      <p className={`mt-4 mb-0 max-w-xs text-body-sm font-sans text-foundation-700 ${['', 'md:mx-auto', 'md:ml-auto'][i]}`}>{o.desc}</p>
                       {o.selected && <p className="cs-note mt-3 mb-0" aria-hidden="true">the fit</p>}
                     </li>
                   ))}
@@ -290,7 +279,7 @@ export default function AcentraHealthPage() {
               <div className="mt-12 max-w-2xl">
                 <p className="m-0 text-body font-sans text-foundation-800">{foundationWhy}</p>
                 <p className="mt-4 mb-0 text-body font-sans text-foundation-800">
-                  We pitched the adapt-and-extend approach to leadership, secured buy-in, and set Carbon as the foundation, the decision that made everything else possible.
+                  We pitched this to leadership, got their buy-in, and made Carbon our foundation.
                 </p>
               </div>
             </div>

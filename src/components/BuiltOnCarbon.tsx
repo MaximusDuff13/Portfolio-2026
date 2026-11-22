@@ -4,21 +4,23 @@ import { SectionHeader } from './SectionHeader'
 import { LightboxProvider, LightboxTrigger } from './Lightbox'
 import { MarkedUpShot } from './MarkedUpShot'
 import { TokenFlow } from './TokenFlow'
-import { FlowNote, HOW, HowDisclosure, MARKUP, type How } from './ColourDetails'
+import { FlowNote, MARKUP } from './ColourDetails'
+import { DesignNote, DesignNotesProvider, DesignNotesSwitch, type NoteKey } from './DesignNotes'
 import { Develop } from './Develop'
+import { CarbonTabs, type Part } from './CarbonTabs'
 
-/* 03 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three fold-out rows so the
-   section never grows: Colour (open at first), Type, Corners. Opening one closes the others.
+/* 03 Built on Carbon (Nov 14 2026): what we changed in Carbon, as three picture tabs so the
+   section never grows (CarbonTabs): Colour (open at first), Type, Corners.
    Colour is the story in Michael's three beats: one green for both of Carbon's themes, the scale
    grown from it with the USWDS magic numbers, and the tokens. Type and Corners show his own
-   exports. Every caption is one line; "How I did it" opens the method. Marketing's starting green
+   exports. Every caption is one line; the Design notes switch shows how each was done. Marketing's starting green
    and every hex value are deliberately left out: the page is public. */
 
-type Beat = { title: string; line: string }
+type Beat = { k: NoteKey; title: string; line: string }
 const BEATS: Beat[] = [
-  { title: 'One green, both themes', line: 'Passes for text on White, and for buttons, icons and large text on Gray 100.' },
-  { title: 'A scale from magic numbers', line: 'Ten steps. The gap between two grades sets their contrast.' },
-  { title: 'Set up as tokens', line: 'Teams pick a role, not a shade.' },
+  { k: 'green', title: 'One green, both themes', line: 'Passes for text on White, and for buttons, icons and large text on Gray 100.' },
+  { k: 'scale', title: 'A scale from magic numbers', line: 'Ten steps. The gap between two grades sets their contrast.' },
+  { k: 'tokens', title: 'Set up as tokens', line: 'Teams pick a role, not a shade.' },
 ]
 
 const IMAGES = [
@@ -39,7 +41,6 @@ function Caption({ i }: { i: number }) {
     <>
       <h4 className="mt-4 mb-0 text-heading-m font-display text-foundation-900">{BEATS[i].title}</h4>
       <p className="mt-1 mb-0 max-w-[36rem] text-body-sm font-sans text-foundation-700">{BEATS[i].line}</p>
-      <HowDisclosure how={HOW[i]} />
     </>
   )
 }
@@ -53,6 +54,7 @@ function Shot({ i }: { i: number }) {
         <MarkedUpShot src={img.src} alt={img.alt} w={800} h={800} rings={MARKUP[i].rings} notes={MARKUP[i].notes} delay={i * 180} />
         <LightboxTrigger src={img.full} alt={img.alt} />
       </div>
+      <DesignNote k={BEATS[i].k} />
     </div>
   )
 }
@@ -73,8 +75,9 @@ export function ColourStory() {
 
       {/* 03: the token flow, redrawn in HTML so it is sharp and readable everywhere */}
       <div className="mt-12">
-        <div className="rounded-xl bg-stage-sage p-5 sm:p-8">
+        <div className="relative rounded-xl bg-stage-sage p-5 sm:p-8">
           <TokenFlow mark={(k) => <FlowNote k={k} />} />
+          <DesignNote k="tokens" />
         </div>
         <Caption i={2} />
       </div>
@@ -85,46 +88,6 @@ export function ColourStory() {
 /* ---------- Type and Corners: Michael's exports, two to a row ---------- */
 
 const TR = '/images/acentra-type-radius/'
-// Method copy written from Michael's answers (Nov 14 2026).
-const HOW_TYPE: How = {
-  story: [],
-  facts: [],
-  groups: [
-    { title: 'The problem', body: ['Carbon was built for data-heavy enterprise tools. In our healthcare products, the text was too small.'] },
-    {
-      title: 'The font',
-      body: ['I suggested Roboto over IBM Plex. It’s very legible, which matters in healthcare, and it’s open source, so there’s no licensing fee. We chose it over the company font, Acumin Pro, for every product.'],
-    },
-    {
-      title: 'The sizes',
-      body: ['Healthcare products usually start body text at 16px. We build external products and internal tools, so we made two modes:'],
-      list: [
-        { term: 'Standard', text: '(external): starts at 16px' },
-        { term: 'Compact', text: '(internal): 2px smaller on every token' },
-      ],
-    },
-    {
-      title: 'How teams use it',
-      body: ['Modes live in Figma and in code. Teams switch the mode instead of resizing text, for a whole screen, one component or one area.'],
-    },
-  ],
-}
-const HOW_CORNERS: How = {
-  story: [],
-  facts: [],
-  groups: [
-    {
-      title: 'The problem',
-      body: ['Carbon uses square corners. Our healthcare research showed that slightly rounded corners feel friendlier, and that was the only real difference users noticed.'],
-    },
-    { title: 'Components', body: ['We changed every Carbon component from 0px to 2px. It’s a small change that keeps Carbon familiar.'] },
-    {
-      title: 'Layouts',
-      body: ['Tiles, cards and containers can go further. Teams choose from a scale built on the 8px grid: 0, 2, 4, 8, 12, 16 and 24px.'],
-    },
-    { title: 'Why both', body: ['Components stay consistent everywhere, and layouts can look different from product to product.'] },
-  ],
-}
 
 /* Type: one export (type-modes.webp, 1522×700) holds both screens. Each mode shows its own half
    through a window, so the two can sit side by side or stack on a phone without touching the file.
@@ -186,13 +149,13 @@ function TypeMarks({ marks, delay }: { marks: Mark[]; delay: number }) {
   )
 }
 
-function TypeModes({ how }: { how: How }) {
+function TypeModes() {
   const { full, w, h, top, half } = MODES_IMG
   const shown = h - top
   return (
     <>
       <figure className="m-0">
-        <div className="grid grid-cols-1 gap-8 rounded-xl bg-stage-sage p-4 sm:p-6 md:grid-cols-2">
+        <div className="relative grid grid-cols-1 gap-8 rounded-xl bg-stage-sage p-4 sm:p-6 md:grid-cols-2">
           {TYPE_MODES.map((m, i) => (
             <div key={m.label} className="mx-auto w-full max-w-[380px]">
               <p className="cs-note m-0 mb-2">{m.label}</p>
@@ -213,12 +176,13 @@ function TypeModes({ how }: { how: How }) {
                   </div>
                 </Develop>
                 <LightboxTrigger always src={full} alt="The same beneficiary screen in Standard, left, and Compact, right: the text is 2px smaller in Compact" />
-              </div>            </div>
+              </div>
+            </div>
           ))}
+          <DesignNote k="type" className="md:col-span-2 -mt-8" />
         </div>
         <figcaption className="mt-3 font-sans text-body-sm text-foundation-700">Same screen, both modes. Every token drops 2px in Compact.</figcaption>
       </figure>
-      <HowDisclosure how={how} />
     </>
   )
 }
@@ -244,7 +208,7 @@ const CORNERS: { stat: string; line: string; src: string; w: number; h: number; 
   },
 ]
 
-function Corners({ how }: { how: How }) {
+function Corners() {
   return (
     <>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[2fr_3fr]">
@@ -264,81 +228,35 @@ function Corners({ how }: { how: How }) {
           </div>
         ))}
       </div>
-      <HowDisclosure how={how} />
+      <DesignNote k="corners" card="bg-stage-sage" />
     </>
   )
 }
 
-/* ---------- the fold-out rows ---------- */
-
-function FoldRow({ n, label, teaser, open, children }: { n: string; label: string; teaser: string; open?: boolean; children: ReactNode }) {
-  return (
-    <details
-      name="c04"
-      open={open}
-      className="group/row scroll-mt-32 border-b border-border"
-      // opened some other way (find-in-page, a link): if that pulled the row above the screen, bring it back
-      onToggle={(e) => {
-        const el = e.currentTarget
-        // React passes a "How I did it" toggle up to its row; that one must not move the page
-        if (e.target !== el) return
-        if (el.open && el.getBoundingClientRect().top < 120) el.scrollIntoView({ block: 'start', behavior: 'instant' })
-      }}
-    >
-      <summary
-        // Opening one row closes the others, and a row closing above this one would drag it up the
-        // screen. So the row is toggled here by hand and the page is scrolled by exactly the amount
-        // the row moved, in the same frame: the row you clicked stays under your pointer.
-        // Opening a row also opens every "How I did it" inside it; each can still be closed.
-        onClick={(e) => {
-          e.preventDefault()
-          const summary = e.currentTarget
-          const row = summary.parentElement as HTMLDetailsElement
-          const before = summary.getBoundingClientRect().top
-          row.open = !row.open
-          if (row.open) row.querySelectorAll('details').forEach((d) => (d.open = true))
-          const moved = summary.getBoundingClientRect().top - before
-          if (moved) window.scrollBy({ top: moved, behavior: 'instant' })
-        }}
-        className="flex min-h-[64px] cursor-pointer list-none items-center gap-x-4 rounded-sm py-3 sm:gap-x-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-warm [&::-webkit-details-marker]:hidden">
-        <h3 className="m-0 flex w-28 flex-none items-baseline gap-3 sm:w-32 font-display text-heading-m text-foundation-900">
-          {/* the numbers count the three changes; the steps inside a row are not numbered */}
-          <span className="font-sans text-caption font-normal tabular-nums text-foundation-600">{n}</span>
-          {label}
-        </h3>
-        <span className="min-w-0 flex-1 font-sans text-body-sm text-foundation-700">{teaser}</span>
-        <span aria-hidden="true" className="flex-none font-sans text-[22px] leading-none text-foundation-900 transition-transform group-open/row:rotate-45 motion-reduce:transition-none">+</span>
-      </summary>
-      <div className="pb-10 pt-6">{children}</div>
-    </details>
-  )
-}
+const PARTS: Part[] = [
+  { key: 'colour', n: '01', label: 'Colour', teaser: 'Carbon’s blue became our green, accessible in light and dark mode.', body: <div className="-mt-12"><ColourStory /></div> },
+  { key: 'type', n: '02', label: 'Type', teaser: 'Clearer, larger text, with a compact mode for staff tools.', body: <TypeModes /> },
+  { key: 'corners', n: '03', label: 'Corners', teaser: 'Softer corners, because they feel friendlier.', body: <Corners /> },
+]
 
 export function BuiltOnCarbon() {
   return (
     <LightboxProvider>
+      <DesignNotesProvider>
       <section className="border-t border-border pt-section pb-section">
-        <div className="max-w-2xl">
-          <SectionHeader index="03" eyebrow="Built on Carbon" title="What we changed in Carbon" />
-          <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
-            Carbon was built for enterprise data tools. These three changes made it fit healthcare.
-          </p>
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+          <div className="max-w-2xl">
+            <SectionHeader index="03" eyebrow="Built on Carbon" title="What we changed in Carbon" />
+            <p className="mt-4 mb-0 text-body font-sans text-foundation-700">
+              Carbon was built for enterprise data tools. These three changes made it fit healthcare.
+            </p>
+          </div>
+          <DesignNotesSwitch />
         </div>
 
-        <div className="mt-10 border-t border-border">
-          <FoldRow open n="01" label="Colour" teaser="Carbon’s blue became our green, accessible in light and dark mode.">
-            <div className="-mt-12">
-              <ColourStory />
-            </div>
-          </FoldRow>
-          <FoldRow n="02" label="Type" teaser="Clearer, larger text, with a compact mode for staff tools.">
-            <TypeModes how={HOW_TYPE} />
-          </FoldRow>
-          <FoldRow n="03" label="Corners" teaser="Softer corners, because they feel friendlier.">
-            <Corners how={HOW_CORNERS} />
-          </FoldRow>
-        </div>
+        <CarbonTabs parts={PARTS} />
       </section>
+      </DesignNotesProvider>
     </LightboxProvider>
   )
 }
