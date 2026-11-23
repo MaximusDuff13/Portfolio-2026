@@ -1,0 +1,97 @@
+'use client'
+import { useEffect, useId, useRef, useState } from 'react'
+
+/* Small hand-drawn illustrations for the number tiles in 04's bento (Nov 23 2026, Michael asked for
+   drawn illustrations in place of the round icons). Same pen as the audit notes: ginger ink, round
+   caps, a touch of wobble from a displacement filter, and each line draws itself in (cs-ring, from
+   case-study.css) once the tile is on screen. Still for reduced motion. */
+
+type Props = { ink: string; label?: string }
+
+function Doodle({ ink, paths }: Props & { paths: string[] }) {
+  const ref = useRef<SVGSVGElement>(null)
+  const [on, setOn] = useState(false)
+  const id = useId().replace(/:/g, '')
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.6 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <svg ref={ref} viewBox="0 0 100 72" width={96} height={69} aria-hidden="true" className="cs-markup block overflow-visible" data-on={on || undefined}>
+      <defs>
+        {/* a little irregularity, so the lines read as drawn by hand rather than set by a computer */}
+        <filter id={`wob-${id}`} x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7" />
+          <feDisplacementMap in="SourceGraphic" scale="2.2" />
+        </filter>
+      </defs>
+      <g filter={`url(#wob-${id})`}>
+        {paths.map((d, i) => (
+          <path
+            key={i}
+            d={d}
+            pathLength={1}
+            className="cs-ring"
+            style={{ stroke: ink, strokeWidth: 2.6, fill: 'none', strokeLinejoin: 'round', animationDelay: `${i * 110}ms` }}
+          />
+        ))}
+      </g>
+    </svg>
+  )
+}
+
+const head = (x: number, y: number, r = 5.5) => `M ${x - r} ${y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`
+// a rounded torso from just under the head down to the shared ground line at y 52
+const body = (x: number, y: number) => `M ${x - 7} 52 L ${x - 7} ${y + 17} Q ${x - 7} ${y + 9} ${x} ${y + 9} Q ${x + 7} ${y + 9} ${x + 7} ${y + 17} L ${x + 7} 52`
+
+/* five people of different heights standing on one line: 5 teams on one system */
+export function TeamsDoodle({ ink }: Props) {
+  const people: [number, number][] = [[13, 24], [31, 17], [50, 12], [69, 19], [87, 26]]
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        ...people.flatMap(([x, y]) => [head(x, y), body(x, y)]),
+        'M 2 55 C 28 51, 70 58, 98 53',
+      ]}
+    />
+  )
+}
+
+/* a brush laying down a sweep of new colour: the rebrand */
+export function BrushDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 90 6 L 68 28',
+        'M 64 23 L 72 31 L 65 38 L 57 30 Z',
+        'M 57 30 Q 47 39 42 47 Q 51 45 65 38',
+        'M 6 60 C 22 44, 34 68, 50 56 S 78 48, 94 60',
+        'M 20 12 L 20 24 M 14 18 L 26 18',
+        'M 36 28 L 36 34 M 33 31 L 39 31',
+      ]}
+    />
+  )
+}
+
+/* Figma's component mark with a cursor dropping it in: component inserts */
+export function ComponentDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 46 10 L 54 18 L 46 26 L 38 18 Z',
+        'M 60 24 L 68 32 L 60 40 L 52 32 Z',
+        'M 46 38 L 54 46 L 46 54 L 38 46 Z',
+        'M 32 24 L 40 32 L 32 40 L 24 32 Z',
+        'M 70 44 L 70 66 L 75 61 L 80 70 L 85 68 L 80 59 L 87 58 Z',
+        'M 6 22 L 16 22 M 4 32 L 14 32 M 6 42 L 16 42',
+        'M 84 12 L 84 22 M 79 17 L 89 17',
+      ]}
+    />
+  )
+}

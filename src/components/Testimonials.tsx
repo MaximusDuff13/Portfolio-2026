@@ -144,7 +144,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
   return (
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-12">
-        <SectionHeader index="06" eyebrow="Testimonials" title="In their own words" />
+        <SectionHeader index="05" eyebrow="Testimonials" title="In their own words" />
         <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 [text-wrap:balance] md:pb-1">From the managers, developers and designers I worked with.</p>
       </div>
       <InView className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-12">

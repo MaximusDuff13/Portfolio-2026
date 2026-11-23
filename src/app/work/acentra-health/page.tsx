@@ -5,7 +5,6 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { BriefFacts } from '@/components/BriefFacts'
 import { HeroMetrics } from '@/components/HeroMetrics'
 import { SystemInUse } from '@/components/SystemInUse'
-import { ResultsSection, type Result } from '@/components/ResultsSection'
 import { Testimonials } from '@/components/Testimonials'
 import { testimonials } from './testimonials'
 import { ClosingThoughts } from '@/components/ClosingThoughts'
@@ -110,16 +109,8 @@ const moreWork: MoreWorkItem[] = [
   },
 ]
 
-// Results (05; Nov 21 2026): the old 07 Small Wins and 09 Results as one short section, written
-// for hiring managers. Each row reads as a sentence: the result, what it means, and what it was
-// measured against. The rebrand is the old Small Wins story. Left out:
-// the 50% faster handoff (an estimate; Michael cut it, Nov 21 2026), 19K+ insertions (Figma's
-// strip disagrees; cut from the hero too, Nov 22 2026), 40+ components, the supporting
-// tool that shipped in 1 month (which tool is unconfirmed) and the draft quote. `id` ties each row to its evidence in ResultsSection.
-const results: Result[] = [
-  { id: 'teams', n: '1 quarter', what: 'to get 5 teams onto the system.', vs: 'Today: 2 product modules, 5+ internal tools' },
-  { id: 'rebrand', n: '2 weeks', what: 'to roll out new brand colours, in design and in code.', vs: 'Old estimate: 6 months' },
-]
+// Results (old 05) were folded into 04 on Nov 23 2026 (Michael): the two results and the Figma
+// strip are tiles in the screens bento (ScreensShowcase). ResultsSection.tsx is no longer used.
 
 // Testimonials (07): placeholders show only in development; on the live site the section and its
 // contents chip appear once a real quote is in testimonials.ts.
@@ -133,8 +124,7 @@ const toc: TocItem[] = [
   { id: 'foundation', n: '02', label: 'Foundation' },
   { id: 'carbon', n: '03', label: 'Built on Carbon' },
   { id: 'build', n: '04', label: 'The system in use' },
-  { id: 'results', n: '05', label: 'Results' },
-  ...(quotes.length ? [{ id: 'quotes', n: '06', label: 'Testimonials' }] : []),
+  ...(quotes.length ? [{ id: 'quotes', n: '05', label: 'Testimonials' }] : []),
   { id: 'closing', label: 'Closing thoughts' },
 ]
 
@@ -303,19 +293,7 @@ export default function AcentraHealthPage() {
         </div>
       </section>
 
-      {/* Results (05; Nov 21 2026): Small Wins and Results merged, in plain words for hiring
-          managers (ResultsSection, layout E, picked Nov 21 2026): each result with its proof underneath. */}
-      <section id="results" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="border-t border-border pt-section">
-              <ResultsSection results={results} />
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Testimonials (06; Nov 21 2026): the people who worked with the system, in their words, as
+      {/* Testimonials (05 since Nov 23 2026, was 06; Nov 21 2026): the people who worked with the system, in their words, as
           stage cards (Testimonials). It replaced 08 Cross-Team Collaboration, removed the same day. */}
       {quotes.length > 0 && (
         <section id="quotes" data-toc-section className="px-6 sm:px-10 lg:px-section pb-section">
