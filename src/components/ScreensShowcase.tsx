@@ -1,4 +1,7 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { links } from '@/data/links'
 import { Develop } from './Develop'
 import { BrushDoodle, ComponentDoodle, TeamsDoodle } from './Doodles'
 import { JiraVideo } from './JiraVideo'
@@ -21,12 +24,12 @@ type Screen = { id: string; name: string; src: string; src2x?: string; w: number
 
 const DCE: Screen = {
   id: 'dce',
-  name: 'Data Conversion Enterprise',
+  name: 'Data Conversion App', // the product's own header says Data Conversion Enterprise; the case study is Data Conversion App (Michael, Nov 23 2026)
   src: `${DIR}dce-1200.webp`,
   src2x: `${DIR}dce-2400.webp`,
   w: 2400,
   h: 1740,
-  alt: 'Data Conversion Enterprise: a project page with tabs, a Run ETL job panel with a green button, and completed steps below',
+  alt: 'Data Conversion App: a project page with tabs, a Run ETL job panel with a green button, and completed steps below',
 }
 // the Jira Migration Tool plays as a video: JiraVideo.tsx
 const INVENTORY: Screen = {
@@ -66,12 +69,18 @@ function Shot({ s, sizes }: { s: Screen; sizes: string }) {
 }
 
 /* a product tile: its name, then the whole screen (never cropped), lifting a little on hover */
-function ScreenTile({ s, n, bg, tone, big = false, sizes, delay = 0, className = '' }: { s: Screen; n: number; bg: string; tone: typeof LIGHT; big?: boolean; sizes: string; delay?: number; className?: string }) {
+function ScreenTile({ s, n, bg, tone, big = false, sizes, delay = 0, className = '', href }: { s: Screen; n: number; bg: string; tone: typeof LIGHT; big?: boolean; sizes: string; delay?: number; className?: string; href?: string }) {
   return (
     <figure className={`group m-0 flex flex-col rounded-2xl p-5 sm:p-7 ${bg} ${className}`}>
       <figcaption className="mb-4">
         <span className={`block font-sans text-label uppercase ${tone.sub}`}>0{n}</span>
         <span className={`mt-1 block font-display ${big ? 'text-heading-l' : 'text-heading-m'} ${tone.text}`}>{s.name}</span>
+        {/* a product with its own case study links to it */}
+        {href && (
+          <Link href={href} className={`mt-2 inline-flex items-center gap-1.5 rounded-sm font-sans text-body-sm font-medium underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm ${tone.text}`}>
+            Read the case study <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+        )}
       </figcaption>
       <div className="mt-auto overflow-hidden rounded-lg border border-black/10 bg-white shadow-[0_18px_40px_-16px_rgba(0,0,0,0.4)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 motion-reduce:transition-none">
         <Develop delay={delay}>
@@ -106,7 +115,7 @@ export function ScreensShowcase() {
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-6">
-        <ScreenTile s={DCE} n={1} bg="bg-stage-sage" tone={LIGHT} big sizes="(min-width: 768px) 680px, 100vw" className="md:col-span-4" />
+        <ScreenTile s={DCE} n={1} bg="bg-stage-sage" tone={LIGHT} big sizes="(min-width: 768px) 680px, 100vw" className="md:col-span-4" href={links.caseStudy.dataConversionApp} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:col-span-2 md:grid-cols-1">
           <ResultTile big="1 quarter" line="to get 5 teams onto the system." vs="Today: 2 product modules, 5+ internal tools" bg="bg-[#161616]" tone={DARK} art={<TeamsDoodle ink="#e39849" />} />
           <ResultTile big="2 weeks" line="to roll out new brand colours, in design and in code." vs="Old estimate: 6 months" bg="bg-stage-ginger" tone={LIGHT} art={<BrushDoodle ink="#b15900" />} />

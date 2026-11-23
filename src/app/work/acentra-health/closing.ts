@@ -1,9 +1,8 @@
 // Closing thoughts: the case study's last section, after 05 Testimonials and before Keep exploring.
 // Michael's own text (Nov 21 2026; the three lessons rewritten by him Nov 23 2026), word for word: three lessons, each with what happened and what
-// he'd do next time, then the one-line summary. It replaced the old What's next roadmap (guides,
+// he'd do next time. (The one-line In short summary was removed by Michael, Nov 23 2026.) It replaced the old What's next roadmap (guides,
 // Acentra-driven patterns, charts and dashboards).
-// `mark` (optional) is the phrase in `next` that the pen underlines in the layouts that use it, as
-// `inShortMark` is for the summary; they are Claude's suggested emphasis, for Michael to change.
+// `mark` (optional) is a phrase in `next` to underline; the current layout does not use it.
 export type Lesson = { title: string; what: string; next: string; mark?: string }
 
 export const closing = {
@@ -25,6 +24,4 @@ export const closing = {
       next: 'I’d keep the core of the system (tokens, guidelines and specs) independent of any one framework, for example by using web components. That way it works with whatever stack the company picks.',
     },
   ] as Lesson[],
-  inShort: 'A design system grows best when teams shape it together, it gives designers room to work, and it’s ready for change.',
-  inShortMark: 'teams shape it together',
 }

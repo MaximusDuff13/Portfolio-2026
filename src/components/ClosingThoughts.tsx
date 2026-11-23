@@ -4,7 +4,7 @@
    happened and what he'd do next time, then an "In short" line.
    PICKED D, "Dark finale" (Michael, Nov 23 2026), when he asked to rethink the section: the page
    ends on the dark stage of 04's Jira tile; three lessons in columns, each with a pen drawing in
-   ginger (Doodles.tsx), white titles, "Next time" in ginger; the summary large and signed.
+   ginger (Doodles.tsx), white titles, "Next time" in ginger; signed at the end.
    Tried and dropped the same day: lesson cards, a road with stops, a then / next time table, and
    the Nov 22 pick (typeset lessons with handwritten notes). Before that, on Nov 22: margin rail,
    columns, signed note, summary first, split cards, big numbers, poster. */
@@ -14,9 +14,8 @@ import { CompassDoodle, CornersDoodle, LayersDoodle } from './Doodles'
 import type { Lesson } from '@/app/work/acentra-health/closing'
 import './closing.css'
 
-type Closing = { title: string; lessons: Lesson[]; inShort: string; inShortMark?: string }
+type Closing = { title: string; lessons: Lesson[] }
 
-const LABEL = 'm-0 text-label font-sans uppercase tracking-widest'
 const rise = (i: number) => ({ ['--i' as string]: i }) as CSSProperties
 const INK = '#e39849' // the pen's ginger on dark (as in 04's dark tiles)
 
@@ -62,12 +61,8 @@ export function ClosingThoughts({ closing: c }: { closing: Closing }) {
               )
             })}
           </ol>
-          <div data-rise style={rise(3)} className="mt-12 grid grid-cols-1 gap-6 border-0 border-t border-solid border-white/15 pt-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12">
-            <div>
-              <p className={`${LABEL} text-[#c6c6c6]`}>In short</p>
-              <p className="m-0 mt-3 max-w-4xl font-display text-[26px] leading-[1.3] text-white sm:text-[36px]">{c.inShort}</p>
-            </div>
-            {/* the signature: .cs-note's face, set inline so its 22px ink size gives way */}
+          {/* the signature closes the stage (the In short line above it was removed, Nov 23 2026) */}
+          <div data-rise style={rise(3)} className="mt-10 flex justify-end border-0 border-t border-solid border-white/15 pt-8">
             <span className="cs-note block -rotate-2" style={{ fontSize: 44, lineHeight: 1, color: INK }}>
               Michael
             </span>

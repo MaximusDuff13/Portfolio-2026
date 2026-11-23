@@ -25,7 +25,7 @@ export const testimonials: Testimonial[] = [
     // easier to adopt and apply consistently across applications. His efforts continue to
     // strengthen the design system as a strategic asset. Thank you, for your creativity, UX
     // leadership, and a world-class design system"
-    // TO CONFIRM with Michael: his exact job title and team, and that Anil is OK being quoted.
+    // Title confirmed by Michael (Nov 23 2026): Director, Acentra Health.
     group: 'Leadership',
     quote: 'Michael’s innovative UX leadership helped transform AHDS by introducing scalable design standards, practical implementation examples, and user-centered enhancements that improve consistency, usability, and adoption across Acentra Health products. … Helped evolve AHDS beyond a component library into a comprehensive design enablement platform. … Thank you, for your creativity, UX leadership, and a world-class design system.',
     name: 'Anil Nesamony',
