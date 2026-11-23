@@ -38,6 +38,7 @@ export type Testimonial = {
 // for initials; anything else falls back to mist
 const TINTS: Record<string, { bg: string; strong: string }> = {
   Manager: { bg: 'bg-stage-sage', strong: 'bg-stage-sage-strong' },
+  Leadership: { bg: 'bg-stage-sage', strong: 'bg-stage-sage-strong' },
   Developer: { bg: 'bg-stage-straw', strong: 'bg-stage-straw-strong' },
   Designer: { bg: 'bg-stage-ginger', strong: 'bg-stage-ginger-strong' },
 }
@@ -81,7 +82,7 @@ const QuoteMark = ({ className = '' }: { className?: string }) => (
 
 /* their words; stand-ins are set a shade lighter */
 function Quote({ t, big, className = '' }: { t: Testimonial; big: boolean; className?: string }) {
-  const type = big ? 'text-[24px] leading-[1.32] sm:text-[30px]' : 'text-[19px] leading-[1.45]'
+  const type = big ? 'text-[20px] leading-[1.45] sm:text-[22px]' : 'text-[18px] leading-[1.5]'
   return (
     <blockquote className={`m-0 font-display ${type} ${t.placeholder ? 'text-foundation-600' : 'text-foundation-900'} ${className}`}>
       <p className="m-0">{t.quote}</p>
@@ -145,10 +146,11 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-12">
         <SectionHeader index="05" eyebrow="Testimonials" title="In their own words" />
-        <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 [text-wrap:balance] md:pb-1">From the managers, developers and designers I worked with.</p>
+        <p className="m-0 max-w-sm text-body-sm font-sans text-foundation-700 [text-wrap:balance] md:pb-1">From the people I worked with.</p>
       </div>
       <InView className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-12">
-        <StageCard t={first} i={0} big className="md:col-span-7 md:row-span-2" />
+        {/* a lone quote (the live site, until more arrive) takes the full width */}
+        <StageCard t={first} i={0} big className={rest.length ? "md:col-span-7 md:row-span-2" : "md:col-span-12"} />
         {rest.map((t, i) => (
           <StageCard key={i} t={t} i={i + 1} big={false} className="md:col-span-5" />
         ))}

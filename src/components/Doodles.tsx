@@ -95,3 +95,54 @@ export function ComponentDoodle({ ink }: Props) {
     />
   )
 }
+
+/* ---- Closing thoughts (Nov 23 2026): one drawing per lesson ---- */
+
+/* a compass: central guidance */
+export function CompassDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 26 36 a 24 24 0 1 0 48 0 a 24 24 0 1 0 -48 0',
+        'M 50 17 L 57 36 L 50 55 L 43 36 Z',
+        'M 43 36 L 57 36',
+        'M 50 6 L 50 11 M 50 61 L 50 66 M 20 36 L 15 36 M 80 36 L 85 36',
+        'M 88 12 L 88 20 M 84 16 L 92 16',
+      ]}
+    />
+  )
+}
+
+/* a sharp corner bending into a round one: room for flexibility */
+export function CornersDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 8 22 L 36 22 L 36 50 L 8 50 Z',
+        'M 42 30 Q 50 22 58 30',
+        'M 53 26 L 58 30 L 53 33',
+        'M 74 22 L 84 22 Q 94 22 94 32 L 94 40 Q 94 50 84 50 L 74 50 Q 64 50 64 40 L 64 32 Q 64 22 74 22 Z',
+        'M 14 60 L 30 60 M 70 60 L 88 60',
+      ]}
+    />
+  )
+}
+
+/* a stack of layers (tokens, guidelines, specs) with the framework swapping on top: plan for change */
+export function LayersDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 50 34 L 82 46 L 50 58 L 18 46 Z',
+        'M 18 52 L 50 64 L 82 52',
+        'M 18 58 L 50 70 L 82 58',
+        'M 36 22 L 64 22 L 64 8 L 36 8 Z',
+        'M 70 12 C 82 12, 86 22, 80 30',
+        'M 76 27 L 80 31 L 84 26',
+      ]}
+    />
+  )
+}

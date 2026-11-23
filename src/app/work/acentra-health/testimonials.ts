@@ -1,4 +1,4 @@
-// 06 Testimonials: what the people Michael worked with said, about the system and about him.
+// 05 Testimonials: what the people Michael worked with said, about the system and about him.
 //
 // HOW TO FILL IN: replace a placeholder's text with the real details, then delete its
 // `placeholder: true` line. Quotes are used exactly as written, so ask each person's OK first.
@@ -11,13 +11,26 @@ import type { Testimonial } from '@/components/Testimonials'
 
 export const testimonials: Testimonial[] = [
   {
-    group: 'Manager',
-    quote: 'A manager or leader, in one to three sentences: what the system changed for the organisation, and what you were like to work with.',
-    name: 'Their name',
-    role: 'Their job title',
-    team: 'Their team',
-    relation: 'How you worked together',
-    placeholder: true,
+    // Anil Nesamony, a Director, about AHDS (sent by Michael, Nov 23 2026). His full comment is
+    // ~150 words; this is three of his sentences, word for word, with "…" where text is left out.
+    // Full text, for reference: "Michael's innovative UX leadership helped transform AHDS by
+    // introducing scalable design standards, practical implementation examples, and user-centered
+    // enhancements that improve consistency, usability, and adoption across Acentra Health
+    // products. Drove UX innovation through the introduction of Typography Themes, Border Radius
+    // Standards, and the new Gallery experience. Helped evolve AHDS beyond a component library into
+    // a comprehensive design enablement platform. Demonstrated creative thinking in solving
+    // consistency and adoption challenges. Influenced both product experience and design-system
+    // strategy. Through close collaboration with stakeholders and engineering teams, Michael helped
+    // create clear design guidance, implementation examples, and visual standards that make AHDS
+    // easier to adopt and apply consistently across applications. His efforts continue to
+    // strengthen the design system as a strategic asset. Thank you, for your creativity, UX
+    // leadership, and a world-class design system"
+    // TO CONFIRM with Michael: his exact job title and team, and that Anil is OK being quoted.
+    group: 'Leadership',
+    quote: 'Michael’s innovative UX leadership helped transform AHDS by introducing scalable design standards, practical implementation examples, and user-centered enhancements that improve consistency, usability, and adoption across Acentra Health products. … Helped evolve AHDS beyond a component library into a comprehensive design enablement platform. … Thank you, for your creativity, UX leadership, and a world-class design system.',
+    name: 'Anil Nesamony',
+    role: 'Director',
+    team: 'Acentra Health',
   },
   {
     group: 'Developer',

@@ -117,7 +117,7 @@ const moreWork: MoreWorkItem[] = [
 const quotes = testimonials.filter((t) => process.env.NODE_ENV !== 'production' || !t.placeholder)
 
 // the contents list (CaseToc): one entry per section, in page order. Numbers follow the
-// section headers (01 to 06, renumbered Nov 22 2026; the brief and the closing are unnumbered).
+// section headers (01 to 05 since Nov 23 2026; the brief and the closing are unnumbered).
 const toc: TocItem[] = [
   { id: 'brief', label: 'The brief' },
   { id: 'audit', n: '01', label: 'Audit' },
