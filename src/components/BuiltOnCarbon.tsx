@@ -182,19 +182,24 @@ function TypeModes() {
    Redrawn in code Nov 23 2026 (the audit: Michael's exports were too small to read, and 0px vs 2px
    was invisible). Scale and values are his: components 2px; layouts 0, 2, 4, 8, 12, 16, 24px. */
 const ZOOM = 16
-const CORNER_GREEN = '#028202' // Acentra green as a fill; never printed as text
+const CORNER_GREEN = '#028202' // Acentra green as the edge; never printed as text
+const CORNER_TINT = '#e6f4e6' // a pale green fill, so the two zooms don't outweigh the screen beside them
 
-
-/* one corner at 16x zoom, as in Michael's export: the green is a component's top-left corner */
+/* one corner at 16x zoom, as in Michael's export: a component's top-left corner, drawn as a pale
+   fill with a green edge so the curve reads at a glance. Fills its share of the column's height
+   (audit Nov 23 2026: the column had empty sage above and below). */
 function ZoomCorner({ r, label, after }: { r: number; label: string; after?: boolean }) {
   return (
-    <div>
+    <div className="flex min-h-0 flex-col">
       <p className="m-0 mb-2 font-sans text-body-sm text-foundation-800">
         {label} <span className={`font-medium tabular-nums ${after ? 'text-accent-warm' : 'text-foundation-900'}`}>{r}px</span>
       </p>
-      <div className="relative h-[130px] overflow-hidden rounded-lg border border-[#e0e0e0] bg-white sm:h-[160px]">
-        <span className="absolute left-8 top-8 block h-[400px] w-[800px]" style={{ background: CORNER_GREEN, borderTopLeftRadius: r * ZOOM }} />
-        <span className="absolute bottom-2 right-3 font-sans text-caption text-white/90">16× zoom</span>
+      <div className="relative h-[130px] overflow-hidden rounded-lg border border-[#e0e0e0] bg-white sm:h-[160px] md:h-auto md:min-h-[120px] md:flex-1">
+        <span
+          className="absolute left-8 top-8 block h-[600px] w-[800px]"
+          style={{ background: CORNER_TINT, borderTop: `4px solid ${CORNER_GREEN}`, borderLeft: `4px solid ${CORNER_GREEN}`, borderTopLeftRadius: r * ZOOM }}
+        />
+        <span className="absolute bottom-2 right-3 font-sans text-caption text-[#0e6027]">16× zoom</span>
       </div>
     </div>
   )
@@ -207,9 +212,9 @@ function Corners() {
         <div className="flex flex-col">
           <p className="m-0 font-display text-[40px] leading-none text-accent-warm">2px</p>
           <p className="m-0 mt-2 mb-4 font-sans text-body-sm text-foundation-700">border radius on every component</p>
-          <div className="flex flex-1 flex-col justify-center rounded-xl bg-stage-sage p-4 sm:p-6">
-            <Develop className="rounded-lg">
-              <div role="img" aria-label="A button corner at 16 times zoom. Carbon: a square 0px corner. Acentra: a 2px corner" className="grid grid-cols-2 gap-4 md:grid-cols-1">
+          <div className="flex flex-1 flex-col rounded-xl bg-stage-sage p-4 sm:p-6">
+            <Develop className="flex flex-1 flex-col rounded-lg">
+              <div role="img" aria-label="A button corner at 16 times zoom. Carbon: a square 0px corner. Acentra: a 2px corner" className="grid flex-1 grid-cols-2 gap-4 md:grid-cols-1 md:grid-rows-2">
                 <ZoomCorner r={0} label="Carbon" />
                 <ZoomCorner r={2} label="Acentra" after />
               </div>

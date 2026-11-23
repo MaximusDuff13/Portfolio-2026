@@ -19,6 +19,10 @@ const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700']
 const STEPS = [0, 2, 4, 8, 12, 16]
 const STEP_MS = 520
 const FRAME_W = 1056
+/* the phone crop, in the screen's own pixels: from just left of the content to the end of the
+   second KPI tile, and from the top down through the table's header row and first row */
+const PHONE_BELOW = 520
+const PHONE_CROP = { x: 64, w: 496, h: 500 }
 
 /* Carbon g10 tokens, with Acentra green as interactive */
 const C = {
@@ -199,16 +203,24 @@ export function CornerGrow() {
   const timer = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const [i, setI] = useState(0)
   const [done, setDone] = useState(false)
-  const [fit, setFit] = useState({ scale: 0, h: 0 })
+  const [fit, setFit] = useState({ scale: 0, h: 0, x: 0 })
 
-  /* scale the 1056px screen to the stage, like a screenshot */
+  /* scale the 1056px screen to the stage, like a screenshot. On a narrow stage (phones) the whole
+     screen would shrink to about a third, with ~4px text and the 16px corners at ~5px, so it shows
+     a closer crop instead: the page title, two KPI tiles and the top of the table (audit, Nov 23). */
   useEffect(() => {
     const el = ref.current
     const box = inner.current
     if (!el || !box) return
     const ro = new ResizeObserver(() => {
-      const scale = el.clientWidth / FRAME_W
-      setFit({ scale, h: box.offsetHeight * scale })
+      const w = el.clientWidth
+      if (w < PHONE_BELOW) {
+        const scale = w / PHONE_CROP.w
+        setFit({ scale, h: PHONE_CROP.h * scale, x: -PHONE_CROP.x * scale })
+      } else {
+        const scale = w / FRAME_W
+        setFit({ scale, h: box.offsetHeight * scale, x: 0 })
+      }
     })
     ro.observe(el)
     ro.observe(box)
@@ -265,7 +277,7 @@ export function CornerGrow() {
         className="relative overflow-hidden rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.08),0_8px_24px_-12px_rgba(0,0,0,0.25)]"
         style={{ height: fit.h || undefined, aspectRatio: fit.h ? undefined : '1056 / 660' }}
       >
-        <div ref={inner} aria-hidden="true" className="absolute left-0 top-0 origin-top-left" style={{ transform: `scale(${fit.scale})`, visibility: fit.scale ? 'visible' : 'hidden' }}>
+        <div ref={inner} aria-hidden="true" className="absolute top-0 origin-top-left" style={{ left: fit.x, transform: `scale(${fit.scale})`, visibility: fit.scale ? 'visible' : 'hidden' }}>
           <Screen r={r} />
         </div>
       </div>
