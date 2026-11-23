@@ -7,7 +7,7 @@ import { createContext, useContext, useState, type ReactNode } from 'react'
 export type NoteKey = 'green' | 'scale' | 'tokens' | 'type' | 'corners'
 
 const NOTES: Record<NoteKey, string> = {
-  green: 'The brand green had to pass contrast without stopping looking like the brand. Changing only lightness and saturation got it there: text on white, buttons and icons on dark, at step 60 on Carbon’s scale.',
+  green: 'The brand green had to pass contrast without losing the brand’s look. Changing only lightness and saturation got it there: text on white, buttons and icons on dark, at step 60 on Carbon’s scale.',
   scale: 'Every team needed accessible colour pairs without checking each one. The numbers work across all of Carbon’s colours: Green 60 on Gray 10 is 50 apart, so it reaches 4.5:1 for text, and 40 apart reaches 3:1. Teams just subtract.',
   tokens: 'Many teams, one green, and no room for each picking its own shade. Four tokens point at Green 60, so teams pick a role instead. Every team makes the same choice without asking, and changing the green later is one edit.',
   type: 'Carbon’s type is built for dense enterprise tools, but our healthcare customers needed easier reading while internal staff wanted more on screen. I built two modes on one set of tokens: Standard at 16px, Compact at 14px. Teams switch modes instead of resizing text.',

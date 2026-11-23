@@ -145,7 +145,7 @@ export function ScreensShowcase() {
             </Develop>
           </div>
           <figcaption className="mt-4 font-sans text-body-sm text-[#c6c6c6]">
-            Its 10 teams are Figma team projects, which belong to 5 key teams. Its 119 components include variants and other parts of 39 components.
+            Figma counts 10 team projects; they belong to our 5 key teams. Its 119 components are the variants and parts of our 39.
           </figcaption>
         </figure>
       </div>

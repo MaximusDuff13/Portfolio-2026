@@ -37,4 +37,4 @@ export const facts: Facts = {
 // Michael's approved brief (Nov 22 2026): says the merger and Carbon; replaced "from the ground up",
 // which contradicted 02, and the targets line.
 export const description =
-  'When Kepro and CNSI merged into Acentra Health, their products looked inconsistent and weren’t accessible. With a lead developer, I audited both and built one design system on IBM’s Carbon, with shared tokens, components and accessibility standards.'
+  'When Kepro and CNSI merged into Acentra Health, their products looked inconsistent and weren’t accessible. With a lead developer, I audited both and built one design system, AHDS, on IBM’s Carbon, with shared tokens, components and accessibility standards.'

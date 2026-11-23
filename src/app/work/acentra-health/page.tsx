@@ -221,7 +221,7 @@ export default function AcentraHealthPage() {
               <AuditFindings items={auditFindings} />
               {/* what happened next: was a full-width pull quote, folded in here (Nov 7 2026) */}
               <p className="mt-12 mb-0 max-w-2xl text-body font-sans text-foundation-800">
-                We presented these findings to leadership to align on the risks of the legacy path and the need for a scalable restart.
+                We showed leadership what we found: patching the old library was risky, and we needed a fresh start.
               </p>
             </div>
           </AnimatedSection>
@@ -231,7 +231,7 @@ export default function AcentraHealthPage() {
             <div id="foundation" data-toc-section className="border-t border-border pt-section pb-section">
               <SectionHeader
                 index="02"
-                eyebrow="Choosing the Foundation"
+                eyebrow="Choosing the foundation"
                 title="Three paths, one fit"
               />
 
@@ -269,7 +269,7 @@ export default function AcentraHealthPage() {
               <div className="mt-12 max-w-2xl">
                 <p className="m-0 text-body font-sans text-foundation-800">{foundationWhy}</p>
                 <p className="mt-4 mb-0 text-body font-sans text-foundation-800">
-                  We pitched this to leadership, got their buy-in, and made Carbon our foundation.
+                  Leadership agreed, and Carbon became our foundation.
                 </p>
               </div>
             </div>

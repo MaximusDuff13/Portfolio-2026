@@ -237,7 +237,7 @@ function Corners() {
 }
 
 const PARTS: Part[] = [
-  { key: 'colour', n: '01', label: 'Colour', teaser: 'Carbon’s blue became our green, accessible in light and dark mode.', body: <div className="-mt-12"><ColourStory /></div> },
+  { key: 'colour', n: '01', label: 'Colour', teaser: 'Carbon’s blue became our green, accessible in light and dark themes.', body: <div className="-mt-12"><ColourStory /></div> },
   { key: 'type', n: '02', label: 'Type', teaser: 'Clearer, larger text, with a compact mode for staff tools.', body: <TypeModes /> },
   { key: 'corners', n: '03', label: 'Border radius', teaser: 'Softer corners, after studying our competitors: friendlier and more flexible.', body: <Corners /> },
 ]

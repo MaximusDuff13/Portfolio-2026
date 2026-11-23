@@ -12,7 +12,7 @@ import type { Testimonial } from '@/components/Testimonials'
 export const testimonials: Testimonial[] = [
   {
     // Anil Nesamony, a Director, about AHDS (sent by Michael, Nov 23 2026). His full comment is
-    // ~150 words; this is three of his sentences, word for word, with "…" where text is left out.
+    // ~150 words; this is two of his sentences, word for word, with "…" where text is left out.
     // Full text, for reference: "Michael's innovative UX leadership helped transform AHDS by
     // introducing scalable design standards, practical implementation examples, and user-centered
     // enhancements that improve consistency, usability, and adoption across Acentra Health
@@ -27,7 +27,7 @@ export const testimonials: Testimonial[] = [
     // leadership, and a world-class design system"
     // Title confirmed by Michael (Nov 23 2026): Director, Acentra Health.
     group: 'Leadership',
-    quote: 'Michael’s innovative UX leadership helped transform AHDS by introducing scalable design standards, practical implementation examples, and user-centered enhancements that improve consistency, usability, and adoption across Acentra Health products. … Helped evolve AHDS beyond a component library into a comprehensive design enablement platform. … Thank you, for your creativity, UX leadership, and a world-class design system.',
+    quote: 'Michael’s innovative UX leadership helped transform AHDS by introducing scalable design standards, practical implementation examples, and user-centered enhancements that improve consistency, usability, and adoption across Acentra Health products. … Helped evolve AHDS beyond a component library into a comprehensive design enablement platform.',
     name: 'Anil Nesamony',
     role: 'Director',
     team: 'Acentra Health',
