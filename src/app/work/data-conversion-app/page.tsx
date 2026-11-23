@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
+import { SiteFooter } from '@/components/footer/SiteFooter'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
@@ -491,6 +492,9 @@ export default function DataConversionAppPage() {
       <LearnedNextSteps />
 
       <KeepExploring items={moreWork} />
+
+      {/* the site footer, on every page (Nov 23 2026); light only here, like the rest of the case study */}
+      <SiteFooter />
 
     </main>
   )

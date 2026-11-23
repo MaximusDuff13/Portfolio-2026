@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check } from 'lucide-react'
 import { links } from '@/data/links'
-import { person, hero, signoff, employers, type NoiseItem } from './content'
+import { SiteFooter } from '@/components/footer/SiteFooter'
+import { person, hero, employers, type NoiseItem } from './content'
 import { Value } from './kit/cards'
 import { CompanyStrip } from './kit/companies'
 import { HeroLoop } from './kit/HeroLoop'
@@ -37,7 +38,6 @@ const themeOf = (i: NoiseItem) => THEMES.findIndex((t) => t.kinds.includes(i.kin
 const PILE_SCALE = 0.82
 // the email in links.ts is still a [PLACEHOLDER] until supplied
 const emailTodo = links.email.startsWith('[')
-const isPlaceholder = (href: string) => href.includes('[')
 
 /** the headline's trail, its key phrase underlined by hand in accent.warm */
 function Trail() {
@@ -263,56 +263,10 @@ export function HomePage() {
         </section>
         </div>
 
-        <SignOff on={final} />
+        <SiteFooter wait={!final} credit adaptive />
       </main>
     </div>
   )
 }
 
-/** The end of the page: one line in his voice, the ways to reach him, the credits. Waits for
-    the intro like the tabs, so nothing below the fold flashes in before the hero resolves.
-    On desktop the profile card already carries Get in touch, so only the colophon line shows
-    there, with LinkedIn and the résumé in it; smaller screens keep the whole sign-off. */
-function SignOff({ on }: { on: boolean }) {
-  const extra = [
-    { label: signoff.linkedin, href: links.linkedin, todo: 'LinkedIn URL in links.ts' },
-    { label: signoff.resume, href: links.resume, todo: 'résumé URL in links.ts' },
-  ]
-  return (
-    <footer className="a-signoff" data-on={on || undefined} aria-labelledby="a-signoff-line">
-      <p id="a-signoff-line" className="a-signoff-line">
-        {signoff.line}
-      </p>
-      <div className="a-signoff-ctas">
-        <a href={links.mailto} className="a-btn a-btn-primary">
-          {signoff.contact}
-        </a>
-        {emailTodo && <Value value={{ todo: 'email in links.ts' }} />}
-        {extra.map((l) =>
-          isPlaceholder(l.href) ? (
-            <Value key={l.label} value={{ todo: l.todo }} />
-          ) : (
-            <a key={l.label} href={l.href} className="a-btn" target="_blank" rel="noreferrer">
-              {l.label}
-            </a>
-          ),
-        )}
-      </div>
-      <p className="a-signoff-meta">
-        <span>© {new Date().getFullYear()} {person.name}</span>
-        <span className="a-colophon-links">
-          {extra.map((l) =>
-            isPlaceholder(l.href) ? (
-              <Value key={l.label} value={{ todo: l.todo }} />
-            ) : (
-              <a key={l.label} href={l.href} target="_blank" rel="noreferrer">
-                {l.label}
-              </a>
-            ),
-          )}
-        </span>
-        <span>{signoff.credit}</span>
-      </p>
-    </footer>
-  )
-}
+/* The end of the page is the shared SiteFooter (src/components/footer), since Nov 23 2026. */

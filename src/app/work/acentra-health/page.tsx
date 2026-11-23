@@ -13,6 +13,7 @@ import { BuiltOnCarbon } from '@/components/BuiltOnCarbon'
 import { AuditFindings, type Finding } from '@/components/AuditFindings'
 import { brands, description, facts, heroMetrics } from './hero-data'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
+import { SiteFooter } from '@/components/footer/SiteFooter'
 import { SectionHeader } from '@/components/SectionHeader'
 import { PenRing } from '@/components/PenRing'
 import { Develop } from '@/components/Develop'
@@ -321,6 +322,9 @@ export default function AcentraHealthPage() {
       </section>
 
       <KeepExploring items={moreWork} />
+
+      {/* the site footer, on every page (Nov 23 2026); light only here, like the rest of the case study */}
+      <SiteFooter />
 
       <CaseToc items={toc} />
 
