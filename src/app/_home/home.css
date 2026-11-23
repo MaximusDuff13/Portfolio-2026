@@ -504,43 +504,6 @@ body:has(.home-root) {
   padding: 26px 24px 96px; /* 56px less the tab bar's 30px top padding */
   min-width: 0;
 }
-/* the sign-off: the page's last word, across the whole layout under the tabs */
-.a-signoff {
-  position: relative;
-  z-index: 1;
-  margin: 0 24px;
-  padding: 56px 0 32px;
-  border-top: 1px solid var(--x-line);
-  transition: opacity 280ms var(--ease-enter);
-}
-.a-signoff:not([data-on]) {
-  opacity: 0;
-  visibility: hidden;
-}
-.a-signoff-line {
-  margin: 0;
-  max-width: 22ch;
-  font: 500 32px/1.15 var(--font-display), serif;
-  letter-spacing: -0.01em;
-  color: var(--x-ink);
-  text-wrap: balance;
-}
-.a-signoff-ctas {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-top: 32px;
-}
-.a-signoff-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px 24px;
-  margin: 72px 0 0;
-  font: 400 13px/1.4 var(--font-body), sans-serif;
-  color: var(--x-ink-3);
-}
 /* the tabs keep their space through the intro (no shift), and appear on resolve */
 .a-tabs:not([data-on]) {
   visibility: hidden;
@@ -1254,9 +1217,6 @@ body:has(.home-root) {
   .a-tabs {
     padding-inline: 40px;
   }
-  .a-signoff {
-    margin-inline: 40px;
-  }
   /* Work stays one card per row: each case study gets the column's full width */
   .home-root .pn-accolades,
   .home-root .pn-side {
@@ -1289,31 +1249,6 @@ body:has(.home-root) {
   .a-hero,
   .a-tabs {
     padding-inline: 0;
-  }
-  /* the line on the left, the ways to reach him on the right, the credits along the bottom */
-  .a-signoff {
-    max-width: 72rem;
-    margin-inline: auto;
-    padding-top: 64px;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    column-gap: 64px;
-  }
-  .a-signoff-ctas {
-    margin-top: 0;
-    justify-content: flex-end;
-  }
-  .a-signoff-meta {
-    grid-column: 1 / -1;
-  }
-  @media (max-width: calc(72rem + 160px)) {
-    .a-signoff {
-      margin-inline: 80px;
-    }
-  }
-  .a-signoff-line {
-    font-size: 40px;
   }
   /* the hero scrolls away with the page; the docked tab bar carries the way back */
   .a-tabs {
@@ -1458,37 +1393,11 @@ body:has(.home-root) {
     transform: translateX(-504px);
   }
 
-  /* the footer: the card carries Get in touch, so only the colophon line stays */
-  .a-signoff {
-    padding-top: 24px;
-  }
-  .a-signoff :is(.a-signoff-line, .a-signoff-ctas) {
-    display: none;
-  }
-  .a-signoff-meta {
-    margin-top: 0;
-  }
 }
 @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
   .a-hero :is(.a-aside, .a-statement, .a-body, .a-hero-block, .a-stack, .co-sentence, .a-ctas),
   .a-hero .a-hero-block,
   .a-tabbar .a-tablist {
     transition: none;
-  }
-}
-/* the colophon's links: LinkedIn and the résumé, between the copyright and the credit */
-.a-colophon-links {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-}
-.a-colophon-links a {
-  color: var(--x-ink-2);
-  text-underline-offset: 4px;
-}
-/* smaller screens keep the full sign-off, whose buttons already include these links */
-@media (max-width: 1023px) {
-  .a-colophon-links {
-    display: none;
   }
 }

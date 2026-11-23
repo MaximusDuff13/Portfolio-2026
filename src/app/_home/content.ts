@@ -50,16 +50,6 @@ export const hero = {
   contact: 'Get in touch',
 }
 
-/* The page's last word, under the tabs: the user's own line from the first hero, then the ways
-   to reach him. Links that are still placeholders in links.ts show as TODO tags. */
-export const signoff = {
-  line: 'Give me a coffee and a complicated product, and I’ll find the simple one hiding inside.',
-  contact: 'Get in touch',
-  linkedin: 'LinkedIn',
-  resume: 'Résumé',
-  credit: 'Painting illustrated with AI, directed by me.',
-}
-
 /* The company strip under the hero: one `current`, the rest previous, newest first. `logo`
    is a path under /public; without one the first-letter tile stands in. The strip already
    prints the name, so logos are the symbol alone: public/images/logos/marks/, cropped from
