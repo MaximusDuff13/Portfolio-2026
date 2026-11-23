@@ -12,16 +12,20 @@ export const heroMetrics: HeroMetric[] = [
   { n: '2', label: 'programs ran real conversions on the MVP', note: 'Before any visual polish' },
 ]
 
-// The project facts, with the brief (BriefFacts). From the old hero sidebar.
+// The project facts, with the brief (BriefFacts). Nov 23 2026: the tiles follow Michael's brief:
+// '0 to 1' leads Focus, the team names the people, and the timeline leads with the MVP.
 export const facts: Facts = {
   role: 'Sole product designer',
-  team: 'Me + 1 engineer',
+  team: 'Designer + engineer',
   teamNote: 'With the AI Center of Excellence and Program Implementation',
-  focus: ['Journey mapping', 'Information architecture', 'AI review flows'],
-  time: '2 weeks of design',
-  timeNote: 'Inside a 1-month MVP, August 2026',
+  focus: ['0 to 1 product', 'Journey mapping', 'AI review flows'],
+  time: '1-month MVP',
+  timeNote: '2 weeks of design, August 2026',
 }
 
-// DRAFT brief, built from Michael's own hero and Problem copy; his rewrite replaces it.
+// The brief: Michael's points (Nov 23 2026), set in short plain sentences: a 0 to 1 product; a new
+// program took 12 to 15 months to implement; inside that, 4 to 5 data engineers spent close to 6
+// weeks matching our data structure to the outgoing system's and moving the data across; the app
+// was built to cut that effort, in time and in people.
 export const description =
-  'Every new state program meant mapping its old data onto ours by hand: 4 to 5 people, 4 to 6 weeks in Excel. As the sole designer, with one frontend engineer and the AI Center of Excellence, I designed an MVP where the AI drafts the mappings and people review and correct them.'
+  'A 0 to 1 product. Bringing a new state program onto Acentra Health took 12 to 15 months. Within that, 4 to 5 data engineers spent close to 6 weeks matching our data structure to the outgoing system’s, then moving the data across. The Data Conversion App was built to cut that effort, in both time and people.'
