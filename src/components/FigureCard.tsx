@@ -20,8 +20,9 @@ export function FigureCard({
   title: string
   children: React.ReactNode
 }) {
+  // Nov 23 2026: sage stage, rounded-2xl, no outline: the Acentra Health panel style
   return (
-    <figure className="m-0 rounded-lg border border-border bg-foundation-100 p-8 md:p-12">
+    <figure className="m-0 rounded-2xl bg-stage-sage p-8 md:p-12">
       <figcaption className="mb-10">
         {/* The 24px tick. A graphic, which is where accent-warm is allowed: it measures
             3.87:1 on this ground, over the 3:1 WCAG asks of non-text. */}

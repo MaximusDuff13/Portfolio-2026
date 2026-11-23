@@ -146,3 +146,38 @@ export function LayersDoodle({ ink }: Props) {
     />
   )
 }
+
+/* Data Conversion App hero (Nov 23 2026): a stopwatch with its hand swept half way round and speed
+   lines behind it: 30 minutes to the first mapping sheet */
+export function StopwatchDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 74 40 A 22 22 0 1 1 74 39.9',
+        'M 47 10 L 57 10 M 52 10 L 52 18',
+        'M 68 20 L 72 16',
+        'M 52 40 L 52 26',
+        'M 52 24 A 16 16 0 0 1 52 56',
+        'M 6 30 L 18 30 M 2 41 L 18 41 M 8 52 L 20 52',
+      ]}
+    />
+  )
+}
+
+/* Data Conversion App hero: two mapping sheets, each ticked off: 2 programs ran real conversions */
+export function ProgramsDoodle({ ink }: Props) {
+  return (
+    <Doodle
+      ink={ink}
+      paths={[
+        'M 10 12 L 42 12 L 42 54 L 10 54 Z',
+        'M 16 22 L 36 22 M 16 31 L 36 31 M 16 40 L 30 40',
+        'M 56 8 L 88 8 L 88 50 L 56 50 Z',
+        'M 62 18 L 82 18 M 62 27 L 82 27 M 62 36 L 76 36',
+        'M 18 62 L 23 67 L 33 57',
+        'M 64 58 L 69 63 L 79 53',
+      ]}
+    />
+  )
+}

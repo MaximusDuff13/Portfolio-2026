@@ -77,20 +77,22 @@ export type ProblemSolution = {
    the 3:1 a meaningful graphic needs. `connectorGround` fills the inside of their origin rings with
    the band colour, so each ring reads as an outline. */
 export function featureSurface(index: number) {
-  const dark = index % 2 === 0
+  // Nov 23 2026: every band is on the page ground now, like the Acentra Health case study; the
+  // Problem/Solution card takes a pale stage tint (Acentra's panels) instead of grey or dark.
+  const stages = ['bg-stage-straw', 'bg-stage-sage', 'bg-stage-ginger', 'bg-stage-sage']
   return {
-    band: dark ? 'bg-foundation-800' : 'bg-body',
-    card: dark ? 'bg-foundation-900' : 'border border-border bg-foundation-100',
-    cardText: dark ? 'text-foundation-300' : 'text-foundation-600',
-    cardLabel: dark ? 'text-body' : 'text-foundation-900',
-    cardIcon: dark ? 'text-foundation-400' : 'text-foundation-600',
-    eyebrow: dark ? 'text-foundation-400' : 'text-foundation-500',
-    title: dark ? 'text-body' : 'text-foundation-900',
-    conceptTitle: dark ? 'text-body' : 'text-foundation-900',
-    text: dark ? 'text-foundation-300' : 'text-foundation-600',
-    connector: dark ? 'text-foundation-400' : 'text-foundation-500',
-    connectorGround: dark ? 'fill-foundation-800' : 'fill-body',
-    tone: (dark ? 'dark' : 'light') as StateTone,
+    band: 'bg-body',
+    card: stages[index % stages.length],
+    cardText: 'text-foundation-700',
+    cardLabel: 'text-foundation-900',
+    cardIcon: 'text-foundation-600',
+    eyebrow: 'text-foundation-500',
+    title: 'text-foundation-900',
+    conceptTitle: 'text-foundation-900',
+    text: 'text-foundation-600',
+    connector: 'text-foundation-500',
+    connectorGround: 'fill-body',
+    tone: 'light' as StateTone,
   }
 }
 
@@ -100,8 +102,9 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
   return (
     // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
     // clips them there without a horizontal scrollbar.
-    <section className={`${surface.band} px-6 sm:px-10 lg:px-section py-section${states ? ' overflow-x-clip' : ''}`}>
-      <div className="max-w-6xl mx-auto">
+    <section className={`${surface.band} px-6 sm:px-10 lg:px-section pb-section${states ? ' overflow-x-clip' : ''}`}>
+      {/* a hairline between bands, as Acentra separates its sections, now that no band colour does */}
+      <div className="max-w-6xl mx-auto border-t border-border pt-section">
         <AnimatedSection>
           <FeatureHeader
             eyebrow={eyebrow}
@@ -113,7 +116,7 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
           {/* The Problem/Solution card: FigureCard's shape (rounded-lg, p-8 / md:p-12). Its fill,
               and whether it has an outline, come from featureSurface(). */}
           <div
-            className={`mt-10 grid grid-cols-1 gap-12 rounded-lg ${surface.card} p-8 md:grid-cols-2 md:p-12`}
+            className={`mt-10 grid grid-cols-1 gap-12 rounded-2xl ${surface.card} p-8 md:grid-cols-2 md:p-12`}
           >
             {lead.map(({ icon: Icon, label, lead: first, body }) => (
               <div key={label}>

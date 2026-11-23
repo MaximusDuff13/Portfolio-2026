@@ -1,6 +1,7 @@
 /* The brief and its four facts as colour tiles (option C, picked Nov 22 2026 over a ruled row and a
    single sage card): one stage tint each, with a small picture where it helps. Two by two on phones. */
 import { CalendarDays, PenTool } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 export type Facts = { role: string; team: string; teamNote: string; focus: string[]; time: string; timeNote: string }
 
@@ -10,7 +11,9 @@ const VALUE = 'm-0 mt-auto pt-5 font-display text-[20px] leading-tight text-foun
 const NOTE = 'm-0 mt-1 text-body-sm font-sans text-foundation-700'
 const DISC = 'flex h-12 w-12 items-center justify-center rounded-full'
 
-export function BriefFacts({ description, facts: f }: { description: string; facts: Facts }) {
+/* teamArt: the pictures in the Team tile. Left out, it shows the Acentra Health pair (Michael and the
+   lead developer); the Data Conversion App passes its own. */
+export function BriefFacts({ description, facts: f, teamArt }: { description: string; facts: Facts; teamArt?: ReactNode }) {
   return (
     <div className="mt-10">
       <div className="max-w-4xl">
@@ -28,11 +31,13 @@ export function BriefFacts({ description, facts: f }: { description: string; fac
         <div className={`${TILE} bg-stage-straw`}>
           <dt className={LABEL}>Team</dt>
           <dd className="m-0 mt-5 flex" aria-hidden="true">
+            {teamArt ?? <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/acentra-team/michael.webp" alt="" width={48} height={48} className="h-12 w-12 rounded-full border-2 border-solid border-stage-straw" />
             {/* the lead developer, cropped from their public GitHub picture (github.com/armper) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/acentra-team/lead-developer.webp" alt="" width={48} height={48} className="-ml-1.5 h-12 w-12 rounded-full border-2 border-solid border-stage-straw" />
+            </>}
           </dd>
           <dd className={VALUE}>{f.team}</dd>
           <dd className={NOTE}>{f.teamNote}</dd>

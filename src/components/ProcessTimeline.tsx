@@ -59,7 +59,7 @@ export function ProcessTimeline({
                   marker from lg up. */}
               <span
                 aria-hidden="true"
-                className="absolute left-[-5px] top-1.5 block h-[10px] w-[10px] rounded-full border border-foundation-700 bg-foundation-100 lg:hidden"
+                className="absolute left-[-5px] top-1.5 block h-[10px] w-[10px] rounded-full border border-foundation-700 bg-stage-sage lg:hidden"
               />
 
               <h3 className="mb-4 font-display text-body font-medium text-foundation-900">
@@ -69,7 +69,7 @@ export function ProcessTimeline({
               {/* The track. Decorative: the order is already carried by the <ol>. */}
               <div aria-hidden="true" className="relative hidden h-[10px] lg:block">
                 <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-foundation-300" />
-                <span className="absolute left-0 top-1/2 h-[10px] w-[10px] -translate-y-1/2 rounded-full border border-foundation-700 bg-foundation-100" />
+                <span className="absolute left-0 top-1/2 h-[10px] w-[10px] -translate-y-1/2 rounded-full border border-foundation-700 bg-stage-sage" />
                 {last && (
                   <span className="absolute right-0 top-1/2 h-0 w-0 -translate-y-1/2 border-y-[3px] border-l-[6px] border-y-transparent border-l-foundation-400" />
                 )}

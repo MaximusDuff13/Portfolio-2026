@@ -1,5 +1,13 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
+import { links } from '@/data/links'
+import { HeroMetrics } from '@/components/HeroMetrics'
+import { BriefFacts } from '@/components/BriefFacts'
+import { HeroSweep } from './HeroSweep'
+import { StopwatchDoodle, ProgramsDoodle } from '@/components/Doodles'
+import { description, facts, heroMetrics } from './hero-data'
+import '../case-study.css'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
@@ -8,7 +16,6 @@ import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
 import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight, LayoutGrid, Route, FileQuestion, MessageSquarePlus } from 'lucide-react'
 import { projectHub } from './projectHub'
-import { CrosswalkMatrix } from './CrosswalkMatrix'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
@@ -20,37 +27,6 @@ export const metadata: Metadata = {
   description:
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
-
-// Michael's wording: how the tool works, then the before and after. The DDI acronym it used to
-// open with is gone; the Problem section explains the conversion steps in plain words.
-const description =
-  'The AI drafts the mappings and people review and correct them. A step that took 4 to 5 people 4 to 6 weeks in Excel now takes one week.'
-
-// Hero eyebrow. The headline follows it directly — the old lead-in line restated
-// the role, which the sidebar's My Role block already covers.
-const heroEyebrow = 'Data conversion · AI-assisted MVP · August 2026'
-
-// Hero sidebar. Same label / value / supporting note shape as the rest of the case
-// study heroes. My Role is now the page's only statement of the role, so it absorbs
-// the scope phrasing that used to sit in a separate What I Owned block.
-// Timeline was added so what I owned, how long it took and who with all read on the first screen.
-const heroMeta = [
-  {
-    label: 'My Role',
-    value: 'Sole product designer',
-    note: 'Journey map, information architecture and every screen, from requirements to handoff',
-  },
-  {
-    label: 'Timeline',
-    value: '2 weeks of design',
-    note: 'Inside a 1 month MVP, with one frontend engineer',
-  },
-  {
-    label: 'Collaboration',
-    value: 'AI Center of Excellence and Program Implementation teams',
-    note: 'Worked with them from build through rollout, ahead of the state program cutover',
-  },
-]
 
 const processPhases = [
   { label: 'Stakeholder discovery', items: ['Data analysts', 'Project owners', 'AI Center of Excellence'] },
@@ -135,9 +111,10 @@ const mappingLead = [
 ]
 
 const mappingShipped = {
-  src: mappingDir + 'Mapping%20Variant%201%20Screen%201.png',
+  // Nov 23 2026: Michael's re-export with correct mapping data (replaced Mapping Variant 1 Screen 1)
+  src: mappingDir + 'Table%20Mapping%20screen.png',
   width: 3936,
-  height: 3117,
+  height: 3045,
   alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
 }
 
@@ -296,109 +273,46 @@ export default function DataConversionAppPage() {
   return (
     <main className="min-h-screen bg-body">
 
-      {/* Dark hero. px-section + max-w-6xl is the page's content column — the product shots and
-          Result below use the same pair, so all three share one left/right edge. pb-44 (176px)
-          leaves room for the product shots to overlap the band's bottom edge (see below). */}
-      <section className="relative overflow-hidden bg-foundation-900 px-6 sm:px-10 lg:px-section pt-section pb-44">
-
-        {/* Background illustration, behind the content. overflow-hidden clips its bleed
-            to the dark band; the product shots below are a sibling section, so their
-            -mt-28 overlap is unaffected. */}
-        <CrosswalkMatrix />
-
-        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
-
-          {/* Headline column — eyebrow, two-part headline, description. */}
-          <div className="md:col-span-8">
-            <AnimatedSection>
-              {/* foundation-400, not accent-warm: accent-warm measures 4.14:1 on foundation-900,
-                  under AA for 11px text. Orange stays on the large "Acentra Health" (3:1 is
-                  enough there), the same trade the feature bands make for their eyebrows. */}
-              <p className="text-label font-sans text-foundation-400 uppercase">
-                {heroEyebrow}
-              </p>
-
-              {/* The closing phrase carries the accent face — Fraunces italic, WONK pinned
-                  off via .accent-italic. Everything ahead of it stays Space Grotesk, so the
-                  face change is the emphasis.
-
-                  RESPONSIVE. display-2xl is a fixed 72px, which clipped "Reimagining" at a
-                  390px viewport, so the size steps up: 44px on a phone, display-xl from sm,
-                  display-2xl from lg. The token is global, so the steps live here. */}
-              <h1 className="vt-title-dca mt-6 text-[44px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-display-xl lg:text-display-2xl font-display text-body">
-                Reimagining data conversion at
-                <br />
-                <span className="font-display accent-italic text-accent-warm">
-                  Acentra Health
-                </span>
-              </h1>
-
-              <p className="mt-8 max-w-xl text-body font-sans text-foundation-300">
-                {description}
-              </p>
-            </AnimatedSection>
-          </div>
-
-          {/* Role / ownership / collaboration, on border-border rules. */}
-          <div className="md:col-span-4 flex flex-col justify-end">
-            <AnimatedSection>
-              {heroMeta.map(({ label, value, note }) => (
-                <div key={label} className="border-t border-border pt-4 pb-6">
-                  <p className="text-label font-sans text-foundation-400 uppercase">{label}</p>
-                  <p className="mt-2 text-heading-m font-display text-body">{value}</p>
-                  <p className="mt-2 text-caption font-sans text-foundation-400">{note}</p>
-                </div>
-              ))}
-            </AnimatedSection>
-          </div>
-
+      {/* Hero, in the Acentra Health case study's shape (Nov 23 2026): breadcrumb; the title on one
+          line, its second half in olive italic; the outcomes as a row of large figures (HeroMetrics);
+          the screen on the sky stage the home card uses, so the card's morph lands on the same colour;
+          then the brief and its four facts (BriefFacts). */}
+      <section className="px-6 sm:px-10 lg:px-section pt-section">
+        <div className="max-w-6xl mx-auto">
+          <nav aria-label="Breadcrumb">
+            <ol className="m-0 flex list-none flex-wrap items-baseline gap-x-2 p-0 text-body font-sans">
+              <li>
+                <Link href={links.home} className="rounded-sm text-foundation-600 underline-offset-4 hover:text-foundation-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-warm focus-visible:ring-offset-2 focus-visible:ring-offset-body">Home</Link>
+              </li>
+              <li aria-hidden="true" className="text-foundation-500">/</li>
+              <li aria-current="page" className="font-medium text-foundation-900">Data Conversion App</li>
+            </ol>
+          </nav>
+          <h1 className="vt-title-dca mt-6 mb-0 font-display font-medium text-foundation-900" style={{ fontSize: 'clamp(38px, 6.2vw, 88px)', lineHeight: 1.02, letterSpacing: '-0.03em' }}>
+            Faster data conversion,{' '}<br className="hidden sm:inline" /><span className="cs-lede accent-italic">with a human in the loop.</span>
+          </h1>
+          {/* each figure with its doodle on the left, in the accent ink Acentra's light tiles use */}
+          <HeroMetrics items={heroMetrics.map((m, i) => ({ ...m, art: i === 0 ? <StopwatchDoodle ink="#b15900" /> : <ProgramsDoodle ink="#b15900" /> }))} />
         </div>
       </section>
 
-      {/* Product shot — a single screen. Pulled up with -mt-28 (112px) so it straddles the hero's
-          bottom edge; against the hero's pb-44 (176px) that leaves 176 − 112 = 64px of clear dark
-          between the hero copy and the top of the screen.
-
-          This replaced a three-screen depth stack that fanned out on hover. The hover left dead
-          space beneath the spread row, and one screen states the product more plainly — so this is
-          static, and the page no longer needs a client component here.
-
-          CONTENT: the shipped mapping screen (the same file that closes Mapping & transformation).
-          It is the product's core, fields matched with AI confidence and review status beside the
-          details panel, so it states what the app does at a glance; the full story still belongs
-          to its section later on the page. Cropped to 16:9 from the top (object-top), it keeps the
-          header, the completion stats, the filters and the first rows beside the panel. It is the
-          page's largest above-the-fold image, so next/image with priority. No browser chrome, so
-          this reads as a product shot rather than a re-run of the BrowserMockup.
-
-          The 1px white ring is carried over from the depth stack: the panel's top half sits on the
-          dark hero, where a light hairline reads as a crisp edge, and it disappears against the
-          light section below.
-
-          pb-section is the only gap to the Problem section, which has no top rule of its own,
-          so the two sit exactly one `section` (80px) apart. */}
-      {/* relative z-10 is load-bearing: the hero above is `relative` (it has to be, to hold the
-          background illustration), and a positioned element paints over a static sibling no matter
-          the DOM order — which clipped the top 112px of this shot. Lifting this section explicitly
-          puts the overlap back on top where it belongs. */}
-      <section className="relative z-10 px-6 sm:px-10 lg:px-section pb-section -mt-28">
+      <section className="px-6 sm:px-10 lg:px-section pt-4">
         <div className="max-w-6xl mx-auto">
-          <div
-            className="vt-media-dca relative overflow-hidden rounded-lg border border-border bg-foundation-100 aspect-video"
-            style={{
-              boxShadow:
-                '0 0 0 1px rgba(255, 255, 255, 0.16), 0 25px 50px -12px rgba(0, 0, 0, 0.3)',
-            }}
-          >
-            <Image
-              src={mappingShipped.src}
-              alt="The Data Conversion App's mapping screen: target fields matched to source fields, each with an AI confidence score and a review status, beside an open Mapping details panel."
-              fill
-              priority
-              sizes="(min-width: 1152px) 1152px, 100vw"
-              className="object-cover object-top"
-            />
-          </div>
+          <HeroSweep />
+        </div>
+      </section>
+
+      <section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
+        <div className="max-w-6xl mx-auto">
+          <BriefFacts
+            description={description}
+            facts={facts}
+            teamArt={<>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/acentra-team/michael.webp" alt="" width={48} height={48} className="h-12 w-12 rounded-full border-2 border-solid border-stage-straw" />
+              <span className="-ml-1.5 flex h-12 w-12 items-center justify-center rounded-full border-2 border-solid border-stage-straw bg-stage-straw-strong text-foundation-900"><Users size={22} strokeWidth={1.75} /></span>
+            </>}
+          />
         </div>
       </section>
 
