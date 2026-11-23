@@ -3,7 +3,6 @@
    behind one switch, off at first, so the section reads as images and one-liners. Each note folds
    open as a card inside the stage it explains. The words come from the old method text. */
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import { Pencil } from 'lucide-react'
 
 export type NoteKey = 'green' | 'scale' | 'tokens' | 'type' | 'corners'
 
@@ -47,7 +46,6 @@ export function DesignNote({ k, className = '', card = 'bg-body' }: { k: NoteKey
     <div aria-hidden={!on} className={`grid transition-[grid-template-rows,opacity] duration-300 motion-reduce:transition-none ${on ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'} ${className}`}>
       <div className="overflow-hidden">
         <div className={`mt-4 flex gap-3 rounded-lg p-4 ${card}`}>
-          <Pencil size={16} strokeWidth={2} className="mt-1 flex-none text-accent-warm" aria-hidden="true" />
           <p className="m-0 font-sans text-body-sm text-foundation-900">{NOTES[k]}</p>
         </div>
       </div>

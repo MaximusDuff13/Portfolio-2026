@@ -192,7 +192,7 @@ export default function AcentraHealthPage() {
       {/* The brief (Oct 30 2026): the merge as one line across the page, like an equation
           (Kepro + CNSI = one design system), between two hairlines and with no container, so it
           doesn't compete with the hero's sage stage; the brief and its facts underneath. */}
-      <section id="brief" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-16">
+      <section id="brief" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
         <div className="max-w-6xl mx-auto">
           {/* two halves that wrap as units on phones: "Kepro + CNSI" over "= One design system" */}
           <figure className="m-0 flex flex-wrap items-center gap-x-5 gap-y-4 border-y border-border py-8 sm:gap-x-8" aria-label="Kepro and CNSI, merged into one design system">
@@ -223,7 +223,7 @@ export default function AcentraHealthPage() {
           {/* Audit: the intro, then the three findings as marked-up exhibits, grouped by the screen
               they were taken from (AuditFindings). */}
           <AnimatedSection>
-            <div id="audit" data-toc-section className="pt-section pb-section">
+            <div id="audit" data-toc-section className="border-t border-border pt-section pb-section">
               <div className="max-w-2xl">
                 <SectionHeader index="01" eyebrow="Audit" title="A fragmented foundation" />
                 <p className="mt-4 mb-0 text-body font-sans text-foundation-700">{auditIntro}</p>
