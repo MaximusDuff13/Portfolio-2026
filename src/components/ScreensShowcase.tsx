@@ -41,13 +41,15 @@ const INVENTORY: Screen = {
   alt: 'Smart Inventory Tracker: a pricing plan table with a summary panel and green Subscribe button',
 }
 
-// The summary strip of Figma's library analytics, 1089 × 81 (moved here from the old ResultsSection).
-const ANALYTICS = {
-  src: '/images/acentra-hero/Metrics.png',
-  alt: 'Figma library analytics for the design system: used by 10 teams, 119 components, 30 styles, 307 variables, 1.2k inserts this week',
-}
-// the export carries a dark 6px edge on the left and a panel divider in its last 4px: clip both
-const STRIP_CLIP = '[clip-path:inset(0_4px_0_6px)]'
+// Figma's library analytics for the system (from Michael's export, acentra-hero/Metrics.png, which the
+// page no longer shows as an image). "10 teams" are Figma team projects, which belong to 5 key teams;
+// the 119 components are the variants and parts of 39 components (Michael, Nov 22 2026).
+const FIGMA_ROWS: [string, string, string?][] = [
+  ['10', 'team projects', 'our 5 key teams'],
+  ['119', 'components', 'variants and parts of our 39'],
+  ['307', 'variables'],
+  ['30', 'styles'],
+]
 
 const LIGHT = { text: 'text-foundation-900', sub: 'text-foundation-700' }
 const DARK = { text: 'text-white', sub: 'text-[#c6c6c6]' }
@@ -106,6 +108,30 @@ function ResultTile({ big, line, vs, bg, tone, art, className = '' }: { big: str
   )
 }
 
+/* the From Figma tile: the drawing, the week's inserts as the headline figure, then the library's
+   other numbers as a short list */
+function FigmaTile({ className = '' }: { className?: string }) {
+  return (
+    <div className={`flex flex-col rounded-2xl bg-stage-sage-strong p-5 sm:p-7 ${className}`}>
+      <ComponentDoodle ink="#b15900" />
+      <p className="m-0 mt-5 font-sans text-label uppercase text-foundation-700">From Figma</p>
+      <p className="m-0 mt-3 font-display text-[clamp(40px,4.6vw,60px)] leading-none text-foundation-900">1.2k</p>
+      <p className="m-0 mt-3 font-sans text-body text-foundation-900">component inserts in one week.</p>
+      <dl className="m-0 mt-auto pt-6">
+        {FIGMA_ROWS.map(([n, what, note]) => (
+          <div key={what} className="flex items-baseline gap-3 border-0 border-t border-solid border-foundation-900/15 py-2.5">
+            <dt className="w-12 shrink-0 font-display text-heading-m leading-none text-foundation-900">{n}</dt>
+            <dd className="m-0 font-sans text-body-sm text-foundation-900">
+              {what}
+              {note && <span className="block text-foundation-700">{note}</span>}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
 export function ScreensShowcase() {
   return (
     <section aria-labelledby="screens-built" className="mt-16">
@@ -132,22 +158,10 @@ export function ScreensShowcase() {
           <JiraVideo />
         </figure>
 
-        <ResultTile big="1.2k" line="component inserts in one week." vs="Figma’s library analytics, below" bg="bg-stage-sage-strong" tone={LIGHT} art={<ComponentDoodle ink="#b15900" />} className="md:col-span-2" />
+        {/* From Figma (Nov 23 2026, option B): the 1.2k tile also carries Figma's library numbers, so it
+            fills the height the Inventory tile gives it; the separate dark Figma strip is gone */}
+        <FigmaTile className="md:col-span-2" />
         <ScreenTile s={INVENTORY} n={3} bg="bg-stage-straw" tone={LIGHT} big sizes="(min-width: 768px) 680px, 100vw" delay={280} className="md:col-span-4" />
-
-        {/* the proof: Figma's own numbers, on its own panel grey. Phones scroll it sideways so it stays readable. */}
-        <figure className="m-0 rounded-2xl bg-[#2c2c2c] p-5 sm:p-7 md:col-span-6">
-          <span className="block font-sans text-label uppercase text-[#c6c6c6]">From Figma</span>
-          <div className="mt-4 overflow-x-auto">
-            <Develop className="rounded-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={ANALYTICS.src} alt={ANALYTICS.alt} width={1089} height={81} loading="lazy" className={`block h-auto w-[1089px] max-w-none md:w-full md:max-w-[1089px] ${STRIP_CLIP}`} />
-            </Develop>
-          </div>
-          <figcaption className="mt-4 font-sans text-body-sm text-[#c6c6c6]">
-            Figma counts 10 team projects; they belong to our 5 key teams. Its 119 components are the variants and parts of our 39.
-          </figcaption>
-        </figure>
       </div>
     </section>
   )
