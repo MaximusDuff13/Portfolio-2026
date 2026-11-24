@@ -24,8 +24,8 @@ export const facts: Facts = {
 }
 
 // The brief: Michael's points (Nov 23 2026), set in short plain sentences: a 0 to 1 product; a new
-// program took 12 to 15 months to implement; inside that, 4 to 5 data engineers spent close to 6
+// program took 12 to 24 months to implement; inside that, 4 to 5 data engineers spent close to 6
 // weeks matching our data structure to the outgoing system's and moving the data across; the app
 // was built to cut that effort, in time and in people.
 export const description =
-  'A 0 to 1 product. Bringing a new state program onto Acentra Health took 12 to 15 months. Within that, 4 to 5 data engineers spent close to 6 weeks matching our data structure to the outgoing system’s, then moving the data across. The Data Conversion App was built to cut that effort, in both time and people.'
+  'A 0 to 1 product. Bringing a new state program onto Acentra Health took 12 to 24 months. Within that, 4 to 5 data engineers spent close to 6 weeks matching our data structure to the outgoing system’s, then moving the data across. The Data Conversion App was built to cut that effort, in both time and people.'

@@ -25,7 +25,7 @@
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { ImpactClosing } from './ImpactClosing'
 
-// Only the duration takes accent-warm, mirroring Problem's "4 to 6 weeks". It is the one
+// Only the duration takes accent-warm, mirroring Problem's "Close to 6 weeks". It is the one
 // accented thing in this section. The duration now ends the line, so it follows the lead.
 const bigLead = "Ready for the state's review in "
 const bigAccent = 'a week'
@@ -40,7 +40,7 @@ const paragraph =
 // strongest results read like footnotes. Still no fill, border or accent: size carries them.
 // The wording is the ledger's, split around the figure.
 const stats = [
-  { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from 4 to 6 weeks' },
+  { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from close to 6 weeks' },
   { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence. The rest were flagged medium or low for a person to check.' },
   { label: 'Real use', figure: '2', rest: 'programs ran real conversions on the MVP' },
 ]
