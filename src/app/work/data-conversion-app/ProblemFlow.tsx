@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useId } from 'react'
+import { HOT, INK, Stroke, Wobble, useOnScreen } from './pen'
 
 /* Problem: the old process as a hand-drawn flow across two lanes, the state and our team
    (Nov 24 2026; Michael chose this over a single line, a numbered list and a loop). Same pen as
@@ -9,49 +10,6 @@ import { useEffect, useId, useRef, useState } from 'react'
 
    Pure SVG, so it keeps its shape and scales with its card. Below md it is drawn at a fixed width
    and scrolls sideways inside the card. */
-const INK = '#44403c' // foundation-700-ish: the plain steps
-const HOT = '#b15900' // ginger, same as the hero doodles: the costly bits
-
-function useOnScreen<T extends Element>() {
-  const ref = useRef<T>(null)
-  const [on, setOn] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setOn(true), io.disconnect()), { threshold: 0.3 })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return [ref, on] as const
-}
-
-function Wobble({ id }: { id: string }) {
-  return (
-    <filter id={id} x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" />
-      <feDisplacementMap in="SourceGraphic" scale="2.4" />
-    </filter>
-  )
-}
-
-/* One stroked path that draws itself in. */
-function Stroke({ d, ink = INK, w = 2.4, delay = 0, dash }: { d: string; ink?: string; w?: number; delay?: number; dash?: boolean }) {
-  return (
-    <path
-      d={d}
-      pathLength={1}
-      className="cs-ring"
-      style={{
-        stroke: ink,
-        strokeWidth: w,
-        fill: 'none',
-        strokeLinejoin: 'round',
-        animationDelay: `${delay}ms`,
-        ...(dash ? { strokeDasharray: '0.012 0.014', strokeDashoffset: 0, animation: 'none' } : {}),
-      }}
-    />
-  )
-}
 
 type Node = { x: number; y: number; lines: string[]; hot?: boolean }
 const W = 172
