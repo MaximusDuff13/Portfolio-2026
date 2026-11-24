@@ -68,7 +68,7 @@ export const projectHubCompleted = {
 }
 
 export const projectHub: ProblemSolution = {
-  eyebrow: 'Project hub',
+  eyebrow: '04 · Project hub',
   title: 'How do you show where a project stands?',
   lead: projectHubLead,
   states: projectHubStates,

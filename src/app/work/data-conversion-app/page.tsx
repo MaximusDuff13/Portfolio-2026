@@ -11,12 +11,14 @@ import '../case-study.css'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { Users, Rows3, PanelRight, LayoutGrid, Route, FileQuestion, MessageSquarePlus } from 'lucide-react'
+import { Users, Rows3, PanelRight, FileQuestion, MessageSquarePlus } from 'lucide-react'
 import { projectHub } from './projectHub'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
 import { ProcessSection } from './ProcessSection'
+import { ChapterBreak } from './ChapterBreak'
+import { RequirementsFeature } from './RequirementsFeature'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 
@@ -90,33 +92,6 @@ const mappingShipped = {
 const mappingShippedCaption =
   'Every match shows how sure the AI is (high, medium or low) and whether the AI suggested it or a person set it. People can filter by AI score to start with the weakest matches, change the source field in the panel, and move each mapping through review until the state approves it.'
 
-/* Requirements gathering. No concepts or shipped screen: the card, then the journey map the
-   solution describes. Icons: LayoutGrid (the separate screens) and Route (the journey between
-   them), drawn like the other card icons. */
-const requirementsDir = '/images/data-conversion-app/requirement-gathering/'
-
-const requirementsLead = [
-  {
-    icon: LayoutGrid,
-    label: 'Problem',
-    lead: 'The first screens were each built with AI and shown to leadership to win their support, but they had no flow.',
-    body: "Nobody knew where a user would come from, what they'd click, or what they'd do next. It was a set of big screens with nothing defined between them.",
-  },
-  {
-    icon: Route,
-    label: 'Solution',
-    lead: 'Start with the people building it and the people using it, not the screens.',
-    body: "I mapped the current journey with stakeholders, then worked with the AI Center of Excellence to learn what they'd built and which parts of the process they were going after. Putting the two together showed exactly where AI could save time. For the MVP we picked one piece of that flow and built it so the rest could follow.",
-  },
-]
-
-const journeyMap = {
-  src: requirementsDir + 'journey-map-horizontal.png',
-  width: 3600,
-  height: 2338,
-  alt: 'Customer journey map for data conversion across five stages — agreement, initial mapping, state review, transformation, and conversion and sync — showing steps, touchpoints, actors, where AI can help, and an emotion curve. Initial mapping is the low point; at transformation, experienced staff stay neutral while new staff are overwhelmed. The Data Conversion App spans the first four stages.',
-}
-
 /* Schema & Wiki creation. No concepts and no single image: the card, then the three screens in
    the order a person meets them, each with its label and sentence. Icons: FileQuestion (what
    happens after upload was undefined) and MessageSquarePlus (the prompt added beside the upload),
@@ -168,24 +143,19 @@ const schemaWikiSequence = [
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here.
 
-   ORDER. The user's journey: Requirements, then Schema & Wiki creation (the upload the
+   ORDER. The user's journey: Requirements (RequirementsFeature.tsx, in the new sketchbook layout,
+   so not in this list), then Schema & Wiki creation (the upload the
    mappings are drafted from), then Mapping & transformation. Project hub, the overview of
    every stage, comes last, once the reader has met those stages. */
 const problemSolutions: ProblemSolution[] = [
   {
-    eyebrow: 'Requirements gathering',
-    title: 'Where does the user go next?',
-    lead: requirementsLead,
-    image: journeyMap,
-  },
-  {
-    eyebrow: 'Schema & Wiki creation',
+    eyebrow: '02 · Schema & Wiki creation',
     title: 'The AI needed context, not just a file',
     lead: schemaWikiLead,
     sequence: schemaWikiSequence,
   },
   {
-    eyebrow: 'Mapping & transformation',
+    eyebrow: '03 · Mapping & transformation',
     title: 'How do you fit everything into one table?',
     lead: mappingLead,
     concepts: mappingConcepts,
@@ -288,6 +258,7 @@ export default function DataConversionAppPage() {
           Problem, MVP focus, Impact and Process share one full-width shape (Nov 24 2026): italic
           label, plain serif heading, one-line description, then the visual. Each is co-located
           beside this page. */}
+      <ChapterBreak part="Part one" title="Understanding the work" />
       <ProblemSection />
 
       {/* ── MVP focus ──
@@ -313,9 +284,10 @@ export default function DataConversionAppPage() {
 
           HEADING. Each band's title is an h3, so the run gets an sr-only h2 of its own; without
           it the four titles nested under Process in the outline. */}
-      <h2 className="sr-only">Key design decisions</h2>
+      <ChapterBreak part="Part two" title="Designing the app" />
+      <RequirementsFeature />
       {problemSolutions.map((feature, i) => (
-        <ProblemSolutionFeature key={feature.eyebrow} index={i} feature={feature} />
+        <ProblemSolutionFeature key={feature.eyebrow} index={i + 1} feature={feature} />
       ))}
 
       {/* ── Testimonials ──

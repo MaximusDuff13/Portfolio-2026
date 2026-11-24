@@ -28,15 +28,15 @@ const setup =
 const cost = 'close to 6 weeks, done in Excel'
 const costRest = ', by 4 to 5 data engineers on every new state program.'
 
-// SPACING. One source of space per side of every rule, so each hairline sits centred in 160px:
-//   · border-t + pt-section at the top — the shot above pads its own bottom by 80px.
+// SPACING. No hairline on top: the Part one chapter break (ChapterBreak.tsx) sits directly above,
+// and its pen arrow leads into this section.
 //   · pb-section at the bottom — the 80px above MVP focus's own leading rule.
 export function ProblemSection() {
   return (
     <section className="px-6 sm:px-10 lg:px-section">
       <div className="max-w-6xl mx-auto">
         <AnimatedSection>
-          <div className="border-t border-border pt-section pb-section">
+          <div className="pt-6 pb-section">
             <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">Problem</h2>
 
             <p className="mt-4 max-w-2xl font-display text-heading-l font-medium leading-[1.15] tracking-[-0.02em] text-foundation-900">
