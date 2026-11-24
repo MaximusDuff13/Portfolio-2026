@@ -8,17 +8,15 @@ import { HeroSweep } from './HeroSweep'
 import { StopwatchDoodle, ProgramsDoodle } from '@/components/Doodles'
 import { description, facts, heroMetrics } from './hero-data'
 import '../case-study.css'
-import { AnimatedSection } from '@/components/AnimatedSection'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
-import { ProcessTimeline } from '@/components/ProcessTimeline'
-import { PrincipleGrid } from '@/components/PrincipleGrid'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { ClipboardCheck, Users, Eye, CheckCircle2, Rows3, PanelRight, LayoutGrid, Route, FileQuestion, MessageSquarePlus } from 'lucide-react'
+import { Users, Rows3, PanelRight, LayoutGrid, Route, FileQuestion, MessageSquarePlus } from 'lucide-react'
 import { projectHub } from './projectHub'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
+import { ProcessSection } from './ProcessSection'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 
@@ -28,36 +26,6 @@ export const metadata: Metadata = {
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
 
-const processPhases = [
-  { label: 'Stakeholder discovery', items: ['Data analysts', 'Project owners', 'AI Center of Excellence'] },
-  { label: 'Information architecture', items: ['Touchpoints across the journey', 'How conversion works, end to end', 'Where AI could summarise and simplify'] },
-  { label: 'Design', items: ['Claude Design, using our design system', 'Figma for final polish'] },
-  { label: 'Dev + testing', items: ['Partnered with the dev team through build and testing'] },
-]
-
-// Each principle points at a moment in this project rather than general advice.
-const processPrinciples = [
-  {
-    icon: Users,
-    term: 'Start with the people',
-    body: 'Before any screens, I mapped the journey with the analysts and project owners who do this work, so the AI was built around a real flow.',
-  },
-  {
-    icon: ClipboardCheck,
-    term: 'Learn the backend first',
-    body: 'I sat with the AI Center of Excellence to understand what their models were doing before I designed anything that showed it.',
-  },
-  {
-    icon: Eye,
-    term: 'Let the evidence argue',
-    body: "Testing showed the AI couldn't pick up every business rule from a data dictionary. That result, not an opinion, is what got the prompt field into scope.",
-  },
-  {
-    icon: CheckCircle2,
-    term: 'Agree on what to cut',
-    body: 'We settled early on what the MVP would leave out: delight and visual polish went, usable and functional stayed. MoSCoW on each screen kept those calls quick.',
-  },
-]
 
 /* PROBLEM-AND-SOLUTION FEATURES. One so far: Mapping & transformation. Its pieces are defined
    here and gathered into the problemSolutions list below; nothing is stubbed out for features
@@ -317,13 +285,9 @@ export default function DataConversionAppPage() {
       </section>
 
       {/* ── The Problem, then Impact ──
-          This pair replaced At a glance. Problem states what step 1 cost when it was done by
-          hand; Impact answers it and carries the results, the organizational read and the two
-          quotes. Both are co-located components — see ProblemSection.tsx and Impact.tsx, which
-          share one spine and the Fraunces italic (a font family, not a named type token).
-
-          Impact carries no leading rule: Problem closes on its own, and that hairline is the
-          divider between the two. */}
+          Problem, MVP focus, Impact and Process share one full-width shape (Nov 24 2026): italic
+          label, plain serif heading, one-line description, then the visual. Each is co-located
+          beside this page. */}
       <ProblemSection />
 
       {/* ── MVP focus ──
@@ -334,57 +298,16 @@ export default function DataConversionAppPage() {
 
       <Impact />
 
-      {/* ── Process ──
-          The label sits in the left rail and the figure takes the right column, tops
-          aligned on the same grid row — the same two-column shape Problem and MVP focus
-          use. The visible heading, the Before block and the joined pill were removed; the
-          section keeps an accessible heading through an sr-only h2, so the document outline
-          is unchanged even though nothing is drawn for it.
-
-          ACCENT. accent-warm is on the eyebrow tick and the figure card’s tick, both
-          graphics. The figure itself uses no accent at all, and no body text is ever
-          accent-coloured. */}
-      <section className="px-6 sm:px-10 lg:px-section pb-section">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-6">
-              {/* The rail label, set like Problem's, MVP focus's and Impact's, and the section's
-                  real h2 (it replaced an uppercase label + tick over an sr-only heading). */}
-              <div className="md:col-span-3">
-                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
-                  Process
-                </h2>
-              </div>
-
-              <div className="md:col-span-9">
-                <ProcessTimeline title="Process overview" phases={processPhases}>
-                  {/* Same card, second half. The rule is the only separator: a second
-                      FigureCard here would break the figure into two unrelated panels. */}
-                  <div className="mt-12 border-t border-border pt-10">
-                    {/* foundation-600, not the foundation-500 the brief named — on this
-                        card's foundation-100 ground foundation-500 measures 4.40:1, under
-                        the 4.5:1 the same brief requires. Same trade as FigureCard's own
-                        caption. */}
-                    <p className="mb-6 font-sans text-label uppercase tracking-widest text-foundation-600">
-                      Working with stakeholders
-                    </p>
-                    <PrincipleGrid items={processPrinciples} />
-                  </div>
-                </ProcessTimeline>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* ── Process ── its own section, see ProcessSection.tsx. */}
+      <ProcessSection />
 
       {/* ── Problem-and-solution features ──
           Sits between Process and Keep exploring. Each feature is its own full-bleed band,
           rendered by ProblemSolutionFeature from the problemSolutions list; the band and card
           backgrounds alternate by position, so the next feature is a new list entry.
 
-          NO RAIL, unlike Problem, MVP focus, Impact and Process. Those sections put a label at
-          col-span-3 and their content at col-span-9; these run the full wrap, because on the spine
-          each wireframe column came out at 255px, too narrow to read a dense table.
+          NO RAIL: these run the full wrap, because on a 9-column spine each wireframe column came
+          out at 255px, too narrow to read a dense table.
 
           ACCENT. None: no body text or graphic in these bands is accent-coloured.
 

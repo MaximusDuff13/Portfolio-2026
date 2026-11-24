@@ -1,99 +1,79 @@
-// Impact — a sibling of the Problem section (ProblemSection.tsx), and co-located with it beside
-// the page, so the live page never imports from a temporary preview folder.
+// Impact — right after MVP focus, in the same full-width shape as Problem and MVP focus (Nov 24
+// 2026, Michael picked I2 from /dev/impact): label, heading, one-line description, three result
+// cards, then the Program Director's quote, large, on its own.
 //
-// SPINE: identical to Problem's — italic label alone in the left margin (md:col-span-3), content
-// in the right column (md:col-span-9), label stacking above content on a phone. The big line and
-// the paragraph reuse Problem's exact classes so the two sections set as a pair:
-//   big line  = Problem's heading    → font-display accent-italic text-display-xl
-//   paragraph = Problem's paragraph  → max-w-lg text-body font-sans text-foundation-700
+// THE NUMBERS (Michael, Nov 24 2026):
+//   Time      1 week for mapping & transformation up to the state's review; was close to 6 weeks.
+//   People    1 engineer + 1 reviewer per implementation; was 4 to 5 engineers.
+//   Coverage  ~890 of 1,200 target columns at high confidence, in ONE implementation. Another came
+//             in around 560 because of issues in its source data, so the figure always says
+//             "in one implementation".
+// "2 programs ran real conversions" is not here: the hero carries it.
 //
-// The big line is the first thing in the content column, so it starts at the same grid row as
-// the label, exactly as Problem's stakes line does.
+// THE QUOTE stays verbatim, with nothing added under it (Michael removed the "first run" note).
+// Its 24 hours was the first run; the hero's 30 mins is setup to first mapping sheet today.
 //
-// NO LEADING RULE, deliberately. Problem closes on its own `mt-section border-t border-border`,
-// so that hairline is already the divider between the two sections; adding a second one here
-// reproduced the doubled edge that was removed from the live page. Every divider INSIDE the
-// section is a border-t as specified.
-//
-// THE SERIF is Fraunces italic via `font-display` + the `.accent-italic` utility — exactly what
-// Problem already uses. Nothing was added to tailwind.config.js or to globals.css.
-//
-// MOTION: each block is its own AnimatedSection, so the blocks cross the viewport threshold a
-// beat apart rather than animating as one slab. Reduced motion is handled inside
-// AnimatedSection (it swaps fadeUp for fadeIn). The closing block runs its own stagger — see
-// ImpactClosing.tsx for why that one needs framer-motion directly.
+// NO LEADING RULE. MVP focus closes on its own `mt-section border-t border-border`, so that
+// hairline is already the divider between the two sections.
 import { AnimatedSection } from '@/components/AnimatedSection'
-import { ImpactClosing } from './ImpactClosing'
+import { StopwatchDoodle, TeamsDoodle, ProgramsDoodle } from '@/components/Doodles'
 
-// Only the duration takes accent-warm, mirroring Problem's "Close to 6 weeks". It is the one
-// accented thing in this section. The duration now ends the line, so it follows the lead.
-const bigLead = "Ready for the state's review in "
-const bigAccent = 'a week'
+// The doodles' ink, the same ginger the hero figures use.
+const INK = '#b15900'
+const LABEL = 'text-label font-sans text-foundation-500 uppercase tracking-widest'
 
-// The last two sentences square the headline with the Program Director's quote: 1 week is the
-// whole step through state review; 24 hours (from 2 to 3 weeks) is the first draft alone.
-const paragraph =
-  "The MVP drafts the mappings and their transformation rules, and a person checks and confirms each one instead of writing it from scratch. That 1 week covers the whole step, up to the state's review. The first draft on its own used to take 2 to 3 weeks and now takes about 24 hours."
-
-// The results: three figures side by side, each a label, the figure in the stat token, and the
-// rest of its sentence below. This replaced a ledger of body-sm sentences, where the page's
-// strongest results read like footnotes. Still no fill, border or accent: size carries them.
-// The wording is the ledger's, split around the figure.
 const stats = [
-  { label: 'Speed', figure: '1 week', rest: 'Mapping & transformation, down from close to 6 weeks' },
-  { label: 'Coverage', figure: '600', rest: 'of 1,200 target columns mapped at high confidence. The rest were flagged medium or low for a person to check.' },
-  { label: 'Real use', figure: '2', rest: 'programs ran real conversions on the MVP' },
+  { key: 'Time', n: '1 week', line: 'for mapping & transformation, up to the state’s review', was: 'Was close to 6 weeks', art: <StopwatchDoodle ink={INK} />, tint: 'bg-stage-straw' },
+  { key: 'People', n: '1 + 1', line: 'one engineer and one reviewer per implementation', was: 'Was 4 to 5 engineers', art: <TeamsDoodle ink={INK} />, tint: 'bg-stage-sage' },
+  { key: 'Coverage', n: '~890', line: 'of 1,200 target columns mapped at high confidence, in one implementation', was: 'The rest flagged for a person to check', art: <ProgramsDoodle ink={INK} />, tint: 'bg-stage-ginger' },
 ]
+
+const quote =
+  '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”'
+const quoteRole = 'Pradeep Jain, Program Director'
 
 export function Impact() {
   return (
     <section className="px-6 sm:px-10 lg:px-section pb-section">
-      <div className="max-w-6xl mx-auto">
-        <div className="pt-section">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-6">
+      <div className="max-w-6xl mx-auto pt-section">
+        <AnimatedSection>
+          <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">Impact</h2>
+          <p className="mt-4 max-w-2xl font-display text-heading-l font-medium leading-[1.15] tracking-[-0.02em] text-foundation-900">
+            Ready for the state’s review in <span className="text-accent-warm">a week</span>
+          </p>
+          <p className="mt-4 max-w-2xl text-body font-sans text-foundation-500">
+            The MVP drafts each mapping and its transformation rule. A person checks and confirms each one instead of
+            writing it from scratch.
+          </p>
+        </AnimatedSection>
 
-            <div className="md:col-span-3">
-              <AnimatedSection>
-                <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">
-                  Impact
-                </h2>
-              </AnimatedSection>
-            </div>
-
-            <div className="md:col-span-9">
-              <AnimatedSection>
-                <p className="max-w-3xl font-display accent-italic text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-display-xl text-foundation-900">
-                  {bigLead}
-                  <span className="text-accent-warm">{bigAccent}</span>
-                </p>
-
-                <p className="mt-10 max-w-lg text-body font-sans text-foundation-700">
-                  {paragraph}
-                </p>
-              </AnimatedSection>
-
-              {/* Results. A <dl>: each label names its figure. */}
-              <AnimatedSection>
-                <dl className="m-0 mt-12 grid grid-cols-1 gap-8 border-t border-border pt-8 md:grid-cols-3 md:gap-10">
-                  {stats.map(({ label, figure, rest }) => (
-                    <div key={label} className="flex flex-col">
-                      <dt className="text-label font-sans text-foundation-500 uppercase tracking-widest">
-                        {label}
-                      </dt>
-                      <dd className="m-0 mt-4 text-stat font-display text-foundation-900">{figure}</dd>
-                      <dd className="m-0 mt-3 text-body-sm font-sans text-foundation-600">{rest}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </AnimatedSection>
-
-              {/* Closing block — the organization statement and the quote, side by side. Its
-                  own component because the left-to-right stagger needs framer-motion directly;
-                  see ImpactClosing.tsx. */}
-              <ImpactClosing />
-            </div>
+        {/* The results, one stage card each. A <dl> per card: the label names its figure. */}
+        <AnimatedSection>
+          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {stats.map((s) => (
+              <dl key={s.key} className={`m-0 flex flex-col rounded-2xl ${s.tint} p-6 sm:p-8`}>
+                <div className="flex items-start justify-between gap-4">
+                  <dt className={LABEL}>{s.key}</dt>
+                  {s.art}
+                </div>
+                <dd className="m-0 mt-4 font-display font-medium text-accent-warm" style={{ fontSize: 'clamp(40px, 4.4vw, 60px)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                  {s.n}
+                </dd>
+                <dd className="m-0 mt-3 text-body-sm font-sans text-foundation-800">{s.line}</dd>
+                <dd className="m-0 mt-auto pt-4 text-caption font-sans text-foundation-600">{s.was}</dd>
+              </dl>
+            ))}
           </div>
-        </div>
+        </AnimatedSection>
+
+        <AnimatedSection>
+          <figure className="m-0 mt-14">
+            <blockquote className="m-0 max-w-4xl font-display accent-italic text-[26px] leading-[1.3] text-foundation-900 sm:text-heading-xl sm:leading-[1.25]">
+              {quote}
+            </blockquote>
+            <figcaption className={`mt-5 ${LABEL}`}>{quoteRole}</figcaption>
+          </figure>
+        </AnimatedSection>
       </div>
     </section>
   )

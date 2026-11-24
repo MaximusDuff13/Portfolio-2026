@@ -1,7 +1,7 @@
 // Testimonials — the design quote after the problem-and-solution features, before Next steps.
 //
 // ONE QUOTE. The project quote used to sit here too, small beside the design quote, while an
-// edited copy of it ran in Impact. It now appears once, verbatim, in Impact (ImpactClosing.tsx),
+// edited copy of it ran in Impact. It now appears once, verbatim, in Impact (Impact.tsx),
 // so this section holds the design quote alone, as a single pull quote. The 7 / 4 split went with
 // it. If a second voice is added later (an analyst or the engineer), the split can come back.
 //
