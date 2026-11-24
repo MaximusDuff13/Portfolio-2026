@@ -11,7 +11,7 @@ import '../case-study.css'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { Users, Rows3, PanelRight } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { projectHub } from './projectHub'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
@@ -20,6 +20,7 @@ import { ProcessSection } from './ProcessSection'
 import { ChapterBreak } from './ChapterBreak'
 import { RequirementsFeature } from './RequirementsFeature'
 import { SchemaFeature } from './SchemaFeature'
+import { MappingFeature } from './MappingFeature'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 
@@ -29,90 +30,15 @@ export const metadata: Metadata = {
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
 
-
-/* PROBLEM-AND-SOLUTION FEATURES. One so far: Mapping & transformation. Its pieces are defined
-   here and gathered into the problemSolutions list below; nothing is stubbed out for features
-   that do not exist yet.
-
-   Every image lives in public/images/data-conversion-app/mapping-variants/ and is referenced by
-   its public path. Names with spaces are written pre-encoded (%20), the same way the screenshots
-   always have been, so the src is exactly the URL the browser requests. */
-const mappingDir = '/images/data-conversion-app/mapping-variants/'
-
-const mappingConcepts = [
-  {
-    title: 'Detail panel',
-    body: 'A lean table for scanning and comparing, with a side panel that opens for mapping, transformation, and AI confidence. This is the concept we shipped.',
-    image: mappingDir + 'wireframe-1-detail-panel-labeled.svg',
-    alt: 'Detail panel wireframe',
-  },
-  {
-    title: 'Inline table',
-    body: 'Every field lived right in the table, but each description or transformation setting sent people off to another screen. Too much back and forth for a table this dense.',
-    image: mappingDir + 'wireframe-2-inline-table-labeled.svg',
-    alt: 'Inline table wireframe',
-  },
-  {
-    title: 'Review queue',
-    body: 'People queued up fields, then reviewed them one at a time on their own screen. It kept picking separate from reviewing, but taking people off the table made it hard to compare fields side by side.',
-    image: mappingDir + 'wireframe-3-review-queue-labeled.svg',
-    alt: 'Review queue wireframe',
-  },
-]
-
-/* Problem/Solution lead, in a card. Each column opens with an icon + label header, then two
-   paragraphs: the lead sentence, and one supporting paragraph.
-
-   ICONS. Rows3 (the dense table) and PanelRight (the side panel) are a deliberate addition,
-   drawn the way the "Working with stakeholders" icons are: 20px, 1.5 stroke, foundation-600,
-   aria-hidden, since the label beside each one already says what it means. */
-const mappingLead = [
-  {
-    icon: Rows3,
-    label: 'Problem',
-    lead: 'A single table had to carry the mapping, the transformation logic, AI confidence, descriptions, and review status, all at once.',
-    body: 'About 1,200 target columns needed mapping, and each one came with its own decisions: which source field it came from, how sure the AI was, whether a transformation rule applied, and where it was in review. Showing all of that at once would bury the one thing someone needed right then, the field in front of them.',
-  },
-  {
-    icon: PanelRight,
-    label: 'Solution',
-    lead: 'Keep the table focused on scanning and comparing, and open everything else in a panel beside it.',
-    body: "The panel opens with the first row already selected. Mapping and Transformation are separate tabs, so a field that needs no transformation just leaves that tab empty. We also kept one idea from the inline table: a large crosswalk, like turning F and M into Female and Male, is too big for the panel, so it opens on its own screen and the person can focus on that one thing.",
-  },
-]
-
-const mappingShipped = {
-  // Nov 23 2026: Michael's re-export with correct mapping data (replaced Mapping Variant 1 Screen 1)
-  src: mappingDir + 'Table%20Mapping%20screen.png',
-  width: 3936,
-  height: 3045,
-  alt: 'The Detail panel as shipped: a table of fields with a mapping details panel open, showing source mapping, transformation, and AI confidence.',
-}
-
-// How people know when to trust a match. Shown under the shipped screen.
-const mappingShippedCaption =
-  'Every match shows how sure the AI is (high, medium or low) and whether the AI suggested it or a person set it. People can filter by AI score to start with the weakest matches, change the source field in the panel, and move each mapping through review until the state approves it.'
-
 /* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here.
 
    ORDER. The user's journey: Requirements, then Schema & Wiki creation (the upload the mappings
    are drafted from), then Mapping & transformation. Project hub, the overview of every stage,
-   comes last. The first two are in the sketchbook layout (RequirementsFeature.tsx,
-   SchemaFeature.tsx), so they are not in this list. */
+   comes last. The first three are in the sketchbook layout (RequirementsFeature.tsx,
+   SchemaFeature.tsx, MappingFeature.tsx), so only Project hub is left in this list. */
 const problemSolutions: ProblemSolution[] = [
-  {
-    eyebrow: '03 · Mapping & transformation',
-    title: 'How do you fit everything into one table?',
-    lead: mappingLead,
-    concepts: mappingConcepts,
-    // The shipped detail panel took the panel from Detail panel and the on-table density from
-    // Inline table; Review queue contributed nothing, so it gets no connector.
-    shippedFrom: ['Detail panel', 'Inline table'],
-    shipped: mappingShipped,
-    shippedCaption: mappingShippedCaption,
-  },
   projectHub,
 ]
 
@@ -235,8 +161,9 @@ export default function DataConversionAppPage() {
       <ChapterBreak part="Part two" title="Designing the app" />
       <RequirementsFeature />
       <SchemaFeature />
+      <MappingFeature />
       {problemSolutions.map((feature, i) => (
-        <ProblemSolutionFeature key={feature.eyebrow} index={i + 2} feature={feature} />
+        <ProblemSolutionFeature key={feature.eyebrow} index={i + 3} feature={feature} />
       ))}
 
       {/* ── Testimonials ──
