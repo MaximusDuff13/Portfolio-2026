@@ -11,7 +11,7 @@ import '../case-study.css'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
 import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
-import { Users, Rows3, PanelRight, FileQuestion, MessageSquarePlus } from 'lucide-react'
+import { Users, Rows3, PanelRight } from 'lucide-react'
 import { projectHub } from './projectHub'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
@@ -19,6 +19,7 @@ import { Impact } from './Impact'
 import { ProcessSection } from './ProcessSection'
 import { ChapterBreak } from './ChapterBreak'
 import { RequirementsFeature } from './RequirementsFeature'
+import { SchemaFeature } from './SchemaFeature'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 
@@ -92,68 +93,15 @@ const mappingShipped = {
 const mappingShippedCaption =
   'Every match shows how sure the AI is (high, medium or low) and whether the AI suggested it or a person set it. People can filter by AI score to start with the weakest matches, change the source field in the panel, and move each mapping through review until the state approves it.'
 
-/* Schema & Wiki creation. No concepts and no single image: the card, then the three screens in
-   the order a person meets them, each with its label and sentence. Icons: FileQuestion (what
-   happens after upload was undefined) and MessageSquarePlus (the prompt added beside the upload),
-   drawn like the other card icons. The Solution column is a single paragraph. */
-const schemaWikiDir = '/images/data-conversion-app/schema-mapping/'
-
-const schemaWikiLead = [
-  {
-    icon: FileQuestion,
-    label: 'Problem',
-    lead: "Once the agreement is signed, the state hands over a data dictionary describing the outgoing vendor's tables and fields. The original scope was just to let people upload it.",
-    body: "Nobody had defined what came after the upload: whether people could see the result, handle an edge case or make a change. Upload alone would have been quicker to build, but early testing showed the AI couldn't work out every business rule from the dictionary by itself.",
-  },
-  {
-    icon: MessageSquarePlus,
-    label: 'Solution',
-    lead: "Add a prompt field next to the upload, so a person can describe the business rules the AI would otherwise miss. Underneath it's a Markdown file, so a later phase can let people edit it directly instead of only reading a PDF.",
-  },
-]
-
-const schemaWikiSequence = [
-  {
-    src: schemaWikiDir + 'upload-and-prompt.png',
-    width: 5248,
-    height: 3580,
-    alt: 'The Schema and Wiki setup screen with Upload data dictionaries selected, a drag-and-drop upload area, and an optional Additional Wiki guidance text field with placeholder text about business definitions, field relationships, and code values.',
-    caption: 'Upload, with an optional prompt',
-    sentence: 'A person uploads the data dictionary from the state, and can add a short prompt about any business rules the AI should know.',
-  },
-  {
-    src: schemaWikiDir + 'success-and-append.png',
-    width: 5248,
-    height: 3200,
-    alt: 'The Schema and Wiki setup screen after success, showing 147 table Wikis generated, source and target schema details, and Return to project and Append more data dictionary buttons.',
-    caption: 'Generated, with room to add more',
-    sentence: 'The AI writes the Source Wikis from the dictionary and the prompt. If something was missed, the person can add more dictionaries.',
-  },
-  {
-    src: schemaWikiDir + 'documents-list.png',
-    width: 5248,
-    height: 3804,
-    alt: "The project's Documents tab showing the Source Wiki list: 147 source tables and 124 target tables, with a searchable table of names, descriptions, field counts, and view and download actions per row.",
-    caption: 'Visible in Documents, not just the backend',
-    sentence: "Every Wiki shows up in the Project Hub's Documents tab, where people can open or download it instead of it living only in the backend.",
-  },
-]
-
 /* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
    the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
    feature is adding an entry here.
 
-   ORDER. The user's journey: Requirements (RequirementsFeature.tsx, in the new sketchbook layout,
-   so not in this list), then Schema & Wiki creation (the upload the
-   mappings are drafted from), then Mapping & transformation. Project hub, the overview of
-   every stage, comes last, once the reader has met those stages. */
+   ORDER. The user's journey: Requirements, then Schema & Wiki creation (the upload the mappings
+   are drafted from), then Mapping & transformation. Project hub, the overview of every stage,
+   comes last. The first two are in the sketchbook layout (RequirementsFeature.tsx,
+   SchemaFeature.tsx), so they are not in this list. */
 const problemSolutions: ProblemSolution[] = [
-  {
-    eyebrow: '02 · Schema & Wiki creation',
-    title: 'The AI needed context, not just a file',
-    lead: schemaWikiLead,
-    sequence: schemaWikiSequence,
-  },
   {
     eyebrow: '03 · Mapping & transformation',
     title: 'How do you fit everything into one table?',
@@ -286,8 +234,9 @@ export default function DataConversionAppPage() {
           it the four titles nested under Process in the outline. */}
       <ChapterBreak part="Part two" title="Designing the app" />
       <RequirementsFeature />
+      <SchemaFeature />
       {problemSolutions.map((feature, i) => (
-        <ProblemSolutionFeature key={feature.eyebrow} index={i + 1} feature={feature} />
+        <ProblemSolutionFeature key={feature.eyebrow} index={i + 2} feature={feature} />
       ))}
 
       {/* ── Testimonials ──
