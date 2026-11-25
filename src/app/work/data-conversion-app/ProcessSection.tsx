@@ -71,7 +71,7 @@ export function ProcessSection() {
           </AnimatedSection>
 
           <AnimatedSection>
-            <div className="mt-16">
+            <div id="ai" data-toc-section className="mt-16">
               <p className="m-0 flex items-center gap-2 font-display text-heading-m font-medium text-foundation-900">
                 <Sparkles aria-hidden="true" size={20} strokeWidth={1.75} />Where AI helped
               </p>

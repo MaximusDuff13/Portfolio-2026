@@ -22,6 +22,21 @@ import { MappingFeature } from './MappingFeature'
 import { HubFeature } from './HubFeature'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
+import { CaseToc, type TocItem } from '@/components/CaseToc'
+
+/* The contents bar (CaseToc, as on Acentra Health; Nov 25 2026). Grouped (Michael: twelve entries
+   was too many): six, each the first section of its group, so the underline stays on a group while
+   you read any part of it. Problem covers MVP focus; Process & AI covers 'Where AI helped'; Design
+   covers steps 01–04; Learnings covers the testimonial and next steps. The other sections keep their
+   ids, so links to them still work. */
+const toc: TocItem[] = [
+  { id: 'brief', label: 'Brief' },
+  { id: 'problem', label: 'Problem' },
+  { id: 'impact', label: 'Impact' },
+  { id: 'process', label: 'Process & AI' },
+  { id: 'step-requirements', label: 'Design' },
+  { id: 'testimonial', label: 'Learnings' },
+]
 
 export const metadata: Metadata = {
   title: 'Data Conversion App — Michael Jerome',
@@ -101,7 +116,7 @@ export default function DataConversionAppPage() {
         </div>
       </section>
 
-      <section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
+      <section id="brief" data-toc-section className="px-6 sm:px-10 lg:px-section pt-section pb-section">
         <div className="max-w-6xl mx-auto">
           <BriefFacts
             description={description}
@@ -120,43 +135,46 @@ export default function DataConversionAppPage() {
           label, plain serif heading, one-line description, then the visual. Each is co-located
           beside this page. */}
       <ChapterBreak part="Part one" title="Understanding the work" />
-      <ProblemSection />
+      <div id="problem" data-toc-section><ProblemSection /></div>
 
       {/* ── MVP focus ──
           The scope row. Sits after the Problem so the cost of the old process is stated
           first and the constraint the MVP worked under answers it. It closes on its own
           hairline; see MvpFocus.tsx for the spacing contract. */}
-      <MvpFocus />
+      <div id="mvp" data-toc-section><MvpFocus /></div>
 
-      <Impact />
+      <div id="impact" data-toc-section><Impact /></div>
 
       {/* ── Process ── its own section, see ProcessSection.tsx. */}
-      <ProcessSection />
+      <div id="process" data-toc-section><ProcessSection /></div>
 
       {/* ── Part two: the design features ──
           In the user's journey order, all four in the sketchbook layout (Sketch.tsx): Requirements,
           Project hub (HubFeature.tsx, second since Nov 25: every later step opens from it), Schema & Wiki, Mapping. Each opens with its
           question and sticky notes; a sky "where AI helped" note appears only where AI helped. */}
       <ChapterBreak part="Part two" title="Designing the app" />
-      <RequirementsFeature />
-      <HubFeature />
-      <SchemaFeature />
-      <MappingFeature />
+      <div id="step-requirements" data-toc-section><RequirementsFeature /></div>
+      <div id="step-hub" data-toc-section><HubFeature /></div>
+      <div id="step-schema" data-toc-section><SchemaFeature /></div>
+      <div id="step-mapping" data-toc-section><MappingFeature /></div>
 
       {/* ── Testimonials ──
           After the features, before Keep exploring. Not another feature band: it sits on the
           page ground behind a hairline, with its own layout (see Testimonials). */}
-      <Testimonials />
+      <div id="testimonial" data-toc-section><Testimonials /></div>
 
       {/* ── Next steps, then What I learned ──
           The case study's closing section, after Testimonials. On the margin rail, like the
           opening sections, ending on the reflection (see LearnedNextSteps). */}
-      <LearnedNextSteps />
+      <div id="learned" data-toc-section><LearnedNextSteps /></div>
 
       <KeepExploring items={moreWork} />
 
       {/* the site footer, on every page (Nov 23 2026); light only here, like the rest of the case study */}
       <SiteFooter />
+
+      {/* the contents bar, as on Acentra Health (Nov 25 2026, Michael) */}
+      <CaseToc items={toc} />
 
     </main>
   )
