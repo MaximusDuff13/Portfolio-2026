@@ -8,8 +8,8 @@ import { HOT, INK, Stroke, Wobble, useOnScreen } from './pen'
    (cs-ring from case-study.css) once on screen. Dark ink for the plain steps, ginger ink only where
    the cost is: the hand mapping in Excel, the rules, and the fix-and-review loop.
 
-   Pure SVG, so it keeps its shape and scales with its card. Below md it is drawn at a fixed width
-   and scrolls sideways inside the card. */
+   Pure SVG, so it keeps its shape and scales with its card. Below md the SVG is hidden and PhoneFlow
+   (bottom of the file) stacks the same steps instead, with no sideways scroll. */
 
 type Node = { x: number; y: number; lines: string[]; hot?: boolean }
 const W = 172
@@ -53,8 +53,10 @@ export function ProblemFlow({ costNote = "close to 6 weeks · 4 to 5 data engine
   const r = (n: Node) => n.x + W
   const mid = (nodes[1].x + r(nodes[4])) / 2
   return (
-    <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:overflow-visible md:px-0">
-      <svg ref={ref} viewBox={`0 -8 1060 ${costNote ? 428 : 346}`} className="cs-markup block w-[820px] overflow-visible md:w-full" role="img" aria-label="The old process across two lanes, the state and our team: the state sends data dictionaries, we map every field by hand in Excel and write transformation rules, the state reviews, we fix what's flagged and send it back for review, and the state approves. Close to 6 weeks, 4 to 5 data engineers." data-on={on || undefined}>
+    <>
+    <PhoneFlow />
+    <div className="hidden md:block">
+      <svg ref={ref} viewBox={`0 -8 1060 ${costNote ? 428 : 346}`} className="cs-markup block w-full overflow-visible" role="img" aria-label="The old process across two lanes, the state and our team: the state sends data dictionaries, we map every field by hand in Excel and write transformation rules, the state reviews, we fix what's flagged and send it back for review, and the state approves. Close to 6 weeks, 4 to 5 data engineers." data-on={on || undefined}>
         <defs><Wobble id={`w${id}`} /></defs>
         {/* lane labels and the line between lanes */}
         <text x={4} y={TOP - 14} className="font-sans fill-foundation-500" fontSize={15} fontWeight={500} letterSpacing="0.08em">THE STATE</text>
@@ -87,6 +89,47 @@ export function ProblemFlow({ costNote = "close to 6 weeks · 4 to 5 data engine
         {costNote && <text x={mid} y={404} className="font-hand fill-accent-warm" fontSize={27} textAnchor="middle">{costNote}</text>}
       </svg>
     </div>
+    </>
+  )
+}
+
+/* Below md (Nov 25 2026, after the audit: the wide drawing scrolled sideways on phones). The same six
+   steps stacked top to bottom, zigzagging between the two lanes: the state's steps on the left, our
+   team's on the right, ginger where the cost is. Plain HTML, so it reads at phone size; the SVG
+   above carries the same story from md up. */
+const phoneSteps: { lane: 'state' | 'team'; text: string; hot?: boolean; loop?: boolean }[] = [
+  { lane: 'state', text: 'Sends its data dictionaries' },
+  { lane: 'team', text: 'Maps every field by hand in Excel', hot: true },
+  { lane: 'team', text: 'Writes the transformation rules', hot: true },
+  { lane: 'state', text: 'Reviews the mapping' },
+  { lane: 'team', text: 'Fixes what’s flagged', hot: true, loop: true },
+  { lane: 'state', text: 'Approves' },
+]
+
+function PhoneFlow() {
+  return (
+    <ol className="m-0 flex list-none flex-col p-0 md:hidden">
+      {phoneSteps.map((s, i) => (
+        <li key={i} className={`flex flex-col ${s.lane === 'team' ? 'items-end' : 'items-start'}`}>
+          {i > 0 && (
+            <span aria-hidden="true" className="my-1 self-center font-hand text-[22px] leading-none text-foundation-500">↓</span>
+          )}
+          <span className="font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-foundation-500">
+            {s.lane === 'state' ? 'The state' : 'Our team'}
+          </span>
+          <span
+            className={`mt-1 w-[78%] rounded-[6px] border-2 px-3 py-2 text-center font-hand text-[21px] leading-tight text-foundation-900 ${
+              s.hot ? 'border-accent-warm' : 'border-foundation-700'
+            }`}
+          >
+            {s.text}
+          </span>
+          {s.loop && (
+            <span className="mt-1 font-hand text-[19px] text-accent-warm">↺ back to review, until it’s clean</span>
+          )}
+        </li>
+      ))}
+    </ol>
   )
 }
 
