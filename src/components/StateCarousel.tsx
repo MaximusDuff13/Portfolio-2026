@@ -67,7 +67,7 @@ function slotOf(i: number, active: number, n: number): Slot {
 const shift = (slot: number) => `translateX(calc(${slot} * (100% + ${GAP_PX}px)))`
 
 /* `tone` is the band's: it colours the controls and the active card's focus ring. */
-export function StateCarousel({ states, tone = 'dark' }: { states: CyclerState[]; tone?: StateTone }) {
+export function StateCarousel({ states, tone = 'dark', intro }: { states: CyclerState[]; tone?: StateTone; intro?: string }) {
   const card = useCardShare()
   const autoplay = useStateAutoplay({ count: states.length })
   const { active, select, pause, reduced, transitioning, stageProps } = autoplay
@@ -92,7 +92,7 @@ export function StateCarousel({ states, tone = 'dark' }: { states: CyclerState[]
 
   return (
     <div data-state-carousel="">
-      <Controls states={states} autoplay={autoplay} mode="tabs" idBase={idBase} tone={tone} />
+      <Controls states={states} autoplay={autoplay} mode="tabs" idBase={idBase} tone={tone} intro={intro} />
       <div
         {...stageProps}
         id={`${idBase}-panel`}

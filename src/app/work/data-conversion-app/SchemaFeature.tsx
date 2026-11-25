@@ -1,7 +1,7 @@
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { AnnotatedImage, CropBox, SketchIntro } from './Sketch'
 
-/* 02 · Schema & Wiki creation, in the sketchbook layout (Sketch.tsx), Nov 24 2026.
+/* 03 · Schema & Wiki creation, in the sketchbook layout (Sketch.tsx), Nov 24 2026.
 
    THE STORY, in two whole screens (Michael's re-exports, Nov 24): the rule typed into the guidance
    field, then the Source Wiki that follows it, each with a handwritten pen arrow and note on the
@@ -62,11 +62,12 @@ export function SchemaFeature() {
       <div className="max-w-6xl mx-auto border-t border-border pt-section">
         <AnimatedSection>
           <SketchIntro
-            n="02"
+            n="03"
             area="Schema & Wiki creation"
             question="The AI needed context, not just a file"
             problem="Every state’s data has its own quirks, and we couldn’t know them all before the MVP. Without that context, the AI couldn’t map every detail on its own."
             did="After implementation teams raised it, I added an optional guidance field. People can now write rules in plain words, like “Remove _TB tables if _TR is present”, to drop old tables that have a newer version."
+            ai="ChatGPT Enterprise drafted the screen copy from marketing’s writing guidelines, and I edited it. Figma AI filled the tables with realistic sample data."
           />
         </AnimatedSection>
 

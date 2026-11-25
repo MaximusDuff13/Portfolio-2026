@@ -10,9 +10,7 @@ import { description, facts, heroMetrics } from './hero-data'
 import '../case-study.css'
 import { KeepExploring, type MoreWorkItem } from '@/components/KeepExploring'
 import { SiteFooter } from '@/components/footer/SiteFooter'
-import { ProblemSolutionFeature, type ProblemSolution } from '@/components/ProblemSolutionFeature'
 import { Users } from 'lucide-react'
-import { projectHub } from './projectHub'
 import { MvpFocus } from './MvpFocus'
 import { ProblemSection } from './ProblemSection'
 import { Impact } from './Impact'
@@ -21,6 +19,7 @@ import { ChapterBreak } from './ChapterBreak'
 import { RequirementsFeature } from './RequirementsFeature'
 import { SchemaFeature } from './SchemaFeature'
 import { MappingFeature } from './MappingFeature'
+import { HubFeature } from './HubFeature'
 import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 
@@ -29,18 +28,6 @@ export const metadata: Metadata = {
   description:
     'How an AI-assisted MVP let Acentra Health map, preview, and safely convert legacy case data ahead of a system cutover.',
 }
-
-/* Problem-and-solution features, in page order. Each entry renders as its own full-bleed band;
-   the band and card backgrounds alternate by position (see ProblemSolutionFeature), so adding a
-   feature is adding an entry here.
-
-   ORDER. The user's journey: Requirements, then Schema & Wiki creation (the upload the mappings
-   are drafted from), then Mapping & transformation. Project hub, the overview of every stage,
-   comes last. The first three are in the sketchbook layout (RequirementsFeature.tsx,
-   SchemaFeature.tsx, MappingFeature.tsx), so only Project hub is left in this list. */
-const problemSolutions: ProblemSolution[] = [
-  projectHub,
-]
 
 const moreWork: MoreWorkItem[] = [
   {
@@ -146,25 +133,15 @@ export default function DataConversionAppPage() {
       {/* ── Process ── its own section, see ProcessSection.tsx. */}
       <ProcessSection />
 
-      {/* ── Problem-and-solution features ──
-          Sits between Process and Keep exploring. Each feature is its own full-bleed band,
-          rendered by ProblemSolutionFeature from the problemSolutions list; the band and card
-          backgrounds alternate by position, so the next feature is a new list entry.
-
-          NO RAIL: these run the full wrap, because on a 9-column spine each wireframe column came
-          out at 255px, too narrow to read a dense table.
-
-          ACCENT. None: no body text or graphic in these bands is accent-coloured.
-
-          HEADING. Each band's title is an h3, so the run gets an sr-only h2 of its own; without
-          it the four titles nested under Process in the outline. */}
+      {/* ── Part two: the design features ──
+          In the user's journey order, all four in the sketchbook layout (Sketch.tsx): Requirements,
+          Project hub (HubFeature.tsx, second since Nov 25: every later step opens from it), Schema & Wiki, Mapping. Each opens with its
+          question and sticky notes; a sky "where AI helped" note appears only where AI helped. */}
       <ChapterBreak part="Part two" title="Designing the app" />
       <RequirementsFeature />
+      <HubFeature />
       <SchemaFeature />
       <MappingFeature />
-      {problemSolutions.map((feature, i) => (
-        <ProblemSolutionFeature key={feature.eyebrow} index={i + 3} feature={feature} />
-      ))}
 
       {/* ── Testimonials ──
           After the features, before Keep exploring. Not another feature band: it sits on the

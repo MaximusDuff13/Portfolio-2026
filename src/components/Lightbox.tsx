@@ -27,7 +27,10 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Maximize2, X } from 'lucide-react'
 
-type Shown = { src: string; alt: string }
+// `content` (optional, Nov 24 2026): enlarge a component instead of the bare image, e.g. a screenshot
+// with its numbered pins and pen circles, so the annotations survive. It needs `ratio` (width /
+// height) to size itself, since there is no image load to measure.
+type Shown = { src: string; alt: string; content?: React.ReactNode; ratio?: number }
 type Ctx = { open: (image: Shown, trigger: HTMLElement) => void }
 
 const LightboxContext = createContext<Ctx | null>(null)
@@ -103,7 +106,20 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
             >
               <X aria-hidden="true" size={20} />
             </button>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {shown.content ? (
+              <motion.div
+                key={shown.src}
+                className="rounded-lg bg-white p-2"
+                style={{ width: `min(90vw, calc(86vh * ${shown.ratio ?? 1.5}))` }}
+                initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+              >
+                {shown.content}
+              </motion.div>
+            ) : (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <motion.img
               key={shown.src}
               src={shown.src}
@@ -124,6 +140,7 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
               exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
             />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -142,14 +159,14 @@ export function useLightbox() {
 /* Sits over an image as a transparent button. Shows a small expand hint on hover and focus, or all
    the time with `always` (for images that sit in a pair, where a hint on only the hovered one
    reads as if the other can't be enlarged). */
-export function LightboxTrigger({ src, alt, always = false }: { src: string; alt: string; always?: boolean }) {
+export function LightboxTrigger({ src, alt, always = false, content, ratio }: { src: string; alt: string; always?: boolean; content?: React.ReactNode; ratio?: number }) {
   const ctx = useContext(LightboxContext)
   if (!ctx) throw new Error('LightboxTrigger must be inside a LightboxProvider')
   return (
     <button
       type="button"
       aria-label={`Enlarge: ${alt}`}
-      onClick={(e) => ctx.open({ src, alt }, e.currentTarget)}
+      onClick={(e) => ctx.open({ src, alt, content, ratio }, e.currentTarget)}
       className="group absolute inset-0 z-10 block h-full w-full cursor-zoom-in rounded-[inherit] border-0 bg-transparent p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foundation-900"
     >
       <span

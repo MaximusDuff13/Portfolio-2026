@@ -14,6 +14,7 @@
 //
 // CONTRAST. Every colour on the band and inside the Problem/Solution card comes from
 // featureSurface(), per ground; the ratios are listed there.
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import type { LucideIcon } from 'lucide-react'
 import { AnimatedSection } from './AnimatedSection'
@@ -52,6 +53,9 @@ export type ProblemSolution = {
   /* A real sequence of screens, in order, after the card: full-bleed alternating steps (image
      beside a label and sentence), joined by one continuous connector. */
   sequence?: SequenceStep[]
+  /* Optional, directly under the title (Nov 24 2026): e.g. the Data Conversion App's FixesTag,
+     which points back to the issue this feature fixes. */
+  afterTitle?: ReactNode
 }
 
 /* The alternation rule. The first feature (index 0) gets a dark band, the next the page ground,
@@ -98,7 +102,7 @@ export function featureSurface(index: number) {
 
 export function ProblemSolutionFeature({ index, feature }: { index: number; feature: ProblemSolution }) {
   const surface = featureSurface(index)
-  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, shippedCaption, image, states, sequence } = feature
+  const { eyebrow, title, lead, concepts, shippedFrom = [], shipped, shippedCaption, image, states, sequence, afterTitle } = feature
   return (
     // overflow-x: clip only with a carousel, whose peeking cards run on to the viewport edge; it
     // clips them there without a horizontal scrollbar.
@@ -112,6 +116,7 @@ export function ProblemSolutionFeature({ index, feature }: { index: number; feat
             eyebrowClassName={surface.eyebrow}
             titleClassName={surface.title}
           />
+          {afterTitle && <div className="mt-5">{afterTitle}</div>}
 
           {/* The Problem/Solution card: FigureCard's shape (rounded-lg, p-8 / md:p-12). Its fill,
               and whether it has an outline, come from featureSurface(). */}

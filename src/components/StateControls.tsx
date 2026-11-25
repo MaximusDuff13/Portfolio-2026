@@ -61,13 +61,13 @@ export function stateTone(tone: StateTone) {
 
 /* "One step, four states": the label token, centred, in the tone's small-label colour. No accent:
    accent-warm is kept for the timing underline. mb-3 (12px) to the pills. */
-export function StatesIntro({ id, tone = 'dark' }: { id: string; tone?: StateTone }) {
+export function StatesIntro({ id, tone = 'dark', text = 'One step, four states' }: { id: string; tone?: StateTone; text?: string }) {
   return (
     <p
       id={id}
       className={`mb-3 text-center font-sans text-label uppercase tracking-widest ${stateTone(tone).intro}`}
     >
-      One step, four states
+      {text}
     </p>
   )
 }
@@ -80,12 +80,15 @@ export function Controls({
   mode,
   idBase,
   tone = 'dark',
+  intro,
 }: {
   states: CyclerState[]
   autoplay: StateAutoplay
   mode: 'tabs' | 'toggles'
   idBase: string
   tone?: StateTone
+  /** the small heading over the pills; defaults to "One step, four states" */
+  intro?: string
 }) {
   const { active, select, autoplayOn, running, reduced, progressKey, intervalMs, togglePlay } = autoplay
   const t = stateTone(tone)
@@ -110,7 +113,7 @@ export function Controls({
   return (
     <div>
       <style>{fillKeyframes}</style>
-      <StatesIntro id={`${idBase}-intro`} tone={tone} />
+      <StatesIntro id={`${idBase}-intro`} tone={tone} text={intro} />
       <div className="flex items-center gap-3 sm:flex-wrap sm:justify-center lg:grid lg:grid-cols-[1fr_auto_1fr]">
         <div
           role={tabs ? 'tablist' : 'group'}

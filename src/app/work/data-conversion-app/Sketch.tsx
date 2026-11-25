@@ -1,5 +1,6 @@
 'use client'
 import { useId, type ReactNode } from 'react'
+import { Sparkles } from 'lucide-react'
 import { HOT, Stroke, Wobble, useOnScreen } from './pen'
 
 /* The sketchbook layout for the design features (Part two), Nov 24 2026: Michael picked it (D5)
@@ -13,14 +14,17 @@ import { HOT, Stroke, Wobble, useOnScreen } from './pen'
 
 const note = 'flex-1 rounded-md p-6 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.25)]'
 
-export function SketchIntro({ n, area, question, problem, did }: { n: string; area: string; question: string; problem: string; did: string }) {
+/* ai (Nov 25 2026, Michael picked S1 from /dev/ai-sections): a third, sky note, 'where AI helped',
+   only on steps where AI really helped. A step done by hand gets no note, never a 'No AI' label. The
+   question column narrows to make room. */
+export function SketchIntro({ n, area, question, problem, did, ai }: { n: string; area: string; question: string; problem: string; did: string; ai?: string }) {
   return (
     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
-      <div className="lg:col-span-5">
+      <div className={ai ? 'lg:col-span-4' : 'lg:col-span-5'}>
         <p className="m-0 font-sans text-label uppercase tracking-widest text-foundation-500">{n} · {area}</p>
         <h3 className="m-0 mt-4 font-display text-heading-xl font-medium leading-[1.1] text-foundation-900">{question}</h3>
       </div>
-      <div className="flex flex-col gap-6 sm:flex-row lg:col-span-7">
+      <div className={`flex flex-col sm:flex-row ${ai ? 'gap-5 lg:col-span-8' : 'gap-6 lg:col-span-7'}`}>
         <div className={`${note} -rotate-2 bg-stage-straw-strong`}>
           <p className="m-0 font-hand text-[22px] text-foundation-600">the problem</p>
           <p className="m-0 mt-2 font-hand text-[26px] leading-[1.15] text-foundation-900">{problem}</p>
@@ -29,7 +33,19 @@ export function SketchIntro({ n, area, question, problem, did }: { n: string; ar
           <p className="m-0 font-hand text-[22px] text-foundation-600">what I did</p>
           <p className="m-0 mt-2 font-hand text-[26px] leading-[1.15] text-foundation-900">{did}</p>
         </div>
+        {ai && <AiNote className="-rotate-1">{ai}</AiNote>}
       </div>
+    </div>
+  )
+}
+
+/** The sky 'where AI helped' sticky note on its own, for steps that don't open with SketchIntro
+    (01 Requirements, 04 Project hub). Same look everywhere so it reads as one system. */
+export function AiNote({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return (
+    <div className={`${note} bg-stage-sky ${className}`}>
+      <p className="m-0 flex items-center gap-1.5 font-hand text-[22px] text-foundation-600"><Sparkles aria-hidden="true" size={15} />where AI helped</p>
+      <p className="m-0 mt-2 font-hand text-[26px] leading-[1.15] text-foundation-900">{children}</p>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { AnnotatedImage, CropBox, SketchIntro } from './Sketch'
 
-/* 03 · Mapping & transformation, in the sketchbook layout (Sketch.tsx), Nov 24 2026. Michael picked
+/* 04 · Mapping & transformation, in the sketchbook layout (Sketch.tsx), Nov 24 2026. Michael picked
    M1 from /dev/mapping-layouts: one sage card with the three concepts across the top, each with a
    handwritten verdict, then the shipped screen rising from the card's bottom edge, like 02.
 
@@ -53,17 +53,18 @@ export function MappingFeature() {
       <div className="max-w-6xl mx-auto border-t border-border pt-section">
         <AnimatedSection>
           <SketchIntro
-            n="03"
+            n="04"
             area="Mapping & transformation"
             question="How do you fit everything into one table?"
             problem="About 1,200 target columns, each with its own decisions: the source field, how sure the AI was, any transformation, and where it was in review. Showing it all at once would bury the field in front of you."
             did="I kept the table for scanning and comparing, and moved everything else into a panel beside it."
+            ai="Claude Design turned my user flow into three concepts in a day. I weighed them, then built the chosen one from scratch in Figma."
           />
         </AnimatedSection>
 
         <AnimatedSection>
           <div className="mt-14 overflow-hidden rounded-2xl bg-stage-sage px-5 pt-8 sm:px-8 lg:px-10 lg:pt-10">
-            <p className={label}>three concepts I built quickly with AI, to compare</p>
+            <p className={label}>the three concepts, side by side</p>
             <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {concepts.map((c) => (
                 <figure key={c.title} className="m-0">
@@ -80,7 +81,7 @@ export function MappingFeature() {
             </div>
 
             <p className={`${label} mt-10`}>what shipped</p>
-            <p className="m-0 mt-1 max-w-2xl font-sans text-body-sm text-foundation-700">{indicatorsLine}</p>
+            <p className="m-0 mt-3 max-w-2xl font-sans text-body-sm text-foundation-700">{indicatorsLine}</p>
             <div className="mt-4 overflow-hidden rounded-t-xl bg-white shadow-[0_-12px_40px_-24px_rgba(0,0,0,0.3)] ring-1 ring-foundation-900/10">
               <CropBox ratio={shipped.width / shipped.height} x0={0} x1={1} y0={0} y1={0.82}>
                 <AnnotatedImage src={shipped.src} width={shipped.width} height={shipped.height} alt={shipped.alt} box={shipped.box} marks={shipped.marks} fontSize={70} />
