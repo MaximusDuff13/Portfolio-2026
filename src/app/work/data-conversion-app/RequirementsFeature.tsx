@@ -65,9 +65,9 @@ const steps: Item[] = [
 type Group = { heading: string; tags: string[]; issues: number[] }
 const beforeGroups: Group[] = issueGroups.map((g) => ({ heading: g.heading, tags: g.heuristics, issues: g.issues }))
 const afterGroups: Group[] = [
-  { heading: issueGroups[0].heading, tags: ['answers 2 and 5'], issues: [2, 3] },
-  { heading: issueGroups[1].heading, tags: ['answers 1'], issues: [1] },
-  { heading: issueGroups[2].heading, tags: ['answers 3 and 4'], issues: [4, 5] },
+  { heading: issueGroups[0].heading, tags: [], issues: [2, 3] },
+  { heading: issueGroups[1].heading, tags: [], issues: [1] },
+  { heading: issueGroups[2].heading, tags: [], issues: [4, 5] },
 ]
 const mapCircles = [
   'M 300 150 C 900 138, 1600 140, 1915 152 C 1935 175, 1935 235, 1912 252 C 1500 262, 800 262, 285 250 C 262 225, 262 172, 320 150',
@@ -119,11 +119,17 @@ function GroupBlock({ g, items, first, tagLabel }: { g: Group; items: Item[]; fi
   return (
     <section className={first ? 'mt-6' : 'mt-6 border-t border-foundation-900/10 pt-6'}>
       <h4 className="m-0 font-display text-[19px] font-medium leading-snug text-foundation-900">{g.heading}</h4>
+      {g.tags.length === 0 ? (
+        // no tags (the after card, Nov 25: "answers 2 and 5" read as a decode-me device): a spacer the
+        // height of a tag row keeps its points level with the before card's on wide screens
+        <div aria-hidden="true" className="mt-2 hidden h-[26px] lg:block" />
+      ) : (
       <ul className="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0" aria-label={tagLabel}>
         {g.tags.map((t) => (
           <li key={t} className="rounded-full border border-solid border-foundation-900/15 px-2.5 py-0.5 font-sans text-[12px] leading-5 text-foundation-600">{t}</li>
         ))}
       </ul>
+      )}
       <ul className="m-0 mt-4 list-none space-y-4 p-0">
         {g.issues.map((n) => <Point key={n} n={n} it={items[n - 1]} />)}
       </ul>

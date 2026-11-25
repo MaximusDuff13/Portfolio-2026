@@ -29,4 +29,4 @@ export const facts: Facts = {
 // weeks matching our data structure to the outgoing system's and moving the data across; the app
 // was built to cut that effort, in time and in people.
 export const description =
-  'A 0 to 1 product. Bringing a new state program onto Acentra Health took 12 to 24 months. Within that, 4 to 5 data engineers spent close to 6 weeks matching our data structure to the outgoing system’s, then moving the data across. The Data Conversion App was built to cut that effort, in both time and people.'
+  'Bringing a new state program onto Acentra Health took 12 to 24 months. Within that, 4 to 5 data engineers spent close to 6 weeks matching our data structure to the outgoing system’s, then moving the data across. The Data Conversion App was built to cut that effort, in both time and people.'

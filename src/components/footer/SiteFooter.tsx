@@ -102,7 +102,7 @@ export function SiteFooter({ wait = false, adaptive = false, credit = false }: {
                 aria-live="polite"
                 className={`rounded-full border px-3 py-1.5 font-sans text-caption transition-colors ${secondary} ${focus}`}
               >
-                {copied ? 'Copied ✓' : 'Copy'}
+                {copied ? 'Copied ✓' : 'Copy email'}
               </button>
             </div>
 

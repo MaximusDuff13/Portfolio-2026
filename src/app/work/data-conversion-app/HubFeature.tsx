@@ -12,7 +12,7 @@ import { AnnotatedImage, CropBox, SketchIntro } from './Sketch'
 
    AFTER is one hub screen with four stage tabs above it. The tabs must read as clickable (Michael):
    bordered buttons with a hover lift, the chosen one filled dark with a notch pointing at the screen,
-   and a handwritten 'click a stage' hint. */
+   and a handwritten 'pick a stage' hint. */
 
 const concept = {
   src: '/images/data-conversion-app/Intital%20Designs/AI%20designed.png',
@@ -78,7 +78,7 @@ export function HubFeature() {
               <div className="min-w-0">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                   <p className={hand}>after: everything under one project</p>
-                  <p className="m-0 font-hand text-[22px] text-accent-warm" aria-hidden="true">click a stage ↓</p>
+                  <p className="m-0 font-hand text-[22px] text-accent-warm" aria-hidden="true">pick a stage ↓</p>
                 </div>
                 <div role="tablist" aria-label="Project hub stages" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {stages.map((st, n) => {
