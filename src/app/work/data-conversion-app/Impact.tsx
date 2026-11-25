@@ -44,7 +44,7 @@ export function Impact() {
         <AnimatedSection>
           <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">Impact</h2>
           <p className="mt-4 max-w-2xl font-display text-heading-l font-medium leading-[1.15] tracking-[-0.02em] text-foundation-900">
-            Ready for the state’s review in <span className="text-accent-warm">a week</span>
+            The whole mapping, ready for the state’s review in <span className="text-accent-warm">a week</span>
           </p>
           <p className="mt-4 max-w-2xl text-body font-sans text-foundation-500">
             The MVP drafts each mapping and its transformation rule. A person checks and confirms each one instead of
