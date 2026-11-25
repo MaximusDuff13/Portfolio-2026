@@ -27,7 +27,7 @@ import { issueGroups, issues, requirementsId, type Issue } from './approvedScree
 
    Opens without a hairline: the Part two chapter break sits directly above it. */
 
-const question = 'Where does the user go next?'
+const question = 'What was missing from the approved screen?'
 const problem = 'Leadership approved one screen built with AI. There was no user flow behind it.'
 
 type Item = Issue
