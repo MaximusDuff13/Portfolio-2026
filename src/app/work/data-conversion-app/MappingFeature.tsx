@@ -70,9 +70,10 @@ export function MappingFeature() {
             <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {concepts.map((c) => (
                 <figure key={c.title} className="m-0">
-                  <div className={`relative overflow-hidden rounded-lg bg-white ${c.shipped ? 'ring-2 ring-accent-warm' : 'opacity-80 ring-1 ring-foundation-900/10'}`}>
+                  {/* one shared box shape (the tallest wireframe, 960 x 522) so the three titles line up; each wireframe shown whole */}
+                  <div className={`relative aspect-[960/522] overflow-hidden rounded-lg bg-white ${c.shipped ? 'ring-2 ring-accent-warm' : 'opacity-80 ring-1 ring-foundation-900/10'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={c.src} alt={c.alt} loading="lazy" className="block h-auto w-full" />
+                    <img src={c.src} alt={c.alt} loading="lazy" className="block h-full w-full object-contain" />
                     <LightboxTrigger always src={c.src} alt={c.alt} />
                   </div>
                   <figcaption className="mt-3">

@@ -150,7 +150,8 @@ function Card({ tone, label, title, line, img, circles, items, groups, tagLabel 
       <div className="relative mt-4 self-start rounded-xl bg-white p-2">
         {pinned}
         {/* click to enlarge, pins and circles included */}
-        <LightboxTrigger always src={img.src} alt={img.alt} content={pinned} ratio={img.width / img.height} />
+        {/* bottom-left (Nov 25): top-right covered pin 4 on the before screen */}
+        <LightboxTrigger always corner="bl" src={img.src} alt={img.alt} content={pinned} ratio={img.width / img.height} />
       </div>
       {groups.map((g, i) => <GroupBlock key={g.heading} g={g} items={items} first={i === 0} tagLabel={tagLabel} />)}
     </section>

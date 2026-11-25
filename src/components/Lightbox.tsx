@@ -159,7 +159,7 @@ export function useLightbox() {
 /* Sits over an image as a transparent button. Shows a small expand hint on hover and focus, or all
    the time with `always` (for images that sit in a pair, where a hint on only the hovered one
    reads as if the other can't be enlarged). */
-export function LightboxTrigger({ src, alt, always = false, content, ratio }: { src: string; alt: string; always?: boolean; content?: React.ReactNode; ratio?: number }) {
+export function LightboxTrigger({ src, alt, always = false, content, ratio, corner = 'tr' }: { src: string; alt: string; always?: boolean; content?: React.ReactNode; ratio?: number; corner?: 'tr' | 'bl' }) {
   const ctx = useContext(LightboxContext)
   if (!ctx) throw new Error('LightboxTrigger must be inside a LightboxProvider')
   return (
@@ -171,7 +171,7 @@ export function LightboxTrigger({ src, alt, always = false, content, ratio }: { 
     >
       <span
         aria-hidden="true"
-        className={`absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-md border border-foundation-600 bg-foundation-900 text-foundation-100 transition-opacity duration-200 motion-reduce:transition-none ${always ? '' : 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'}`}
+        className={`absolute ${corner === 'bl' ? 'bottom-2 left-2' : 'right-2 top-2'} grid h-8 w-8 place-items-center rounded-md border border-foundation-600 bg-foundation-900 text-foundation-100 transition-opacity duration-200 motion-reduce:transition-none ${always ? '' : 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'}`}
       >
         <Maximize2 size={16} />
       </span>
