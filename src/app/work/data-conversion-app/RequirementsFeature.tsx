@@ -38,9 +38,9 @@ type Item = Issue
 const screenCircles = [
   'M 60 150 C 220 130, 380 150, 385 300 C 395 520, 392 760, 370 900 C 300 935, 120 930, 50 905 C 22 700, 25 400, 42 190 C 45 165, 70 152, 110 148',
   'M 440 232 C 900 220, 1700 222, 2215 232 C 2245 260, 2245 370, 2215 395 C 1700 405, 900 404, 430 395 C 405 370, 405 260, 470 230',
+  'M 2160 405 C 2300 398, 2470 400, 2512 420 C 2525 700, 2522 1100, 2510 1405 C 2400 1418, 2250 1418, 2135 1405 C 2125 1100, 2125 700, 2135 430 C 2138 412, 2150 406, 2190 404',
   'M 2300 150 C 2380 140, 2480 142, 2508 160 C 2522 185, 2515 215, 2490 222 C 2400 230, 2320 228, 2295 215 C 2282 195, 2285 160, 2330 148',
   'M 1990 575 C 2060 565, 2095 600, 2092 820 C 2092 1000, 2075 1075, 2020 1078 C 1960 1080, 1950 1000, 1952 820 C 1955 640, 1960 585, 2010 572',
-  'M 2160 405 C 2300 398, 2470 400, 2512 420 C 2525 700, 2522 1100, 2510 1405 C 2400 1418, 2250 1418, 2135 1405 C 2125 1100, 2125 700, 2135 430 C 2138 412, 2150 406, 2190 404',
 ]
 const SCREEN = {
   src: '/images/data-conversion-app/initial-designs/ai-coe-first-screen.png',
@@ -65,8 +65,9 @@ const steps: Item[] = [
 type Group = { heading: string; tags: string[]; issues: number[] }
 const beforeGroups: Group[] = issueGroups.map((g) => ({ heading: g.heading, tags: g.heuristics, issues: g.issues }))
 const afterGroups: Group[] = [
-  { heading: issueGroups[0].heading, tags: [], issues: [2, 3] },
-  { heading: issueGroups[1].heading, tags: [], issues: [1] },
+  // Nov 25: groups reordered (broken flow first) so the pins read 1 to 5 down the card
+  { heading: issueGroups[0].heading, tags: [], issues: [1] },
+  { heading: issueGroups[1].heading, tags: [], issues: [2, 3] },
   { heading: issueGroups[2].heading, tags: [], issues: [4, 5] },
 ]
 const mapCircles = [

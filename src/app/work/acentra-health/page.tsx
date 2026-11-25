@@ -104,7 +104,7 @@ const moreWork: MoreWorkItem[] = [
     desc: 'Designed a lightweight tool that mapped, previewed, and safely converted legacy case data ahead of a system cutover, in two weeks.',
     href: '/work/data-conversion-app',
     // the home page card's cover and stage tint for this case study (content.ts)
-    img: '/images/data-conversion-app/project-hub/hub-project-completed.png',
+    img: '/images/data-conversion-app/project-hub/Project%20Hub%204.png',
     stage: 'bg-stage-sky',
     meta: 'Product design · 2 weeks',
   },

@@ -65,10 +65,8 @@ export function SchemaFeature() {
             n="03"
             area="Schema & Wiki creation"
             question="What does the AI need to know about each state?"
-            problem="Every state’s data has its own quirks, and we couldn’t know them all before the MVP. Without that context, the AI couldn’t map every detail on its own."
-            did="After implementation teams raised it, I added an optional guidance field. People can now write rules in plain words, like “Remove _TB tables if _TR is present”, to drop old tables that have a newer version."
-            ai="ChatGPT Enterprise drafted the screen copy from marketing’s writing guidelines, and I edited it. Figma AI filled the tables with realistic sample data."
-          />
+            problem="Every state’s data has quirks we couldn’t know before the MVP, so the AI couldn’t map every detail alone."
+            did="I added an optional guidance field for rules in plain words, like “Remove _TB tables if _TR is present”."          />
         </AnimatedSection>
 
         <AnimatedSection>

@@ -1,13 +1,11 @@
 // Process — after Impact, in the full-width shape Problem, MVP focus and Impact use (Nov 24 2026,
 // Michael picked P1 from /dev/process): label, heading, one-line description, the timeline card at
-// full width, then the four principles as a row underneath, one short line each.
-//
-// THE PRINCIPLES were cut to one line each. "Agree on what to cut" keeps only the MoSCoW detail:
-// the delight/polish point lives in MVP focus, so it is not repeated here.
+// full width, then Where AI helped. (Nov 25 2026: Michael removed the principles row under the
+// timeline, after the audit flagged "learn the backend" said three times.)
 //
 // SPACING. Opens on its own hairline (Impact pads its own bottom by 80px, the space above the rule;
 // pt-section is the 80px below it) and pads its own bottom by 80px for the features below.
-import { Users, ClipboardCheck, ListChecks, Eye, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 
@@ -16,13 +14,6 @@ const phases = [
   { label: 'Information architecture', items: ['Touchpoints across the journey', 'How conversion works, end to end', 'Where AI could summarise and simplify'] },
   { label: 'Design', items: ['Concepts in Claude Design', 'Final UI in Figma, with my own components'] },
   { label: 'Dev + testing', items: ['Partnered with the dev team through build and testing'] },
-]
-
-const principles = [
-  { icon: Users, term: 'Start with the people', body: 'I mapped the journey with the data engineers and project owners before any screens.' },
-  { icon: ClipboardCheck, term: 'Learn the backend first', body: 'I sat with the AI CoE to see what their models actually did.' },
-  { icon: ListChecks, term: 'Agree on what to cut', body: 'MoSCoW (must, should, could, won’t) on each screen kept scope calls quick.' },
-  { icon: Eye, term: 'Let the evidence argue', body: 'Testing showed the AI missed some business rules. That got the guidance field into scope.' },
 ]
 
 /* WHERE AI HELPED (Nov 25 2026, Michael picked A2 from /dev/ai-layouts): one sky card per stage, the
@@ -55,18 +46,6 @@ export function ProcessSection() {
             <div className="mt-10">
               <ProcessTimeline title="Process overview" phases={phases} />
             </div>
-          </AnimatedSection>
-
-          <AnimatedSection>
-            <ul className="m-0 mt-12 grid list-none grid-cols-1 gap-x-8 gap-y-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
-              {principles.map(({ icon: Icon, term, body }) => (
-                <li key={term}>
-                  <Icon aria-hidden="true" size={20} strokeWidth={1.5} className="text-accent-warm" />
-                  <p className="m-0 mt-3 font-display text-body font-medium text-foundation-900">{term}</p>
-                  <p className="m-0 mt-1 font-sans text-body-sm text-foundation-700">{body}</p>
-                </li>
-              ))}
-            </ul>
           </AnimatedSection>
 
           <AnimatedSection>

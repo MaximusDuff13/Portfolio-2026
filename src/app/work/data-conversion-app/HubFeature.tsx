@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { AnimatedSection } from '@/components/AnimatedSection'
+import { LightboxProvider, LightboxTrigger } from '@/components/Lightbox'
 import { AnnotatedImage, CropBox, SketchIntro } from './Sketch'
 
 /* 02 · Project hub (second: it is the home every later step opens from), in the sketchbook layout (Nov 25 2026). Michael picked R2 from /dev/hub-layouts,
@@ -54,9 +55,9 @@ export function HubFeature() {
             n="02"
             area="Project hub"
             question="What do people see while the back end does the work?"
-            problem="The first concept split one process across separate menu tabs: sources, dictionary, mapping, quality. Working on one state meant hopping between them, with nothing showing where it stood or what was still running."
-            did="One hub with a card for each stage, from schema to mapping to ETL jobs, which move the data into the new system. Each card says what’s running, what failed and why, and moves you on to the next step."
-            ai="A custom GPT I set up on marketing’s illustration style made the new mapping and ETL illustrations. Marketing approved them."
+            problem="One process split across separate menu tabs. You hopped between them, with no view of where a state stood."
+            did="One hub, a card per stage. Each says what’s running, what failed, and what’s next."
+            ai="A custom GPT drew the new illustrations in marketing’s style. Marketing approved them."
           />
         </AnimatedSection>
 
@@ -110,10 +111,14 @@ export function HubFeature() {
                   })}
                 </div>
                 <div id="hub-panel" role="tabpanel" aria-labelledby={`hub-tab-${cur.id}`} className="mt-4">
-                  <div className="overflow-hidden rounded-xl bg-white ring-1 ring-foundation-900/10">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img key={cur.src} src={cur.src} alt={cur.alt} width={W} height={H} className="block h-auto w-full" />
-                  </div>
+                  {/* Nov 25: tap or click for the whole screen, large (audit: unreadable on phones) */}
+                  <LightboxProvider>
+                    <div className="relative overflow-hidden rounded-xl bg-white ring-1 ring-foundation-900/10">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img key={cur.src} src={cur.src} alt={cur.alt} width={W} height={H} className="block h-auto w-full" />
+                      <LightboxTrigger always src={cur.src} alt={cur.alt} ratio={W / H} />
+                    </div>
+                  </LightboxProvider>
                   <p className="m-0 mt-3 max-w-2xl font-sans text-body-sm text-foundation-700">{cur.line}</p>
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import { AnimatedSection } from '@/components/AnimatedSection'
+import { LightboxProvider, LightboxTrigger } from '@/components/Lightbox'
 import { AnnotatedImage, CropBox, SketchIntro } from './Sketch'
 
 /* 04 · Mapping & transformation, in the sketchbook layout (Sketch.tsx), Nov 24 2026. Michael picked
@@ -56,21 +57,23 @@ export function MappingFeature() {
             n="04"
             area="Mapping & transformation"
             question="How do you fit everything into one table?"
-            problem="About 1,200 target columns, each with its own decisions: the source field, how sure the AI was, any transformation, and where it was in review. Showing it all at once would bury the field in front of you."
+            problem="About 1,200 columns, each with a source, an AI score, a transformation and a review status. All at once, it’s a wall."
             did="I kept the table for scanning and comparing, and moved everything else into a panel beside it."
-            ai="Claude Design turned my user flow into three concepts in a day. I weighed them, then built the chosen one from scratch in Figma."
+            ai="Claude Design for fast ideas. I weighed them, then built the best in Figma with our design system."
           />
         </AnimatedSection>
 
         <AnimatedSection>
+          <LightboxProvider>
           <div className="mt-14 overflow-hidden rounded-2xl bg-stage-sage px-5 pt-8 sm:px-8 lg:px-10 lg:pt-10">
             <p className={label}>the three concepts, side by side</p>
             <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {concepts.map((c) => (
                 <figure key={c.title} className="m-0">
-                  <div className={`overflow-hidden rounded-lg bg-white ${c.shipped ? 'ring-2 ring-accent-warm' : 'opacity-80 ring-1 ring-foundation-900/10'}`}>
+                  <div className={`relative overflow-hidden rounded-lg bg-white ${c.shipped ? 'ring-2 ring-accent-warm' : 'opacity-80 ring-1 ring-foundation-900/10'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={c.src} alt={c.alt} loading="lazy" className="block h-auto w-full" />
+                    <LightboxTrigger always src={c.src} alt={c.alt} />
                   </div>
                   <figcaption className="mt-3">
                     <span className="block font-display text-body-sm font-medium text-foundation-900">{c.title}</span>
@@ -82,12 +85,21 @@ export function MappingFeature() {
 
             <p className={`${label} mt-10`}>what shipped</p>
             <p className="m-0 mt-3 max-w-2xl font-sans text-body-sm text-foundation-700">{indicatorsLine}</p>
-            <div className="mt-4 overflow-hidden rounded-t-xl bg-white shadow-[0_-12px_40px_-24px_rgba(0,0,0,0.3)] ring-1 ring-foundation-900/10">
+            <div className="relative mt-4 overflow-hidden rounded-t-xl bg-white shadow-[0_-12px_40px_-24px_rgba(0,0,0,0.3)] ring-1 ring-foundation-900/10">
               <CropBox ratio={shipped.width / shipped.height} x0={0} x1={1} y0={0} y1={0.82}>
                 <AnnotatedImage src={shipped.src} width={shipped.width} height={shipped.height} alt={shipped.alt} box={shipped.box} marks={shipped.marks} fontSize={70} />
               </CropBox>
+              {/* Nov 25: enlarges to the WHOLE screen, pen notes included (audit: unreadable on phones) */}
+              <LightboxTrigger
+                always
+                src={shipped.src}
+                alt={shipped.alt}
+                ratio={shipped.width / shipped.height}
+                content={<AnnotatedImage src={shipped.src} width={shipped.width} height={shipped.height} alt={shipped.alt} box={shipped.box} marks={shipped.marks} fontSize={70} />}
+              />
             </div>
           </div>
+          </LightboxProvider>
         </AnimatedSection>
       </div>
     </section>

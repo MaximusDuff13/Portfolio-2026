@@ -19,13 +19,17 @@ const D = '/images/data-conversion-app/'
 // Grid order, three columns: top row left/centre/right, then bottom row. `from` is where each
 // screen starts, as a share of its own size, pointing away from the centre; `order` is its place
 // in the deal (the mapping screen, top centre, goes last).
+// Nov 25 2026: the two Schema & Wiki screens swapped for the final no-rail versions (Michael: the side
+// rail is gone from the design). upload-and-prompt.png -> Schema Mapping with Wiki Guidance; success-and-append.png
+// was re-exported without the rail, so it stays. The two hub screens now use the final Project Hub 4 / 2
+// (were hub-project-completed.png, an older layout, and Mapping Screen - In Progress.png, old illustration + typo).
 const SCREENS = [
-  { src: D + 'schema-mapping/upload-and-prompt.png', w: 5248, h: 3580, from: { x: '-70%', y: '-30%' }, order: 1 },
+  { src: D + 'schema-mapping/Schema%20Mapping%20with%20Wiki%20Guidance.png', w: 5248, h: 3580, from: { x: '-70%', y: '-30%' }, order: 1 },
   { src: D + 'mapping-variants/Table%20Mapping%20screen.png', w: 3936, h: 3045, from: { x: '0%', y: '-80%' }, order: 5 },
-  { src: D + 'project-hub/hub-project-completed.png', w: 2624, h: 1902, from: { x: '70%', y: '-30%' }, order: 4 },
+  { src: D + 'project-hub/Project%20Hub%204.png', w: 5248, h: 3804, from: { x: '70%', y: '-30%' }, order: 4 },
   { src: D + 'schema-mapping/documents-list.png', w: 5248, h: 3804, from: { x: '-70%', y: '40%' }, order: 0 },
   { src: D + 'schema-mapping/success-and-append.png', w: 5248, h: 3200, from: { x: '0%', y: '80%' }, order: 2 },
-  { src: D + 'project-hub/Mapping%20Screen%20-%20In%20Progress.png', w: 5248, h: 3804, from: { x: '70%', y: '40%' }, order: 3 },
+  { src: D + 'project-hub/Project%20Hub%202.png', w: 5248, h: 3804, from: { x: '70%', y: '40%' }, order: 3 },
 ]
 
 const TRAVEL = duration.slow * 1.5 // 0.9s: a full-stage move, longer than a section's settle

@@ -235,7 +235,7 @@ export const caseStudies: CaseStudy[] = [
     status: 'Draft',
     summary: 'An AI drafts the data mappings; people review and correct them.',
     image: {
-      src: '/images/data-conversion-app/project-hub/hub-project-completed.png',
+      src: '/images/data-conversion-app/project-hub/Project%20Hub%204.png',
       alt: 'Data Conversion App project hub showing a completed mapping project',
     },
     mediaPlaceholder: true,
