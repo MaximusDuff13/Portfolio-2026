@@ -1,6 +1,6 @@
 // Impact — right after MVP focus, in the same full-width shape as Problem and MVP focus (Nov 24
 // 2026, Michael picked I2 from /dev/impact): label, heading, one-line description, three result
-// cards, then the Program Director's quote, large, on its own.
+// cards, then the Program Director's two quotes side by side (since Nov 25).
 //
 // THE NUMBERS (Michael, Nov 24 2026):
 //   Time      1 week for mapping & transformation up to the state's review; was close to 6 weeks.
@@ -28,8 +28,13 @@ const stats = [
   { key: 'Coverage', n: '~890', line: 'of 1,200 target columns mapped at high confidence, in one implementation', was: 'The rest flagged for a person to check', art: <ProgramsDoodle ink={INK} />, tint: 'bg-stage-ginger' },
 ]
 
-const quote =
-  '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”'
+/* THE QUOTES (Nov 25 2026, Michael: all the quotes in one place, under Impact). Both are Pradeep
+   Jain's, verbatim, so they sit side by side with the attribution once: one on the results, one on
+   the design (it was the Testimonial section before the closing, now removed). */
+const quotes = [
+  { about: 'On the results', text: '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”' },
+  { about: 'On the design', text: '“Michael’s UX design skills are truly impressive. He brings forward creative ideas and different approaches to the product, constantly reminding us how much creativity goes into great UI/UX design.”' },
+]
 const quoteRole = 'Pradeep Jain, Program Director'
 
 export function Impact() {
@@ -68,10 +73,17 @@ export function Impact() {
 
         <AnimatedSection>
           <figure className="m-0 mt-14">
-            <blockquote className="m-0 max-w-4xl font-display accent-italic text-[26px] leading-[1.3] text-foundation-900 sm:text-heading-xl sm:leading-[1.25]">
-              {quote}
-            </blockquote>
-            <figcaption className={`mt-5 ${LABEL}`}>{quoteRole}</figcaption>
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-14">
+              {quotes.map((q) => (
+                <div key={q.about}>
+                  <p className={`m-0 ${LABEL}`}>{q.about}</p>
+                  <blockquote className="m-0 mt-3 font-display accent-italic text-[22px] leading-[1.35] text-foundation-900 sm:text-heading-m sm:leading-[1.35]">
+                    {q.text}
+                  </blockquote>
+                </div>
+              ))}
+            </div>
+            <figcaption className="mt-8 font-sans text-body-sm font-medium text-foundation-600">— {quoteRole}</figcaption>
           </figure>
         </AnimatedSection>
       </div>

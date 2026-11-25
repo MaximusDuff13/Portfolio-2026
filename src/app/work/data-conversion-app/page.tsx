@@ -20,14 +20,13 @@ import { RequirementsFeature } from './RequirementsFeature'
 import { SchemaFeature } from './SchemaFeature'
 import { MappingFeature } from './MappingFeature'
 import { HubFeature } from './HubFeature'
-import { Testimonials } from './Testimonials'
 import { LearnedNextSteps } from './LearnedNextSteps'
 import { CaseToc, type TocItem } from '@/components/CaseToc'
 
 /* The contents bar (CaseToc, as on Acentra Health; Nov 25 2026). Grouped (Michael: twelve entries
    was too many): six, each the first section of its group, so the underline stays on a group while
    you read any part of it. Problem covers MVP focus; Process & AI covers 'Where AI helped'; Design
-   covers steps 01–04; Learnings covers the testimonial and next steps. The other sections keep their
+   covers steps 01–04; Learnings covers next steps and what I learned (the quotes moved into Impact, Nov 25). The other sections keep their
    ids, so links to them still work. */
 const toc: TocItem[] = [
   { id: 'brief', label: 'Brief' },
@@ -35,7 +34,7 @@ const toc: TocItem[] = [
   { id: 'impact', label: 'Impact' },
   { id: 'process', label: 'Process & AI' },
   { id: 'step-requirements', label: 'Design' },
-  { id: 'testimonial', label: 'Learnings' },
+  { id: 'learned', label: 'Learnings' },
 ]
 
 export const metadata: Metadata = {
@@ -158,13 +157,8 @@ export default function DataConversionAppPage() {
       <div id="step-schema" data-toc-section><SchemaFeature /></div>
       <div id="step-mapping" data-toc-section><MappingFeature /></div>
 
-      {/* ── Testimonials ──
-          After the features, before Keep exploring. Not another feature band: it sits on the
-          page ground behind a hairline, with its own layout (see Testimonials). */}
-      <div id="testimonial" data-toc-section><Testimonials /></div>
-
       {/* ── Next steps, then What I learned ──
-          The case study's closing section, after Testimonials. On the margin rail, like the
+          The case study's closing section, right after the design steps. On the margin rail, like the
           opening sections, ending on the reflection (see LearnedNextSteps). */}
       <div id="learned" data-toc-section><LearnedNextSteps /></div>
 
