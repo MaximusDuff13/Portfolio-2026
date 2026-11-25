@@ -20,6 +20,7 @@ import { RequirementsFeature } from './RequirementsFeature'
 import { SchemaFeature } from './SchemaFeature'
 import { MappingFeature } from './MappingFeature'
 import { HubFeature } from './HubFeature'
+import { SkipToDesign } from './SkipToDesign'
 import { LearnedNextSteps } from './LearnedNextSteps'
 import { CaseToc, type TocItem } from '@/components/CaseToc'
 
@@ -126,6 +127,8 @@ export default function DataConversionAppPage() {
               <span className="-ml-1.5 flex h-12 w-12 items-center justify-center rounded-full border-2 border-solid border-stage-straw bg-stage-straw-strong text-foundation-900"><Users size={22} strokeWidth={1.75} /></span>
             </>}
           />
+          {/* the shortcut past Part one (Nov 25 2026): SkipToDesign.tsx */}
+          <div className="mt-10"><SkipToDesign /></div>
         </div>
       </section>
 

@@ -1,12 +1,9 @@
 // MVP focus — the scope row, directly after Problem, read as the answer to the cost stated there.
 //
 // SHAPE (Nov 24 2026, Michael picked M1 from /dev/mvp-focus): Problem's full-width column, so the
-// two sections read as one voice: italic label, plain serif heading, one short description, then
-// the pyramid card at full width. Co-located with the page; it belongs to this case study alone.
-//
-// COPY. Only what the brief tiles don't already say: no month, no team list, no 2 weeks of design.
-// The last sentence is Michael's point, that polish and delight were a lower priority while the
-// core features and flows were made to work — not that they were dropped.
+// two sections read as one voice: italic label, then the pyramid card at full width. Co-located
+// with the page; it belongs to this case study alone. (Nov 25 2026: the heading and paragraph
+// were removed after the portfolio audit; the pyramid carries the point on its own.)
 //
 // SPACING. A leading border-t with pt-section below it, no pb-section, and a closing mt-section
 // rule. Problem above pads its own bottom by 80px (the space over this section's rule) and Impact
@@ -31,20 +28,8 @@ export function MvpFocus() {
           <div className="border-t border-border pt-section">
             <h2 className="m-0 font-display accent-italic text-heading-m text-foundation-900">MVP focus</h2>
 
-            <p className="mt-4 max-w-2xl font-display text-heading-l font-medium leading-[1.15] tracking-[-0.02em] text-foundation-900">
-              Built to work, designed to be used
-            </p>
-            <p className="mt-4 max-w-2xl text-body font-sans text-foundation-500">
-              The MVP had one job:{' '}
-              <strong className="font-medium text-foundation-900">
-                prove that AI-drafted mappings could replace weeks of manual Excel work.
-              </strong>{' '}
-              I designed it around how the conversion team already worked, so checking an AI draft felt familiar. In
-              testing, they completed an internal mapping end to end. Visual polish and moments of delight came second: we
-              wanted the core features and flows working first.
-            </p>
-
-            <div className="mt-10">
+            {/* Nov 25 2026: Michael removed the heading and paragraph; the pyramid speaks for itself. */}
+            <div className="mt-8">
               <PriorityPyramid
                 title="What the MVP prioritised"
                 tiers={tiers}
@@ -53,6 +38,11 @@ export function MvpFocus() {
                 note="The dashed line marks where the MVP stopped."
               />
             </div>
+
+            {/* Michael's one line, kept from the removed paragraph (Nov 25 2026). */}
+            <p className="mt-6 max-w-2xl text-body font-sans text-foundation-500">
+              The MVP had to prove AI-drafted mappings could replace weeks of manual Excel work.
+            </p>
 
             {/* The rule that closes the row off, and the edge Impact opens against. */}
             <div className="mt-section border-t border-border" />
