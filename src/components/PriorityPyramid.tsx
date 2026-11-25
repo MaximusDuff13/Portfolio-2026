@@ -109,7 +109,7 @@ export function PriorityPyramid({
   return (
     <FigureCard title={title}>
       {/* ---------- Variant 1: xl and up. Pyramid with leader lines. ---------- */}
-      <div className="hidden xl:grid xl:grid-cols-[minmax(0,1fr)_220px]">
+      <div className="hidden xl:mx-auto xl:grid xl:max-w-[640px] xl:grid-cols-[minmax(0,1fr)_200px]">
         <div className="relative">
           <svg
             aria-hidden="true"
@@ -149,13 +149,13 @@ export function PriorityPyramid({
 
           {/* The two cut labels, stacked either side of the dashed line. */}
           <p
-            className="absolute left-0 w-[20%] -translate-y-full pb-1.5 font-sans text-caption text-foundation-600"
+            className="absolute left-0 w-[20%] -translate-y-full whitespace-nowrap pb-1.5 font-sans text-caption text-foundation-600"
             style={{ top: CUT_TOP }}
           >
             {aboveLabel}
           </p>
           <p
-            className="absolute left-0 w-[20%] pt-1.5 font-sans text-caption text-foundation-800"
+            className="absolute left-0 w-[20%] whitespace-nowrap pt-1.5 font-sans text-caption text-foundation-800"
             style={{ top: CUT_TOP }}
           >
             {belowLabel}
@@ -183,12 +183,12 @@ export function PriorityPyramid({
       </div>
 
       {/* ---------- Variant 2: below xl. Pyramid over a legend. ---------- */}
-      <div className="xl:hidden">
-        <svg aria-hidden="true" viewBox="0 0 360 285" className="mx-auto w-full max-w-[420px]">
+      <div className="xl:hidden md:grid md:grid-cols-[minmax(0,260px)_minmax(0,300px)] md:items-center md:justify-center md:gap-12">
+        <svg aria-hidden="true" viewBox="0 0 360 285" className="mx-auto w-full max-w-[280px]">
           <Faces tiers={tiers} />
         </svg>
 
-        <ol className="m-0 mt-8 flex list-none flex-col gap-y-4 p-0">
+        <ol className="m-0 mt-8 flex list-none flex-col gap-y-4 p-0 md:mt-0">
           {tiers.map((tier, i) => (
             <Fragment key={tier.label}>
               {/* The cut, as its own item so the two tier groups stay separate. */}
@@ -202,13 +202,10 @@ export function PriorityPyramid({
                   <span className="font-sans text-caption text-foundation-800">{belowLabel}</span>
                 </li>
               )}
+              {/* Nov 25 2026: the small square swatch before each label was removed. It read as an
+                  empty checkbox (the audit: "Usable" and "Functional" looked unticked). The dashed
+                  "Not in / In the MVP" line already splits the two groups. */}
               <li className="flex gap-3">
-                <span
-                  aria-hidden="true"
-                  className={`mt-1.5 h-3 w-3 shrink-0 rounded-sm border border-foundation-400 ${
-                    tier.mvp ? 'bg-accent-subtle' : 'bg-body'
-                  }`}
-                />
                 <span className="block">
                   <span className="block font-display text-body font-medium text-foundation-900">
                     {tier.label}
