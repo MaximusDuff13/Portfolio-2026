@@ -29,12 +29,11 @@ const principles = [
    tools by name, what AI did, what Michael did. Every fact is Michael's own. Sky is the colour of
    AI-in-my-process on this page: the 'where AI helped' sticky notes in the design steps match it. */
 // Nov 25: the contrast with 01 Requirements (the approved screen was AI-built with no flow behind it).
-// The handoff sentence keeps the 'no AI here' point now that the Handoff card is gone.
-const aiJudgment = 'The first screen leadership approved was built by AI, with no user flow behind it. I flipped that: people and flows first, then AI to get to drafts and options fast. Handoff I did by hand: I annotated every edge case myself. The calls, the final UI and every sign-off stayed with me, the stakeholders and marketing.'
+const aiJudgment = 'The first screen leadership approved was built by AI, with no user flow behind it. I flipped that: people and flows first, then AI to get to drafts and options fast. The calls, the final UI and every sign-off stayed with me, the stakeholders and marketing.'
 
 // Michael's copy, verbatim (Nov 25). The figure leads each card: the payoff, in his own numbers.
 const aiStrip = [
-  { phase: 'Discovery', figure: '4 sessions · 3 hrs of recordings → key points', tools: ['ChatGPT Enterprise'], ai: 'Summarised each 45-minute recording into key points.', me: 'Ran the sessions with the AI CoE, the VP of Implementation and the data engineers, and used the summaries to learn the domain fast and ask sharper follow-up questions.' },
+  { phase: 'Discovery', figure: '4 sessions · 3 hrs of recordings → key points', tools: ['ChatGPT Enterprise'], ai: 'Summarised each 45-minute recording into key points.', me: 'Ran the sessions with the AI CoE, the VP of Implementation and the data engineers. The summaries helped me learn the domain fast and ask sharper follow-up questions.' },
   { phase: 'Flows', figure: '~1.5 days → ~1 hr to final flows', tools: ['Figma AI', 'ChatGPT'], ai: 'Drafted the first user flows and turned the approved ones into the final visual.', me: 'Built the journey maps, sketched the rough flows and got them approved.' },
   { phase: 'Design', figure: '3 concepts in 1 day for the mapping screen', tools: ['Claude Design'], ai: 'Turned the user flow into a first iteration, then came up with three ways to present the mapping and transformation screen.', me: 'Weighed the pros and cons of each concept, then built the chosen direction from scratch in Figma, so I stayed in control and could refine it step by step.' },
   { phase: 'Copy & content', figure: '~1,200 columns of realistic sample data', tools: ['ChatGPT Enterprise', 'Custom GPT', 'Figma AI'], ai: 'Drafted the screen copy from marketing’s writing guidelines, made new illustrations in marketing’s style, and generated the sample data.', me: 'Set up the guidelines and the custom GPT, edited the copy, and got marketing to approve the illustrations.' },

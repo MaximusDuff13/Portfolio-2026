@@ -40,8 +40,8 @@ export function MvpFocus() {
                 prove that AI-drafted mappings could replace weeks of manual Excel work.
               </strong>{' '}
               I designed it around how the conversion team already worked, so checking an AI draft felt familiar. In
-              testing, they completed an internal mapping end to end. Visual polish and moments of delight were a lower
-              priority: we wanted the core features and user flows working well first, before spending more time on them.
+              testing, they completed an internal mapping end to end. Visual polish and moments of delight came second: we
+              wanted the core features and flows working first.
             </p>
 
             <div className="mt-10">
