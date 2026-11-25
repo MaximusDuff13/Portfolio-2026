@@ -40,7 +40,7 @@ const NOTE_TILT = ['-rotate-2', 'rotate-1', '-rotate-1']
 
 export const learned = [
   { lead: 'Understand the system before simplifying it.', body: 'Data conversion was new to me. Learning the backend from the AI CoE and data engineers showed me what people actually needed to see.', href: '#process', where: 'Process' },
-  { lead: 'People first, not systems first.', body: 'The first approved screen had no user flow behind it. Even when AI makes everything fast, research, flows and IA still come before screens.', href: '#step-requirements', where: '01 · Requirements' },
+  { lead: 'People first, not systems first.', body: 'The first approved screen had no user flow behind it. Even when AI makes everything fast, research, flows and information architecture still come before screens.', href: '#step-requirements', where: '01 · Requirements' },
   { lead: 'Use AI thoughtfully, not everywhere.', body: 'AI sped up summaries, concepts and sample data. I kept the thinking, critique and final design for myself.', href: '#ai', where: 'Where AI helped' },
 ]
 

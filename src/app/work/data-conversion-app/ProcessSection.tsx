@@ -21,7 +21,7 @@ const phases = [
 const principles = [
   { icon: Users, term: 'Start with the people', body: 'I mapped the journey with the data engineers and project owners before any screens.' },
   { icon: ClipboardCheck, term: 'Learn the backend first', body: 'I sat with the AI CoE to see what their models actually did.' },
-  { icon: ListChecks, term: 'Agree on what to cut', body: 'MoSCoW on each screen kept scope calls quick.' },
+  { icon: ListChecks, term: 'Agree on what to cut', body: 'MoSCoW (must, should, could, won’t) on each screen kept scope calls quick.' },
   { icon: Eye, term: 'Let the evidence argue', body: 'Testing showed the AI missed some business rules. That got the guidance field into scope.' },
 ]
 

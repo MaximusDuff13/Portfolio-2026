@@ -52,7 +52,7 @@ const screens = [
     crop: { x0: 0, x1: 1, y0: 0, y1: 0.9 },
     cols: 'md:col-span-7',
     title: 'The Wiki follows it',
-    line: 'Only the _TR tables are documented. The old _TB versions are left out.',
+    line: 'The AI turns the data dictionary into a Wiki: a Markdown file with more detail, so our internal AI can understand each table. Only the _TR tables are documented. The old _TB versions are left out.',
   },
 ]
 

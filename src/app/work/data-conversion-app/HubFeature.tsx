@@ -55,7 +55,7 @@ export function HubFeature() {
             area="Project hub"
             question="What do people see while the back end does the work?"
             problem="The first concept split one process across separate menu tabs: sources, dictionary, mapping, quality. Working on one state meant hopping between them, with nothing showing where it stood or what was still running."
-            did="One hub with a card for each stage, from schema to mapping to ETL jobs. Each card says what’s running, what failed and why, and moves you on to the next step."
+            did="One hub with a card for each stage, from schema to mapping to ETL jobs, which move the data into the new system. Each card says what’s running, what failed and why, and moves you on to the next step."
             ai="A custom GPT I set up on marketing’s illustration style made the new mapping and ETL illustrations. Marketing approved them."
           />
         </AnimatedSection>
