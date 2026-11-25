@@ -54,7 +54,7 @@ const SCREEN = {
 // pin: % of the map. Circles in its 2380 x 1546 overlay units, in the same order.
 const steps: Item[] = [
   { title: 'One journey, five stages', detail: 'The work runs as one flow, from agreement to conversion and sync. The screen should keep that work together on one page.', pin: [12, 10.7] },
-  { title: 'The low point', detail: 'Grouping tables and comparing fields one by one was hardest for new staff. That’s what the screen needed to help with, not summary counts.', pin: [44.5, 74.4] },
+  { title: 'The low point', detail: 'Grouping tables and comparing fields one by one was hardest for new data engineers. That’s what the screen needed to help with, not summary counts.', pin: [44.5, 74.4] },
   { title: 'Where AI starts', detail: 'AI batches the tables and drafts the first field-to-field mapping. It belongs inside the mapping step, not in a side panel.', pin: [46.2, 49.8] },
   { title: 'The state stays in the loop', detail: 'Each batch is reviewed with the state, who corrects or approves it. People need to edit the AI’s picks, not only accept them.', pin: [62.1, 26.5] },
   { title: 'AI drafts the rules too', detail: 'After mapping comes transformation, so the next action should say that plainly. Then nobody has to guess what “Run Mapping” does.', pin: [80, 49.8] },

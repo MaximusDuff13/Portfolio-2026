@@ -12,17 +12,17 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 import { ProcessTimeline } from '@/components/ProcessTimeline'
 
 const phases = [
-  { label: 'Stakeholder discovery', items: ['Data analysts', 'Project owners', 'AI Center of Excellence'] },
+  { label: 'Stakeholder discovery', items: ['Data engineers', 'Project owners', 'AI CoE'] },
   { label: 'Information architecture', items: ['Touchpoints across the journey', 'How conversion works, end to end', 'Where AI could summarise and simplify'] },
   { label: 'Design', items: ['Concepts in Claude Design', 'Final UI in Figma, with my own components'] },
   { label: 'Dev + testing', items: ['Partnered with the dev team through build and testing'] },
 ]
 
 const principles = [
-  { icon: Users, term: 'Start with the people', body: 'I mapped the journey with the analysts and project owners before any screens.' },
-  { icon: ClipboardCheck, term: 'Learn the backend first', body: 'I sat with the AI Center of Excellence to see what their models actually did.' },
+  { icon: Users, term: 'Start with the people', body: 'I mapped the journey with the data engineers and project owners before any screens.' },
+  { icon: ClipboardCheck, term: 'Learn the backend first', body: 'I sat with the AI CoE to see what their models actually did.' },
   { icon: ListChecks, term: 'Agree on what to cut', body: 'MoSCoW on each screen kept scope calls quick.' },
-  { icon: Eye, term: 'Let the evidence argue', body: 'Testing showed the AI missed some business rules. That got the prompt field into scope.' },
+  { icon: Eye, term: 'Let the evidence argue', body: 'Testing showed the AI missed some business rules. That got the guidance field into scope.' },
 ]
 
 /* WHERE AI HELPED (Nov 25 2026, Michael picked A2 from /dev/ai-layouts): one sky card per stage, the

@@ -18,7 +18,7 @@ export const heroMetrics: HeroMetric[] = [
 export const facts: Facts = {
   role: 'Sole product designer',
   team: 'Designer + engineer',
-  teamNote: 'With the AI Center of Excellence and Program Implementation',
+  teamNote: 'With the AI Center of Excellence (AI CoE) and Program Implementation',
   focus: ['0 to 1 product', 'Journey mapping', 'AI review flows'],
   time: '1-month MVP',
   timeNote: '2 weeks of design, August 2026',

@@ -27,7 +27,7 @@ import { AnimatedSection } from '@/components/AnimatedSection'
 export const nextSteps = [
   { lead: 'Test the MVP with more programs.', body: 'Use the existing testing plan to find what people need to see more clearly and where performance falls short, before adding more features.' },
   { lead: 'Track how much people trust the AI drafts.', body: 'Measure how often people accept a drafted mapping, edit it or rewrite it. That shows whether reviewing really is faster than writing each one.' },
-  { lead: 'Watch how new staff handle transformation.', body: 'The journey map showed this is where they feel most overwhelmed, so it’s where the AI drafts should help most.' },
+  { lead: 'Watch how new data engineers handle transformation.', body: 'The journey map showed this is where they feel most overwhelmed, so it’s where the AI drafts should help most.' },
   { lead: 'Bring Conversion & sync into the hub.', body: 'It was out of scope for the MVP, but the state-based design was built to take it.' },
 ]
 
