@@ -4,11 +4,12 @@ import type { HeroMetric } from '@/components/HeroMetrics'
 // The case study's opening content, in the Acentra Health hero's shape (Nov 23 2026): the outcomes
 // under the title, each with one supporting line, then the brief and its four facts.
 // Two figures, Michael's primary results (Nov 23 2026): the first mapping sheet and real use.
-// Sources: 30 mins from project setup to the first mapping sheet (Michael, Nov 23 2026; the Program
-// Director's 24 hours in Impact was the first run); 2 to 3 weeks before, from that quote; 2 programs
-// is Impact's Real use.
+// Sources (Michael, Nov 25 2026, replacing the earlier 30 mins): "First mapping sheet in 24 work
+// hours, down from 3–6 weeks", split across the figure's three slots so the layout is unchanged. It
+// now agrees with the Program Director's quote in Impact; the caption under that quote says what the
+// 24 work hours cover. 2 programs is Impact's Real use.
 export const heroMetrics: HeroMetric[] = [
-  { n: '30 mins', label: 'to set up a project and get its first mapping sheet', note: 'Was 2 to 3 weeks by hand in Excel' },
+  { n: '24 hrs', label: 'of work to the first mapping sheet', note: 'Down from 3–6 weeks' },
   { n: '2', label: 'programs ran real conversions on the MVP', note: 'Before any visual polish' },
 ]
 

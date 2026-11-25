@@ -10,8 +10,8 @@
 //             "in one implementation".
 // "2 programs ran real conversions" is not here: the hero carries it.
 //
-// THE QUOTE stays verbatim, with nothing added under it (Michael removed the "first run" note).
-// Its 24 hours was the first run; the hero's 30 mins is setup to first mapping sheet today.
+// THE QUOTES stay verbatim. Under the results quote, one caption (Michael, Nov 25 2026) says what its
+// 24 work hours cover; the hero now says the same 24 hours.
 //
 // NO LEADING RULE. MVP focus closes on its own `mt-section border-t border-border`, so that
 // hairline is already the divider between the two sections.
@@ -32,7 +32,7 @@ const stats = [
    Jain's, verbatim, so they sit side by side with the attribution once: one on the results, one on
    the design (it was the Testimonial section before the closing, now removed). */
 const quotes = [
-  { about: 'On the results', text: '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”' },
+  { about: 'On the results', text: '“We have started using AI-based conversion mapping and were able to produce the first mapping sheet in just 24 hours. This is a significant step forward, considering that the same effort would traditionally take approximately 2 to 3 weeks.”', note: '24 work hours from creating the project to a reviewed mapping sheet: set up the schema, upload the data dictionary in Schema & Wiki, let the AI generate the mapping sheet, then check and update the details.' },
   { about: 'On the design', text: '“Michael’s UX design skills are truly impressive. He brings forward creative ideas and different approaches to the product, constantly reminding us how much creativity goes into great UI/UX design.”' },
 ]
 const quoteRole = 'Pradeep Jain, Program Director'
@@ -80,6 +80,7 @@ export function Impact() {
                   <blockquote className="m-0 mt-3 font-display accent-italic text-[22px] leading-[1.35] text-foundation-900 sm:text-heading-m sm:leading-[1.35]">
                     {q.text}
                   </blockquote>
+                  {'note' in q && q.note && <p className="m-0 mt-3 text-caption font-sans text-foundation-500">{q.note}</p>}
                 </div>
               ))}
             </div>

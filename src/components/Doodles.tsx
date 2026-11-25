@@ -148,7 +148,7 @@ export function LayersDoodle({ ink }: Props) {
 }
 
 /* Data Conversion App hero (Nov 23 2026): a stopwatch with its hand swept half way round and speed
-   lines behind it: 30 minutes to the first mapping sheet */
+   lines behind it: 24 work hours to the first mapping sheet */
 export function StopwatchDoodle({ ink }: Props) {
   return (
     <Doodle
